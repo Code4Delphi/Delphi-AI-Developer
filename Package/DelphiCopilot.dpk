@@ -1,0 +1,51 @@
+package DelphiCopilot;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  designide;
+
+contains
+  DelphiCopilot.Register in '..\Src\DelphiCopilot.Register.pas',
+  DelphiCopilot.Chat.View in '..\Src\Chat\DelphiCopilot.Chat.View.pas' {DelphiCopilotChatView},
+  DelphiCopilot.Utils.OTA in '..\Src\Utils\DelphiCopilot.Utils.OTA.pas',
+  DelphiCopilot.Utils in '..\Src\Utils\DelphiCopilot.Utils.pas',
+  DelphiCopilot.Types in '..\Src\Types\DelphiCopilot.Types.pas',
+  DelphiCopilot.Consts in '..\Src\Consts\DelphiCopilot.Consts.pas',
+  DelphiCopilot.View.Dialog in '..\Src\View\DelphiCopilot.View.Dialog.pas' {DelphiCopilotViewDialog},
+  DelphiCopilot.WaitingScreen in '..\Src\WaitingScreen\DelphiCopilot.WaitingScreen.pas',
+  DelphiCopilot.WaitingScreen.View in '..\Src\WaitingScreen\DelphiCopilot.WaitingScreen.View.pas' {DelphiCopilotWaitingScreenView},
+  DelphiCopilot.View.Memo in '..\Src\View\DelphiCopilot.View.Memo.pas' {DelphiCopilotViewMemo},
+  DelphiCopilot.MainMenu.Register in '..\Src\MainMenu\DelphiCopilot.MainMenu.Register.pas',
+  DelphiCopilot.MainMenu in '..\Src\MainMenu\DelphiCopilot.MainMenu.pas',
+  DelphiCopilot.Interfaces in '..\Src\Interfaces\DelphiCopilot.Interfaces.pas',
+  DelphiCopilot.MainMenu.Clicks in '..\Src\MainMenu\DelphiCopilot.MainMenu.Clicks.pas',
+  DelphiCopilot.View.About in '..\Src\View\DelphiCopilot.View.About.pas' {DelphiCopilotViewAbout};
+
+end.
