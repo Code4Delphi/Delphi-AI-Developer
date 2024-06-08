@@ -8,7 +8,7 @@ uses
   System.SysUtils;
 
 type
-  TC4DWizardIDEMainMenuRegister = class(TNotifierObject, IOTAWizard)
+  TDelphiCopilotIDEMainMenuRegister = class(TNotifierObject, IOTAWizard)
   private
   protected
     function GetIDstring: string;
@@ -30,14 +30,14 @@ uses
   DelphiCopilot.Utils.OTA;
 
 var
-  C4DWizardIDEMainMenuRegister: TC4DWizardIDEMainMenuRegister;
+  C4DWizardIDEMainMenuRegister: TDelphiCopilotIDEMainMenuRegister;
   IndexWizard: Integer = -1;
 
 procedure RegisterSelf;
 var
   LWizard: IOTAWizard;
 begin
-  C4DWizardIDEMainMenuRegister := TC4DWizardIDEMainMenuRegister.Create;
+  C4DWizardIDEMainMenuRegister := TDelphiCopilotIDEMainMenuRegister.Create;
 
   if(Supports(TObject(C4DWizardIDEMainMenuRegister), IOTAWizard, LWizard))then
     IndexWizard := TDelphiCopilotUtilsOTA.GetIOTAWizardServices.AddWizard(LWizard);
@@ -52,32 +52,32 @@ begin
   end;
 end;
 
-constructor TC4DWizardIDEMainMenuRegister.Create;
+constructor TDelphiCopilotIDEMainMenuRegister.Create;
 begin
-  TC4DWizardIDEMainMenu.GetInstance.CreateMenus;
+  TDelphiCopilotIDEMainMenu.GetInstance.CreateMenus;
 end;
 
-destructor TC4DWizardIDEMainMenuRegister.Destroy;
+destructor TDelphiCopilotIDEMainMenuRegister.Destroy;
 begin
   inherited;
 end;
 
-function TC4DWizardIDEMainMenuRegister.GetIDstring: string;
+function TDelphiCopilotIDEMainMenuRegister.GetIDstring: string;
 begin
   Result := Self.ClassName;
 end;
 
-function TC4DWizardIDEMainMenuRegister.GetName: string;
+function TDelphiCopilotIDEMainMenuRegister.GetName: string;
 begin
   Result := Self.ClassName;
 end;
 
-function TC4DWizardIDEMainMenuRegister.GetState: TWizardState;
+function TDelphiCopilotIDEMainMenuRegister.GetState: TWizardState;
 begin
   Result := [wsEnabled];
 end;
 
-procedure TC4DWizardIDEMainMenuRegister.Execute;
+procedure TDelphiCopilotIDEMainMenuRegister.Execute;
 begin
 
 end;

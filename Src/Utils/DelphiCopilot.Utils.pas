@@ -23,7 +23,7 @@ uses
 type
   TDelphiCopilotUtils = class
   private
-    class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TC4DWizardIcon;
+    class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
     class function GetPathFromProcessID(const AProcessID: cardinal): string;
   public
@@ -39,7 +39,7 @@ type
     class procedure ExplodeList(const AText, ASeparator: string; AStrings: TStrings);
     class procedure MemoVerticalCenter(AMemo: TMemo; ANumLines: Integer; AText: string);
     class function StatusBarNumPanelDblClick(AStatusBar: TStatusBar): Integer; static;
-    class function StrToOpenExternalKind(Value: string): TC4DWizardOpenExternalKind;
+    class function StrToOpenExternalKind(Value: string): TDelphiCopilotOpenExternalKind;
     class procedure OpenExternalKindFillItemsTStrings(Astrings: TStrings);
     class procedure ExtensionFillTStringsWithValid(Astrings: TStrings);
     class function BoolToStrC4D(Value: Boolean): string;
@@ -157,12 +157,12 @@ end;
 
 class procedure TDelphiCopilotUtils.WaitingScreenShow(const AMsg: string = '');
 begin
-  TC4DWizardWaitingScreen.GetInstance.Show(AMsg);
+  TDelphiCopilotWaitingScreen.GetInstance.Show(AMsg);
 end;
 
 class procedure TDelphiCopilotUtils.WaitingScreenHide;
 begin
-  TC4DWizardWaitingScreen.GetInstance.Close;
+  TDelphiCopilotWaitingScreen.GetInstance.Close;
 end;
 
 class function TDelphiCopilotUtils.ProcessWindowsExists(const AExeName: string; const AExeFullPath: string = ''): Boolean;
@@ -319,38 +319,38 @@ begin
   Result := LNumPanel;
 end;
 
-class function TDelphiCopilotUtils.StrToOpenExternalKind(Value: string): TC4DWizardOpenExternalKind;
+class function TDelphiCopilotUtils.StrToOpenExternalKind(Value: string): TDelphiCopilotOpenExternalKind;
 begin
-  Result := TC4DWizardOpenExternalKind.None;
+  Result := TDelphiCopilotOpenExternalKind.None;
   if(Value = 'Files')then
-    Result := TC4DWizardOpenExternalKind.Files
+    Result := TDelphiCopilotOpenExternalKind.Files
   else if(Value = 'Folders')then
-    Result := TC4DWizardOpenExternalKind.Folders
+    Result := TDelphiCopilotOpenExternalKind.Folders
   else if(Value = 'Links')then
-    Result := TC4DWizardOpenExternalKind.Links
+    Result := TDelphiCopilotOpenExternalKind.Links
   else if(Value = 'Separators')then
-    Result := TC4DWizardOpenExternalKind.Separators
+    Result := TDelphiCopilotOpenExternalKind.Separators
   else if(Value = TC4DConsts.STR_CMD_COMMANDS)then
-    Result := TC4DWizardOpenExternalKind.CMD
+    Result := TDelphiCopilotOpenExternalKind.CMD
   else if(Value = TC4DConsts.STR_MENU_MASTER_ONLY)then
-    Result := TC4DWizardOpenExternalKind.MenuMasterOnly;
+    Result := TDelphiCopilotOpenExternalKind.MenuMasterOnly;
 end;
 
 class procedure TDelphiCopilotUtils.OpenExternalKindFillItemsTStrings(Astrings: TStrings);
 var
-  LItem: TC4DWizardOpenExternalKind;
+  LItem: TDelphiCopilotOpenExternalKind;
 begin
   if(Astrings = nil)then
     Exit;
 
-  for LItem := Low(TC4DWizardOpenExternalKind) to High(TC4DWizardOpenExternalKind) do
+  for LItem := Low(TDelphiCopilotOpenExternalKind) to High(TDelphiCopilotOpenExternalKind) do
   begin
-    if(LItem = TC4DWizardOpenExternalKind.CMD)then
+    if(LItem = TDelphiCopilotOpenExternalKind.CMD)then
       Astrings.Add(TC4DConsts.STR_CMD_COMMANDS)
-    else  if(LItem = TC4DWizardOpenExternalKind.MenuMasterOnly)then
+    else  if(LItem = TDelphiCopilotOpenExternalKind.MenuMasterOnly)then
       Astrings.Add(TC4DConsts.STR_MENU_MASTER_ONLY)
     else
-      Astrings.Add(GetEnumName(TypeInfo(TC4DWizardOpenExternalKind), Integer(LItem)));
+      Astrings.Add(GetEnumName(TypeInfo(TDelphiCopilotOpenExternalKind), Integer(LItem)));
   end;
 end;
 
@@ -478,7 +478,7 @@ begin
   Result := '';
   LFileOpenDialog := TFileOpenDialog.Create(nil);
   try
-    LFileOpenDialog.Title := 'Code4D-Wizard -  Select a folder';
+    LFileOpenDialog.Title := 'Delphi Copilot -  Select a folder';
     LFileOpenDialog.Options := [fdoPickFolders];
 
     if(not ADefaultFolder.Trim.IsEmpty)and(System.SysUtils.DirectoryExists(ADefaultFolder))then
@@ -899,7 +899,7 @@ end;
 
 {$REGION 'MessagesImplementation'}
 
-class function TDelphiCopilotUtils.ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TC4DWizardIcon;
+class function TDelphiCopilotUtils.ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
   const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
 begin
   Application.CreateForm(TDelphiCopilotViewDialog, DelphiCopilotViewDialog);
@@ -923,12 +923,12 @@ end;
 
 class procedure TDelphiCopilotUtils.ShowMsg(const AMsg: string; const ADetails: string = '');
 begin
-  Self.ShowMsgInternal(AMsg, ADetails, TC4DWizardIcon.Information, TC4DButtons.OK, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Information, TC4DButtons.OK, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class procedure TDelphiCopilotUtils.ShowV(const AMsg: string; const ADetails: string = '');
 begin
-  Self.ShowMsgInternal(AMsg, ADetails, TC4DWizardIcon.Success, TC4DButtons.OK, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Success, TC4DButtons.OK, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class procedure TDelphiCopilotUtils.ShowError(const AMsg: string; const ADetails: string = '');
@@ -943,17 +943,17 @@ end;
 
 class procedure TDelphiCopilotUtils.ShowError(const AMsg: string; const ADetails: string; const AWinControlFocu: TWinControl);
 begin
-  Self.ShowMsgInternal(AMsg, ADetails, TC4DWizardIcon.Error, TC4DButtons.OK, TC4DBtnFocu.OK, AWinControlFocu);
+  Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Error, TC4DButtons.OK, TC4DBtnFocu.OK, AWinControlFocu);
 end;
 
 class function TDelphiCopilotUtils.ShowQuestion(const APerg: string; const ADetails: string = ''): Boolean;
 begin
-  Result := Self.ShowMsgInternal(APerg, ADetails, TC4DWizardIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Result := Self.ShowMsgInternal(APerg, ADetails, TDelphiCopilotIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class function TDelphiCopilotUtils.ShowQuestion2(const APerg: string; const ADetails: string = ''): Boolean;
 begin
-  Result := Self.ShowMsgInternal(APerg, ADetails, TC4DWizardIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.Cancel, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Result := Self.ShowMsgInternal(APerg, ADetails, TDelphiCopilotIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.Cancel, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class procedure TDelphiCopilotUtils.ShowMsgErrorAndAbort(const AMsg: string; const ADetails: string = '');
@@ -968,7 +968,7 @@ end;
 
 class procedure TDelphiCopilotUtils.ShowMsgErrorAndAbort(const AMsg: string; const ADetails: string; const AWinControlFocu: TWinControl);
 begin
-  Self.ShowMsgInternal(AMsg, ADetails, TC4DWizardIcon.Error, TC4DButtons.OK, TC4DBtnFocu.OK, AWinControlFocu);
+  Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Error, TC4DButtons.OK, TC4DBtnFocu.OK, AWinControlFocu);
   Abort;
 end;
 
@@ -984,7 +984,7 @@ end;
 
 class procedure TDelphiCopilotUtils.ShowMsgAndAbort(const AMsg: string; const ADetails: string; const AWinControlFocu: TWinControl);
 begin
-  Self.ShowMsgInternal(AMsg, ADetails, TC4DWizardIcon.Information, TC4DButtons.OK, TC4DBtnFocu.OK, AWinControlFocu);
+  Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Information, TC4DButtons.OK, TC4DBtnFocu.OK, AWinControlFocu);
   Abort;
 end;
 

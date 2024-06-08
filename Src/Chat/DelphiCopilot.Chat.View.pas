@@ -8,6 +8,7 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.JSON,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -18,7 +19,12 @@ uses
   Vcl.ComCtrls,
   Vcl.Menus,
   System.ImageList,
-  Vcl.ImgList;
+  Vcl.ImgList,
+  Vcl.Buttons,
+  Clipbrd,
+  RESTRequest4D,
+  fs_synmemo,
+  ToolsAPI;
 
 type
   TDelphiCopilotChatView = class(TDockableForm)
@@ -30,12 +36,11 @@ type
     Copy1: TMenuItem;
     Paste1: TMenuItem;
     SelectAll1: TMenuItem;
-    N2: TMenuItem;
-    BackgroundColor1: TMenuItem;
-    BackgroundSelectColor1: TMenuItem;
-    BackgroundeDefaultColor1: TMenuItem;
     pnBack: TPanel;
-    RichEdit: TRichEdit;
+    Panel3: TPanel;
+    Panel1: TPanel;
+    btnSend: TButton;
+    mmQuestion: TMemo;
     pnTop: TPanel;
     Bevel2: TBevel;
     Bevel3: TBevel;
@@ -52,19 +57,23 @@ type
     btnSaveAs: TButton;
     btnSave: TButton;
     btnStrikethrough: TButton;
-    Bevel1: TBevel;
     btnFontSizeDecrease: TButton;
     btnFontSizeIncrease: TButton;
+    mmReturn: TfsSyntaxMemo;
+    Panel9: TPanel;
+    btnCopy: TSpeedButton;
+    btnInsertAtCursor: TSpeedButton;
+    btnMoreActions: TSpeedButton;
+    Panel2: TPanel;
+    Shape1: TShape;
+    SpeedButton1: TSpeedButton;
+    Shape3: TShape;
+    N1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
-    procedure btnColorClick(Sender: TObject);
-    procedure cBoxSizeFontClick(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
-    procedure BackgroundSelectColor1Click(Sender: TObject);
-    procedure BackgroundeDefaultColor1Click(Sender: TObject);
-    procedure btnFontClick(Sender: TObject);
     procedure btnAlignmentLeftClick(Sender: TObject);
     procedure btnAlignmentCenterClick(Sender: TObject);
     procedure btnAlignmentRightClick(Sender: TObject);
@@ -75,17 +84,25 @@ type
     procedure Cut1Click(Sender: TObject);
     procedure Copy1Click(Sender: TObject);
     procedure Paste1Click(Sender: TObject);
-    procedure SelectAll1Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnFontSizeDecreaseClick(Sender: TObject);
     procedure btnFontSizeIncreaseClick(Sender: TObject);
+    procedure btnSendClick(Sender: TObject);
+    procedure mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnCopyClick(Sender: TObject);
+    procedure btnInsertAtCursorClick(Sender: TObject);
+    procedure SelectAll1Click(Sender: TObject);
   private
     procedure ReadFromFile;
     procedure WriteToFile;
     procedure ChangeAlignment(const AAlignment: TAlignment);
     procedure ChangeStyle(const AStyle: TFontStyle);
     procedure ChangeFontSize(const AValue: Integer);
+    function ConfReturn(const AValue: string): string;
+    procedure ConfmmReturn;
+    procedure ProcessSend;
+    procedure ProcessBlockSelected;
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -146,13 +163,47 @@ begin
   Self.Constraints.MinWidth := 100;
   Self.Constraints.MinHeight := 100;
 
-  RichEdit.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul;
+  //mmReturn.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul;
+  Self.ConfmmReturn;
   Self.ReadFromFile;
+end;
+
+procedure TDelphiCopilotChatView.ConfmmReturn;
+begin
+  //mmReturn.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul;
+
+  //Exit;
+  if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
+  begin
+    mmReturn.Color := $004A4136; //COR EDIDOR
+    mmReturn.CommentAttr.Color := $0084E7BC; //COMENTARIOS
+    mmReturn.KeywordAttr.Color := $00BCE0FF; //PALAVRAS CHAVES
+    mmReturn.StringAttr.Color := $00E0713C; //TEXTOS ENTRE ASPAS
+    mmReturn.TextAttr.Color := clWhite; //DEMAIS TEXTOS
+
+    mmReturn.BlockColor := $00FFAA7F; //CODE SELECIONADO
+    mmReturn.BlockFontColor := clWindowText; //CODE SELECIONADO
+  end;
+
+  //COR EDIDOR$004A4136;
+  //COMETARIO: $0084E7BC
+  //AZUL TEXTO: CLARO: $00FFAA7F  ESCURO: $00E0713C
+  //KeyWord palavras chaves: $00BCE0FF
+  //CODE SELECIONADO: clHighlight DO DELPHI: $00FFAA7F
+end;
+
+procedure TDelphiCopilotChatView.mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (ssCtrl in Shift)and(Key = VK_RETURN) then
+  begin
+    btnSend.Click;
+    Key := 0;
+  end;
 end;
 
 procedure TDelphiCopilotChatView.FormActivate(Sender: TObject);
 begin
-  //RichEdit.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul;
+  //mmReturn.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul;
   //Self.ReadFromFile;
 end;
 
@@ -164,12 +215,17 @@ end;
 procedure TDelphiCopilotChatView.ReadFromFile;
 begin
   if(FileExists(TDelphiCopilotUtils.GetPathFileNotes))then
-    RichEdit.Lines.LoadFromFile(TDelphiCopilotUtils.GetPathFileNotes)
+    mmReturn.Lines.LoadFromFile(TDelphiCopilotUtils.GetPathFileNotes)
+end;
+
+procedure TDelphiCopilotChatView.SelectAll1Click(Sender: TObject);
+begin
+  mmReturn.SelText
 end;
 
 procedure TDelphiCopilotChatView.WriteToFile;
 begin
-  RichEdit.Lines.SaveToFile(TDelphiCopilotUtils.GetPathFileNotes);
+  mmReturn.Lines.SaveToFile(TDelphiCopilotUtils.GetPathFileNotes);
 end;
 
 procedure TDelphiCopilotChatView.btnOpenClick(Sender: TObject);
@@ -185,7 +241,7 @@ begin
     if(not LOpenDialog.Execute)then
       Exit;
 
-    RichEdit.Lines.LoadFromFile(LOpenDialog.FileName);
+    mmReturn.Lines.LoadFromFile(LOpenDialog.FileName);
   finally
     LOpenDialog.Free;
   end;
@@ -202,10 +258,10 @@ var
 begin
   LSaveDialog := TSaveDialog.Create(nil);
   try
-    LSaveDialog.Title := 'Code4D-Wizard - Save File As';
+    LSaveDialog.Title := 'Copilot - Save File As';
     LSaveDialog.DefaulText := '*.rtf';
     LSaveDialog.Filter := 'Arquivos RTF (*.rtf)|*.rtf|Arquivos TXT (*.txt)|*.txt|Todos os Arquivos (*.*)|*.*';
-    LSaveDialog.FileName := 'Code4D-Wizard-Notes-' + FormatDateTime('yyyyMMdd-hhnnss', now) + '.rtf';
+    LSaveDialog.FileName := 'Copilot-Notes-' + FormatDateTime('yyyyMMdd-hhnnss', now) + '.rtf';
     LSaveDialog.InitialDir := '';
 
     if(not LSaveDialog.Execute)then
@@ -215,64 +271,17 @@ begin
       if(not TDelphiCopilotUtils.ShowQuestion2('There is already a file with the same name in this location. Want to replace it?'))then
         Exit;
 
-    RichEdit.Lines.SaveToFile(LSaveDialog.FileName);
+    mmReturn.Lines.SaveToFile(LSaveDialog.FileName);
     TDelphiCopilotUtils.ShowV('Successful saving file');
   finally
     LSaveDialog.Free;
   end;
 end;
 
-procedure TDelphiCopilotChatView.btnColorClick(Sender: TObject);
-begin
-  if(ColorDialog1.Execute)then
-    RichEdit.SelAttributes.Color := ColorDialog1.Color;
-  RichEdit.SetFocus;
-end;
-
-procedure TDelphiCopilotChatView.cBoxSizeFontClick(Sender: TObject);
-var
-  LSize: Integer;
-begin
-  LSize := StrToIntDef(cBoxSizeFont.Text, 0);
-  if(LSize > 7)then
-    RichEdit.SelAttributes.Size := LSize;
-end;
-
 procedure TDelphiCopilotChatView.cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
 begin
   if not(CharInSet(Key, ['0'..'9', #8]))then
     key := #0;
-end;
-
-procedure TDelphiCopilotChatView.BackgroundSelectColor1Click(Sender: TObject);
-begin
-  if(ColorDialog1.Execute)then
-    RichEdit.Color := ColorDialog1.Color;
-  RichEdit.SetFocus;
-end;
-
-procedure TDelphiCopilotChatView.BackgroundeDefaultColor1Click(Sender: TObject);
-begin
-  RichEdit.ParentColor := True;
-  RichEdit.SetFocus;
-end;
-
-procedure TDelphiCopilotChatView.btnFontClick(Sender: TObject);
-begin
-  FontDialog1.Font.Color := RichEdit.SelAttributes.Color;
-  FontDialog1.Font.Name := RichEdit.SelAttributes.Name;
-  FontDialog1.Font.Size := RichEdit.SelAttributes.Size;
-  FontDialog1.Font.Style := RichEdit.SelAttributes.Style;
-
-  if(FontDialog1.Execute)then
-  begin
-    RichEdit.SelAttributes.Color := FontDialog1.Font.Color;
-    RichEdit.SelAttributes.Name := FontDialog1.Font.Name;
-    RichEdit.SelAttributes.Size := FontDialog1.Font.Size;
-    cBoxSizeFont.Text := IntToStr(FontDialog1.Font.size);
-    RichEdit.SelAttributes.Style := FontDialog1.Font.Style;
-  end;
-  RichEdit.SetFocus;
 end;
 
 procedure TDelphiCopilotChatView.btnBoldClick(Sender: TObject);
@@ -292,15 +301,7 @@ end;
 
 procedure TDelphiCopilotChatView.ChangeFontSize(const AValue: Integer);
 begin
-  try
-    if(RichEdit.SelAttributes.Size <= 7)then
-      Exit;
 
-    RichEdit.SelAttributes.Size := RichEdit.SelAttributes.Size + AValue;
-    cBoxSizeFont.Text := IntToStr(RichEdit.SelAttributes.Size);
-  finally
-    RichEdit.SetFocus;
-  end;
 end;
 
 procedure TDelphiCopilotChatView.btnItalicClick(Sender: TObject);
@@ -320,11 +321,7 @@ end;
 
 procedure TDelphiCopilotChatView.ChangeStyle(const AStyle: TFontStyle);
 begin
-  if(AStyle in RichEdit.SelAttributes.Style)then
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style - [AStyle]
-  else
-    RichEdit.SelAttributes.Style := RichEdit.SelAttributes.Style + [AStyle];
-  RichEdit.SetFocus;
+
 end;
 
 procedure TDelphiCopilotChatView.btnAlignmentLeftClick(Sender: TObject);
@@ -344,28 +341,146 @@ end;
 
 procedure TDelphiCopilotChatView.ChangeAlignment(const AAlignment: TAlignment);
 begin
-  RichEdit.Paragraph.Alignment := AAlignment;
-  RichEdit.SetFocus;
+
 end;
 
 procedure TDelphiCopilotChatView.Cut1Click(Sender: TObject);
 begin
-  RichEdit.CutToClipboard;
+  mmReturn.CutToClipboard;
 end;
 
 procedure TDelphiCopilotChatView.Copy1Click(Sender: TObject);
 begin
-  RichEdit.CopyToClipboard;
+  mmReturn.CopyToClipboard;
 end;
 
 procedure TDelphiCopilotChatView.Paste1Click(Sender: TObject);
 begin
-  RichEdit.PasteFromClipboard;
+  mmReturn.PasteFromClipboard;
 end;
 
-procedure TDelphiCopilotChatView.SelectAll1Click(Sender: TObject);
+function TDelphiCopilotChatView.ConfReturn(const AValue: string): string;
 begin
-  RichEdit.SelectAll;
+  Result := AValue
+    .Replace('```delphi', '', [rfReplaceAll, rfIgnoreCase])
+    .Replace('```', '', [rfReplaceAll]);
+end;
+
+procedure TDelphiCopilotChatView.btnSendClick(Sender: TObject);
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    Self.ProcessSend;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TDelphiCopilotChatView.ProcessSend;
+const
+  API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=%s';
+  API_KEY = 'AIzaSyArzMx-zCQPdBt9FT7hkWThwPTw2Hco6tM';
+  API_JSON_BODY_BASE = '{"contents": [{"parts": [ {"text": "%s"}]}]}';
+var
+  LResponse: IResponse;
+
+  JsonValue: TJSONVALUE;
+  JsonArray, PartsArray: TJsonArray;
+  JsonObj, PartsObj: TJsonObject;
+  JsonText: String;
+  i, j: Integer;
+begin
+  mmReturn.Lines.Clear;
+  LResponse := TRequest.New
+    .BaseURL(Format(API_URL, [API_KEY]))
+    .Accept('application/json')
+    .AddBody(Format(API_JSON_BODY_BASE, [mmQuestion.Lines.Text]))
+    .Post;
+
+  if LResponse.StatusCode <> 200 then
+  begin
+    mmReturn.Lines.Add('Question cannot be answered');
+    mmReturn.Lines.Add('Return: ' + LResponse.Content);
+    Exit;
+  end;
+
+  JsonValue := TJsonObject.ParseJSONValue(LResponse.Content);
+  if JsonValue is TJsonObject then
+  begin
+    JsonArray := (JsonValue as TJsonObject).GetValue<TJsonArray>('candidates');
+    for i := 0 to JsonArray.Count - 1 do
+    begin
+      JsonObj := JsonArray.Items[i].GetValue<TJsonObject>('content');
+      PartsArray := JsonObj.GetValue<TJsonArray>('parts');
+      for j := 0 to PartsArray.Count - 1 do
+      begin
+        PartsObj := PartsArray.Items[j] as TJsonObject;
+        JsonText := PartsObj.GetValue<string>('text');
+        mmReturn.Lines.Text := Self.ConfReturn(JsonText);
+      end;
+    end;
+  end;
+end;
+
+procedure TDelphiCopilotChatView.btnCopyClick(Sender: TObject);
+begin
+  Clipboard.AsText := mmReturn.SelText;
+end;
+
+procedure TDelphiCopilotChatView.btnInsertAtCursorClick(Sender: TObject);
+var
+  LIOTAEditorServices: IOTAEditorServices;
+  LIOTAEditView: IOTAEditView;
+  LStartRow: Integer;
+  LIOTAEditBlock: IOTAEditBlock;
+  LText: string;
+begin
+  LIOTAEditorServices := TDelphiCopilotUtilsOTA.GetIOTAEditorServices;
+  LIOTAEditView := LIOTAEditorServices.TopView;
+  if(LIOTAEditView = nil)then
+    TDelphiCopilotUtils.ShowMsgAndAbort('No projects or files selected');
+
+  LIOTAEditBlock := LIOTAEditView.Block;
+  if not Assigned(LIOTAEditBlock) then
+    Exit;
+
+  LText := LIOTAEditBlock.Text;
+  if not LText.Trim.IsEmpty then
+  begin
+    LStartRow := LIOTAEditBlock.StartingRow;
+    LIOTAEditBlock.Delete;
+    LIOTAEditView.Position.Move(LStartRow, 1);
+  end;
+
+  TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(mmReturn.SelText);
+end;
+
+procedure TDelphiCopilotChatView.ProcessBlockSelected;
+var
+  LIOTAEditorServices: IOTAEditorServices;
+  LIOTAEditView: IOTAEditView;
+  LStartRow: Integer;
+  LIOTAEditBlock: IOTAEditBlock;
+  LText: string;
+begin
+  LIOTAEditorServices := TDelphiCopilotUtilsOTA.GetIOTAEditorServices;
+  LIOTAEditView := LIOTAEditorServices.TopView;
+  if(LIOTAEditView = nil)then
+    TDelphiCopilotUtils.ShowMsgAndAbort('No projects or files selected');
+
+//  LIOTAEditBlock := LIOTAEditView.Block;
+//  if not Assigned(LIOTAEditBlock) then
+//    Exit;
+
+//  LText := LIOTAEditBlock.Text;
+//  if(LText.Trim.IsEmpty)then
+//    TDelphiCopilotUtils.ShowMsgAndAbort('Not text selected');
+
+//  Self.Process;
+//  LStartRow := LIOTAEditBlock.StartingRow;
+//  LIOTAEditBlock.Delete;
+//  LIOTAEditView.Position.Move(LStartRow, 1);
+  TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor('AQUI');
 end;
 
 initialization

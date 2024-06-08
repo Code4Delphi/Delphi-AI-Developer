@@ -10,7 +10,7 @@ uses
   DelphiCopilot.Interfaces;
 
 type
-  TC4DWizardIDEMainMenu = class(TInterfacedObject, IDelphiCopilotIDEMainMenu)
+  TDelphiCopilotIDEMainMenu = class(TInterfacedObject, IDelphiCopilotIDEMainMenu)
   private
     FMainMenuIDE: TMainMenu;
     FMenuItemC4D: TMenuItem;
@@ -35,33 +35,33 @@ uses
 var
   Instance: IDelphiCopilotIDEMainMenu;
 
-class function TC4DWizardIDEMainMenu.GetInstance: IDelphiCopilotIDEMainMenu;
+class function TDelphiCopilotIDEMainMenu.GetInstance: IDelphiCopilotIDEMainMenu;
 begin
   if(not Assigned(Instance))then
     Instance := Self.Create;
   Result := Instance;
 end;
 
-constructor TC4DWizardIDEMainMenu.Create;
+constructor TDelphiCopilotIDEMainMenu.Create;
 begin
   FMainMenuIDE := TDelphiCopilotUtilsOTA.GetINTAServices.MainMenu;
 end;
 
-destructor TC4DWizardIDEMainMenu.Destroy;
+destructor TDelphiCopilotIDEMainMenu.Destroy;
 begin
   if(Assigned(FMenuItemC4D))then
     FreeAndNil(FMenuItemC4D);
   inherited;
 end;
 
-procedure TC4DWizardIDEMainMenu.CreateMenus;
+procedure TDelphiCopilotIDEMainMenu.CreateMenus;
 begin
   Self.CreateMenuCode4DelphiInIDEMenu;
 
   Self.CreateSubMenu(TC4DConsts.MENU_IDE_NOTES_NAME,
     TC4DConsts.MENU_IDE_NOTES_CAPTION,
-    TC4DWizardIDEMainMenuClicks.ChatClick,
-    -1 //TC4DWizardIDEImageListMain.GetInstance.ImgIndexNotes,
+    TDelphiCopilotIDEMainMenuClicks.ChatClick,
+    -1 //TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexNotes,
     );
 
   Self.CreateSubMenu('C4DSeparator50', '-', nil);
@@ -69,12 +69,12 @@ begin
   Self.CreateSubMenu('C4DSeparator90', '-', nil);
   Self.CreateSubMenu(TC4DConsts.MENU_IDE_ABOUT_NAME,
     TC4DConsts.MENU_IDE_ABOUT_CAPTION,
-    TC4DWizardIDEMainMenuClicks.AboutClick,
-    -1 //TC4DWizardIDEImageListMain.GetInstance.ImgIndexC4D_Logo
+    TDelphiCopilotIDEMainMenuClicks.AboutClick,
+    -1 //TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexC4D_Logo
     );
 end;
 
-procedure TC4DWizardIDEMainMenu.CreateMenuCode4DelphiInIDEMenu;
+procedure TDelphiCopilotIDEMainMenu.CreateMenuCode4DelphiInIDEMenu;
 var
   LMenuItemTabs: TMenuItem;
   LMenuItemTools: TMenuItem;
@@ -104,7 +104,7 @@ begin
   FMainMenuIDE.Items.Add(FMenuItemC4D);
 end;
 
-function TC4DWizardIDEMainMenu.CreateSubMenu(AName: string; ACaption: string; AOnClick: TNotifyEvent; AImgIndex: Integer = -1; AShortCutStr: string = ''): TMenuItem;
+function TDelphiCopilotIDEMainMenu.CreateSubMenu(AName: string; ACaption: string; AOnClick: TNotifyEvent; AImgIndex: Integer = -1; AShortCutStr: string = ''): TMenuItem;
 var
   LMenuItem: TMenuItem;
 begin

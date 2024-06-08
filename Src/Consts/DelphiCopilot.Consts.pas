@@ -18,7 +18,7 @@ type
     NAME_FOLDER_TEMP = 'Temp';
     DEFAULT_HTM = 'default.htm';
     GITHUB_Code4Delphi = 'https://github.com/Code4Delphi';
-    GITHUB_Code4D_Wizard = 'https://github.com/Code4Delphi/Code4D-Wizard';
+    GITHUB_DELPHI_COPILOT = 'https://github.com/Code4Delphi/Delphi-Copilot';
 
     //BUILD TYPES
     BUILD_DEBUG = 'Debug';
@@ -51,8 +51,8 @@ type
     RESOURCE_c4d_logo_48x48 = 'c4d_logo_48x48';
 
     //CAPTIONS ITENS MAIN MENU IDE, AND POPUPMENU PROJ
-    ITEM_MENU_Code4D_NAME = 'DelphiCopilotC4DItemMenu';
-    ITEM_MENU_Code4D_CAPTION = 'Delphi Copilot';
+    ITEM_MENU_Code4D_NAME = 'C4DCopilotItemMenu';
+    ITEM_MENU_Code4D_CAPTION = 'Copilot';
     ITEM_MENU_Mark_Favorite_CAPTION = 'Mark as Favorite';
     ITEM_MENU_Mark_Unfavorite_CAPTION = 'Mark as Unfavorite';
     ITEM_MENU_EditInformations_CAPTION = 'Edit Informations';
@@ -97,8 +97,8 @@ type
     MENU_IDE_EXPORT_CAPTION = 'Export Configs';
     MENU_IDE_SETTINGS_NAME = 'C4DWizarSettings1';
     MENU_IDE_SETTINGS_CAPTION = 'Settings';
-    MENU_IDE_ABOUT_NAME = 'C4DWizarAbout1';
-    MENU_IDE_ABOUT_CAPTION = 'About Code4Delphi Wizard';
+    MENU_IDE_ABOUT_NAME = 'C4DCopilotAbout1';
+    MENU_IDE_ABOUT_CAPTION = 'About Delphi Copilot';
     MENU_IDE_FormatSource_NAME = 'C4DFormatSource1';
     MENU_IDE_FormatSource_CAPTION = 'Format Source';
     MENU_IDE_NOTES_NAME = 'DelphiCopilotChat1';

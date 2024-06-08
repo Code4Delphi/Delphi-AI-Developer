@@ -29,7 +29,12 @@ package DelphiCopilot;
 
 requires
   rtl,
-  designide;
+  designide,
+  dbrtl,
+  bindengine,
+  bindcomp,
+  RESTComponents,
+  fs26;
 
 contains
   DelphiCopilot.Register in '..\Src\DelphiCopilot.Register.pas',
@@ -46,6 +51,7 @@ contains
   DelphiCopilot.MainMenu in '..\Src\MainMenu\DelphiCopilot.MainMenu.pas',
   DelphiCopilot.Interfaces in '..\Src\Interfaces\DelphiCopilot.Interfaces.pas',
   DelphiCopilot.MainMenu.Clicks in '..\Src\MainMenu\DelphiCopilot.MainMenu.Clicks.pas',
-  DelphiCopilot.View.About in '..\Src\View\DelphiCopilot.View.About.pas' {DelphiCopilotViewAbout};
+  DelphiCopilot.View.About in '..\Src\View\DelphiCopilot.View.About.pas' {DelphiCopilotViewAbout},
+  Test in '..\Src\Test\Test.pas';
 
 end.

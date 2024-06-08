@@ -8,18 +8,18 @@ uses
   System.TypInfo;
 
 type
-  TC4DWizardMenuContextList = procedure(const MenuContextList: IInterfaceList) of object;
+  TDelphiCopilotMenuContextList = procedure(const MenuContextList: IInterfaceList) of object;
   TProcReplaceLine = reference to procedure(const ANumLine: Integer; const AStrLineOld, AStrLineNew: string);
 
   {$SCOPEDENUMS ON}
-  TC4DWizardEscope = (FileCurrent = 0, FilesInGroup = 1, FilesInProject = 2, FilesOpened = 3, FilesInDirectories = 4);
+  TDelphiCopilotEscope = (FileCurrent = 0, FilesInGroup = 1, FilesInProject = 2, FilesOpened = 3, FilesInDirectories = 4);
   TC4DExtensionsFiles = (None, PAS, DFM, FMX, DPR, DPK, DPROJ, ZIP, BMP, INI, ALL);
   TC4DExtensionsOfFiles = set of TC4DExtensionsFiles;
-  TC4DWizardListUsesKind = (Normal, Directiva);
-  TC4DWizardFavorite = (None, Yes, No);
-  TC4DWizardFileNotification = (None, FileOpened, FileClosing);
-  TC4DWizardOpenExternalKind = (None, Files, Folders, Links, Separators, CMD, MenuMasterOnly);
-  TC4DWizardIcon = (Information, Question, Warning, Error, Success);
+  TDelphiCopilotListUsesKind = (Normal, Directiva);
+  TDelphiCopilotFavorite = (None, Yes, No);
+  TDelphiCopilotFileNotification = (None, FileOpened, FileClosing);
+  TDelphiCopilotOpenExternalKind = (None, Files, Folders, Links, Separators, CMD, MenuMasterOnly);
+  TDelphiCopilotIcon = (Information, Question, Warning, Error, Success);
   TC4DButtons = (OK, OK_Cancel);
   TC4DBtnFocu = (OK, Cancel);
   TC4DMsgClear = (ALL, Compiler, Search, Tool);
@@ -27,12 +27,12 @@ type
   TC4DTextIgnoreEscope = (None = 0, Line = 1, Word = 2);
   {$SCOPEDENUMS OFF}
 
-  TC4DWizardInfoFile = record
+  TDelphiCopilotInfoFile = record
     Path: string;
     LastAccess: TDateTime;
   end;
 
-  TC4DWizardReopenData = record
+  TDelphiCopilotReopenData = record
     Favorite: Boolean;
     Nickname: string;
     Name: string;
@@ -45,7 +45,7 @@ type
     procedure Clear;
   end;
 
-  TC4DWizardOpenExternalKindHelper = record helper for TC4DWizardOpenExternalKind
+  TDelphiCopilotOpenExternalKindHelper = record helper for TDelphiCopilotOpenExternalKind
     function ToString: string;
   end;
 
@@ -63,8 +63,8 @@ implementation
 uses
   DelphiCopilot.Consts;
 
-{ TC4DWizardReopenData }
-procedure TC4DWizardReopenData.Clear;
+{ TDelphiCopilotReopenData }
+procedure TDelphiCopilotReopenData.Clear;
 begin
   Self.Favorite := False;
   Self.Nickname := '';
@@ -77,15 +77,15 @@ begin
   Self.GuidGroup := '';
 end;
 
-{TC4DWizardOpenExternalKindHelper}
-function TC4DWizardOpenExternalKindHelper.ToString: string;
+{TDelphiCopilotOpenExternalKindHelper}
+function TDelphiCopilotOpenExternalKindHelper.ToString: string;
 begin
-  if(Self = TC4DWizardOpenExternalKind.CMD)then
+  if(Self = TDelphiCopilotOpenExternalKind.CMD)then
     Exit(TC4DConsts.STR_CMD_COMMANDS)
-  else if(Self = TC4DWizardOpenExternalKind.MenuMasterOnly)then
+  else if(Self = TDelphiCopilotOpenExternalKind.MenuMasterOnly)then
     Exit(TC4DConsts.STR_MENU_MASTER_ONLY);
 
-  Result := GetEnumName(TypeInfo(TC4DWizardOpenExternalKind), Integer(Self));
+  Result := GetEnumName(TypeInfo(TDelphiCopilotOpenExternalKind), Integer(Self));
 end;
 
 { TC4DExtensionsFilesHelper }

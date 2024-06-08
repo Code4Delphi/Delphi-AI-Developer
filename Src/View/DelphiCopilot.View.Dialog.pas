@@ -53,7 +53,7 @@ type
     FMsg: string;
     FDetails: string;
     FButtons: TC4DButtons;
-    FIcon: TC4DWizardIcon;
+    FIcon: TDelphiCopilotIcon;
     FBtnFocu: TC4DBtnFocu;
     procedure DefaultValues;
     procedure ConfHeightForm;
@@ -61,7 +61,7 @@ type
   public
     property Msg: string write FMsg;
     property Details: string write FDetails;
-    property Icon: TC4DWizardIcon write FIcon;
+    property Icon: TDelphiCopilotIcon write FIcon;
     property Buttons: TC4DButtons write FButtons;
     property BtnFocu: TC4DBtnFocu write FBtnFocu;
   end;
@@ -125,7 +125,7 @@ begin
   FMsg := '';
   FDetails := '';
   FButtons := TC4DButtons.OK;
-  FIcon := TC4DWizardIcon.Information;
+  FIcon := TDelphiCopilotIcon.Information;
 end;
 
 procedure TDelphiCopilotViewDialog.ConfHeightForm;

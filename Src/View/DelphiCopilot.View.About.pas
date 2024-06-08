@@ -67,7 +67,7 @@ end;
 
 procedure TDelphiCopilotViewAbout.FormShow(Sender: TObject);
 begin
-  Self.Caption := 'About Code4Delphi Wizard ' + TC4DConsts.SEMANTIC_VERSION;
+  Self.Caption := 'About Delphi Copilot ' + TC4DConsts.SEMANTIC_VERSION;
 
   mmMensagem.Lines.Clear;
   mmMensagem.Lines.Add(TC4DConsts.ABOUT_COPY_RIGHT);

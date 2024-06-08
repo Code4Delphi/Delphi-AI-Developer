@@ -26,7 +26,7 @@ type
     class function AddImgIDEFilePath(AFilePath: string): Integer;
     class function EditorAsStringList(AIOTAModule: IOTAModule): TStringList;
     class procedure InsertBlockTextIntoEditor(const AText: string);
-    class function OTAFileNotificationToC4DWizardFileNotification(AOTAFileNotification: TOTAFileNotification): TC4DWizardFileNotification;
+    class function OTAFileNotificationToC4DWizardFileNotification(AOTAFileNotification: TOTAFileNotification): TDelphiCopilotFileNotification;
     class procedure OpenFilePathInIDE(AFilePath: string);
     class procedure ShowFormProjectOptions;
     class function RefreshProject: Boolean;
@@ -262,14 +262,14 @@ begin
     Result := LIOTAEditorServices.TopView.GetBlock.Text;
 end;
 
-class function TDelphiCopilotUtilsOTA.OTAFileNotificationToC4DWizardFileNotification(AOTAFileNotification: TOTAFileNotification): TC4DWizardFileNotification;
+class function TDelphiCopilotUtilsOTA.OTAFileNotificationToC4DWizardFileNotification(AOTAFileNotification: TOTAFileNotification): TDelphiCopilotFileNotification;
 begin
-  Result := TC4DWizardFileNotification.None;
+  Result := TDelphiCopilotFileNotification.None;
   case(AOTAFileNotification)of
     ofnFileOpened:
-    Result := TC4DWizardFileNotification.FileOpened;
+    Result := TDelphiCopilotFileNotification.FileOpened;
     ofnFileClosing:
-    Result := TC4DWizardFileNotification.FileClosing;
+    Result := TDelphiCopilotFileNotification.FileClosing;
   end;
 end;
 

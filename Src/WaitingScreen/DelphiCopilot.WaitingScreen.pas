@@ -7,13 +7,13 @@ uses
   DelphiCopilot.WaitingScreen.View;
 
 type
-  TC4DWizardWaitingScreen = class
+  TDelphiCopilotWaitingScreen = class
   private
     FC4DWizardViewWaitingScreen: TDelphiCopilotWaitingScreenView;
     constructor Create;
   public
     destructor Destroy; override;
-    class function GetInstance: TC4DWizardWaitingScreen;
+    class function GetInstance: TDelphiCopilotWaitingScreen;
     procedure Show(const AMsg: string = '');
     procedure Close;
   end;
@@ -21,26 +21,26 @@ type
 implementation
 
 var
-  Instance: TC4DWizardWaitingScreen;
+  Instance: TDelphiCopilotWaitingScreen;
 
-class function TC4DWizardWaitingScreen.GetInstance: TC4DWizardWaitingScreen;
+class function TDelphiCopilotWaitingScreen.GetInstance: TDelphiCopilotWaitingScreen;
 begin
   if(not Assigned(Instance))then
     Instance := Self.Create;
   Result := Instance;
 end;
 
-constructor TC4DWizardWaitingScreen.Create;
+constructor TDelphiCopilotWaitingScreen.Create;
 begin
 
 end;
 
-destructor TC4DWizardWaitingScreen.Destroy;
+destructor TDelphiCopilotWaitingScreen.Destroy;
 begin
   inherited;
 end;
 
-procedure TC4DWizardWaitingScreen.Show(const AMsg: string = '');
+procedure TDelphiCopilotWaitingScreen.Show(const AMsg: string = '');
 begin
   if(not Assigned(FC4DWizardViewWaitingScreen))then
     FC4DWizardViewWaitingScreen := TDelphiCopilotWaitingScreenView.Create(nil);
@@ -48,7 +48,7 @@ begin
   FC4DWizardViewWaitingScreen.Show;
 end;
 
-procedure TC4DWizardWaitingScreen.Close;
+procedure TDelphiCopilotWaitingScreen.Close;
 begin
   FC4DWizardViewWaitingScreen.Close;
   FreeAndNil(FC4DWizardViewWaitingScreen);

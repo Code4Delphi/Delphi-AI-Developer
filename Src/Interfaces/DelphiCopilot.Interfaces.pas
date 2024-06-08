@@ -31,12 +31,12 @@ type
   IDelphiCopilotModelFilesLoop = interface
     ['{909B7294-442D-448E-8D35-07D6DFAF29D6}']
     function Extensions(AValue: TC4DExtensionsOfFiles): IDelphiCopilotModelFilesLoop;
-    function Escope(AValue: TC4DWizardEscope): IDelphiCopilotModelFilesLoop;
+    function Escope(AValue: TDelphiCopilotEscope): IDelphiCopilotModelFilesLoop;
     function DirectoryForSearch(AValue: string): IDelphiCopilotModelFilesLoop;
     function IncludeSubdirectories(AValue: Boolean): IDelphiCopilotModelFilesLoop;
     function Cancel: IDelphiCopilotModelFilesLoop;
     function Canceled: Boolean;
-    procedure LoopInFiles(AProc: TProc<TC4DWizardInfoFile>);
+    procedure LoopInFiles(AProc: TProc<TDelphiCopilotInfoFile>);
   end;
 
   IDelphiCopilotUsesOrganization = interface
@@ -44,7 +44,7 @@ type
     function Params: IDelphiCopilotUsesOrganizationParams;
     function CountAlterFiles: Integer;
     function GetGroupNameMsg: string;
-    procedure UsesOrganizationInFile(AInfoFile: TC4DWizardInfoFile);
+    procedure UsesOrganizationInFile(AInfoFile: TDelphiCopilotInfoFile);
     function ResetValues: IDelphiCopilotUsesOrganization;
   end;
 
@@ -72,7 +72,7 @@ type
   IDelphiCopilotUsesOrganizationList = interface
     ['{F311BFA0-D396-4601-A045-3717DD09879B}']
     function StringListUnit(const Value: TStringList): IDelphiCopilotUsesOrganizationList;
-    function Kind(const Value: TC4DWizardListUsesKind): IDelphiCopilotUsesOrganizationList;
+    function Kind(const Value: TDelphiCopilotListUsesKind): IDelphiCopilotUsesOrganizationList;
     function Prefix(const Value: string): IDelphiCopilotUsesOrganizationList;
     function Suffix(const Value: string): IDelphiCopilotUsesOrganizationList;
     function ImplementationIni(const AImplementationIni: Boolean): IDelphiCopilotUsesOrganizationList;

@@ -9,7 +9,7 @@ uses
   ToolsAPI;
 
 type
-  TC4DWizardIDEMainMenuClicks = class
+  TDelphiCopilotIDEMainMenuClicks = class
   private
 
   public
@@ -26,12 +26,12 @@ uses
   DelphiCopilot.View.About;
 
 
-class procedure TC4DWizardIDEMainMenuClicks.ChatClick(Sender: TObject);
+class procedure TDelphiCopilotIDEMainMenuClicks.ChatClick(Sender: TObject);
 begin
   DelphiCopilot.Chat.View.DelphiCopilotChatViewShowDockableForm;
 end;
 
-class procedure TC4DWizardIDEMainMenuClicks.AboutClick(Sender: TObject);
+class procedure TDelphiCopilotIDEMainMenuClicks.AboutClick(Sender: TObject);
 begin
   DelphiCopilotViewAbout := TDelphiCopilotViewAbout.Create(nil);
   try
