@@ -27,6 +27,8 @@ type
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
     class function GetPathFromProcessID(const AProcessID: cardinal): string;
   public
+    class function ProcessTextForEditor(const AText: string): string;
+    class function CopyReverse(S: string; Index, Count: Integer): string;
     class function FileNameIsC4DWizardDPROJ(const AFileName: string): Boolean;
     class procedure RemoveBlankSpaceInBegin(var AValue: string; const ACount: Integer);
     class function BlankSpaceInBegin(const AValue: string): Integer;
@@ -135,6 +137,59 @@ uses
 function PathRelativePathTo(pszPath: PChar; pszFrom: PChar; dwAttrFrom: DWORD; pszTo: PChar; dwAtrTo: DWORD): LongBool; stdcall; external 'shlwapi.dll' name 'PathRelativePathToW';
 function PathCanonicalize(lpszDst: PChar; lpszSrc: PChar): LongBool; stdcall; external 'shlwapi.dll' name 'PathCanonicalizeW';
 {$ENDREGION}
+
+class function TDelphiCopilotUtils.ProcessTextForEditor(const AText: string): string;
+var
+  AdjustRet: Boolean;
+  Strings: TStrings;
+  I: Integer;
+  SpcCount: Integer;
+  c: Char;
+  s: string;
+begin
+  AdjustRet := CopyReverse(AText, 1, 2) = #13#10;
+  Strings := TStringList.Create;
+  try
+    Strings.Text := AText;
+    //SpcCount := 0;
+    for I := 0 to Pred(Strings.Count) do
+    begin
+      s := Strings[I];
+      if Length(s) > 2 then
+      begin
+        if s[2] = ' ' then
+        begin
+          c := s[1];
+          s[1] := ' ';
+          SpcCount := 0;
+          while (SpcCount < Length(s)) and (s[SpcCount + 2] = ' ') do
+            Inc(SpcCount);
+          s[SpcCount + 1] := c;
+
+          Strings[I] := s;
+        end
+        else
+        begin
+          Strings[I] := s;
+        end;
+      end;
+    end;
+    Result := Strings.Text;
+    Delete(Result, Pred(Result.Length), 2);
+  finally
+    Strings.Free;
+  end;
+
+  if AdjustRet then
+    Result := Result + #13#10;
+end;
+
+class function TDelphiCopilotUtils.CopyReverse(S: string; Index, Count : Integer): string;
+begin
+  Result := ReverseString(S);
+  Result := Copy(Result, Index, Count);
+  Result := ReverseString(Result);
+end;
 
 class function TDelphiCopilotUtils.FileNameIsC4DWizardDPROJ(const AFileName: string): Boolean;
 begin

@@ -305,8 +305,6 @@ var
   LStartRow: Integer;
   LIOTAEditBlock: IOTAEditBlock;
   LText: string;
-
-
 begin
   LIOTAEditorServices := TDelphiCopilotUtilsOTA.GetIOTAEditorServices;
   LIOTAEditView := LIOTAEditorServices.TopView;
@@ -325,15 +323,7 @@ begin
     LIOTAEditView.Position.Move(LStartRow, 1);
   end;
 
-  LIOTAEditView.Position.InsertText(
-  'begin' + #10 +
-  '  if inputString[i] in [0..9] then  '+ #10 +
-  '    result := result + inputString[i]; '+ #10 +
-  'end;'
-
-  );
-
-  //TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(mmReturn.SelText);
+  TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(mmReturn.SelText);
 end;
 
 initialization
