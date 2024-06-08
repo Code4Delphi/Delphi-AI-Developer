@@ -72,7 +72,7 @@ type
     class function GetPathFileIniGroups: string;
     class function GetPathFileIniOpenExternal: string;
     class function GetPathImageOpenExternal(AGuid: string): string;
-    class function GetPathFileNotes: string;
+    class function GetPathFileChat: string;
     class function CreateIfNecessaryAndGetPathFolderTemp: string;
     class function GetGuidStr: string;
     class function GuidToFileName(const AGuid: string; const AExtension: string): string;
@@ -598,7 +598,7 @@ end;
 
 class function TDelphiCopilotUtils.GetPathFolderRoot: string;
 const
-  PATH_WIZARD = 'Code4DWizard';
+  PATH_WIZARD = 'Code4DCopilot';
 begin
   //Result := IncludeTrailingPathDelimiter(Self.GetDirProgramFiles + PATH_WIZARD);
   Result := IncludeTrailingPathDelimiter(ExtractFilePath(GetModuleName(HInstance)) + PATH_WIZARD);
@@ -637,9 +637,9 @@ begin
     Self.GuidToFileName(AGuid, '.' + TC4DExtensionsFiles.Bmp.ToString);
 end;
 
-class function TDelphiCopilotUtils.GetPathFileNotes: string;
+class function TDelphiCopilotUtils.GetPathFileChat: string;
 begin
-  Result := Self.GetPathFolderRoot + TC4DConsts.FILE_RTF_NOTES;
+  Result := Self.GetPathFolderRoot + TC4DConsts.FILE_RTF_CHAT;
 end;
 
 class function TDelphiCopilotUtils.CreateIfNecessaryAndGetPathFolderTemp: string;

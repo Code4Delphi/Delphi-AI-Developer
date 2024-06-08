@@ -2,8 +2,8 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
   Left = 0
   Top = 0
   Caption = 'Delphi Copilot Chat'
-  ClientHeight = 537
-  ClientWidth = 874
+  ClientHeight = 661
+  ClientWidth = 974
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,8 +22,8 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
   object pnBack: TPanel
     Left = 0
     Top = 0
-    Width = 874
-    Height = 537
+    Width = 974
+    Height = 661
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
@@ -31,19 +31,49 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     ParentBackground = False
     TabOrder = 0
     DesignSize = (
-      874
-      537)
+      974
+      661)
+    object mmReturn: TRichEdit
+      AlignWithMargins = True
+      Left = 10
+      Top = 12
+      Width = 954
+      Height = 515
+      Margins.Left = 10
+      Margins.Top = 10
+      Margins.Right = 10
+      ParentCustomHint = False
+      Align = alClient
+      Ctl3D = True
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindow
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      Lines.Strings = (
+        'iii'
+        'www')
+      ParentCtl3D = False
+      ParentFont = False
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ScrollBars = ssVertical
+      ShowHint = True
+      TabOrder = 2
+      Zoom = 100
+      ExplicitLeft = 14
+    end
     object Panel3: TPanel
       Left = 0
-      Top = 406
-      Width = 874
+      Top = 530
+      Width = 974
       Height = 131
       Align = alBottom
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 0
       object Panel1: TPanel
-        Left = 792
+        Left = 892
         Top = 0
         Width = 82
         Height = 131
@@ -69,7 +99,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         AlignWithMargins = True
         Left = 10
         Top = 5
-        Width = 782
+        Width = 882
         Height = 121
         Margins.Left = 10
         Margins.Top = 5
@@ -88,69 +118,15 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         OnKeyDown = mmQuestionKeyDown
       end
     end
-    object mmReturn: TfsSyntaxMemo
-      AlignWithMargins = True
-      Left = 10
-      Top = 12
-      Width = 854
-      Height = 391
-      Cursor = crIBeam
-      Margins.Left = 10
-      Margins.Top = 10
-      Margins.Right = 10
-      Align = alClient
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 1
-      TabStop = True
-      BlockColor = clHighlight
-      BlockFontColor = clHighlightText
-      CommentAttr.Charset = DEFAULT_CHARSET
-      CommentAttr.Color = clNavy
-      CommentAttr.Height = -13
-      CommentAttr.Name = 'Courier New'
-      CommentAttr.Style = [fsItalic]
-      KeywordAttr.Charset = DEFAULT_CHARSET
-      KeywordAttr.Color = clWindowText
-      KeywordAttr.Height = -13
-      KeywordAttr.Name = 'Courier New'
-      KeywordAttr.Style = [fsBold]
-      StringAttr.Charset = DEFAULT_CHARSET
-      StringAttr.Color = clNavy
-      StringAttr.Height = -13
-      StringAttr.Name = 'Courier New'
-      StringAttr.Style = []
-      TextAttr.Charset = DEFAULT_CHARSET
-      TextAttr.Color = clWindowText
-      TextAttr.Height = -13
-      TextAttr.Name = 'Courier New'
-      TextAttr.Style = []
-      Lines.Strings = (
-        '')
-      ReadOnly = False
-      SyntaxType = stPascal
-      ShowFooter = False
-      ShowGutter = False
-      ExplicitLeft = 0
-      ExplicitTop = -1
-      ExplicitWidth = 874
-      ExplicitHeight = 404
-    end
-    object Panel9: TPanel
-      Left = 756
-      Top = 8
+    object pnCommands: TPanel
+      Left = 857
+      Top = 5
       Width = 79
       Height = 26
       Anchors = [akTop, akRight]
       BevelOuter = bvNone
       ParentBackground = False
-      TabOrder = 2
+      TabOrder = 1
       object Shape3: TShape
         Left = 0
         Top = 0
@@ -239,406 +215,10 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         ExplicitHeight = 22
       end
     end
-    object Panel2: TPanel
-      Left = 440
-      Top = 288
-      Width = 288
-      Height = 94
-      BevelKind = bkSoft
-      BevelOuter = bvNone
-      ParentBackground = False
-      TabOrder = 3
-      Visible = False
-      object Shape1: TShape
-        Left = 128
-        Top = 32
-        Width = 79
-        Height = 26
-        Align = alCustom
-        Brush.Style = bsClear
-        Pen.Color = 12615680
-      end
-      object SpeedButton1: TSpeedButton
-        AlignWithMargins = True
-        Left = 0
-        Top = 0
-        Width = 22
-        Height = 90
-        Cursor = crHandPoint
-        Hint = 'Copy'
-        Margins.Left = 0
-        Margins.Top = 0
-        Margins.Bottom = 0
-        Align = alLeft
-        Flat = True
-        Glyph.Data = {
-          8E010000424D8E010000000000008E0000002800000010000000100000000100
-          08000000000000010000210B0000210B0000160000001600000000000000FFFF
-          FF00FF00FF00FBFBFB00F7F7F700F3F3F300EAEAEA00E6E6E600E2E2E200DEDE
-          DE00DADADA00D2D2D200CECECE00B5B5B500ADADAD00A0A0A000949494008C8C
-          8C00838383007F7F7F0073737300FFFFFF0002020202020F1414141414141414
-          140202020202020F0506060606060608140202020202020F0608090909090909
-          140202020202020F050B0B0B0B0B0B091402020F1414140F04090909090A0809
-          1302020F0506060F04080909090907091202020F0608090F030B0B0B0B0B0B08
-          1102020F050B0B0F03060607080605071102020F0409090F0101010303070C0D
-          1002020F0408090F01010103030F0F0F0F02020F030B0B0F01010101010F0E0F
-          0202020F0306060F0F0F0F0F0F0F0F020202020F0101010303070C0D10020202
-          0202020F01010103030F0F0F0F0202020202020F01010101010F0E0F02020202
-          0202020F0F0F0F0F0F0F0F02020202020202}
-        ExplicitLeft = 8
-        ExplicitHeight = 94
-      end
-    end
-  end
-  object pnTop: TPanel
-    Left = 728
-    Top = 383
-    Width = 73
-    Height = 77
-    Margins.Left = 0
-    Margins.Top = 0
-    Margins.Right = 0
-    Margins.Bottom = 0
-    BevelEdges = [beLeft, beTop, beRight]
-    BevelOuter = bvNone
-    Padding.Left = 3
-    Padding.Top = 2
-    Padding.Right = 2
-    Padding.Bottom = 2
-    TabOrder = 1
-    Visible = False
-    object Bevel2: TBevel
-      AlignWithMargins = True
-      Left = 326
-      Top = 2
-      Width = 1
-      Height = 73
-      Margins.Left = 1
-      Margins.Top = 0
-      Margins.Right = 4
-      Margins.Bottom = 0
-      Align = alLeft
-      Shape = bsLeftLine
-      ExplicitLeft = 325
-      ExplicitHeight = 22
-    end
-    object Bevel3: TBevel
-      AlignWithMargins = True
-      Left = 79
-      Top = 2
-      Width = 1
-      Height = 73
-      Margins.Left = 1
-      Margins.Top = 0
-      Margins.Right = 4
-      Margins.Bottom = 0
-      Align = alLeft
-      Shape = bsLeftLine
-      ExplicitHeight = 22
-    end
-    object btnColor: TButton
-      AlignWithMargins = True
-      Left = 84
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Color font'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 4
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 0
-    end
-    object cBoxSizeFont: TComboBox
-      AlignWithMargins = True
-      Left = 134
-      Top = 2
-      Width = 38
-      Height = 21
-      Cursor = crHandPoint
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      DropDownCount = 15
-      ItemIndex = 1
-      TabOrder = 1
-      Text = '10'
-      OnKeyPress = cBoxSizeFontKeyPress
-      Items.Strings = (
-        '8'
-        '10'
-        '12'
-        '14'
-        '16'
-        '18'
-        '20'
-        '22'
-        '24'
-        '26'
-        '36'
-        '48'
-        '72'
-        '96')
-    end
-    object btnAlignmentLeft: TButton
-      AlignWithMargins = True
-      Left = 331
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Align text left'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 7
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 3
-      OnClick = btnAlignmentLeftClick
-    end
-    object btnAlignmentCenter: TButton
-      AlignWithMargins = True
-      Left = 356
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Align text center'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 8
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 2
-      OnClick = btnAlignmentCenterClick
-    end
-    object btnAlignmentRight: TButton
-      AlignWithMargins = True
-      Left = 381
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Align text right'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 9
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 4
-      OnClick = btnAlignmentRightClick
-    end
-    object btnUnderline: TButton
-      AlignWithMargins = True
-      Left = 275
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Underline'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageAlignment = iaCenter
-      ImageIndex = 12
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 5
-      OnClick = btnUnderlineClick
-    end
-    object btnItalic: TButton
-      AlignWithMargins = True
-      Left = 250
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Italic'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 11
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 6
-      OnClick = btnItalicClick
-    end
-    object btnBold: TButton
-      AlignWithMargins = True
-      Left = 225
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Bold'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 10
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 7
-      OnClick = btnBoldClick
-    end
-    object btnFont: TButton
-      AlignWithMargins = True
-      Left = 109
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Font'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageAlignment = iaCenter
-      ImageIndex = 6
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 8
-    end
-    object btnOpen: TButton
-      AlignWithMargins = True
-      Left = 3
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Open file'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 1
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 9
-      OnClick = btnOpenClick
-    end
-    object btnSaveAs: TButton
-      AlignWithMargins = True
-      Left = 53
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Save File As'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 3
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 10
-      OnClick = btnSaveAsClick
-    end
-    object btnSave: TButton
-      AlignWithMargins = True
-      Left = 28
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Save'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 2
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 11
-      OnClick = btnSaveClick
-    end
-    object btnStrikethrough: TButton
-      AlignWithMargins = True
-      Left = 300
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Strikethrough'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageAlignment = iaCenter
-      ImageIndex = 13
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 12
-      OnClick = btnStrikethroughClick
-    end
-    object btnFontSizeDecrease: TButton
-      AlignWithMargins = True
-      Left = 175
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Decrease font size'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 14
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 13
-      OnClick = btnFontSizeDecreaseClick
-    end
-    object btnFontSizeIncrease: TButton
-      AlignWithMargins = True
-      Left = 200
-      Top = 2
-      Width = 22
-      Height = 73
-      Cursor = crHandPoint
-      Hint = 'Increase font size'
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      ImageIndex = 15
-      Images = ImageList1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 14
-      OnClick = btnFontSizeIncreaseClick
-    end
   end
   object ImageList1: TImageList
-    Left = 200
-    Top = 96
+    Left = 96
+    Top = 240
     Bitmap = {
       494C010112003000040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
@@ -1307,22 +887,9 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       FF80803FC03FFF8FFF80807FFFFFFFFF00000000000000000000000000000000
       000000000000}
   end
-  object ColorDialog1: TColorDialog
-    Left = 268
-    Top = 98
-  end
-  object FontDialog1: TFontDialog
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    Left = 337
-    Top = 98
-  end
   object PopupMenu1: TPopupMenu
-    Left = 240
-    Top = 248
+    Left = 96
+    Top = 296
     object Cut1: TMenuItem
       Caption = 'Cut'
       ShortCut = 16472

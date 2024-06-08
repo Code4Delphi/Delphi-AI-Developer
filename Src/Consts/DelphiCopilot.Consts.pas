@@ -37,7 +37,7 @@ type
     FILE_INI_OPEN_EXTERNAL = 'open-external.ini';
 
     //NAMES FILES .rtf
-    FILE_RTF_NOTES = 'notes.rtf';
+    FILE_RTF_CHAT = 'chat.rtf';
 
     //ABOUT AND SPLASH
     ABOUT_TITLE = 'Delphi Copilot';

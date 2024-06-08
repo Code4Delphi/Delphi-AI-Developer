@@ -29,8 +29,6 @@ uses
 type
   TDelphiCopilotChatView = class(TDockableForm)
     ImageList1: TImageList;
-    ColorDialog1: TColorDialog;
-    FontDialog1: TFontDialog;
     PopupMenu1: TPopupMenu;
     Cut1: TMenuItem;
     Copy1: TMenuItem;
@@ -41,53 +39,20 @@ type
     Panel1: TPanel;
     btnSend: TButton;
     mmQuestion: TMemo;
-    pnTop: TPanel;
-    Bevel2: TBevel;
-    Bevel3: TBevel;
-    btnColor: TButton;
-    cBoxSizeFont: TComboBox;
-    btnAlignmentLeft: TButton;
-    btnAlignmentCenter: TButton;
-    btnAlignmentRight: TButton;
-    btnUnderline: TButton;
-    btnItalic: TButton;
-    btnBold: TButton;
-    btnFont: TButton;
-    btnOpen: TButton;
-    btnSaveAs: TButton;
-    btnSave: TButton;
-    btnStrikethrough: TButton;
-    btnFontSizeDecrease: TButton;
-    btnFontSizeIncrease: TButton;
-    mmReturn: TfsSyntaxMemo;
-    Panel9: TPanel;
+    pnCommands: TPanel;
     btnCopy: TSpeedButton;
     btnInsertAtCursor: TSpeedButton;
     btnMoreActions: TSpeedButton;
-    Panel2: TPanel;
-    Shape1: TShape;
-    SpeedButton1: TSpeedButton;
     Shape3: TShape;
     N1: TMenuItem;
+    mmReturn: TRichEdit;
     procedure FormShow(Sender: TObject);
-    procedure btnOpenClick(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
-    procedure btnSaveAsClick(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
-    procedure btnAlignmentLeftClick(Sender: TObject);
-    procedure btnAlignmentCenterClick(Sender: TObject);
-    procedure btnAlignmentRightClick(Sender: TObject);
-    procedure btnBoldClick(Sender: TObject);
-    procedure btnItalicClick(Sender: TObject);
-    procedure btnUnderlineClick(Sender: TObject);
-    procedure btnStrikethroughClick(Sender: TObject);
     procedure Cut1Click(Sender: TObject);
     procedure Copy1Click(Sender: TObject);
     procedure Paste1Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnFontSizeDecreaseClick(Sender: TObject);
-    procedure btnFontSizeIncreaseClick(Sender: TObject);
     procedure btnSendClick(Sender: TObject);
     procedure mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCopyClick(Sender: TObject);
@@ -103,6 +68,8 @@ type
     procedure ConfmmReturn;
     procedure ProcessSend;
     procedure ProcessBlockSelected;
+    procedure InternalAdd(AString: string);
+    procedure Last;
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -156,6 +123,7 @@ begin
   SaveStateNecessary := True;
 
   TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotChatView, Self);
+  //mmReturn.SelStart := 0;
 end;
 
 procedure TDelphiCopilotChatView.FormShow(Sender: TObject);
@@ -163,33 +131,44 @@ begin
   Self.Constraints.MinWidth := 100;
   Self.Constraints.MinHeight := 100;
 
-  //mmReturn.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul;
   Self.ConfmmReturn;
   Self.ReadFromFile;
 end;
 
 procedure TDelphiCopilotChatView.ConfmmReturn;
 begin
-  //mmReturn.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul;
+  mmReturn.Lines.Clear;
+  mmReturn.SelAttributes.Name := 'Courier New';
+  mmReturn.SelAttributes.Size := 10;
 
-  //Exit;
   if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
   begin
-    mmReturn.Color := $004A4136; //COR EDIDOR
-    mmReturn.CommentAttr.Color := $0084E7BC; //COMENTARIOS
-    mmReturn.KeywordAttr.Color := $00BCE0FF; //PALAVRAS CHAVES
-    mmReturn.StringAttr.Color := $00E0713C; //TEXTOS ENTRE ASPAS
-    mmReturn.TextAttr.Color := clWhite; //DEMAIS TEXTOS
-
-    mmReturn.BlockColor := $00FFAA7F; //CODE SELECIONADO
-    mmReturn.BlockFontColor := clWindowText; //CODE SELECIONADO
+    mmReturn.Color := $004A4136;
+    mmReturn.SelAttributes.Color := clWhite;    
+  end
+  else
+  begin
+    mmReturn.Color := clWindow;
+    mmReturn.SelAttributes.Color := clWindowText;
   end;
+  mmReturn.SelAttributes.Style := [];
+  
+end;
 
-  //COR EDIDOR$004A4136;
-  //COMETARIO: $0084E7BC
-  //AZUL TEXTO: CLARO: $00FFAA7F  ESCURO: $00E0713C
-  //KeyWord palavras chaves: $00BCE0FF
-  //CODE SELECIONADO: clHighlight DO DELPHI: $00FFAA7F
+procedure TDelphiCopilotChatView.InternalAdd(AString: string);
+begin  
+  Self.Last;
+
+  //mmReturn.SelAttributes.Color := clWindow;  
+  if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
+    mmReturn.SelAttributes.Color := clWhite
+  else
+    mmReturn.SelAttributes.Color := clWindowText;
+    
+  mmReturn.SelAttributes.Style := [];
+  
+  mmReturn.Lines.Add(AString);
+  Self.Last;   
 end;
 
 procedure TDelphiCopilotChatView.mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -214,68 +193,18 @@ end;
 
 procedure TDelphiCopilotChatView.ReadFromFile;
 begin
-  if(FileExists(TDelphiCopilotUtils.GetPathFileNotes))then
-    mmReturn.Lines.LoadFromFile(TDelphiCopilotUtils.GetPathFileNotes)
+  if(FileExists(TDelphiCopilotUtils.GetPathFileChat))then
+    mmReturn.Lines.LoadFromFile(TDelphiCopilotUtils.GetPathFileChat)
 end;
 
 procedure TDelphiCopilotChatView.SelectAll1Click(Sender: TObject);
 begin
-  mmReturn.SelText
+  mmReturn.SelectAll;
 end;
 
 procedure TDelphiCopilotChatView.WriteToFile;
 begin
-  mmReturn.Lines.SaveToFile(TDelphiCopilotUtils.GetPathFileNotes);
-end;
-
-procedure TDelphiCopilotChatView.btnOpenClick(Sender: TObject);
-var
-  LOpenDialog: TOpenDialog;
-begin
-  LOpenDialog := TOpenDialog.Create(nil);
-  try
-    LOpenDialog.DefaultExt := 'rtf';
-    LOpenDialog.Filter := 'File RTF|*.rtf';
-    LOpenDialog.InitialDir := '';
-    LOpenDialog.FileName := '';
-    if(not LOpenDialog.Execute)then
-      Exit;
-
-    mmReturn.Lines.LoadFromFile(LOpenDialog.FileName);
-  finally
-    LOpenDialog.Free;
-  end;
-end;
-
-procedure TDelphiCopilotChatView.btnSaveClick(Sender: TObject);
-begin
-  Self.WriteToFile;
-end;
-
-procedure TDelphiCopilotChatView.btnSaveAsClick(Sender: TObject);
-var
- LSaveDialog: TSaveDialog;
-begin
-  LSaveDialog := TSaveDialog.Create(nil);
-  try
-    LSaveDialog.Title := 'Copilot - Save File As';
-    LSaveDialog.DefaulText := '*.rtf';
-    LSaveDialog.Filter := 'Arquivos RTF (*.rtf)|*.rtf|Arquivos TXT (*.txt)|*.txt|Todos os Arquivos (*.*)|*.*';
-    LSaveDialog.FileName := 'Copilot-Notes-' + FormatDateTime('yyyyMMdd-hhnnss', now) + '.rtf';
-    LSaveDialog.InitialDir := '';
-
-    if(not LSaveDialog.Execute)then
-      Exit;
-
-    if(FileExists(LSaveDialog.FileName))then
-      if(not TDelphiCopilotUtils.ShowQuestion2('There is already a file with the same name in this location. Want to replace it?'))then
-        Exit;
-
-    mmReturn.Lines.SaveToFile(LSaveDialog.FileName);
-    TDelphiCopilotUtils.ShowV('Successful saving file');
-  finally
-    LSaveDialog.Free;
-  end;
+  mmReturn.Lines.SaveToFile(TDelphiCopilotUtils.GetPathFileChat);
 end;
 
 procedure TDelphiCopilotChatView.cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
@@ -284,59 +213,14 @@ begin
     key := #0;
 end;
 
-procedure TDelphiCopilotChatView.btnBoldClick(Sender: TObject);
-begin
-  Self.ChangeStyle(fsBold);
-end;
-
-procedure TDelphiCopilotChatView.btnFontSizeDecreaseClick(Sender: TObject);
-begin
-  Self.ChangeFontSize(-1);
-end;
-
-procedure TDelphiCopilotChatView.btnFontSizeIncreaseClick(Sender: TObject);
-begin
-  Self.ChangeFontSize(+1);
-end;
-
 procedure TDelphiCopilotChatView.ChangeFontSize(const AValue: Integer);
 begin
 
 end;
 
-procedure TDelphiCopilotChatView.btnItalicClick(Sender: TObject);
-begin
-  Self.ChangeStyle(fsItalic);
-end;
-
-procedure TDelphiCopilotChatView.btnUnderlineClick(Sender: TObject);
-begin
-  Self.ChangeStyle(fsUnderline);
-end;
-
-procedure TDelphiCopilotChatView.btnStrikethroughClick(Sender: TObject);
-begin
-  Self.ChangeStyle(fsStrikeOut);
-end;
-
 procedure TDelphiCopilotChatView.ChangeStyle(const AStyle: TFontStyle);
 begin
 
-end;
-
-procedure TDelphiCopilotChatView.btnAlignmentLeftClick(Sender: TObject);
-begin
-  Self.ChangeAlignment(taLeftJustify);
-end;
-
-procedure TDelphiCopilotChatView.btnAlignmentCenterClick(Sender: TObject);
-begin
-  Self.ChangeAlignment(taCenter);
-end;
-
-procedure TDelphiCopilotChatView.btnAlignmentRightClick(Sender: TObject);
-begin
-  Self.ChangeAlignment(taRightJustify);
 end;
 
 procedure TDelphiCopilotChatView.ChangeAlignment(const AAlignment: TAlignment);
@@ -391,6 +275,7 @@ var
   i, j: Integer;
 begin
   mmReturn.Lines.Clear;
+
   LResponse := TRequest.New
     .BaseURL(Format(API_URL, [API_KEY]))
     .Accept('application/json')
@@ -421,6 +306,11 @@ begin
     end;
   end;
 end;
+
+procedure TDelphiCopilotChatView.Last;
+begin
+  SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+end;    
 
 procedure TDelphiCopilotChatView.btnCopyClick(Sender: TObject);
 begin
