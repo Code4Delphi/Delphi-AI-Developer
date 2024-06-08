@@ -18,6 +18,7 @@ type
   TDelphiCopilotUtilsOTA = class
   private
     class function EditorAsString(AIOTAModule: IOTAModule): string;
+    class function RemoveEmptySpacesBeginningLines(const AText: string): string; static;
   public
     class function CurrentProjectIsC4DWizardDPROJ: Boolean;
     class function CurrentModuleIsReadOnly: Boolean;
@@ -241,15 +242,25 @@ begin
   LOTAEditPos := LIOTAEditView.CursorPos;
   LIOTAEditView.ConvertPos(True, LOTAEditPos, LOTACharPos);
   LPosition := LIOTAEditView.CharPosToPos(LOTACharPos);
-  LIOTAEditWriter := LOTAEditorServices.GetTopBuffer.CreateUndoableWriter;;
+  LIOTAEditWriter := LOTAEditorServices.GetTopBuffer.CreateUndoableWriter;
   try
     LIOTAEditWriter.CopyTo(LPosition);
-    LIOTAEditWriter.Insert(PAnsiChar(Utf8Encode(AText.TrimRight)));
+    //LIOTAEditWriter.Insert(PAnsiChar(Utf8Encode(AText.TrimRight)));
+
+
   finally
     LIOTAEditWriter := nil;
   end;
-  LIOTAEditView.MoveViewToCursor;
-  LIOTAEditView.Paint;
+  //LIOTAEditView.MoveViewToCursor;
+  //LIOTAEditView.Paint;
+end;
+
+class function TDelphiCopilotUtilsOTA.RemoveEmptySpacesBeginningLines(const AText: string): string;
+var
+  i: Integer;
+begin
+  Result := AText.Replace('  ', '', [rfReplaceAll, rfIgnoreCase]);
+
 end;
 
 class function TDelphiCopilotUtilsOTA.GetBlockTextSelect: string;

@@ -1,3 +1,4 @@
+{$WARN IMPLICIT_IMPORT OFF}
 package DelphiCopilot;
 
 {$R *.res}
@@ -30,11 +31,7 @@ package DelphiCopilot;
 requires
   rtl,
   designide,
-  dbrtl,
-  bindengine,
-  bindcomp,
-  RESTComponents,
-  fs26;
+  RESTComponents;
 
 contains
   DelphiCopilot.Register in '..\Src\DelphiCopilot.Register.pas',

@@ -61,7 +61,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       ShowHint = True
       TabOrder = 2
       Zoom = 100
-      ExplicitLeft = 14
     end
     object Panel3: TPanel
       Left = 0

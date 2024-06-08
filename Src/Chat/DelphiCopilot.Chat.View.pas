@@ -23,7 +23,6 @@ uses
   Vcl.Buttons,
   Clipbrd,
   RESTRequest4D,
-  fs_synmemo,
   ToolsAPI;
 
 type
@@ -61,13 +60,9 @@ type
   private
     procedure ReadFromFile;
     procedure WriteToFile;
-    procedure ChangeAlignment(const AAlignment: TAlignment);
-    procedure ChangeStyle(const AStyle: TFontStyle);
-    procedure ChangeFontSize(const AValue: Integer);
     function ConfReturn(const AValue: string): string;
-    procedure ConfmmReturn;
+    procedure InitializeRichEditReturn;
     procedure ProcessSend;
-    procedure ProcessBlockSelected;
     procedure InternalAdd(AString: string);
     procedure Last;
   public
@@ -131,11 +126,11 @@ begin
   Self.Constraints.MinWidth := 100;
   Self.Constraints.MinHeight := 100;
 
-  Self.ConfmmReturn;
+  Self.InitializeRichEditReturn;
   Self.ReadFromFile;
 end;
 
-procedure TDelphiCopilotChatView.ConfmmReturn;
+procedure TDelphiCopilotChatView.InitializeRichEditReturn;
 begin
   mmReturn.Lines.Clear;
   mmReturn.SelAttributes.Name := 'Courier New';
@@ -150,16 +145,13 @@ begin
   begin
     mmReturn.Color := clWindow;
     mmReturn.SelAttributes.Color := clWindowText;
-  end;
-  mmReturn.SelAttributes.Style := [];
-  
+  end; 
 end;
 
 procedure TDelphiCopilotChatView.InternalAdd(AString: string);
 begin  
   Self.Last;
 
-  //mmReturn.SelAttributes.Color := clWindow;  
   if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
     mmReturn.SelAttributes.Color := clWhite
   else
@@ -211,21 +203,6 @@ procedure TDelphiCopilotChatView.cBoxSizeFontKeyPress(Sender: TObject; var Key: 
 begin
   if not(CharInSet(Key, ['0'..'9', #8]))then
     key := #0;
-end;
-
-procedure TDelphiCopilotChatView.ChangeFontSize(const AValue: Integer);
-begin
-
-end;
-
-procedure TDelphiCopilotChatView.ChangeStyle(const AStyle: TFontStyle);
-begin
-
-end;
-
-procedure TDelphiCopilotChatView.ChangeAlignment(const AAlignment: TAlignment);
-begin
-
 end;
 
 procedure TDelphiCopilotChatView.Cut1Click(Sender: TObject);
@@ -284,8 +261,8 @@ begin
 
   if LResponse.StatusCode <> 200 then
   begin
-    mmReturn.Lines.Add('Question cannot be answered');
-    mmReturn.Lines.Add('Return: ' + LResponse.Content);
+    Self.InternalAdd('Question cannot be answered');
+    Self.InternalAdd('Return: ' + LResponse.Content);
     Exit;
   end;
 
@@ -302,6 +279,7 @@ begin
         PartsObj := PartsArray.Items[j] as TJsonObject;
         JsonText := PartsObj.GetValue<string>('text');
         mmReturn.Lines.Text := Self.ConfReturn(JsonText);
+        //Self.InternalAdd(Self.ConfReturn(JsonText));
       end;
     end;
   end;
@@ -314,7 +292,10 @@ end;
 
 procedure TDelphiCopilotChatView.btnCopyClick(Sender: TObject);
 begin
-  Clipboard.AsText := mmReturn.SelText;
+  if not mmReturn.SelText.Trim.IsEmpty then
+    Clipboard.AsText := mmReturn.SelText
+  else
+    Clipboard.AsText := mmReturn.Lines.Text;
 end;
 
 procedure TDelphiCopilotChatView.btnInsertAtCursorClick(Sender: TObject);
@@ -324,6 +305,8 @@ var
   LStartRow: Integer;
   LIOTAEditBlock: IOTAEditBlock;
   LText: string;
+
+
 begin
   LIOTAEditorServices := TDelphiCopilotUtilsOTA.GetIOTAEditorServices;
   LIOTAEditView := LIOTAEditorServices.TopView;
@@ -342,35 +325,15 @@ begin
     LIOTAEditView.Position.Move(LStartRow, 1);
   end;
 
-  TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(mmReturn.SelText);
-end;
+  LIOTAEditView.Position.InsertText(
+  'begin' + #10 +
+  '  if inputString[i] in [0..9] then  '+ #10 +
+  '    result := result + inputString[i]; '+ #10 +
+  'end;'
 
-procedure TDelphiCopilotChatView.ProcessBlockSelected;
-var
-  LIOTAEditorServices: IOTAEditorServices;
-  LIOTAEditView: IOTAEditView;
-  LStartRow: Integer;
-  LIOTAEditBlock: IOTAEditBlock;
-  LText: string;
-begin
-  LIOTAEditorServices := TDelphiCopilotUtilsOTA.GetIOTAEditorServices;
-  LIOTAEditView := LIOTAEditorServices.TopView;
-  if(LIOTAEditView = nil)then
-    TDelphiCopilotUtils.ShowMsgAndAbort('No projects or files selected');
+  );
 
-//  LIOTAEditBlock := LIOTAEditView.Block;
-//  if not Assigned(LIOTAEditBlock) then
-//    Exit;
-
-//  LText := LIOTAEditBlock.Text;
-//  if(LText.Trim.IsEmpty)then
-//    TDelphiCopilotUtils.ShowMsgAndAbort('Not text selected');
-
-//  Self.Process;
-//  LStartRow := LIOTAEditBlock.StartingRow;
-//  LIOTAEditBlock.Delete;
-//  LIOTAEditView.Position.Move(LStartRow, 1);
-  TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor('AQUI');
+  //TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(mmReturn.SelText);
 end;
 
 initialization
