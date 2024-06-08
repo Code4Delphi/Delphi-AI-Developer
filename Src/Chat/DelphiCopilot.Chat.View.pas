@@ -34,8 +34,8 @@ type
     Paste1: TMenuItem;
     SelectAll1: TMenuItem;
     pnBack: TPanel;
-    Panel3: TPanel;
-    Panel1: TPanel;
+    pnBottom: TPanel;
+    pnBackBtnSend: TPanel;
     btnSend: TButton;
     mmQuestion: TMemo;
     pnCommands: TPanel;
@@ -45,6 +45,7 @@ type
     Shape3: TShape;
     N1: TMenuItem;
     mmReturn: TRichEdit;
+    Splitter1: TSplitter;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -60,11 +61,12 @@ type
   private
     procedure ReadFromFile;
     procedure WriteToFile;
-    function ConfReturn(const AValue: string): string;
     procedure InitializeRichEditReturn;
     procedure ProcessSend;
     procedure InternalAdd(AString: string);
     procedure Last;
+    function GetSelectedTextOrAll: string;
+    procedure GetSelectedBlockForQuestion;
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -118,7 +120,6 @@ begin
   SaveStateNecessary := True;
 
   TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotChatView, Self);
-  //mmReturn.SelStart := 0;
 end;
 
 procedure TDelphiCopilotChatView.FormShow(Sender: TObject);
@@ -128,6 +129,20 @@ begin
 
   Self.InitializeRichEditReturn;
   Self.ReadFromFile;
+  Self.GetSelectedBlockForQuestion;
+
+  mmQuestion.SelectAll;
+  mmQuestion.SelStart := Length(mmQuestion.Text);
+  mmQuestion.SetFocus;
+end;
+
+procedure TDelphiCopilotChatView.GetSelectedBlockForQuestion;
+var
+  LBlockTextSelect: string;
+begin
+  LBlockTextSelect := TDelphiCopilotUtilsOTA.GetBlockTextSelect;
+  if not LBlockTextSelect.Trim.IsEmpty then
+    mmQuestion.Text := LBlockTextSelect;
 end;
 
 procedure TDelphiCopilotChatView.InitializeRichEditReturn;
@@ -168,6 +183,11 @@ begin
   if (ssCtrl in Shift)and(Key = VK_RETURN) then
   begin
     btnSend.Click;
+    Key := 0;
+  end
+  else if (Key = Ord('A')) and (ssCtrl in Shift) then
+  begin
+    mmQuestion.SelectAll;
     Key := 0;
   end;
 end;
@@ -218,13 +238,6 @@ end;
 procedure TDelphiCopilotChatView.Paste1Click(Sender: TObject);
 begin
   mmReturn.PasteFromClipboard;
-end;
-
-function TDelphiCopilotChatView.ConfReturn(const AValue: string): string;
-begin
-  Result := AValue
-    .Replace('```delphi', '', [rfReplaceAll, rfIgnoreCase])
-    .Replace('```', '', [rfReplaceAll]);
 end;
 
 procedure TDelphiCopilotChatView.btnSendClick(Sender: TObject);
@@ -278,8 +291,7 @@ begin
       begin
         PartsObj := PartsArray.Items[j] as TJsonObject;
         JsonText := PartsObj.GetValue<string>('text');
-        mmReturn.Lines.Text := Self.ConfReturn(JsonText);
-        //Self.InternalAdd(Self.ConfReturn(JsonText));
+        mmReturn.Lines.Text := TDelphiCopilotUtils.ConfReturnAI(JsonText);
       end;
     end;
   end;
@@ -288,42 +300,25 @@ end;
 procedure TDelphiCopilotChatView.Last;
 begin
   SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-end;    
+end;
+
+function TDelphiCopilotChatView.GetSelectedTextOrAll: string;
+begin
+  if not mmReturn.SelText.Trim.IsEmpty then
+    Result := mmReturn.SelText
+  else
+    Result := mmReturn.Lines.Text;
+end;
 
 procedure TDelphiCopilotChatView.btnCopyClick(Sender: TObject);
 begin
-  if not mmReturn.SelText.Trim.IsEmpty then
-    Clipboard.AsText := mmReturn.SelText
-  else
-    Clipboard.AsText := mmReturn.Lines.Text;
+  Clipboard.AsText := Self.GetSelectedTextOrAll;
 end;
 
 procedure TDelphiCopilotChatView.btnInsertAtCursorClick(Sender: TObject);
-var
-  LIOTAEditorServices: IOTAEditorServices;
-  LIOTAEditView: IOTAEditView;
-  LStartRow: Integer;
-  LIOTAEditBlock: IOTAEditBlock;
-  LText: string;
 begin
-  LIOTAEditorServices := TDelphiCopilotUtilsOTA.GetIOTAEditorServices;
-  LIOTAEditView := LIOTAEditorServices.TopView;
-  if(LIOTAEditView = nil)then
-    TDelphiCopilotUtils.ShowMsgAndAbort('No projects or files selected');
-
-  LIOTAEditBlock := LIOTAEditView.Block;
-  if not Assigned(LIOTAEditBlock) then
-    Exit;
-
-  LText := LIOTAEditBlock.Text;
-  if not LText.Trim.IsEmpty then
-  begin
-    LStartRow := LIOTAEditBlock.StartingRow;
-    LIOTAEditBlock.Delete;
-    LIOTAEditView.Position.Move(LStartRow, 1);
-  end;
-
-  TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(mmReturn.SelText);
+  TDelphiCopilotUtilsOTA.DeleteBlockTextSelectedInEditor;
+  TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(Self.GetSelectedTextOrAll);
 end;
 
 initialization

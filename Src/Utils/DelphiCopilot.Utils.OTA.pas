@@ -25,6 +25,7 @@ type
     class function AddImgIDEResourceName(AResourceName: string): Integer;
     class function AddImgIDEFilePath(AFilePath: string): Integer;
     class function EditorAsStringList(AIOTAModule: IOTAModule): TStringList;
+    class procedure DeleteBlockTextSelectedInEditor;
     class procedure InsertBlockTextIntoEditor(const AText: string);
     class function OTAFileNotificationToC4DWizardFileNotification(AOTAFileNotification: TOTAFileNotification): TDelphiCopilotFileNotification;
     class procedure OpenFilePathInIDE(AFilePath: string);
@@ -224,6 +225,32 @@ begin
     until LRead < BUFFER_SIZE;
   finally
     LIOTAEditReader := nil;
+  end;
+end;
+
+class procedure TDelphiCopilotUtilsOTA.DeleteBlockTextSelectedInEditor;
+var
+  LIOTAEditorServices: IOTAEditorServices;
+  LIOTAEditView: IOTAEditView;
+  LStartRow: Integer;
+  LIOTAEditBlock: IOTAEditBlock;
+  LText: string;
+begin
+  LIOTAEditorServices := Self.GetIOTAEditorServices;
+  LIOTAEditView := LIOTAEditorServices.TopView;
+  if(LIOTAEditView = nil)then
+    TDelphiCopilotUtils.ShowMsgAndAbort('No projects or files selected');
+
+  LIOTAEditBlock := LIOTAEditView.Block;
+  if not Assigned(LIOTAEditBlock) then
+    Exit;
+
+  LText := LIOTAEditBlock.Text;
+  if not LText.Trim.IsEmpty then
+  begin
+    LStartRow := LIOTAEditBlock.StartingRow;
+    LIOTAEditBlock.Delete;
+    LIOTAEditView.Position.Move(LStartRow, 1);
   end;
 end;
 

@@ -27,6 +27,7 @@ type
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
     class function GetPathFromProcessID(const AProcessID: cardinal): string;
   public
+    class function ConfReturnAI(const AValue: string): string;
     class function ProcessTextForEditor(const AText: string): string;
     class function CopyReverse(S: string; Index, Count: Integer): string;
     class function FileNameIsC4DWizardDPROJ(const AFileName: string): Boolean;
@@ -137,6 +138,13 @@ uses
 function PathRelativePathTo(pszPath: PChar; pszFrom: PChar; dwAttrFrom: DWORD; pszTo: PChar; dwAtrTo: DWORD): LongBool; stdcall; external 'shlwapi.dll' name 'PathRelativePathToW';
 function PathCanonicalize(lpszDst: PChar; lpszSrc: PChar): LongBool; stdcall; external 'shlwapi.dll' name 'PathCanonicalizeW';
 {$ENDREGION}
+
+class function TDelphiCopilotUtils.ConfReturnAI(const AValue: string): string;
+begin
+  Result := AValue
+    .Replace('```delphi', '', [rfReplaceAll, rfIgnoreCase])
+    .Replace('```', '', [rfReplaceAll]);
+end;
 
 class function TDelphiCopilotUtils.ProcessTextForEditor(const AText: string): string;
 var

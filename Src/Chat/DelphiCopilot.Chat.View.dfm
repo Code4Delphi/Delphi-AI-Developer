@@ -33,12 +33,22 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     DesignSize = (
       974
       661)
+    object Splitter1: TSplitter
+      Left = 0
+      Top = 527
+      Width = 974
+      Height = 3
+      Cursor = crVSplit
+      Align = alBottom
+      ExplicitTop = 2
+      ExplicitWidth = 528
+    end
     object mmReturn: TRichEdit
       AlignWithMargins = True
       Left = 10
       Top = 12
       Width = 954
-      Height = 515
+      Height = 512
       Margins.Left = 10
       Margins.Top = 10
       Margins.Right = 10
@@ -62,7 +72,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       TabOrder = 2
       Zoom = 100
     end
-    object Panel3: TPanel
+    object pnBottom: TPanel
       Left = 0
       Top = 530
       Width = 974
@@ -71,7 +81,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 0
-      object Panel1: TPanel
+      object pnBackBtnSend: TPanel
         Left = 892
         Top = 0
         Width = 82

@@ -4,5 +4,9 @@ interface
 
 implementation
 
-end.
+function Somar(const A, B: Double): Double;
+begin
+  Result := A + B;
+end;
 
+end.
