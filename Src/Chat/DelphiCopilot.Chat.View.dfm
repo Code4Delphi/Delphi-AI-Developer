@@ -93,12 +93,13 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         object btnSend: TButton
           AlignWithMargins = True
           Left = 3
-          Top = 103
+          Top = 4
           Width = 69
           Height = 24
+          Margins.Top = 4
           Margins.Right = 10
           Margins.Bottom = 4
-          Align = alBottom
+          Align = alTop
           Caption = 'Send'
           TabOrder = 0
           OnClick = btnSendClick
@@ -121,7 +122,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         Lines.Strings = (
-          'Create a delphi function that returns only numbers')
+          'Delphi capturar Ctrl + A em TMemo')
         ParentFont = False
         TabOrder = 1
         OnKeyDown = mmQuestionKeyDown

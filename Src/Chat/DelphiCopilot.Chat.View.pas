@@ -252,7 +252,8 @@ end;
 
 procedure TDelphiCopilotChatView.ProcessSend;
 const
-  API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=%s';
+  //API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=%s';
+  API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=%s';
   API_KEY = 'AIzaSyArzMx-zCQPdBt9FT7hkWThwPTw2Hco6tM';
   API_JSON_BODY_BASE = '{"contents": [{"parts": [ {"text": "%s"}]}]}';
 var
