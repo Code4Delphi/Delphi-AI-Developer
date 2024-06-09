@@ -66,6 +66,13 @@ begin
 
   Self.CreateSubMenu('C4DSeparator50', '-', nil);
 
+  Self.CreateSubMenu(TC4DConsts.MENU_IDE_NOTES_NAME,
+    TC4DConsts.MENU_IDE_NOTES_CAPTION,
+    TDelphiCopilotIDEMainMenuClicks.ChatClick,
+    -1 //TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexNotes,
+    );
+
+
   Self.CreateSubMenu('C4DSeparator90', '-', nil);
   Self.CreateSubMenu(TC4DConsts.MENU_IDE_ABOUT_NAME,
     TC4DConsts.MENU_IDE_ABOUT_CAPTION,

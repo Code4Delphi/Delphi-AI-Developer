@@ -75,6 +75,10 @@ type
     ITEM_MENU_ViewCurExeInExplorer_CAPTION = 'View Current Binary in Explorer';
 
     //MAIN MENU IDE NAME
+    MENU_IDE_NOTES_NAME = 'DelphiCopilotChat1';
+    MENU_IDE_NOTES_CAPTION = 'Chat';
+
+
     MENU_IDE_OpenExternal_NAME = 'C4DWizarOpenExternal1';
     MENU_IDE_OpenExternal_CAPTION = 'Open External Path';
     MENU_IDE_ORGANIZATION_NAME = 'C4DWizarUsesOrganization1';
@@ -101,8 +105,7 @@ type
     MENU_IDE_ABOUT_CAPTION = 'About Delphi Copilot';
     MENU_IDE_FormatSource_NAME = 'C4DFormatSource1';
     MENU_IDE_FormatSource_CAPTION = 'Format Source';
-    MENU_IDE_NOTES_NAME = 'DelphiCopilotChat1';
-    MENU_IDE_NOTES_CAPTION = 'Chat';
+
     MENU_IDE_VSCODE_INTEGRATION_NAME = 'C4DWizarVsCodeIntegration1';
     MENU_IDE_VSCODE_INTEGRATION_CAPTION = 'Vs Code Integration';
     MENU_IDE_VSCODE_INTEGRATION_OPEN_NAME = 'C4DWizarVsCodeIntegrationOpen1';
