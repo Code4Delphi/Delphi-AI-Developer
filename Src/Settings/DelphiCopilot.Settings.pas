@@ -127,7 +127,7 @@ begin
       if not(LReg.OpenKey(TC4DConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, False)) then
         Exit;
 
-      //if LReg.ValueExists(FIELD_AIDefault) then
+      if LReg.ValueExists(FIELD_AIDefault) then
         FAIDefault := TAIsAvailable(LReg.ReadInteger(FIELD_AIDefault));
 
       //GEMINI

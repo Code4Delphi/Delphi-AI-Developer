@@ -148,7 +148,7 @@ end;
 
 procedure TDelphiCopilotSettingsView.LoadSettings;
 begin
-  FSettings.ReadFromWindowsRegistry;
+  FSettings.LoadData;
   cBoxAIDefault.ItemIndex := Integer(FSettings.AIDefault);
 
   edtBaseUrlGemini.Text := FSettings.BaseUrlGemini;
@@ -176,7 +176,7 @@ begin
   FSettings.ApiKeyOpenAI := edtApiKeyOpenAI.Text;
   FSettings.TimeoutOpenAI := StrToIntDef(edtTimeoutOpenAI.Text, 20);
 
-  FSettings.WriteToWindowsRegistry;
+  FSettings.SaveData;
 end;
 
 end.
