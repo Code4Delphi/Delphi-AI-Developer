@@ -12,8 +12,8 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnClose = FormClose
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
@@ -80,7 +80,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 0
-      ExplicitTop = -1
       object gBoxGemini: TGroupBox
         Left = 0
         Top = 84
@@ -208,7 +207,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Width = 249
             Height = 21
             TabOrder = 0
-            Text = 'https://generativelanguage.googleapis.com'
           end
           object edtApiKeyGemini: TEdit
             Left = 16
@@ -236,7 +234,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Height = 21
             NumbersOnly = True
             TabOrder = 3
-            Text = '20'
           end
         end
       end
@@ -377,7 +374,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Width = 460
             Height = 21
             TabOrder = 0
-            Text = 'https://api.openai.com/v1/chat/completions'
           end
           object edtApiKeyOpenAI: TEdit
             Left = 16
@@ -386,7 +382,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Height = 21
             PasswordChar = '*'
             TabOrder = 1
-            Text = 'sk-proj-iwJOetQ8OlplTT2WKjCZT3BlbkFJcaC4vk5zUaOLEwkXQkK6'
           end
           object cBoxModelOpenAI: TComboBox
             Left = 478
@@ -408,7 +403,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Height = 21
             NumbersOnly = True
             TabOrder = 3
-            Text = '20'
           end
         end
       end

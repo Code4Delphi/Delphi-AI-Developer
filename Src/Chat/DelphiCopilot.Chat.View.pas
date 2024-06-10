@@ -9,6 +9,7 @@ uses
   System.Variants,
   System.Classes,
   System.JSON,
+  System.Threading,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -23,7 +24,8 @@ uses
   Vcl.Buttons,
   Clipbrd,
   RESTRequest4D,
-  ToolsAPI;
+  ToolsAPI,
+  DelphiCopilot.Chat;
 
 type
   TDelphiCopilotChatView = class(TDockableForm)
@@ -46,19 +48,25 @@ type
     N1: TMenuItem;
     mmReturn: TRichEdit;
     Splitter1: TSplitter;
+    pnWait: TPanel;
+    ShapeWait: TShape;
+    pnWaitCaption: TPanel;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
     procedure Copy1Click(Sender: TObject);
     procedure Paste1Click(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSendClick(Sender: TObject);
     procedure mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCopyClick(Sender: TObject);
     procedure btnInsertAtCursorClick(Sender: TObject);
     procedure SelectAll1Click(Sender: TObject);
+    procedure mmQuestionChange(Sender: TObject);
+    procedure mmQuestionKeyPress(Sender: TObject; var Key: Char);
+    procedure mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
+    FChat: TDelphiCopilotChat;
     procedure ReadFromFile;
     procedure WriteToFile;
     procedure InitializeRichEditReturn;
@@ -67,8 +75,11 @@ type
     procedure Last;
     function GetSelectedTextOrAll: string;
     procedure GetSelectedBlockForQuestion;
+    procedure WaitingFormOFF;
+    procedure WaitingFormON;
   public
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
   end;
 
 var
@@ -118,12 +129,20 @@ begin
   DeskSection := Self.Name;
   AutoSave := True;
   SaveStateNecessary := True;
+  FChat := TDelphiCopilotChat.Create;
 
-  TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotChatView, Self);
+  pnWait.Visible := False;
+end;
+
+destructor TDelphiCopilotChatView.Destroy;
+begin
+  FChat.Free;
+  inherited;
 end;
 
 procedure TDelphiCopilotChatView.FormShow(Sender: TObject);
 begin
+  TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotChatView, Self);
   Self.Constraints.MinWidth := 100;
   Self.Constraints.MinHeight := 100;
 
@@ -164,7 +183,7 @@ begin
 end;
 
 procedure TDelphiCopilotChatView.InternalAdd(AString: string);
-begin  
+begin
   Self.Last;
 
   if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
@@ -178,29 +197,42 @@ begin
   Self.Last;   
 end;
 
+procedure TDelphiCopilotChatView.mmQuestionChange(Sender: TObject);
+begin
+  if mmQuestion.Lines.Count >= 3 then
+    mmQuestion.ScrollBars := ssVertical
+  else
+    mmQuestion.ScrollBars := ssNone;
+end;
+
 procedure TDelphiCopilotChatView.mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if (ssCtrl in Shift)and(Key = VK_RETURN) then
   begin
     btnSend.Click;
     Key := 0;
-  end
-  else if (Key = Ord('A')) and (ssCtrl in Shift) then
-  begin
-    mmQuestion.SelectAll;
-    Key := 0;
   end;
 end;
 
-procedure TDelphiCopilotChatView.FormActivate(Sender: TObject);
+procedure TDelphiCopilotChatView.mmQuestionKeyPress(Sender: TObject; var Key: Char);
 begin
-  //mmReturn.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
-  //Self.ReadFromFile;
+end;
+
+procedure TDelphiCopilotChatView.mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (ssCtrl in Shift)and(Key = Ord('a'))then //65
+  begin    ShowMessage('Sho ctrl ' + Ord('a'));
+    mmQuestion.SelectAll;
+    Key := 0;
+  end;
+
+  ShowMessage('Sho ctrl ' + Ord('a'));
 end;
 
 procedure TDelphiCopilotChatView.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Self.WriteToFile;
+  Self.WaitingFormOFF;
 end;
 
 procedure TDelphiCopilotChatView.ReadFromFile;
@@ -242,60 +274,58 @@ end;
 
 procedure TDelphiCopilotChatView.btnSendClick(Sender: TObject);
 begin
-  Screen.Cursor := crHourGlass;
-  try
-    Self.ProcessSend;
-  finally
-    Screen.Cursor := crDefault;
-  end;
+  Self.ProcessSend;
 end;
 
 procedure TDelphiCopilotChatView.ProcessSend;
-const
-  //API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=%s';
-  API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=%s';
-  API_KEY = 'AIzaSyArzMx-zCQPdBt9FT7hkWThwPTw2Hco6tM';
-  API_JSON_BODY_BASE = '{"contents": [{"parts": [ {"text": "%s"}]}]}';
 var
-  LResponse: IResponse;
-
-  JsonValue: TJSONVALUE;
-  JsonArray, PartsArray: TJsonArray;
-  JsonObj, PartsObj: TJsonObject;
-  JsonText: String;
-  i, j: Integer;
+  LTask: ITask;
 begin
   mmReturn.Lines.Clear;
+  Self.WaitingFormON;
 
-  LResponse := TRequest.New
-    .BaseURL(Format(API_URL, [API_KEY]))
-    .Accept('application/json')
-    .AddBody(Format(API_JSON_BODY_BASE, [mmQuestion.Lines.Text]))
-    .Post;
-
-  if LResponse.StatusCode <> 200 then
-  begin
-    Self.InternalAdd('Question cannot be answered');
-    Self.InternalAdd('Return: ' + LResponse.Content);
-    Exit;
-  end;
-
-  JsonValue := TJsonObject.ParseJSONValue(LResponse.Content);
-  if JsonValue is TJsonObject then
-  begin
-    JsonArray := (JsonValue as TJsonObject).GetValue<TJsonArray>('candidates');
-    for i := 0 to JsonArray.Count - 1 do
+  LTask := TTask.Create(
+    procedure
     begin
-      JsonObj := JsonArray.Items[i].GetValue<TJsonObject>('content');
-      PartsArray := JsonObj.GetValue<TJsonArray>('parts');
-      for j := 0 to PartsArray.Count - 1 do
-      begin
-        PartsObj := PartsArray.Items[j] as TJsonObject;
-        JsonText := PartsObj.GetValue<string>('text');
-        mmReturn.Lines.Text := TDelphiCopilotUtils.ConfReturnAI(JsonText);
+      try
+        try
+          FChat.ProcessSend(mmQuestion.Lines.Text);
+        except
+          on E: Exception do
+            TThread.Synchronize(nil,
+              procedure
+              begin
+                Self.InternalAdd('It was not possible to perform the search in the files.' + sLineBreak + E.Message);
+                Abort;
+              end);
+        end;
+
+        TThread.Synchronize(nil,
+          procedure
+          begin
+            Self.InternalAdd(FChat.Response);
+          end);
+      finally
+        TThread.Synchronize(nil,
+          procedure
+          begin
+            Self.WaitingFormOFF;
+          end);
       end;
-    end;
-  end;
+    end);
+  LTask.Start;
+end;
+
+procedure TDelphiCopilotChatView.WaitingFormON;
+begin
+  pnWait.Visible := False;
+  TDelphiCopilotUtils.CenterPanel(pnWait, mmReturn);
+  pnWait.Visible := True;
+end;
+
+procedure TDelphiCopilotChatView.WaitingFormOFF;
+begin
+  pnWait.Visible := False;
 end;
 
 procedure TDelphiCopilotChatView.Last;

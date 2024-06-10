@@ -51,6 +51,7 @@ contains
   DelphiCopilot.View.About in '..\Src\View\DelphiCopilot.View.About.pas' {DelphiCopilotViewAbout},
   Test in '..\Src\Test\Test.pas',
   DelphiCopilot.Settings.View in '..\Src\Settings\DelphiCopilot.Settings.View.pas' {DelphiCopilotSettingsView},
-  DelphiCopilot.Settings in '..\Src\Settings\DelphiCopilot.Settings.pas';
+  DelphiCopilot.Settings in '..\Src\Settings\DelphiCopilot.Settings.pas',
+  DelphiCopilot.Chat in '..\Src\Chat\DelphiCopilot.Chat.pas';
 
 end.

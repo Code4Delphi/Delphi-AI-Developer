@@ -56,11 +56,11 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
     procedure lbLink03Click(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnConfirmClick(Sender: TObject);
     procedure btnApiKeyGeminiViewClick(Sender: TObject);
     procedure btnApiKeyOpenAIViewClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     FSettings: TDelphiCopilotSettings;
     procedure SaveSettings;
@@ -84,18 +84,20 @@ uses
 procedure TDelphiCopilotSettingsView.FormCreate(Sender: TObject);
 begin
   TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotSettingsView, Self);
-  FSettings := TDelphiCopilotSettings.Create;
-end;
 
-procedure TDelphiCopilotSettingsView.FormDestroy(Sender: TObject);
-begin
-  FSettings.Free;
+  FSettings := TDelphiCopilotSettings.GetInstance;
 end;
 
 procedure TDelphiCopilotSettingsView.FormShow(Sender: TObject);
 begin
+  FSettings.LoadData;
   Self.ConfigScreen;
   Self.LoadSettings;
+end;
+
+procedure TDelphiCopilotSettingsView.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FSettings.LoadData;
 end;
 
 procedure TDelphiCopilotSettingsView.ConfigScreen;

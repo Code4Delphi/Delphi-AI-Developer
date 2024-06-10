@@ -17,6 +17,7 @@ uses
   Vcl.Dialogs,
   Vcl.ComCtrls,
   Vcl.StdCtrls,
+  Vcl.ExtCtrls,
   System.StrUtils,
   DelphiCopilot.Types;
 
@@ -26,6 +27,9 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class function GetFormFromComponent(const AWinControl: TWinControl): TForm;
+    class procedure CenterPanel(const APanel: TPanel); overload;
+    class procedure CenterPanel(const APanel: TPanel; const AWinControl: TWinControl); overload;
     class procedure TogglePasswordChar(const AEdit: TEdit);
     class function ConfReturnAI(const AValue: string): string;
     class function ProcessTextForEditor(const AText: string): string;
@@ -125,6 +129,55 @@ uses
   DelphiCopilot.View.Dialog,
   DelphiCopilot.Consts,
   DelphiCopilot.WaitingScreen;
+
+class function TDelphiCopilotUtils.GetFormFromComponent(const AWinControl: TWinControl): TForm;
+var
+  LParent: TComponent;
+begin
+  Result := nil;
+  try
+    LParent := TWinControl(AWinControl).Parent;
+    while(LParent <> nil)and(not(LParent is TForm)) do
+      LParent := TWinControl(LParent).Parent;
+
+    if LParent is TForm then
+      Result := TForm(LParent);
+  except
+  end;
+end;
+
+class procedure TDelphiCopilotUtils.CenterPanel(const APanel: TPanel);
+var
+  LForm: TForm;
+  LFormCenterX: Integer;
+  LFormCenterY: Integer;
+begin
+  LForm := Self.GetFormFromComponent(APanel);
+
+  if LForm = nil then
+    Exit;
+
+  LFormCenterX := LForm.Width div 2;
+  LFormCenterY := LForm.Height div 2;
+
+  APanel.Left := LFormCenterX - (APanel.Width div 2);
+  APanel.Top := LFormCenterY - (APanel.Height div 2);
+end;
+
+class procedure TDelphiCopilotUtils.CenterPanel(const APanel: TPanel; const AWinControl: TWinControl);
+var
+  LCenterX: Integer;
+  LCenterY: Integer;
+begin
+  if AWinControl = nil then
+    Exit;
+
+  LCenterX := AWinControl.Width div 2;
+  LCenterY := AWinControl.Height div 2;
+
+  APanel.Left := LCenterX - (APanel.Width div 2);
+  APanel.Top := LCenterY - (APanel.Height div 2);
+end;
 
 class procedure TDelphiCopilotUtils.TogglePasswordChar(const AEdit: TEdit);
 begin
@@ -867,11 +920,9 @@ begin
     FreeAndNil(DelphiCopilotViewDialog);
   end;
 
-  try
-    if(Assigned(AWinControlFocu))then
-      TWinControl(AWinControlFocu).SetFocus;
-  except
-  end;
+  if Assigned(AWinControlFocu) then
+    if AWinControlFocu.CanFocus then
+      AWinControlFocu.SetFocus;
 end;
 
 class procedure TDelphiCopilotUtils.ShowMsg(const AMsg: string; const ADetails: string = '');

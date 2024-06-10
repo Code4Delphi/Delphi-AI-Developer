@@ -1,7 +1,6 @@
 object DelphiCopilotChatView: TDelphiCopilotChatView
   Left = 0
   Top = 0
-  Caption = 'Delphi Copilot Chat'
   ClientHeight = 661
   ClientWidth = 974
   Color = clBtnFace
@@ -14,7 +13,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
   OldCreateOrder = False
   Position = poScreenCenter
   ShowHint = True
-  OnActivate = FormActivate
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
@@ -57,7 +55,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Ctl3D = True
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'Courier New'
       Font.Style = []
       Lines.Strings = (
@@ -118,14 +116,17 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -12
+        Font.Height = -11
         Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
+        Font.Style = []
         Lines.Strings = (
           'Delphi capturar Ctrl + A em TMemo')
         ParentFont = False
         TabOrder = 1
+        OnChange = mmQuestionChange
         OnKeyDown = mmQuestionKeyDown
+        OnKeyPress = mmQuestionKeyPress
+        OnKeyUp = mmQuestionKeyUp
       end
     end
     object pnCommands: TPanel
@@ -224,6 +225,43 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         ExplicitLeft = 65
         ExplicitHeight = 22
       end
+    end
+  end
+  object pnWait: TPanel
+    Left = 349
+    Top = 248
+    Width = 228
+    Height = 48
+    BevelOuter = bvNone
+    BiDiMode = bdLeftToRight
+    Caption = 'Wait for loading...'
+    ParentBiDiMode = False
+    ParentBackground = False
+    TabOrder = 1
+    Visible = False
+    object ShapeWait: TShape
+      Left = 0
+      Top = 0
+      Width = 228
+      Height = 48
+      Align = alClient
+      Brush.Color = 16770222
+      Pen.Color = 12615680
+      Pen.Style = psInsideFrame
+      Pen.Width = 2
+      ExplicitLeft = 32
+      ExplicitTop = 19
+      ExplicitHeight = 49
+    end
+    object pnWaitCaption: TPanel
+      Left = 0
+      Top = 0
+      Width = 228
+      Height = 48
+      Align = alClient
+      BevelOuter = bvNone
+      Caption = 'Wait for loading...'
+      TabOrder = 0
     end
   end
   object ImageList1: TImageList

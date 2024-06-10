@@ -163,4 +163,10 @@ begin
   end;
 end;
 
+initialization
+
+finalization
+  if Assigned(Instance) then
+    FreeAndNil(Instance);
+
 end.
