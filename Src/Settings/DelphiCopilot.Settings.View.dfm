@@ -80,11 +80,12 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 0
+      ExplicitTop = -1
       object gBoxGemini: TGroupBox
         Left = 0
-        Top = 70
+        Top = 84
         Width = 632
-        Height = 153
+        Height = 163
         Align = alTop
         Caption = ' Gemini '
         ParentBackground = False
@@ -94,7 +95,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
           Left = 5
           Top = 18
           Width = 622
-          Height = 130
+          Height = 140
           Align = alClient
           BevelOuter = bvNone
           ParentBackground = False
@@ -114,7 +115,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Caption = 'API key'
           end
           object Label7: TLabel
-            Left = 243
+            Left = 267
             Top = 5
             Width = 28
             Height = 13
@@ -163,10 +164,48 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             ShowHint = True
             OnClick = lbLink03Click
           end
+          object btnApiKeyGeminiView: TSpeedButton
+            Left = 452
+            Top = 64
+            Width = 23
+            Height = 22
+            Hint = 'Show/Hide API Key'
+            Flat = True
+            Glyph.Data = {
+              36030000424D3603000000000000360000002800000010000000100000000100
+              18000000000000030000120B0000120B00000000000000000000FF00FF4A667C
+              BE9596FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+              FFFF00FFFF00FFFF00FF6B9CC31E89E84B7AA3C89693FF00FFFF00FFFF00FFFF
+              00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF4BB4FE51B5FF
+              2089E94B7AA2C69592FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+              FFFF00FFFF00FFFF00FFFF00FF51B7FE51B3FF1D87E64E7AA0CA9792FF00FFFF
+              00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+              51B7FE4EB2FF1F89E64E7BA2B99497FF00FFFF00FFFF00FFFF00FFFF00FFFF00
+              FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF52B8FE4BB1FF2787D95F6A76FF
+              00FFB0857FC09F94C09F96BC988EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+              FF00FFFF00FF55BDFFB5D6EDBF9D92BB9B8CE7DAC2FFFFE3FFFFE5FDFADAD8C3
+              B3B58D85FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFCEA795FD
+              EEBEFFFFD8FFFFDAFFFFDBFFFFE6FFFFFBEADDDCAE837FFF00FFFF00FFFF00FF
+              FF00FFFF00FFFF00FFFF00FFC1A091FBDCA8FEF7D0FFFFDBFFFFE3FFFFF8FFFF
+              FDFFFFFDC6A99CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC1A091FEE3ACF1
+              C491FCF2CAFFFFDDFFFFE4FFFFF7FFFFF7FFFFE9EEE5CBB9948CFF00FFFF00FF
+              FF00FFFF00FFFF00FFC2A191FFE6AEEEB581F7DCAEFEFDD8FFFFDFFFFFE3FFFF
+              E4FFFFE0F3ECD2BB968EFF00FFFF00FFFF00FFFF00FFFF00FFBC978CFBE7B7F4
+              C791F2C994F8E5B9FEFCD8FFFFDDFFFFDCFFFFE0E2D2BAB68E86FF00FFFF00FF
+              FF00FFFF00FFFF00FFFF00FFD9C3A9FFFEE5F7DCB8F2C994F5D4A5FAE8BDFDF4
+              C9FDFBD6B69089FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB58D85E8
+              DEDDFFFEF2F9D8A3F4C48CF9D49FFDEAB8D0B49FB89086FF00FFFF00FFFF00FF
+              FF00FFFF00FFFF00FFFF00FFFF00FFAD827FC9AA9EEFE0B7EFDFB2E7CEACB890
+              86B89086FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+              00FFFF00FFBA968ABB988CB79188FF00FFFF00FFFF00FFFF00FF}
+            ParentShowHint = False
+            ShowHint = True
+            OnClick = btnApiKeyGeminiViewClick
+          end
           object edtBaseUrlGemini: TEdit
             Left = 16
             Top = 20
-            Width = 225
+            Width = 249
             Height = 21
             TabOrder = 0
             Text = 'https://generativelanguage.googleapis.com'
@@ -174,16 +213,15 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
           object edtApiKeyGemini: TEdit
             Left = 16
             Top = 64
-            Width = 458
+            Width = 436
             Height = 21
             PasswordChar = '*'
             TabOrder = 1
-            Text = 'sk-proj-iwJOetQ8OlplTT2WKjCZT3BlbkFJcaC4vk5zUaOLEwkXQkK6'
           end
           object cBoxModelGemini: TComboBox
-            Left = 243
+            Left = 267
             Top = 20
-            Width = 355
+            Width = 333
             Height = 21
             TabOrder = 2
             Items.Strings = (
@@ -206,7 +244,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
         Left = 0
         Top = 0
         Width = 632
-        Height = 70
+        Height = 84
         Align = alTop
         Caption = ' Preferences '
         ParentBackground = False
@@ -232,9 +270,9 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
       end
       object gBoxOpenAI: TGroupBox
         Left = 0
-        Top = 223
+        Top = 247
         Width = 632
-        Height = 153
+        Height = 163
         Align = alTop
         Caption = ' OpenAI '
         ParentBackground = False
@@ -244,7 +282,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
           Left = 5
           Top = 18
           Width = 622
-          Height = 130
+          Height = 140
           Align = alClient
           BevelOuter = bvNone
           ParentBackground = False
@@ -295,6 +333,44 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             ShowHint = True
             OnClick = lbLink03Click
           end
+          object btnApiKeyOpenAIView: TSpeedButton
+            Left = 452
+            Top = 63
+            Width = 23
+            Height = 22
+            Hint = 'Show/Hide API Key'
+            Flat = True
+            Glyph.Data = {
+              36030000424D3603000000000000360000002800000010000000100000000100
+              18000000000000030000120B0000120B00000000000000000000FF00FF4A667C
+              BE9596FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+              FFFF00FFFF00FFFF00FF6B9CC31E89E84B7AA3C89693FF00FFFF00FFFF00FFFF
+              00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF4BB4FE51B5FF
+              2089E94B7AA2C69592FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+              FFFF00FFFF00FFFF00FFFF00FF51B7FE51B3FF1D87E64E7AA0CA9792FF00FFFF
+              00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+              51B7FE4EB2FF1F89E64E7BA2B99497FF00FFFF00FFFF00FFFF00FFFF00FFFF00
+              FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF52B8FE4BB1FF2787D95F6A76FF
+              00FFB0857FC09F94C09F96BC988EFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+              FF00FFFF00FF55BDFFB5D6EDBF9D92BB9B8CE7DAC2FFFFE3FFFFE5FDFADAD8C3
+              B3B58D85FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFCEA795FD
+              EEBEFFFFD8FFFFDAFFFFDBFFFFE6FFFFFBEADDDCAE837FFF00FFFF00FFFF00FF
+              FF00FFFF00FFFF00FFFF00FFC1A091FBDCA8FEF7D0FFFFDBFFFFE3FFFFF8FFFF
+              FDFFFFFDC6A99CFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFC1A091FEE3ACF1
+              C491FCF2CAFFFFDDFFFFE4FFFFF7FFFFF7FFFFE9EEE5CBB9948CFF00FFFF00FF
+              FF00FFFF00FFFF00FFC2A191FFE6AEEEB581F7DCAEFEFDD8FFFFDFFFFFE3FFFF
+              E4FFFFE0F3ECD2BB968EFF00FFFF00FFFF00FFFF00FFFF00FFBC978CFBE7B7F4
+              C791F2C994F8E5B9FEFCD8FFFFDDFFFFDCFFFFE0E2D2BAB68E86FF00FFFF00FF
+              FF00FFFF00FFFF00FFFF00FFD9C3A9FFFEE5F7DCB8F2C994F5D4A5FAE8BDFDF4
+              C9FDFBD6B69089FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFB58D85E8
+              DEDDFFFEF2F9D8A3F4C48CF9D49FFDEAB8D0B49FB89086FF00FFFF00FFFF00FF
+              FF00FFFF00FFFF00FFFF00FFFF00FFAD827FC9AA9EEFE0B7EFDFB2E7CEACB890
+              86B89086FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+              00FFFF00FFBA968ABB988CB79188FF00FFFF00FFFF00FFFF00FF}
+            ParentShowHint = False
+            ShowHint = True
+            OnClick = btnApiKeyOpenAIViewClick
+          end
           object edtBaseUrlOpenAI: TEdit
             Left = 16
             Top = 21
@@ -306,7 +382,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
           object edtApiKeyOpenAI: TEdit
             Left = 16
             Top = 64
-            Width = 460
+            Width = 436
             Height = 21
             PasswordChar = '*'
             TabOrder = 1

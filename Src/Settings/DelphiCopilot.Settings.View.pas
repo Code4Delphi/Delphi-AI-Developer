@@ -15,7 +15,7 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   DelphiCopilot.Settings,
-  DelphiCopilot.Types;
+  DelphiCopilot.Types, Vcl.Buttons;
 
 type
   TDelphiCopilotSettingsView = class(TForm)
@@ -50,6 +50,8 @@ type
     edtTimeoutOpenAi: TEdit;
     Label11: TLabel;
     cBoxAIDefault: TComboBox;
+    btnApiKeyGeminiView: TSpeedButton;
+    btnApiKeyOpenAIView: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -57,6 +59,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnConfirmClick(Sender: TObject);
+    procedure btnApiKeyGeminiViewClick(Sender: TObject);
+    procedure btnApiKeyOpenAIViewClick(Sender: TObject);
   private
     FSettings: TDelphiCopilotSettings;
     procedure SaveSettings;
@@ -101,6 +105,16 @@ begin
   lbLink03.Font.Color := lbLink01.Font.Color;
 end;
 
+procedure TDelphiCopilotSettingsView.btnApiKeyGeminiViewClick(Sender: TObject);
+begin
+  TDelphiCopilotUtils.TogglePasswordChar(edtApiKeyGemini);
+end;
+
+procedure TDelphiCopilotSettingsView.btnApiKeyOpenAIViewClick(Sender: TObject);
+begin
+  TDelphiCopilotUtils.TogglePasswordChar(edtApiKeyOpenAI);
+end;
+
 procedure TDelphiCopilotSettingsView.btnCloseClick(Sender: TObject);
 begin
   Self.Close;
@@ -138,12 +152,12 @@ begin
   cBoxAIDefault.ItemIndex := Integer(FSettings.AIDefault);
 
   edtBaseUrlGemini.Text := FSettings.BaseUrlGemini;
-  cBoxModelGemini.Text := FSettings.ModelGemini;
+  cBoxModelGemini.ItemIndex := cBoxModelGemini.Items.IndexOf(FSettings.ModelGemini);
   edtApiKeyGemini.Text := FSettings.ApiKeyGemini;
   edtTimeoutGemini.Text := FSettings.TimeoutGemini.ToString;
 
   edtBaseUrlOpenAI.Text := FSettings.BaseUrlOpenAI;
-  cBoxModelOpenAI.Text := FSettings.ModelOpenAI;
+  cBoxModelOpenAI.ItemIndex := cBoxModelOpenAI.Items.IndexOf(FSettings.ModelOpenAI);
   edtApiKeyOpenAI.Text := FSettings.ApiKeyOpenAI;
   edtTimeoutOpenAI.Text := FSettings.TimeoutOpenAI.ToString;
 end;

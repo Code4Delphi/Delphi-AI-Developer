@@ -22,6 +22,17 @@ type
     FModelOpenAI: string;
     FApiKeyOpenAI: string;
     FTimeoutOpenAI: Integer;
+
+    const
+    FIELD_AIDefault = 'AIDefault';
+    FIELD_BaseUrlGemini = 'BaseUrlGemini';
+    FIELD_ModelGemini = 'ModelGemini';
+    FIELD_ApiKeyGemini = 'ApiKeyGemini';
+    FIELD_TimeoutGemini = 'TimeoutGemini';
+    FIELD_BaseUrlOpenAI = 'BaseUrlOpenAI';
+    FIELD_ModelOpenAI = 'ModelOpenAI';
+    FIELD_ApiKeyOpenAI = 'ApiKeyOpenAI';
+    FIELD_TimeoutOpenAI = 'TimeoutOpenAI';
   public
     constructor Create;
     procedure LoadDefaults;
@@ -75,17 +86,17 @@ begin
     if not(LReg.OpenKey(TC4DConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, True))then
       raise Exception.Create('Unable to save settings to Windows registry');
 
-    LReg.WriteInteger('AIDefault', Integer(FAIDefault));
+    LReg.WriteInteger(FIELD_AIDefault, Integer(FAIDefault));
 
-    LReg.WriteString('BaseUrlGemini', FBaseUrlGemini);
-    LReg.WriteString('ModelGemini', FModelGemini);
-    LReg.WriteString('ApiKeyGemini', FApiKeyGemini);
-    LReg.WriteInteger('TimeoutGemini', FTimeoutGemini);
+    LReg.WriteString(FIELD_BaseUrlGemini, FBaseUrlGemini);
+    LReg.WriteString(FIELD_ModelGemini, FModelGemini);
+    LReg.WriteString(FIELD_ApiKeyGemini, FApiKeyGemini);
+    LReg.WriteInteger(FIELD_TimeoutGemini, FTimeoutGemini);
 
-    LReg.WriteString('BaseUrlOpenAI', FBaseUrlOpenAI);
-    LReg.WriteString('ModelOpenAI', FModelOpenAI);
-    LReg.WriteString('ApiKeyOpenAI', FApiKeyOpenAI);
-    LReg.WriteInteger('TimeoutOpenAI', FTimeoutOpenAI);
+    LReg.WriteString(FIELD_BaseUrlOpenAI, FBaseUrlOpenAI);
+    LReg.WriteString(FIELD_ModelOpenAI, FModelOpenAI);
+    LReg.WriteString(FIELD_ApiKeyOpenAI, FApiKeyOpenAI);
+    LReg.WriteInteger(FIELD_TimeoutOpenAI, FTimeoutOpenAI);
   finally
     LReg.Free;
   end;
@@ -105,34 +116,34 @@ begin
       if not(LReg.OpenKey(TC4DConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, False)) then
         Exit;
 
-      if LReg.ValueExists('AIDefault') then
-        FAIDefault := TAIsAvailable(LReg.ReadInteger('AIDefault'));
+      if LReg.ValueExists(FIELD_AIDefault) then
+        FAIDefault := TAIsAvailable(LReg.ReadInteger(FIELD_AIDefault));
 
       //GEMINI
-      if LReg.ValueExists('BaseUrlGemini') then
-        FBaseUrlGemini := LReg.ReadString('BaseUrlGemini');
+      if LReg.ValueExists(FIELD_BaseUrlGemini) then
+        FBaseUrlGemini := LReg.ReadString(FIELD_BaseUrlGemini);
 
-      if LReg.ValueExists('ModelGemini') then
-        FModelGemini := LReg.ReadString('ModelGemini');
+      if LReg.ValueExists(FIELD_ModelGemini) then
+        FModelGemini := LReg.ReadString(FIELD_ModelGemini);
 
-      if LReg.ValueExists('ApiKeyGemini') then
-        FApiKeyGemini := LReg.ReadString('ApiKeyGemini');
+      if LReg.ValueExists(FIELD_ApiKeyGemini) then
+        FApiKeyGemini := LReg.ReadString(FIELD_ApiKeyGemini);
 
-      if LReg.ValueExists('TimeoutGemini') then
-        FTimeoutGemini := LReg.ReadInteger('TimeoutGemini');
+      if LReg.ValueExists(FIELD_TimeoutGemini) then
+        FTimeoutGemini := LReg.ReadInteger(FIELD_TimeoutGemini);
 
       //OPEN AI
-      if LReg.ValueExists('BaseUrlOpenAI') then
-        fBaseUrlOpenAI := LReg.ReadString('BaseUrlOpenAI');
+      if LReg.ValueExists(FIELD_BaseUrlOpenAI) then
+        fBaseUrlOpenAI := LReg.ReadString(FIELD_BaseUrlOpenAI);
 
-      if LReg.ValueExists('ModelOpenAI') then
-        fModelOpenAI := LReg.ReadString('ModelOpenAI');
+      if LReg.ValueExists(FIELD_ModelOpenAI) then
+        fModelOpenAI := LReg.ReadString(FIELD_ModelOpenAI);
 
-      if LReg.ValueExists('ApiKeyOpenAI') then
-        fApiKeyOpenAI := LReg.ReadString('ApiKeyOpenAI');
+      if LReg.ValueExists(FIELD_ApiKeyOpenAI) then
+        fApiKeyOpenAI := LReg.ReadString(FIELD_ApiKeyOpenAI);
 
-      if LReg.ValueExists('TimeoutOpenAI') then
-        fTimeoutOpenAI := LReg.ReadInteger('TimeoutOpenAI');
+      if LReg.ValueExists(FIELD_TimeoutOpenAI) then
+        fTimeoutOpenAI := LReg.ReadInteger(FIELD_TimeoutOpenAI);
     except
       Self.LoadDefaults;
     end;

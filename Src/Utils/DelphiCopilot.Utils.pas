@@ -26,6 +26,7 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class procedure TogglePasswordChar(const AEdit: TEdit);
     class function ConfReturnAI(const AValue: string): string;
     class function ProcessTextForEditor(const AText: string): string;
     class function CopyReverse(S: string; Index, Count: Integer): string;
@@ -35,8 +36,6 @@ type
     class procedure WaitingScreenShow(const AMsg: string = '');
     class procedure WaitingScreenHide;
     class function UTF8ToStr(AValue: string): string;
-    class function PathAbsoluteToRelative(const AbsPath, BasePath: string): string;
-    class function PathRelativeToAbsolute(const RelPath, BasePath: string): string;
     class procedure ExplodeList(const AText, ASeparator: string; AStrings: TStrings);
     class procedure MemoVerticalCenter(AMemo: TMemo; ANumLines: Integer; AText: string);
     class function StatusBarNumPanelDblClick(AStatusBar: TStatusBar): Integer; static;
@@ -127,10 +126,13 @@ uses
   DelphiCopilot.Consts,
   DelphiCopilot.WaitingScreen;
 
-{$REGION 'ExternalDeclaration'}
-function PathRelativePathTo(pszPath: PChar; pszFrom: PChar; dwAttrFrom: DWORD; pszTo: PChar; dwAtrTo: DWORD): LongBool; stdcall; external 'shlwapi.dll' name 'PathRelativePathToW';
-function PathCanonicalize(lpszDst: PChar; lpszSrc: PChar): LongBool; stdcall; external 'shlwapi.dll' name 'PathCanonicalizeW';
-{$ENDREGION}
+class procedure TDelphiCopilotUtils.TogglePasswordChar(const AEdit: TEdit);
+begin
+  if AEdit.PasswordChar = '*' then
+    AEdit.PasswordChar := #0
+  else
+    AEdit.PasswordChar := '*';
+end;
 
 class function TDelphiCopilotUtils.ConfReturnAI(const AValue: string): string;
 begin
@@ -224,26 +226,6 @@ end;
 class function TDelphiCopilotUtils.UTF8ToStr(AValue: string): string;
 begin
   Result := UTF8Tostring(RawBytestring(AValue));
-end;
-
-class function TDelphiCopilotUtils.PathAbsoluteToRelative(const AbsPath, BasePath: string): string;
-var
-  LPath: array[0..MAX_PATH-1] of Char;
-begin
-  Result := AbsPath;
-  PathRelativePathTo(@LPath[0], PChar(BasePath), FILE_ATTRIBUTE_DIRECTORY, PChar(AbsPath), 0);
-  Result := LPath;
-end;
-
-class function TDelphiCopilotUtils.PathRelativeToAbsolute(const RelPath, BasePath: string): string;
-var
-  LlpszDst: array[0..MAX_PATH-1] of Char;
-begin
-  Result := RelPath;
-  {$WARN SYMBOL_PLATFORM OFF}
-  PathCanonicalize(@LlpszDst[0], PChar(System.SysUtils.IncludeTrailingBackslash(BasePath) + RelPath));
-  {$WARN SYMBOL_PLATFORM ON}
-  Result := LlpszDst;
 end;
 
 class procedure TDelphiCopilotUtils.ExplodeList(const AText, ASeparator: string; AStrings: TStrings);
