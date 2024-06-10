@@ -33,11 +33,13 @@ type
     FIELD_ModelOpenAI = 'ModelOpenAI';
     FIELD_ApiKeyOpenAI = 'ApiKeyOpenAI';
     FIELD_TimeoutOpenAI = 'TimeoutOpenAI';
-  public
+
     constructor Create;
+  public
+    class function GetInstance: TDelphiCopilotSettings;
     procedure LoadDefaults;
-    procedure WriteToWindowsRegistry;
-    procedure ReadFromWindowsRegistry;
+    procedure SaveData;
+    procedure LoadData;
 
     property AIDefault: TAIsAvailable read FAIDefault write FAIDefault;
 
@@ -54,6 +56,15 @@ type
 
 implementation
 
+var
+  Instance: TDelphiCopilotSettings;
+
+class function TDelphiCopilotSettings.GetInstance: TDelphiCopilotSettings;
+begin
+  if not Assigned(Instance) then
+    Instance := Self.Create;
+  Result := Instance;
+end;
 
 constructor TDelphiCopilotSettings.Create;
 begin
@@ -75,7 +86,7 @@ begin
   FTimeoutOpenAI := TC4DConsts.API_AI_TIMEOUT_DEFAULT;
 end;
 
-procedure TDelphiCopilotSettings.WriteToWindowsRegistry;
+procedure TDelphiCopilotSettings.SaveData;
 var
   LReg: TRegistry;
 begin
@@ -102,7 +113,7 @@ begin
   end;
 end;
 
-procedure TDelphiCopilotSettings.ReadFromWindowsRegistry;
+procedure TDelphiCopilotSettings.LoadData;
 var
   LReg: TRegistry;
 begin
@@ -116,7 +127,7 @@ begin
       if not(LReg.OpenKey(TC4DConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, False)) then
         Exit;
 
-      if LReg.ValueExists(FIELD_AIDefault) then
+      //if LReg.ValueExists(FIELD_AIDefault) then
         FAIDefault := TAIsAvailable(LReg.ReadInteger(FIELD_AIDefault));
 
       //GEMINI
