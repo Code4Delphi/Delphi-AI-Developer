@@ -30,12 +30,12 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    Label9: TLabel;
+    lbLink01: TLabel;
     edtBaseUrlGemini: TEdit;
     edtApiKeyGemini: TEdit;
     cBoxModelGemini: TComboBox;
     edtTimeoutGemini: TEdit;
-    Label10: TLabel;
+    lbLink02: TLabel;
     GroupBox2: TGroupBox;
     gBoxOpenAI: TGroupBox;
     pnOpenAIBack: TPanel;
@@ -43,7 +43,7 @@ type
     Label3: TLabel;
     Label2: TLabel;
     Label4: TLabel;
-    lbGenerateAPIKey: TLabel;
+    lbLink03: TLabel;
     edtBaseUrlOpenAI: TEdit;
     edtApiKeyOpenAI: TEdit;
     cBoxModelOpenAI: TComboBox;
@@ -53,7 +53,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
-    procedure lbGenerateAPIKeyClick(Sender: TObject);
+    procedure lbLink03Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnConfirmClick(Sender: TObject);
@@ -61,6 +61,7 @@ type
     FSettings: TDelphiCopilotSettings;
     procedure SaveSettings;
     procedure LoadSettings;
+    procedure ConfigScreen;
   public
 
   end;
@@ -89,7 +90,15 @@ end;
 
 procedure TDelphiCopilotSettingsView.FormShow(Sender: TObject);
 begin
+  Self.ConfigScreen;
   Self.LoadSettings;
+end;
+
+procedure TDelphiCopilotSettingsView.ConfigScreen;
+begin
+  lbLink01.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorLink;
+  lbLink02.Font.Color := lbLink01.Font.Color;
+  lbLink03.Font.Color := lbLink01.Font.Color;
 end;
 
 procedure TDelphiCopilotSettingsView.btnCloseClick(Sender: TObject);
@@ -110,10 +119,17 @@ begin
   end;
 end;
 
-procedure TDelphiCopilotSettingsView.lbGenerateAPIKeyClick(Sender: TObject);
+procedure TDelphiCopilotSettingsView.lbLink03Click(Sender: TObject);
 begin
   //**Several
   TDelphiCopilotUtils.OpenLink(TLabel(Sender).Hint.Trim);
+end;
+
+procedure TDelphiCopilotSettingsView.btnConfirmClick(Sender: TObject);
+begin
+  Self.SaveSettings;
+  Self.Close;
+  Self.ModalResult := mrOk;
 end;
 
 procedure TDelphiCopilotSettingsView.LoadSettings;
@@ -147,13 +163,6 @@ begin
   FSettings.TimeoutOpenAI := StrToIntDef(edtTimeoutOpenAI.Text, 20);
 
   FSettings.WriteToWindowsRegistry;
-end;
-
-procedure TDelphiCopilotSettingsView.btnConfirmClick(Sender: TObject);
-begin
-  Self.SaveSettings;
-  Self.Close;
-  Self.ModalResult := mrOk;
 end;
 
 end.

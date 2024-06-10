@@ -36,7 +36,8 @@ type
     class function FileIsOpenInIDE(const APathFile: string): Boolean;
     class function CheckIfExistFileInCurrentsProjectGroups(const ANameFileWithExtension: string): Boolean;
     class procedure IDEThemingAll(AFormClass: TCustomFormClass; AForm: TForm);
-    class function ActiveThemeColorDefaul: TColor;
+    class function ActiveThemeColorDefault: TColor;
+    class function ActiveThemeColorLink: TColor;
     class function ActiveThemeIsDark: Boolean;
     class function GetIOTAFormEditor(const AIOTAModule: IOTAModule): IOTAFormEditor;
     {$IF CompilerVersion >= 32.0} //Tokyo
@@ -442,11 +443,18 @@ begin
   {$ENDIF}
 end;
 
-class function TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul: TColor;
+class function TDelphiCopilotUtilsOTA.ActiveThemeColorDefault: TColor;
 begin
   Result := clWindowText;
   if(Self.ActiveThemeIsDark)then
     Result := clWhite;
+end;
+
+class function TDelphiCopilotUtilsOTA.ActiveThemeColorLink: TColor;
+begin
+  Result := clBlue;
+  if(Self.ActiveThemeIsDark)then
+    Result := clAqua;
 end;
 
 class function TDelphiCopilotUtilsOTA.ActiveThemeIsDark: Boolean;

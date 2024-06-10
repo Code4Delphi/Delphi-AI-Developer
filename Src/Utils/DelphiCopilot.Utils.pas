@@ -25,7 +25,6 @@ type
   private
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
-    class function GetPathFromProcessID(const AProcessID: cardinal): string;
   public
     class function ConfReturnAI(const AValue: string): string;
     class function ProcessTextForEditor(const AText: string): string;
@@ -35,7 +34,6 @@ type
     class function BlankSpaceInBegin(const AValue: string): Integer;
     class procedure WaitingScreenShow(const AMsg: string = '');
     class procedure WaitingScreenHide;
-    class function ProcessWindowsExists(const AExeName: string; const AExeFullPath: string = ''): Boolean;
     class function UTF8ToStr(AValue: string): string;
     class function PathAbsoluteToRelative(const AbsPath, BasePath: string): string;
     class function PathRelativeToAbsolute(const RelPath, BasePath: string): string;
@@ -70,11 +68,6 @@ type
     class function DirectoryOrFileMove(AFrom, ATo: string): Boolean;
     class function GetPathFolderRoot: string;
     class function GetPathFileIniGeneralSettings: string;
-    class function GetPathFileIniReopen: string;
-    class function GetPathFileIniDefaultFilesInOpeningProject: string;
-    class function GetPathFileIniGroups: string;
-    class function GetPathFileIniOpenExternal: string;
-    class function GetPathImageOpenExternal(AGuid: string): string;
     class function GetPathFileChat: string;
     class function CreateIfNecessaryAndGetPathFolderTemp: string;
     class function GetGuidStr: string;
@@ -226,64 +219,6 @@ end;
 class procedure TDelphiCopilotUtils.WaitingScreenHide;
 begin
   TDelphiCopilotWaitingScreen.GetInstance.Close;
-end;
-
-class function TDelphiCopilotUtils.ProcessWindowsExists(const AExeName: string; const AExeFullPath: string = ''): Boolean;
-var
-  LContinueLoop: BOOL;
-  LSnapshotHandle: THandle;
-  LProcessEntry32: TProcessEntry32;
-  LszExeFile: string;
-  LExeName: string;
-  LPathFromProcessID: string;
-begin
-  Result := False;
-  LExeName := AExeName.ToLower;
-  LSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-  try
-    LProcessEntry32.dwSize := SizeOf(LProcessEntry32);
-    LContinueLoop := Process32First(LSnapshotHandle, LProcessEntry32);
-    while Integer(LContinueLoop) <> 0 do
-    begin
-      LszExeFile := LowerCase(LProcessEntry32.szExeFile);
-      if(LszExeFile = LExeName)or(ExtractFileName(LszExeFile) = LExeName)then
-      begin
-        if(AExeFullPath.Trim.IsEmpty)then
-          Exit(True);
-
-        LPathFromProcessID := Self.GetPathFromProcessID(LProcessEntry32.th32ProcessID).ToLower;
-        if(LPathFromProcessID = AExeFullPath.ToLower)then
-        begin
-          Exit(True);
-        end;
-      end;
-      LContinueLoop := Process32Next(LSnapshotHandle, LProcessEntry32);
-    end;
-  finally
-    CloseHandle(LSnapshotHandle);
-  end;
-end;
-
-class function TDelphiCopilotUtils.GetPathFromProcessID(const AProcessID: cardinal): string;
-var
-  LHandleProcess: THandle;
-  LPath: array[0..MAX_PATH - 1] of Char;
-begin
-  LHandleProcess := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, AProcessID);
-  if(LHandleProcess <> 0)then
-  begin
-    try
-      if(GetModuleFileNameEx(LHandleProcess, 0, LPath, MAX_PATH) = 0)then
-        RaiseLastOSError;
-      Result := LPath;
-    finally
-      CloseHandle(LHandleProcess)
-    end
-  end
-  else
-  begin
-    RaiseLastOSError;
-  end;
 end;
 
 class function TDelphiCopilotUtils.UTF8ToStr(AValue: string): string;
@@ -671,33 +606,6 @@ end;
 class function TDelphiCopilotUtils.GetPathFileIniGeneralSettings: string;
 begin
   Result := Self.GetPathFolderRoot + TC4DConsts.FILE_INI_GENERAL_SETTINGS;
-end;
-
-class function TDelphiCopilotUtils.GetPathFileIniReopen: string;
-begin
-  Result := Self.GetPathFolderRoot + TC4DConsts.FILE_INI_REOPEN;
-end;
-
-class function TDelphiCopilotUtils.GetPathFileIniDefaultFilesInOpeningProject: string;
-begin
-  Result := Self.GetPathFolderRoot + TC4DConsts.FILE_INI_DEFAULT_FILES_IN_OPENING_PROJECT;
-end;
-
-class function TDelphiCopilotUtils.GetPathFileIniGroups: string;
-begin
-  Result := Self.GetPathFolderRoot + TC4DConsts.FILE_INI_GROUPS;
-end;
-
-class function TDelphiCopilotUtils.GetPathFileIniOpenExternal: string;
-begin
-  Result := Self.GetPathFolderRoot + TC4DConsts.FILE_INI_OPEN_EXTERNAL;
-end;
-
-class function TDelphiCopilotUtils.GetPathImageOpenExternal(AGuid: string): string;
-begin
-  Result := Self.GetPathFolderRoot +
-    TC4DConsts.OPEN_EXTERNAL_INI_PREFIX_IMG +
-    Self.GuidToFileName(AGuid, '.' + TC4DExtensionsFiles.Bmp.ToString);
 end;
 
 class function TDelphiCopilotUtils.GetPathFileChat: string;

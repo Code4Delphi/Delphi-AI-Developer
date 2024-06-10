@@ -103,7 +103,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
           Caption = 'Send'
           TabOrder = 0
           OnClick = btnSendClick
-          ExplicitTop = 1
         end
       end
       object mmQuestion: TMemo

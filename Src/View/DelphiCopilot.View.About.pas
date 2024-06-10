@@ -111,7 +111,7 @@ end;
 procedure TDelphiCopilotViewAbout.lbSiteCode4DelphiMouseLeave(Sender: TObject);
 begin
   //*SEVERAL
-  TLabel(Sender).Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul;
+  TLabel(Sender).Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
   TLabel(Sender).Font.Style := TLabel(Sender).Font.Style - [fsUnderline];
 end;
 

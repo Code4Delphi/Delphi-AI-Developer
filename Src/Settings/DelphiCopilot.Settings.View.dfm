@@ -11,6 +11,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
@@ -126,7 +127,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Height = 13
             Caption = 'Timeout'
           end
-          object Label9: TLabel
+          object lbLink01: TLabel
             Left = 16
             Top = 103
             Width = 86
@@ -142,9 +143,9 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            OnClick = lbGenerateAPIKeyClick
+            OnClick = lbLink03Click
           end
-          object Label10: TLabel
+          object lbLink02: TLabel
             Left = 128
             Top = 103
             Width = 72
@@ -160,7 +161,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            OnClick = lbGenerateAPIKeyClick
+            OnClick = lbLink03Click
           end
           object edtBaseUrlGemini: TEdit
             Left = 16
@@ -276,7 +277,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Height = 13
             Caption = 'Timeout'
           end
-          object lbGenerateAPIKey: TLabel
+          object lbLink03: TLabel
             Left = 16
             Top = 103
             Width = 86
@@ -292,7 +293,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            OnClick = lbGenerateAPIKeyClick
+            OnClick = lbLink03Click
           end
           object edtBaseUrlOpenAI: TEdit
             Left = 16

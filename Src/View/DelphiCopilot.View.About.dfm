@@ -90,8 +90,8 @@ object DelphiCopilotViewAbout: TDelphiCopilotViewAbout
           AlignWithMargins = True
           Left = 56
           Top = 8
-          Width = 572
-          Height = 32
+          Width = 191
+          Height = 18
           Cursor = crHandPoint
           Margins.Left = 8
           Align = alClient
@@ -106,8 +106,6 @@ object DelphiCopilotViewAbout: TDelphiCopilotViewAbout
           OnClick = lbSiteCode4DelphiClick
           OnMouseMove = lbSiteCode4DelphiMouseMove
           OnMouseLeave = lbSiteCode4DelphiMouseLeave
-          ExplicitWidth = 191
-          ExplicitHeight = 18
         end
         object imgLogoC4D: TImage
           Left = 10
@@ -1880,8 +1878,8 @@ object DelphiCopilotViewAbout: TDelphiCopilotViewAbout
           AlignWithMargins = True
           Left = 56
           Top = 8
-          Width = 572
-          Height = 32
+          Width = 182
+          Height = 18
           Cursor = crHandPoint
           Margins.Left = 8
           Align = alClient
@@ -1896,8 +1894,6 @@ object DelphiCopilotViewAbout: TDelphiCopilotViewAbout
           OnClick = lbGitHubCode4DelphiClick
           OnMouseMove = lbSiteCode4DelphiMouseMove
           OnMouseLeave = lbSiteCode4DelphiMouseLeave
-          ExplicitWidth = 182
-          ExplicitHeight = 18
         end
         object imgGithub: TImage
           Left = 10
@@ -1995,8 +1991,8 @@ object DelphiCopilotViewAbout: TDelphiCopilotViewAbout
         AlignWithMargins = True
         Left = 56
         Top = 8
-        Width = 572
-        Height = 32
+        Width = 171
+        Height = 18
         Cursor = crHandPoint
         Margins.Left = 8
         Align = alClient
@@ -2011,8 +2007,6 @@ object DelphiCopilotViewAbout: TDelphiCopilotViewAbout
         OnClick = lbDonateToCode4DelphiClick
         OnMouseMove = lbSiteCode4DelphiMouseMove
         OnMouseLeave = lbSiteCode4DelphiMouseLeave
-        ExplicitWidth = 171
-        ExplicitHeight = 18
       end
       object imgDonate: TImage
         Left = 10

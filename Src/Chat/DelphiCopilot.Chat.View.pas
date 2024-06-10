@@ -194,7 +194,7 @@ end;
 
 procedure TDelphiCopilotChatView.FormActivate(Sender: TObject);
 begin
-  //mmReturn.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefaul;
+  //mmReturn.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
   //Self.ReadFromFile;
 end;
 

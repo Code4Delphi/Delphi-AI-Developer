@@ -58,17 +58,17 @@ procedure TDelphiCopilotIDEMainMenu.CreateMenus;
 begin
   Self.CreateMenuCode4DelphiInIDEMenu;
 
-  Self.CreateSubMenu(TC4DConsts.MENU_IDE_NOTES_NAME,
-    TC4DConsts.MENU_IDE_NOTES_CAPTION,
+  Self.CreateSubMenu(TC4DConsts.MENU_IDE_CHAT_NAME,
+    TC4DConsts.MENU_IDE_CHAT_CAPTION,
     TDelphiCopilotIDEMainMenuClicks.ChatClick,
     -1 //TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexNotes,
     );
 
   Self.CreateSubMenu('C4DSeparator50', '-', nil);
 
-  Self.CreateSubMenu(TC4DConsts.MENU_IDE_NOTES_NAME,
-    TC4DConsts.MENU_IDE_NOTES_CAPTION,
-    TDelphiCopilotIDEMainMenuClicks.ChatClick,
+  Self.CreateSubMenu(TC4DConsts.MENU_IDE_SETTINGS_NAME,
+    TC4DConsts.MENU_IDE_SETTINGS_CAPTION,
+    TDelphiCopilotIDEMainMenuClicks.SettingsClick,
     -1 //TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexNotes,
     );
 

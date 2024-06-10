@@ -6,7 +6,8 @@ uses
   System.SysUtils,
   System.Win.Registry,
   Winapi.Windows,
-  DelphiCopilot.Types;
+  DelphiCopilot.Types,
+  DelphiCopilot.Consts;
 
 type
   TDelphiCopilotSettings = class
@@ -52,15 +53,15 @@ procedure TDelphiCopilotSettings.LoadDefaults;
 begin
   FAIDefault := TAIsAvailable.Gemini;
 
-  FBaseUrlGemini := 'https://generativelanguage.googleapis.com/';
-  FModelGemini := 'v1/models/gemini-1.5-flash:generateContent';
+  FBaseUrlGemini := TC4DConsts.BASE_URL_GEMINI_DEFAULT;
+  FModelGemini := TC4DConsts.MODEL_GEMINI_DEFAULT;
   FApiKeyGemini := '';
-  FTimeoutGemini := 20;
+  FTimeoutGemini := TC4DConsts.API_AI_TIMEOUT_DEFAULT;
 
-  FBaseUrlOpenAI := 'https://api.openai.com/v1/chat/completions/';
+  FBaseUrlOpenAI := TC4DConsts.BASE_URL_OPEN_AI;
   FModelOpenAI := '';
   FApiKeyOpenAI := '';
-  FTimeoutOpenAI := 20;
+  FTimeoutOpenAI := TC4DConsts.API_AI_TIMEOUT_DEFAULT;
 end;
 
 procedure TDelphiCopilotSettings.WriteToWindowsRegistry;
@@ -71,7 +72,7 @@ begin
   try
     LReg.CloseKey;
     LReg.RootKey := HKEY_CURRENT_USER;
-    if not(LReg.OpenKey('\SOFTWARE\DelphiCopilotC4D', True))then
+    if not(LReg.OpenKey(TC4DConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, True))then
       raise Exception.Create('Unable to save settings to Windows registry');
 
     LReg.WriteInteger('AIDefault', Integer(FAIDefault));
@@ -101,7 +102,7 @@ begin
       LReg.CloseKey;
       LReg.RootKey := HKEY_CURRENT_USER;
 
-      if not(LReg.OpenKey('\SOFTWARE\ChatGPTWizard', False)) then
+      if not(LReg.OpenKey(TC4DConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, False)) then
         Exit;
 
       if LReg.ValueExists('AIDefault') then
