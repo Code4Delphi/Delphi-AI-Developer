@@ -38,6 +38,7 @@ type
     class procedure IDEThemingAll(AFormClass: TCustomFormClass; AForm: TForm);
     class function ActiveThemeColorDefault: TColor;
     class function ActiveThemeColorLink: TColor;
+    class function ActiveThemeForCode: TColor;
     class function ActiveThemeIsDark: Boolean;
     class function GetIOTAFormEditor(const AIOTAModule: IOTAModule): IOTAFormEditor;
     {$IF CompilerVersion >= 32.0} //Tokyo
@@ -85,7 +86,6 @@ type
 implementation
 
 uses
-  DelphiCopilot.Consts,
   DelphiCopilot.Utils;
 
 class function TDelphiCopilotUtilsOTA.CurrentProjectIsC4DWizardDPROJ: Boolean;
@@ -445,16 +445,17 @@ end;
 
 class function TDelphiCopilotUtilsOTA.ActiveThemeColorDefault: TColor;
 begin
-  Result := clWindowText;
-  if(Self.ActiveThemeIsDark)then
-    Result := clWhite;
+  Result := TDelphiCopilotUtils.IfThenColor(Self.ActiveThemeIsDark, clWhite, clWindowText);
 end;
 
 class function TDelphiCopilotUtilsOTA.ActiveThemeColorLink: TColor;
 begin
-  Result := clBlue;
-  if(Self.ActiveThemeIsDark)then
-    Result := clAqua;
+  Result := TDelphiCopilotUtils.IfThenColor(Self.ActiveThemeIsDark, clAqua, clBlue);
+end;
+
+class function TDelphiCopilotUtilsOTA.ActiveThemeForCode: TColor;
+begin
+  Result := TDelphiCopilotUtils.IfThenColor(Self.ActiveThemeIsDark, clAqua, clBlue);
 end;
 
 class function TDelphiCopilotUtilsOTA.ActiveThemeIsDark: Boolean;

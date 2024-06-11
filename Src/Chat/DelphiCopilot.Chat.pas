@@ -5,19 +5,32 @@ interface
 uses
   System.SysUtils,
   System.JSON,
-  RESTRequest4D,
-  DelphiCopilot.Utils;
+  System.Classes,
+  RESTRequest4D;
 
 type
   TDelphiCopilotChat = class
   private
-    FResponse: string;
+    FResponse: TStrings;
   public
+    constructor Create;
+    destructor Destroy; override;
     procedure ProcessSend(const AQuestion: string);
-    function Response: string;
+    function Response: TStrings;
   end;
 
 implementation
+
+constructor TDelphiCopilotChat.Create;
+begin
+  FResponse := TStringList.Create;
+end;
+
+destructor TDelphiCopilotChat.Destroy;
+begin
+  FResponse.Free;
+  inherited;
+end;
 
 procedure TDelphiCopilotChat.ProcessSend(const AQuestion: string);
 const
@@ -34,7 +47,7 @@ var
   JsonText: String;
   i, j: Integer;
 begin
-  FResponse := '';
+  FResponse.Clear;
 
   LResponse := TRequest.New
     .BaseURL(Format(API_URL, [API_KEY]))
@@ -44,7 +57,8 @@ begin
 
   if LResponse.StatusCode <> 200 then
   begin
-    FResponse := 'Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content;
+    FResponse.Add('Question cannot be answered');
+    FResponse.Add('Return: ' + LResponse.Content);
     Exit;
   end;
 
@@ -60,13 +74,14 @@ begin
       begin
         PartsObj := PartsArray.Items[j] as TJsonObject;
         JsonText := PartsObj.GetValue<string>('text');
-        FResponse := TDelphiCopilotUtils.ConfReturnAI(JsonText);
+        //FResponse.Add(TDelphiCopilotUtils.ConfReturnAI(JsonText));
+        FResponse.Text := JsonText;
       end;
     end;
   end;
 end;
 
-function TDelphiCopilotChat.Response: string;
+function TDelphiCopilotChat.Response: TStrings;
 begin
   Result := FResponse;
 end;

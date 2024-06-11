@@ -2,9 +2,6 @@ unit DelphiCopilot.Consts;
 
 interface
 
-uses
-  DelphiCopilot.Types;
-
 type
   TC4DConsts = class
   public const
@@ -17,6 +14,10 @@ type
     NAME_FOLDER_TEMP = 'Temp';
     GITHUB_Code4Delphi = 'https://github.com/Code4Delphi';
     GITHUB_DELPHI_COPILOT = 'https://github.com/Code4Delphi/Delphi-Copilot';
+
+    MARK_START_DELPHI = '```delphi';
+    MARK_START_PASCAL = '```objectpascal';
+    MARK_END = '```';
 
     //SETTINGS
     KEY_SETTINGS_IN_WINDOWS_REGISTRY = '\SOFTWARE\DelphiCopilotC4D';

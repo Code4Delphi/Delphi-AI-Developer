@@ -8,7 +8,6 @@ uses
   System.TypInfo,
   Winapi.ShellAPI,
   Winapi.Windows,
-  Winapi.TlHelp32,
   Winapi.PsAPI,
   System.Classes,
   Vcl.Controls,
@@ -27,6 +26,7 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class function IfThenColor(const Conditional: Boolean; const AColorTrue, AColorFalse: TColor): TColor;
     class function GetFormFromComponent(const AWinControl: TWinControl): TForm;
     class procedure CenterPanel(const APanel: TPanel); overload;
     class procedure CenterPanel(const APanel: TPanel; const AWinControl: TWinControl); overload;
@@ -59,7 +59,7 @@ type
     class function SelectFile(const ADefaultExt: TC4DExtensionsFiles): string; overload;
     class function SelectFile(const ADefaultFile: string; const ADefaultExt: TC4DExtensionsFiles): string; overload;
     class function SelectFolder(const ADefaultFolder: string; const ADefaultFolderIfCancel: Boolean = True): string;
-    class function stringToColorDef(AValue: string; AColorDefault: TColor = clBlack): TColor;
+    class function StringToColorDef(AValue: string; AColorDefault: TColor = clBlack): TColor;
     class function DateTimeToStrEmpty(AValue: TDateTime): string;
     class function IncInt(var AValue: Integer): Integer;
     class procedure OpenFile(AFilePath: string);
@@ -129,6 +129,13 @@ uses
   DelphiCopilot.View.Dialog,
   DelphiCopilot.Consts,
   DelphiCopilot.WaitingScreen;
+
+class function TDelphiCopilotUtils.IfThenColor(const Conditional: Boolean; const AColorTrue, AColorFalse: TColor): TColor;
+begin
+  Result := AColorFalse;
+  if Conditional then
+    Result := AColorTrue;
+end;
 
 class function TDelphiCopilotUtils.GetFormFromComponent(const AWinControl: TWinControl): TForm;
 var
@@ -531,10 +538,10 @@ begin
 end;
 {$WARN SYMBOL_PLATFORM ON}
 
-class function TDelphiCopilotUtils.stringToColorDef(AValue: string; AColorDefault: TColor = clBlack): TColor;
+class function TDelphiCopilotUtils.StringToColorDef(AValue: string; AColorDefault: TColor = clBlack): TColor;
 begin
   try
-    Result := stringToColor(AValue)
+    Result := StringToColor(AValue)
   except
     Result := AColorDefault;
   end;

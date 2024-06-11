@@ -19,12 +19,9 @@ uses
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
   Vcl.Menus,
-  System.ImageList,
-  Vcl.ImgList,
   Vcl.Buttons,
   Clipbrd,
-  RESTRequest4D,
-  ToolsAPI,
+  DelphiCopilot.Consts,
   DelphiCopilot.Chat;
 
 type
@@ -71,7 +68,7 @@ type
     procedure InitializeRichEditReturn;
     procedure ProcessSend;
     procedure AddResponseSimple(const AString: string);
-    procedure AddResponseComplete(const AString: string);
+    procedure AddResponseComplete(const AStrings: TStrings);
     procedure Last;
     function GetSelectedTextOrAll: string;
     procedure GetSelectedBlockForQuestion;
@@ -185,59 +182,51 @@ end;
 procedure TDelphiCopilotChatView.AddResponseSimple(const AString: string);
 begin
   Self.Last;
-
-  if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
-    mmReturn.SelAttributes.Color := clWhite
-  else
-    mmReturn.SelAttributes.Color := clWindowText;
-
+  mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
   mmReturn.SelAttributes.Style := [];
-
   mmReturn.Lines.Add(AString);
   Self.Last;
 end;
 
-procedure TDelphiCopilotChatView.AddResponseComplete(const AString: string);
-const
-  MARK_START_DELPHI = '```delphi';
-  MARK_START_PASCAL = '```objectpascal';
-  MARK_END = '```';
+procedure TDelphiCopilotChatView.AddResponseComplete(const AStrings: TStrings);
 var
   LLineNum: Integer;
   LLineStr: string;
   FSourceStarted: Boolean;
 begin
   mmReturn.Lines.Clear;
-  mmReturn.SelAttributes.Color := clWindowText;
+  mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
   mmReturn.SelAttributes.Style := [];
 
   FSourceStarted := False;
-  for LLineNum := 0 to Pred(Memo1.Lines.Count) do
+  for LLineNum := 0 to Pred(AStrings.Count) do
   begin
-    LLineStr := Memo1.Lines[LLineNum].TrimRight;
+    LLineStr := AStrings[LLineNum].TrimRight;
 
     if not FSourceStarted then
     begin
-      if (LLineStr.Trim = MARK_START_DELPHI) or (LLineStr.Trim = MARK_START_PASCAL) then
+      if (LLineStr.Trim = TC4DConsts.MARK_START_DELPHI) or (LLineStr.Trim = TC4DConsts.MARK_START_PASCAL) then
       begin
         FSourceStarted := True;
         Continue;
       end;
     end;
 
-    if LLineStr.Trim = MARK_END then
+    if LLineStr.Trim = TC4DConsts.MARK_END then
     begin
       FSourceStarted := False;
       Continue;
     end;
 
     if FSourceStarted then
-      mmReturn.SelAttributes.Color := clBlue //clFuchsia
+      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeForCode
     else
-      mmReturn.SelAttributes.Color := clWindowText;
+      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
 
     mmReturn.Lines.Add(LLineStr);
+
   end;
+  Self.Last;
 end;
 
 procedure TDelphiCopilotChatView.mmQuestionChange(Sender: TObject);
