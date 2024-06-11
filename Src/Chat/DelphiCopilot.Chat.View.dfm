@@ -101,7 +101,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
           Caption = 'Send'
           TabOrder = 0
           OnClick = btnSendClick
-          ExplicitTop = 1
         end
       end
       object mmQuestion: TMemo
@@ -226,12 +225,21 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         ExplicitHeight = 22
       end
     end
+    object Memo1: TMemo
+      Left = 224
+      Top = 12
+      Width = 750
+      Height = 512
+      Anchors = [akTop, akRight, akBottom]
+      ScrollBars = ssVertical
+      TabOrder = 3
+    end
   end
   object pnWait: TPanel
-    Left = 349
-    Top = 248
-    Width = 228
-    Height = 48
+    Left = 413
+    Top = 256
+    Width = 125
+    Height = 35
     BevelOuter = bvNone
     BiDiMode = bdLeftToRight
     Caption = 'Wait for loading...'
@@ -242,8 +250,8 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     object ShapeWait: TShape
       Left = 0
       Top = 0
-      Width = 228
-      Height = 48
+      Width = 125
+      Height = 35
       Align = alClient
       Brush.Color = 16770222
       Pen.Color = 12615680
@@ -251,13 +259,14 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Pen.Width = 2
       ExplicitLeft = 32
       ExplicitTop = 19
+      ExplicitWidth = 228
       ExplicitHeight = 49
     end
     object pnWaitCaption: TPanel
       Left = 0
       Top = 0
-      Width = 228
-      Height = 48
+      Width = 125
+      Height = 35
       Align = alClient
       BevelOuter = bvNone
       Caption = 'Wait for loading...'

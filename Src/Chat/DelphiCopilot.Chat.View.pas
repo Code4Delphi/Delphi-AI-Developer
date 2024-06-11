@@ -22,7 +22,7 @@ uses
   Vcl.Buttons,
   Clipbrd,
   DelphiCopilot.Consts,
-  DelphiCopilot.Chat;
+  DelphiCopilot.Chat, System.ImageList, Vcl.ImgList;
 
 type
   TDelphiCopilotChatView = class(TDockableForm)
@@ -48,6 +48,7 @@ type
     pnWait: TPanel;
     ShapeWait: TShape;
     pnWaitCaption: TPanel;
+    Memo1: TMemo;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -69,6 +70,7 @@ type
     procedure ProcessSend;
     procedure AddResponseSimple(const AString: string);
     procedure AddResponseComplete(const AStrings: TStrings);
+    procedure AddResponseLine(const ALineStr: string);
     procedure Last;
     function GetSelectedTextOrAll: string;
     procedure GetSelectedBlockForQuestion;
@@ -159,74 +161,6 @@ begin
   LBlockTextSelect := TDelphiCopilotUtilsOTA.GetBlockTextSelect;
   if not LBlockTextSelect.Trim.IsEmpty then
     mmQuestion.Text := LBlockTextSelect;
-end;
-
-procedure TDelphiCopilotChatView.InitializeRichEditReturn;
-begin
-  mmReturn.Lines.Clear;
-  mmReturn.SelAttributes.Name := 'Courier New';
-  mmReturn.SelAttributes.Size := 10;
-
-  if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
-  begin
-    mmReturn.Color := $004A4136;
-    mmReturn.SelAttributes.Color := clWhite;
-  end
-  else
-  begin
-    mmReturn.Color := clWindow;
-    mmReturn.SelAttributes.Color := clWindowText;
-  end;
-end;
-
-procedure TDelphiCopilotChatView.AddResponseSimple(const AString: string);
-begin
-  Self.Last;
-  mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
-  mmReturn.SelAttributes.Style := [];
-  mmReturn.Lines.Add(AString);
-  Self.Last;
-end;
-
-procedure TDelphiCopilotChatView.AddResponseComplete(const AStrings: TStrings);
-var
-  LLineNum: Integer;
-  LLineStr: string;
-  FSourceStarted: Boolean;
-begin
-  mmReturn.Lines.Clear;
-  mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
-  mmReturn.SelAttributes.Style := [];
-
-  FSourceStarted := False;
-  for LLineNum := 0 to Pred(AStrings.Count) do
-  begin
-    LLineStr := AStrings[LLineNum].TrimRight;
-
-    if not FSourceStarted then
-    begin
-      if (LLineStr.Trim = TC4DConsts.MARK_START_DELPHI) or (LLineStr.Trim = TC4DConsts.MARK_START_PASCAL) then
-      begin
-        FSourceStarted := True;
-        Continue;
-      end;
-    end;
-
-    if LLineStr.Trim = TC4DConsts.MARK_END then
-    begin
-      FSourceStarted := False;
-      Continue;
-    end;
-
-    if FSourceStarted then
-      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeForCode
-    else
-      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
-
-    mmReturn.Lines.Add(LLineStr);
-
-  end;
-  Self.Last;
 end;
 
 procedure TDelphiCopilotChatView.mmQuestionChange(Sender: TObject);
@@ -329,7 +263,14 @@ begin
         TThread.Synchronize(nil,
           procedure
           begin
-            Self.AddResponseComplete(FChat.Response);
+            mmReturn.Lines.BeginUpdate;
+            try
+              Memo1.Lines.Text := FChat.Response.Text;
+              Self.AddResponseComplete(FChat.Response);
+              //Self.AddResponseSimple(FChat.Response.Text);
+            finally
+              mmReturn.Lines.EndUpdate;
+            end;
           end);
       finally
         TThread.Synchronize(nil,
@@ -376,6 +317,138 @@ procedure TDelphiCopilotChatView.btnInsertAtCursorClick(Sender: TObject);
 begin
   TDelphiCopilotUtilsOTA.DeleteBlockTextSelectedInEditor;
   TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(Self.GetSelectedTextOrAll);
+end;
+
+procedure TDelphiCopilotChatView.InitializeRichEditReturn;
+begin
+  mmReturn.Lines.Clear;
+  mmReturn.SelAttributes.Name := 'Courier New';
+  mmReturn.SelAttributes.Size := 10;
+
+  if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
+  begin
+    mmReturn.Color := $004A4136;
+    mmReturn.SelAttributes.Color := clWhite;
+  end
+  else
+  begin
+    mmReturn.Color := clWindow;
+    mmReturn.SelAttributes.Color := clWindowText;
+  end;
+end;
+
+procedure TDelphiCopilotChatView.AddResponseSimple(const AString: string);
+begin
+  Self.Last;
+  mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
+  mmReturn.SelAttributes.Style := [];
+  mmReturn.Lines.Add(AString);
+  Self.Last;
+end;
+
+//Add line-by-line response to color where Delphi code is
+procedure TDelphiCopilotChatView.AddResponseComplete(const AStrings: TStrings);
+var
+  LLineNum: Integer;
+  LLineStr: string;
+  FCodeStarted: Boolean;
+begin
+  mmReturn.Lines.Clear;
+  mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
+  mmReturn.SelAttributes.Style := [];
+
+  FCodeStarted := False;
+  for LLineNum := 0 to Pred(AStrings.Count) do
+  begin
+    LLineStr := AStrings[LLineNum].TrimRight;
+
+    if not FCodeStarted then
+    begin
+      if (LLineStr.Trim = TC4DConsts.MARK_BEGIN_DELPHI) or (LLineStr.Trim = TC4DConsts.MARK_BEGIN_PASCAL) then
+      begin
+        FCodeStarted := True;
+        Continue;
+      end;
+    end;
+
+    if LLineStr.Trim = TC4DConsts.MARK_END then
+    begin
+      FCodeStarted := False;
+      Continue;
+    end;
+
+    if FCodeStarted then
+      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeForCode
+    else
+      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
+
+    //mmReturn.Lines.Add(LLineStr);
+    Self.AddResponseLine(LLineStr);
+    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+  end;
+  Self.Last;
+end;
+
+//Bold in words between Backtick
+procedure TDelphiCopilotChatView.AddResponseLine(const ALineStr: string);
+const
+  BACKTICK = '`';
+var
+  i: Integer;
+  LCurrentLetter: Char;
+  LNextLetter: Char;
+  LLineStarted: Boolean;
+  LCodeStarted: Boolean;
+begin
+  if not ALineStr.Contains(BACKTICK) then
+  begin
+    mmReturn.Lines.Add(ALineStr);
+    Exit;
+  end;
+
+  LLineStarted := False;
+  LCodeStarted := False;
+  for i := 0 to ALineStr.Length do
+  begin
+    LCurrentLetter := ALineStr[i];
+    LNextLetter := ALineStr[Succ(i)];
+
+    if not LCodeStarted then
+    begin
+      if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
+      begin
+        LCodeStarted := True;
+        Continue;
+      end;
+    end;
+
+    if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
+    begin
+      LCodeStarted := False;
+      mmReturn.SelAttributes.Style := [];
+      Continue;
+    end;
+
+    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+    if LCodeStarted then
+      mmReturn.SelAttributes.Style := [fsBold]
+    else
+      mmReturn.SelAttributes.Style := [];
+
+    if LLineStarted then
+      mmReturn.SelText := LCurrentLetter
+    else
+    begin
+      mmReturn.Lines.Add('');
+      mmReturn.SelText := LCurrentLetter;
+
+      LLineStarted := True;
+    end;
+    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+  end;
+  mmReturn.SelText := ' ';
+
+  //SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
 end;
 
 initialization

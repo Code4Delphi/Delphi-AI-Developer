@@ -15,8 +15,8 @@ type
     GITHUB_Code4Delphi = 'https://github.com/Code4Delphi';
     GITHUB_DELPHI_COPILOT = 'https://github.com/Code4Delphi/Delphi-Copilot';
 
-    MARK_START_DELPHI = '```delphi';
-    MARK_START_PASCAL = '```objectpascal';
+    MARK_BEGIN_DELPHI = '```delphi';
+    MARK_BEGIN_PASCAL = '```objectpascal';
     MARK_END = '```';
 
     //SETTINGS
