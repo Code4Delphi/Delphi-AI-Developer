@@ -6,6 +6,7 @@ uses
   Winapi.Windows,
   Winapi.Messages,
   System.SysUtils,
+  System.StrUtils,
   System.Variants,
   System.Classes,
   System.JSON,
@@ -48,7 +49,6 @@ type
     pnWait: TPanel;
     ShapeWait: TShape;
     pnWaitCaption: TPanel;
-    Memo1: TMemo;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -265,7 +265,7 @@ begin
           begin
             mmReturn.Lines.BeginUpdate;
             try
-              Memo1.Lines.Text := FChat.Response.Text;
+              //Optional use of one of the following lines
               Self.AddResponseComplete(FChat.Response);
               //Self.AddResponseSimple(FChat.Response.Text);
             finally
@@ -374,6 +374,7 @@ begin
     if LLineStr.Trim = TC4DConsts.MARK_END then
     begin
       FCodeStarted := False;
+      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
       Continue;
     end;
 
@@ -382,9 +383,9 @@ begin
     else
       mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
 
+    //Optional use of one of the following lines
     //mmReturn.Lines.Add(LLineStr);
     Self.AddResponseLine(LLineStr);
-    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
   end;
   Self.Last;
 end;
@@ -402,7 +403,7 @@ var
 begin
   if not ALineStr.Contains(BACKTICK) then
   begin
-    mmReturn.Lines.Add(ALineStr);
+    mmReturn.Lines.Add(IFThen(ALineStr.IsEmpty, ' ', ALineStr));
     Exit;
   end;
 
@@ -447,8 +448,7 @@ begin
     SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
   end;
   mmReturn.SelText := ' ';
-
-  //SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+  SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
 end;
 
 initialization

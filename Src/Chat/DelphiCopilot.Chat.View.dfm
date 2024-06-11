@@ -225,15 +225,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         ExplicitHeight = 22
       end
     end
-    object Memo1: TMemo
-      Left = 224
-      Top = 12
-      Width = 750
-      Height = 512
-      Anchors = [akTop, akRight, akBottom]
-      ScrollBars = ssVertical
-      TabOrder = 3
-    end
   end
   object pnWait: TPanel
     Left = 413
