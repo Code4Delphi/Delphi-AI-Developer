@@ -63,7 +63,6 @@ type
     procedure btnInsertAtCursorClick(Sender: TObject);
     procedure SelectAll1Click(Sender: TObject);
     procedure mmQuestionChange(Sender: TObject);
-    procedure mmQuestionKeyPress(Sender: TObject; var Key: Char);
     procedure mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FChat: TDelphiCopilotChat;
@@ -71,7 +70,8 @@ type
     procedure WriteToFile;
     procedure InitializeRichEditReturn;
     procedure ProcessSend;
-    procedure InternalAdd(AString: string);
+    procedure AddResponseSimple(const AString: string);
+    procedure AddResponseComplete(const AString: string);
     procedure Last;
     function GetSelectedTextOrAll: string;
     procedure GetSelectedBlockForQuestion;
@@ -173,16 +173,16 @@ begin
   if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
   begin
     mmReturn.Color := $004A4136;
-    mmReturn.SelAttributes.Color := clWhite;    
+    mmReturn.SelAttributes.Color := clWhite;
   end
   else
   begin
     mmReturn.Color := clWindow;
     mmReturn.SelAttributes.Color := clWindowText;
-  end; 
+  end;
 end;
 
-procedure TDelphiCopilotChatView.InternalAdd(AString: string);
+procedure TDelphiCopilotChatView.AddResponseSimple(const AString: string);
 begin
   Self.Last;
 
@@ -190,11 +190,54 @@ begin
     mmReturn.SelAttributes.Color := clWhite
   else
     mmReturn.SelAttributes.Color := clWindowText;
-    
+
   mmReturn.SelAttributes.Style := [];
-  
+
   mmReturn.Lines.Add(AString);
-  Self.Last;   
+  Self.Last;
+end;
+
+procedure TDelphiCopilotChatView.AddResponseComplete(const AString: string);
+const
+  MARK_START_DELPHI = '```delphi';
+  MARK_START_PASCAL = '```objectpascal';
+  MARK_END = '```';
+var
+  LLineNum: Integer;
+  LLineStr: string;
+  FSourceStarted: Boolean;
+begin
+  mmReturn.Lines.Clear;
+  mmReturn.SelAttributes.Color := clWindowText;
+  mmReturn.SelAttributes.Style := [];
+
+  FSourceStarted := False;
+  for LLineNum := 0 to Pred(Memo1.Lines.Count) do
+  begin
+    LLineStr := Memo1.Lines[LLineNum].TrimRight;
+
+    if not FSourceStarted then
+    begin
+      if (LLineStr.Trim = MARK_START_DELPHI) or (LLineStr.Trim = MARK_START_PASCAL) then
+      begin
+        FSourceStarted := True;
+        Continue;
+      end;
+    end;
+
+    if LLineStr.Trim = MARK_END then
+    begin
+      FSourceStarted := False;
+      Continue;
+    end;
+
+    if FSourceStarted then
+      mmReturn.SelAttributes.Color := clBlue //clFuchsia
+    else
+      mmReturn.SelAttributes.Color := clWindowText;
+
+    mmReturn.Lines.Add(LLineStr);
+  end;
 end;
 
 procedure TDelphiCopilotChatView.mmQuestionChange(Sender: TObject);
@@ -214,19 +257,13 @@ begin
   end;
 end;
 
-procedure TDelphiCopilotChatView.mmQuestionKeyPress(Sender: TObject; var Key: Char);
-begin
-end;
-
 procedure TDelphiCopilotChatView.mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (ssCtrl in Shift)and(Key = Ord('a'))then //65
-  begin    ShowMessage('Sho ctrl ' + Ord('a'));
+  if (ssCtrl in Shift)and(Key = 65)then
+  begin
     mmQuestion.SelectAll;
     Key := 0;
   end;
-
-  ShowMessage('Sho ctrl ' + Ord('a'));
 end;
 
 procedure TDelphiCopilotChatView.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -295,7 +332,7 @@ begin
             TThread.Synchronize(nil,
               procedure
               begin
-                Self.InternalAdd('It was not possible to perform the search in the files.' + sLineBreak + E.Message);
+                Self.AddResponseSimple('Unable to perform processing.' + sLineBreak + E.Message);
                 Abort;
               end);
         end;
@@ -303,7 +340,7 @@ begin
         TThread.Synchronize(nil,
           procedure
           begin
-            Self.InternalAdd(FChat.Response);
+            Self.AddResponseComplete(FChat.Response);
           end);
       finally
         TThread.Synchronize(nil,
