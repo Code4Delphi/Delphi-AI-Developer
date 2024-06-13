@@ -15,6 +15,8 @@ uses
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
+  System.ImageList,
+  Vcl.ImgList,
   DockForm,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
@@ -23,7 +25,7 @@ uses
   Vcl.Buttons,
   Clipbrd,
   DelphiCopilot.Consts,
-  DelphiCopilot.Chat, System.ImageList, Vcl.ImgList;
+  DelphiCopilot.Chat;
 
 type
   TDelphiCopilotChatView = class(TDockableForm)
@@ -148,6 +150,7 @@ begin
   Self.InitializeRichEditReturn;
   Self.ReadFromFile;
   Self.GetSelectedBlockForQuestion;
+  btnMoreActions.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
 
   mmQuestion.SelectAll;
   mmQuestion.SelStart := Length(mmQuestion.Text);
@@ -165,10 +168,10 @@ end;
 
 procedure TDelphiCopilotChatView.mmQuestionChange(Sender: TObject);
 begin
-  if mmQuestion.Lines.Count >= 3 then
-    mmQuestion.ScrollBars := ssVertical
+  if mmQuestion.Lines.Count >= 7 then
+    mmQuestion.ScrollBars := TScrollStyle.ssVertical
   else
-    mmQuestion.ScrollBars := ssNone;
+    mmQuestion.ScrollBars := TScrollStyle.ssNone;
 end;
 
 procedure TDelphiCopilotChatView.mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

@@ -33,7 +33,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       661)
     object Splitter1: TSplitter
       Left = 0
-      Top = 527
+      Top = 545
       Width = 974
       Height = 3
       Cursor = crVSplit
@@ -46,7 +46,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Left = 10
       Top = 12
       Width = 954
-      Height = 512
+      Height = 530
       Margins.Left = 10
       Margins.Top = 10
       Margins.Right = 10
@@ -72,9 +72,9 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     end
     object pnBottom: TPanel
       Left = 0
-      Top = 530
+      Top = 548
       Width = 974
-      Height = 131
+      Height = 113
       Align = alBottom
       BevelOuter = bvNone
       ParentBackground = False
@@ -83,7 +83,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Left = 892
         Top = 0
         Width = 82
-        Height = 131
+        Height = 113
         Align = alRight
         BevelOuter = bvNone
         ParentBackground = False
@@ -108,7 +108,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Left = 10
         Top = 5
         Width = 882
-        Height = 121
+        Height = 103
         Margins.Left = 10
         Margins.Top = 5
         Margins.Right = 0
@@ -147,7 +147,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       end
       object btnCopy: TSpeedButton
         AlignWithMargins = True
-        Left = 0
+        Left = 27
         Top = 0
         Width = 22
         Height = 26
@@ -173,17 +173,17 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
           0202020F01010103030F0F0F0F0202020202020F01010101010F0E0F02020202
           0202020F0F0F0F0F0F0F0F02020202020202}
         OnClick = btnCopyClick
-        ExplicitHeight = 22
+        ExplicitLeft = 50
       end
       object btnInsertAtCursor: TSpeedButton
         AlignWithMargins = True
-        Left = 25
+        Left = 2
         Top = 0
         Width = 22
         Height = 26
         Cursor = crHandPoint
         Hint = 'Insert Selected Text at Cursor'
-        Margins.Left = 0
+        Margins.Left = 2
         Margins.Top = 0
         Margins.Bottom = 0
         Align = alLeft
@@ -193,22 +193,21 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
           08000000000000010000120B0000120B0000150000001500000000000000FFFF
           FF00FF00FF00EFEFEF00EDEDED00ECECEC00EBEBEB00E9E9E900E7E7E700E5E5
           E500E3E3E300E1E1E100E0E0E000DEDEDE00DCDCDC00DBDBDB00D8D8D800ADAD
-          AD008C8C8C007878780064646400020202020202020202121212121212120202
-          02020202020202120E0B09070503020202020202020202120F0D0A0806040202
-          0202020202020212100E0C090705020202020202020202131313131313131313
-          13131312021402020202020202020E0B09070512021414020202020202020F0D
-          0A08061202141114020202020202100E0C090712021414020202020202021313
-          1313131202140202020202020202020202020202020202121212121212120202
-          02020202020202120E0B09070503020202020202020202120F0D0A0806040202
-          0202020202020212100E0C090705020202020202020202131313131313130202
-          0202020202020202020202020202}
+          AD008C8C8C007878780064646400020202020202020202020202020202021313
+          13131313130202020202020202020507090C0E10120202020202020202020406
+          080A0D0F12020202020202020202030507090B0E120202020202020202021212
+          1212121212020202020202020202020202020202020214021213131313130202
+          02020202021414021207090C0E10020202020202141114021206080A0D0F0202
+          0202020202141402120507090B0E020202020202020214021213131313131313
+          13131313130202020202020202020507090C0E10120202020202020202020406
+          080A0D0F12020202020202020202030507090B0E120202020202020202021212
+          1212121212020202020202020202}
         OnClick = btnInsertAtCursorClick
-        ExplicitLeft = 22
-        ExplicitHeight = 22
+        ExplicitLeft = 1
       end
       object btnMoreActions: TSpeedButton
         AlignWithMargins = True
-        Left = 50
+        Left = 52
         Top = 0
         Width = 22
         Height = 26

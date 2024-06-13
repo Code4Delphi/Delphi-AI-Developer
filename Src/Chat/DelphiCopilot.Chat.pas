@@ -6,11 +6,14 @@ uses
   System.SysUtils,
   System.JSON,
   System.Classes,
-  RESTRequest4D;
+  RESTRequest4D,
+  DelphiCopilot.Utils,
+  DelphiCopilot.Settings;
 
 type
   TDelphiCopilotChat = class
   private
+    FSettings: TDelphiCopilotSettings;
     FResponse: TStrings;
   public
     constructor Create;
@@ -23,6 +26,8 @@ implementation
 
 constructor TDelphiCopilotChat.Create;
 begin
+  FSettings := TDelphiCopilotSettings.GetInstance;
+  FSettings.LoadData;
   FResponse := TStringList.Create;
 end;
 
@@ -40,17 +45,20 @@ const
   API_JSON_BODY_BASE = '{"contents": [{"parts": [ {"text": "%s"}]}]}';
 var
   LResponse: IResponse;
-
-  JsonValue: TJSONVALUE;
-  JsonArray, PartsArray: TJsonArray;
-  JsonObj, PartsObj: TJsonObject;
-  JsonText: String;
+  LJsonValue: TJSONVALUE;
+  LJsonArray: TJsonArray;
+  LPartsArray: TJsonArray;
+  LJsonObj: TJsonObject;
+  LPartsObj: TJsonObject;
+  LJsonText: string;
   i, j: Integer;
 begin
   FResponse.Clear;
 
+  TDelphiCopilotUtils.ShowMsg('');
+
   LResponse := TRequest.New
-    .BaseURL(Format(API_URL, [API_KEY]))
+    .BaseURL(Format(FSettings.BaseUrlGemini, [FSettings.ApiKeyGemini])) //API_URL - API_KEY
     .Accept('application/json')
     .AddBody(Format(API_JSON_BODY_BASE, [AQuestion]))
     .Post;
@@ -62,20 +70,20 @@ begin
     Exit;
   end;
 
-  JsonValue := TJsonObject.ParseJSONValue(LResponse.Content);
-  if JsonValue is TJsonObject then
+  LJsonValue := TJsonObject.ParseJSONValue(LResponse.Content);
+  if LJsonValue is TJsonObject then
   begin
-    JsonArray := (JsonValue as TJsonObject).GetValue<TJsonArray>('candidates');
-    for i := 0 to JsonArray.Count - 1 do
+    LJsonArray := (LJsonValue as TJsonObject).GetValue<TJsonArray>('candidates');
+    for i := 0 to LJsonArray.Count - 1 do
     begin
-      JsonObj := JsonArray.Items[i].GetValue<TJsonObject>('content');
-      PartsArray := JsonObj.GetValue<TJsonArray>('parts');
-      for j := 0 to PartsArray.Count - 1 do
+      LJsonObj := LJsonArray.Items[i].GetValue<TJsonObject>('content');
+      LPartsArray := LJsonObj.GetValue<TJsonArray>('parts');
+      for j := 0 to LPartsArray.Count - 1 do
       begin
-        PartsObj := PartsArray.Items[j] as TJsonObject;
-        JsonText := PartsObj.GetValue<string>('text');
+        LPartsObj := LPartsArray.Items[j] as TJsonObject;
+        LJsonText := LPartsObj.GetValue<string>('text');
         //FResponse.Add(TDelphiCopilotUtils.ConfReturnAI(JsonText));
-        FResponse.Text := JsonText;
+        FResponse.Text := LJsonText;
       end;
     end;
   end;

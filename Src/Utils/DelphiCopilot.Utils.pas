@@ -911,7 +911,6 @@ begin
 end;
 
 {$REGION 'MessagesImplementation'}
-
 class function TDelphiCopilotUtils.ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
   const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
 begin
