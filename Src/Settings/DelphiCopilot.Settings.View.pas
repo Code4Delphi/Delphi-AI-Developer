@@ -29,12 +29,10 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
-    Label8: TLabel;
     lbLink01: TLabel;
     edtBaseUrlGemini: TEdit;
     edtApiKeyGemini: TEdit;
     cBoxModelGemini: TComboBox;
-    edtTimeoutGemini: TEdit;
     lbLink02: TLabel;
     GroupBox2: TGroupBox;
     gBoxOpenAI: TGroupBox;
@@ -42,16 +40,15 @@ type
     Label1: TLabel;
     Label3: TLabel;
     Label2: TLabel;
-    Label4: TLabel;
     lbLink03: TLabel;
     edtBaseUrlOpenAI: TEdit;
     edtApiKeyOpenAI: TEdit;
     cBoxModelOpenAI: TComboBox;
-    edtTimeoutOpenAi: TEdit;
     Label11: TLabel;
     cBoxAIDefault: TComboBox;
     btnApiKeyGeminiView: TSpeedButton;
     btnApiKeyOpenAIView: TSpeedButton;
+    lbLink04: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -84,7 +81,6 @@ uses
 procedure TDelphiCopilotSettingsView.FormCreate(Sender: TObject);
 begin
   TUtilsOTA.IDEThemingAll(TDelphiCopilotSettingsView, Self);
-
   FSettings := TDelphiCopilotSettings.GetInstance;
 end;
 
@@ -105,6 +101,7 @@ begin
   lbLink01.Font.Color := TUtilsOTA.ActiveThemeColorLink;
   lbLink02.Font.Color := lbLink01.Font.Color;
   lbLink03.Font.Color := lbLink01.Font.Color;
+  lbLink04.Font.Color := lbLink01.Font.Color;
 end;
 
 procedure TDelphiCopilotSettingsView.btnApiKeyGeminiViewClick(Sender: TObject);
@@ -156,12 +153,10 @@ begin
   edtBaseUrlGemini.Text := FSettings.BaseUrlGemini;
   cBoxModelGemini.ItemIndex := cBoxModelGemini.Items.IndexOf(FSettings.ModelGemini);
   edtApiKeyGemini.Text := FSettings.ApiKeyGemini;
-  edtTimeoutGemini.Text := FSettings.TimeoutGemini.ToString;
 
   edtBaseUrlOpenAI.Text := FSettings.BaseUrlOpenAI;
   cBoxModelOpenAI.ItemIndex := cBoxModelOpenAI.Items.IndexOf(FSettings.ModelOpenAI);
   edtApiKeyOpenAI.Text := FSettings.ApiKeyOpenAI;
-  edtTimeoutOpenAI.Text := FSettings.TimeoutOpenAI.ToString;
 end;
 
 procedure TDelphiCopilotSettingsView.SaveSettings;
@@ -171,12 +166,10 @@ begin
   FSettings.BaseUrlGemini := edtBaseUrlGemini.Text;
   FSettings.ModelGemini := cBoxModelGemini.Text;
   FSettings.ApiKeyGemini := edtApiKeyGemini.Text;
-  FSettings.TimeoutGemini := StrToIntDef(edtTimeoutGemini.Text, 20);
 
   FSettings.BaseUrlOpenAI := edtBaseUrlOpenAI.Text;
   FSettings.ModelOpenAI := cBoxModelOpenAI.Text;
   FSettings.ApiKeyOpenAI := edtApiKeyOpenAI.Text;
-  FSettings.TimeoutOpenAI := StrToIntDef(edtTimeoutOpenAI.Text, 20);
 
   FSettings.SaveData;
 end;

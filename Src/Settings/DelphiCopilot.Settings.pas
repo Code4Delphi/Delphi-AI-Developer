@@ -16,23 +16,19 @@ type
     FBaseUrlGemini: string;
     FModelGemini: string;
     FApiKeyGemini: string;
-    FTimeoutGemini: Integer;
 
     FBaseUrlOpenAI: string;
     FModelOpenAI: string;
     FApiKeyOpenAI: string;
-    FTimeoutOpenAI: Integer;
 
     const
     FIELD_AIDefault = 'AIDefault';
     FIELD_BaseUrlGemini = 'BaseUrlGemini';
     FIELD_ModelGemini = 'ModelGemini';
     FIELD_ApiKeyGemini = 'ApiKeyGemini';
-    FIELD_TimeoutGemini = 'TimeoutGemini';
     FIELD_BaseUrlOpenAI = 'BaseUrlOpenAI';
     FIELD_ModelOpenAI = 'ModelOpenAI';
     FIELD_ApiKeyOpenAI = 'ApiKeyOpenAI';
-    FIELD_TimeoutOpenAI = 'TimeoutOpenAI';
 
     constructor Create;
   public
@@ -46,12 +42,10 @@ type
     property BaseUrlGemini: string read FBaseUrlGemini write FBaseUrlGemini;
     property ModelGemini: string read FModelGemini write FModelGemini;
     property ApiKeyGemini: string read FApiKeyGemini write FApiKeyGemini;
-    property TimeoutGemini: Integer read FTimeoutGemini write FTimeoutGemini;
 
     property BaseUrlOpenAI: string read FBaseUrlOpenAI write FBaseUrlOpenAI;
     property ModelOpenAI: string read FModelOpenAI write FModelOpenAI;
     property ApiKeyOpenAI: string read FApiKeyOpenAI write FApiKeyOpenAI;
-    property TimeoutOpenAI: Integer read FTimeoutOpenAI write FTimeoutOpenAI;
   end;
 
 implementation
@@ -78,12 +72,10 @@ begin
   FBaseUrlGemini := TC4DConsts.BASE_URL_GEMINI_DEFAULT;
   FModelGemini := TC4DConsts.MODEL_GEMINI_DEFAULT;
   FApiKeyGemini := '';
-  FTimeoutGemini := TC4DConsts.API_AI_TIMEOUT_DEFAULT;
 
   FBaseUrlOpenAI := TC4DConsts.BASE_URL_OPEN_AI;
   FModelOpenAI := '';
   FApiKeyOpenAI := '';
-  FTimeoutOpenAI := TC4DConsts.API_AI_TIMEOUT_DEFAULT;
 end;
 
 procedure TDelphiCopilotSettings.SaveData;
@@ -102,12 +94,10 @@ begin
     LReg.WriteString(FIELD_BaseUrlGemini, FBaseUrlGemini);
     LReg.WriteString(FIELD_ModelGemini, FModelGemini);
     LReg.WriteString(FIELD_ApiKeyGemini, FApiKeyGemini);
-    LReg.WriteInteger(FIELD_TimeoutGemini, FTimeoutGemini);
 
     LReg.WriteString(FIELD_BaseUrlOpenAI, FBaseUrlOpenAI);
     LReg.WriteString(FIELD_ModelOpenAI, FModelOpenAI);
     LReg.WriteString(FIELD_ApiKeyOpenAI, FApiKeyOpenAI);
-    LReg.WriteInteger(FIELD_TimeoutOpenAI, FTimeoutOpenAI);
   finally
     LReg.Free;
   end;
@@ -140,9 +130,6 @@ begin
       if LReg.ValueExists(FIELD_ApiKeyGemini) then
         FApiKeyGemini := LReg.ReadString(FIELD_ApiKeyGemini);
 
-      if LReg.ValueExists(FIELD_TimeoutGemini) then
-        FTimeoutGemini := LReg.ReadInteger(FIELD_TimeoutGemini);
-
       //OPEN AI
       if LReg.ValueExists(FIELD_BaseUrlOpenAI) then
         fBaseUrlOpenAI := LReg.ReadString(FIELD_BaseUrlOpenAI);
@@ -152,9 +139,6 @@ begin
 
       if LReg.ValueExists(FIELD_ApiKeyOpenAI) then
         fApiKeyOpenAI := LReg.ReadString(FIELD_ApiKeyOpenAI);
-
-      if LReg.ValueExists(FIELD_TimeoutOpenAI) then
-        fTimeoutOpenAI := LReg.ReadInteger(FIELD_TimeoutOpenAI);
     except
       Self.LoadDefaults;
     end;

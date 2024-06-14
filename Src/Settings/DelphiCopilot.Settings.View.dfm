@@ -120,13 +120,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Height = 13
             Caption = 'Model'
           end
-          object Label8: TLabel
-            Left = 476
-            Top = 48
-            Width = 38
-            Height = 13
-            Caption = 'Timeout'
-          end
           object lbLink01: TLabel
             Left = 16
             Top = 103
@@ -164,10 +157,11 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             OnClick = lbLink03Click
           end
           object btnApiKeyGeminiView: TSpeedButton
-            Left = 452
-            Top = 64
+            Left = 582
+            Top = 63
             Width = 23
             Height = 22
+            Cursor = crHandPoint
             Hint = 'Show/Hide API Key'
             Flat = True
             Glyph.Data = {
@@ -211,7 +205,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
           object edtApiKeyGemini: TEdit
             Left = 16
             Top = 64
-            Width = 436
+            Width = 563
             Height = 21
             PasswordChar = '*'
             TabOrder = 1
@@ -227,14 +221,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
               'v1beta/models/gemini-pro:generateContent'
               'v1beta/models/gemini-1.5-flash:generateContent')
           end
-          object edtTimeoutGemini: TEdit
-            Left = 476
-            Top = 64
-            Width = 122
-            Height = 21
-            NumbersOnly = True
-            TabOrder = 3
-          end
         end
       end
       object GroupBox2: TGroupBox
@@ -247,16 +233,16 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
         ParentBackground = False
         TabOrder = 1
         object Label11: TLabel
-          Left = 16
-          Top = 19
+          Left = 17
+          Top = 23
           Width = 48
           Height = 13
           Caption = 'AI default'
         end
         object cBoxAIDefault: TComboBox
-          Left = 16
-          Top = 34
-          Width = 201
+          Left = 17
+          Top = 38
+          Width = 249
           Height = 21
           Style = csDropDownList
           TabOrder = 0
@@ -305,13 +291,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             Height = 13
             Caption = 'Model'
           end
-          object Label4: TLabel
-            Left = 476
-            Top = 48
-            Width = 38
-            Height = 13
-            Caption = 'Timeout'
-          end
           object lbLink03: TLabel
             Left = 16
             Top = 103
@@ -331,10 +310,11 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             OnClick = lbLink03Click
           end
           object btnApiKeyOpenAIView: TSpeedButton
-            Left = 452
+            Left = 582
             Top = 63
             Width = 23
             Height = 22
+            Cursor = crHandPoint
             Hint = 'Show/Hide API Key'
             Flat = True
             Glyph.Data = {
@@ -368,6 +348,24 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
             ShowHint = True
             OnClick = btnApiKeyOpenAIViewClick
           end
+          object lbLink04: TLabel
+            Left = 128
+            Top = 103
+            Width = 72
+            Height = 13
+            Cursor = crHandPoint
+            Hint = 'https://platform.openai.com/docs/api-reference/making-requests'
+            Caption = 'Documentation'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlue
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            ParentShowHint = False
+            ShowHint = True
+            OnClick = lbLink03Click
+          end
           object edtBaseUrlOpenAI: TEdit
             Left = 16
             Top = 21
@@ -378,7 +376,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
           object edtApiKeyOpenAI: TEdit
             Left = 16
             Top = 64
-            Width = 436
+            Width = 563
             Height = 21
             PasswordChar = '*'
             TabOrder = 1
@@ -395,14 +393,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
               'gpt-3.5-turbo-16k'
               'gpt-4'
               'gpt-4-32k')
-          end
-          object edtTimeoutOpenAi: TEdit
-            Left = 478
-            Top = 64
-            Width = 122
-            Height = 21
-            NumbersOnly = True
-            TabOrder = 3
           end
         end
       end

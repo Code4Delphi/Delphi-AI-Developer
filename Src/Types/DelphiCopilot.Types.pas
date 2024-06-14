@@ -28,22 +28,8 @@ type
   TC4DTextIgnoreEscope = (None = 0, Line = 1, Word = 2);
   {$SCOPEDENUMS OFF}
 
-  TDelphiCopilotInfoFile = record
-    Path: string;
-    LastAccess: TDateTime;
-  end;
-
-  TDelphiCopilotReopenData = record
-    Favorite: Boolean;
-    Nickname: string;
-    Name: string;
-    LastOpen: TDateTime;
-    LastClose: TDateTime;
-    FilePath: string;
-    Color: string;
-    FolderGit: string;
-    GuidGroup: string;
-    procedure Clear;
+  TAIsAvailableHelper = record helper for TAIsAvailable
+    function ToString: string;
   end;
 
   TDelphiCopilotOpenExternalKindHelper = record helper for TDelphiCopilotOpenExternalKind
@@ -64,18 +50,13 @@ implementation
 uses
   DelphiCopilot.Consts;
 
-{ TDelphiCopilotReopenData }
-procedure TDelphiCopilotReopenData.Clear;
+{ TAIsAvailableHelper }
+function TAIsAvailableHelper.ToString: string;
 begin
-  Self.Favorite := False;
-  Self.Nickname := '';
-  Self.Name := '';
-  Self.LastOpen := 0;
-  Self.LastClose := 0;
-  Self.FilePath := '';
-  Self.Color := 'clBlack';
-  Self.FolderGit := '';
-  Self.GuidGroup := '';
+  case Self of
+    TAIsAvailable.Gemini: Result := 'Gemini';
+    TAIsAvailable.OpenAI: Result := 'ChatGPT';
+  end;
 end;
 
 {TDelphiCopilotOpenExternalKindHelper}

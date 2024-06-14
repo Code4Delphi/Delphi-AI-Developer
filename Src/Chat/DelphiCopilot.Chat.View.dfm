@@ -14,6 +14,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
   OldCreateOrder = False
   Position = poScreenCenter
   ShowHint = True
+  OnActivate = FormActivate
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
@@ -23,21 +24,29 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     Top = 0
     Width = 974
     Height = 661
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
+    Padding.Left = 10
+    Padding.Top = 15
+    Padding.Right = 10
     ParentBackground = False
     TabOrder = 0
     DesignSize = (
       974
       661)
     object Splitter1: TSplitter
-      Left = 0
-      Top = 545
-      Width = 974
+      Left = 10
+      Top = 524
+      Width = 954
       Height = 3
       Cursor = crVSplit
       Align = alBottom
+      ExplicitLeft = 0
       ExplicitTop = 2
       ExplicitWidth = 528
     end
@@ -46,10 +55,10 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Left = 10
       Top = 15
       Width = 954
-      Height = 527
-      Margins.Left = 10
-      Margins.Top = 15
-      Margins.Right = 10
+      Height = 506
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
       ParentCustomHint = False
       Align = alClient
       Ctl3D = True
@@ -69,37 +78,47 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       ShowHint = True
       TabOrder = 2
       Zoom = 100
-      ExplicitTop = 12
-      ExplicitHeight = 530
     end
     object pnBottom: TPanel
-      Left = 0
-      Top = 548
-      Width = 974
+      Left = 10
+      Top = 527
+      Width = 954
       Height = 113
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Align = alBottom
       BevelOuter = bvNone
+      Padding.Top = 5
       ParentBackground = False
       TabOrder = 0
       object pnBackBtnSend: TPanel
-        Left = 892
-        Top = 0
+        Left = 872
+        Top = 5
         Width = 82
-        Height = 113
+        Height = 108
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
         Align = alRight
         BevelOuter = bvNone
+        Padding.Left = 3
+        Padding.Right = 10
         ParentBackground = False
         TabOrder = 0
         object btnSend: TButton
           AlignWithMargins = True
           Left = 3
-          Top = 4
+          Top = 0
           Width = 69
           Height = 24
           Cursor = crHandPoint
-          Margins.Top = 4
-          Margins.Right = 10
-          Margins.Bottom = 4
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
           Align = alTop
           Caption = 'Send'
           TabOrder = 0
@@ -108,22 +127,20 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       end
       object mmQuestion: TMemo
         AlignWithMargins = True
-        Left = 10
+        Left = 0
         Top = 5
-        Width = 882
-        Height = 103
-        Margins.Left = 10
-        Margins.Top = 5
+        Width = 872
+        Height = 108
+        Margins.Left = 0
+        Margins.Top = 0
         Margins.Right = 0
-        Margins.Bottom = 5
+        Margins.Bottom = 0
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Tahoma'
         Font.Style = []
-        Lines.Strings = (
-          'Delphi capturar Ctrl + A em TMemo')
         ParentFont = False
         TabOrder = 1
         OnChange = mmQuestionChange
@@ -227,6 +244,34 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         PopupMenu = PopupMenu1
         ExplicitLeft = 65
         ExplicitHeight = 22
+      end
+    end
+    object Panel9: TPanel
+      Left = 10
+      Top = 640
+      Width = 954
+      Height = 21
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alBottom
+      BevelOuter = bvNone
+      Padding.Top = 3
+      ParentBackground = False
+      TabOrder = 3
+      object lbCurrentAI: TLabel
+        Left = 0
+        Top = 3
+        Width = 56
+        Height = 18
+        Cursor = crHandPoint
+        Hint = 'AI being used'
+        Align = alLeft
+        Caption = 'lbCurrentAI'
+        PopupMenu = pMenuCurrentAI
+        OnClick = lbCurrentAIClick
+        ExplicitHeight = 13
       end
     end
   end
@@ -964,6 +1009,20 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Caption = 'Select all'
       ShortCut = 16449
       OnClick = SelectAll1Click
+    end
+  end
+  object pMenuCurrentAI: TPopupMenu
+    OnPopup = pMenuCurrentAIPopup
+    Left = 106
+    Top = 599
+    object Gemini1: TMenuItem
+      Caption = 'Gemini'
+      OnClick = Gemini1Click
+    end
+    object ChatGPT1: TMenuItem
+      Tag = 1
+      Caption = 'ChatGPT'
+      OnClick = Gemini1Click
     end
   end
 end

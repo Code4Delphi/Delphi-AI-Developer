@@ -18,6 +18,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+    function Settings: TDelphiCopilotSettings;
     procedure ProcessSend(const AQuestion: string);
     function Response: TStrings;
   end;
@@ -35,6 +36,11 @@ destructor TDelphiCopilotChat.Destroy;
 begin
   FResponse.Free;
   inherited;
+end;
+
+function TDelphiCopilotChat.Settings: TDelphiCopilotSettings;
+begin
+  Result := FSettings;
 end;
 
 procedure TDelphiCopilotChat.ProcessSend(const AQuestion: string);

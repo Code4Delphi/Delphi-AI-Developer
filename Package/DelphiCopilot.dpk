@@ -46,7 +46,6 @@ contains
   DelphiCopilot.View.Memo in '..\Src\View\DelphiCopilot.View.Memo.pas' {DelphiCopilotViewMemo},
   DelphiCopilot.MainMenu.Register in '..\Src\MainMenu\DelphiCopilot.MainMenu.Register.pas',
   DelphiCopilot.MainMenu in '..\Src\MainMenu\DelphiCopilot.MainMenu.pas',
-  DelphiCopilot.Interfaces in '..\Src\Interfaces\DelphiCopilot.Interfaces.pas',
   DelphiCopilot.MainMenu.Clicks in '..\Src\MainMenu\DelphiCopilot.MainMenu.Clicks.pas',
   DelphiCopilot.View.About in '..\Src\View\DelphiCopilot.View.About.pas' {DelphiCopilotViewAbout},
   Test in '..\Src\Test\Test.pas',
@@ -55,6 +54,7 @@ contains
   DelphiCopilot.Chat in '..\Src\Chat\DelphiCopilot.Chat.pas',
   DelphiCopilot.AI.Gemini in '..\Src\AI\DelphiCopilot.AI.Gemini.pas',
   DelphiCopilot.AI.ChatGPT in '..\Src\AI\DelphiCopilot.AI.ChatGPT.pas',
-  DelphiCopilot.AI.Interfaces in '..\Src\AI\DelphiCopilot.AI.Interfaces.pas';
+  DelphiCopilot.AI.Interfaces in '..\Src\AI\DelphiCopilot.AI.Interfaces.pas',
+  DelphiCopilot.Interfaces in '..\Src\Interfaces\DelphiCopilot.Interfaces.pas';
 
 end.

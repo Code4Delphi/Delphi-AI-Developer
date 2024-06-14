@@ -24,8 +24,10 @@ uses
   Vcl.Menus,
   Vcl.Buttons,
   Clipbrd,
+  DelphiCopilot.Types,
   DelphiCopilot.Consts,
-  DelphiCopilot.Chat;
+  DelphiCopilot.Chat,
+  DelphiCopilot.Settings;
 
 type
   TDelphiCopilotChatView = class(TDockableForm)
@@ -51,6 +53,11 @@ type
     pnWait: TPanel;
     ShapeWait: TShape;
     pnWaitCaption: TPanel;
+    Panel9: TPanel;
+    lbCurrentAI: TLabel;
+    pMenuCurrentAI: TPopupMenu;
+    Gemini1: TMenuItem;
+    ChatGPT1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -64,8 +71,13 @@ type
     procedure SelectAll1Click(Sender: TObject);
     procedure mmQuestionChange(Sender: TObject);
     procedure mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormActivate(Sender: TObject);
+    procedure lbCurrentAIClick(Sender: TObject);
+    procedure Gemini1Click(Sender: TObject);
+    procedure pMenuCurrentAIPopup(Sender: TObject);
   private
     FChat: TDelphiCopilotChat;
+    FSettings: TDelphiCopilotSettings;
     procedure ReadFromFile;
     procedure WriteToFile;
     procedure InitializeRichEditReturn;
@@ -78,6 +90,7 @@ type
     procedure GetSelectedBlockForQuestion;
     procedure WaitingFormOFF;
     procedure WaitingFormON;
+    procedure ConfLabelCurrentAI;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -130,8 +143,9 @@ begin
   DeskSection := Self.Name;
   AutoSave := True;
   SaveStateNecessary := True;
-  FChat := TDelphiCopilotChat.Create;
 
+  FChat := TDelphiCopilotChat.Create;
+  FSettings := FChat.Settings.GetInstance;
   pnWait.Visible := False;
 end;
 
@@ -155,6 +169,11 @@ begin
   mmQuestion.SelectAll;
   mmQuestion.SelStart := Length(mmQuestion.Text);
   mmQuestion.SetFocus;
+end;
+
+procedure TDelphiCopilotChatView.FormActivate(Sender: TObject);
+begin
+  Self.ConfLabelCurrentAI;
 end;
 
 procedure TDelphiCopilotChatView.GetSelectedBlockForQuestion;
@@ -417,6 +436,11 @@ begin
   SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
 end;
 
+procedure TDelphiCopilotChatView.lbCurrentAIClick(Sender: TObject);
+begin
+  pMenuCurrentAI.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
 function TDelphiCopilotChatView.GetSelectedTextOrAll: string;
 begin
   if not mmReturn.SelText.Trim.IsEmpty then
@@ -452,6 +476,42 @@ begin
     mmReturn.Color := clWindow;
     mmReturn.SelAttributes.Color := clWindowText;
   end;
+end;
+
+procedure TDelphiCopilotChatView.pMenuCurrentAIPopup(Sender: TObject);
+begin
+  Gemini1.Checked := False;
+  ChatGPT1.Checked := False;
+  case FSettings.AIDefault of
+    TAIsAvailable.Gemini: Gemini1.Checked := True;
+    TAIsAvailable.OpenAI: ChatGPT1.Checked := True;
+  end;
+end;
+
+procedure TDelphiCopilotChatView.ConfLabelCurrentAI;
+var
+  LModel: string;
+begin
+  case FSettings.AIDefault of
+    TAIsAvailable.Gemini: LModel := FSettings.ModelGemini;
+    TAIsAvailable.OpenAI: LModel := FSettings.ModelOpenAI;
+  end;
+
+  lbCurrentAI.Caption := FSettings.AIDefault.ToString + ' / ' + LModel;
+end;
+
+procedure TDelphiCopilotChatView.Gemini1Click(Sender: TObject);
+var
+  LTag: Integer;
+begin
+  //*SEVERAL
+  LTag := TMenuItem(Sender).Tag;
+  if not(LTag in [0, 1])then
+    Exit;
+
+  FSettings.AIDefault := TAIsAvailable(LTag);
+  FSettings.SaveData;
+  Self.ConfLabelCurrentAI;
 end;
 
 initialization

@@ -137,7 +137,6 @@
         </DCCReference>
         <DCCReference Include="..\Src\MainMenu\DelphiCopilot.MainMenu.Register.pas"/>
         <DCCReference Include="..\Src\MainMenu\DelphiCopilot.MainMenu.pas"/>
-        <DCCReference Include="..\Src\Interfaces\DelphiCopilot.Interfaces.pas"/>
         <DCCReference Include="..\Src\MainMenu\DelphiCopilot.MainMenu.Clicks.pas"/>
         <DCCReference Include="..\Src\View\DelphiCopilot.View.About.pas">
             <Form>DelphiCopilotViewAbout</Form>
@@ -152,6 +151,7 @@
         <DCCReference Include="..\Src\AI\DelphiCopilot.AI.Gemini.pas"/>
         <DCCReference Include="..\Src\AI\DelphiCopilot.AI.ChatGPT.pas"/>
         <DCCReference Include="..\Src\AI\DelphiCopilot.AI.Interfaces.pas"/>
+        <DCCReference Include="..\Src\Interfaces\DelphiCopilot.Interfaces.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
