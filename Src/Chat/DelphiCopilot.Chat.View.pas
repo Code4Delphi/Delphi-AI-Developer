@@ -38,7 +38,7 @@ type
     Paste1: TMenuItem;
     SelectAll1: TMenuItem;
     pnBack: TPanel;
-    pnBottom: TPanel;
+    pnBackQuestion: TPanel;
     pnBackBtnSend: TPanel;
     btnSend: TButton;
     mmQuestion: TMemo;
@@ -53,11 +53,12 @@ type
     pnWait: TPanel;
     ShapeWait: TShape;
     pnWaitCaption: TPanel;
-    Panel9: TPanel;
-    lbCurrentAI: TLabel;
     pMenuCurrentAI: TPopupMenu;
     Gemini1: TMenuItem;
     ChatGPT1: TMenuItem;
+    pnBackStatusBar: TPanel;
+    lbCurrentAI: TLabel;
+    StatusBar1: TStatusBar;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -158,17 +159,15 @@ end;
 procedure TDelphiCopilotChatView.FormShow(Sender: TObject);
 begin
   TUtilsOTA.IDEThemingAll(TDelphiCopilotChatView, Self);
-  Self.Constraints.MinWidth := 100;
-  Self.Constraints.MinHeight := 100;
+  Self.Constraints.MinWidth := 150;
+  Self.Constraints.MinHeight := 150;
 
   Self.InitializeRichEditReturn;
   Self.ReadFromFile;
   Self.GetSelectedBlockForQuestion;
   btnMoreActions.Font.Color := TUtilsOTA.ActiveThemeColorDefault;
 
-  mmQuestion.SelectAll;
-  mmQuestion.SelStart := Length(mmQuestion.Text);
-  mmQuestion.SetFocus;
+  TUtils.MemoFocusOnTheEnd(mmQuestion);
 end;
 
 procedure TDelphiCopilotChatView.FormActivate(Sender: TObject);

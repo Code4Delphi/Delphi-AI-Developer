@@ -1,9 +1,10 @@
 object DelphiCopilotChatView: TDelphiCopilotChatView
   Left = 0
   Top = 0
-  Caption = 'Chat - Delphi Copilot'
+  BorderIcons = [biSystemMenu, biMaximize]
+  Caption = 'Copilot Chat'
   ClientHeight = 661
-  ClientWidth = 974
+  ClientWidth = 975
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +23,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
   object pnBack: TPanel
     Left = 0
     Top = 0
-    Width = 974
+    Width = 956
     Height = 661
     Margins.Left = 0
     Margins.Top = 0
@@ -31,18 +32,18 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
-    Padding.Left = 10
+    Padding.Left = 18
     Padding.Top = 15
-    Padding.Right = 10
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 958
     DesignSize = (
-      974
+      956
       661)
     object Splitter1: TSplitter
-      Left = 10
-      Top = 524
-      Width = 954
+      Left = 18
+      Top = 523
+      Width = 938
       Height = 3
       Cursor = crVSplit
       Align = alBottom
@@ -52,10 +53,10 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     end
     object mmReturn: TRichEdit
       AlignWithMargins = True
-      Left = 10
+      Left = 18
       Top = 15
-      Width = 954
-      Height = 506
+      Width = 938
+      Height = 505
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -78,11 +79,13 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       ShowHint = True
       TabOrder = 2
       Zoom = 100
+      ExplicitLeft = 15
+      ExplicitTop = 12
     end
-    object pnBottom: TPanel
-      Left = 10
-      Top = 527
-      Width = 954
+    object pnBackQuestion: TPanel
+      Left = 18
+      Top = 526
+      Width = 938
       Height = 113
       Margins.Left = 0
       Margins.Top = 0
@@ -93,8 +96,10 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Padding.Top = 5
       ParentBackground = False
       TabOrder = 0
+      ExplicitLeft = 10
+      ExplicitWidth = 948
       object pnBackBtnSend: TPanel
-        Left = 872
+        Left = 856
         Top = 5
         Width = 82
         Height = 108
@@ -105,14 +110,14 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Align = alRight
         BevelOuter = bvNone
         Padding.Left = 3
-        Padding.Right = 10
         ParentBackground = False
         TabOrder = 0
+        ExplicitLeft = 866
         object btnSend: TButton
           AlignWithMargins = True
           Left = 3
           Top = 0
-          Width = 69
+          Width = 79
           Height = 24
           Cursor = crHandPoint
           Margins.Left = 0
@@ -123,13 +128,14 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
           Caption = 'Send'
           TabOrder = 0
           OnClick = btnSendClick
+          ExplicitWidth = 69
         end
       end
       object mmQuestion: TMemo
         AlignWithMargins = True
         Left = 0
         Top = 5
-        Width = 872
+        Width = 856
         Height = 108
         Margins.Left = 0
         Margins.Top = 0
@@ -146,10 +152,11 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         OnChange = mmQuestionChange
         OnKeyDown = mmQuestionKeyDown
         OnKeyUp = mmQuestionKeyUp
+        ExplicitWidth = 866
       end
     end
     object pnCommands: TPanel
-      Left = 866
+      Left = 850
       Top = 0
       Width = 79
       Height = 24
@@ -157,6 +164,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 1
+      ExplicitLeft = 860
       object ShapeCommands: TShape
         Left = 0
         Top = 0
@@ -246,11 +254,11 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         ExplicitHeight = 22
       end
     end
-    object Panel9: TPanel
-      Left = 10
-      Top = 640
-      Width = 954
-      Height = 21
+    object pnBackStatusBar: TPanel
+      Left = 18
+      Top = 639
+      Width = 938
+      Height = 22
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -260,11 +268,13 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Padding.Top = 3
       ParentBackground = False
       TabOrder = 3
+      ExplicitLeft = 10
+      ExplicitWidth = 948
       object lbCurrentAI: TLabel
         Left = 0
         Top = 3
         Width = 56
-        Height = 18
+        Height = 19
         Cursor = crHandPoint
         Hint = 'AI being used'
         Align = alLeft
@@ -312,6 +322,18 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Caption = 'Wait for loading...'
       TabOrder = 0
     end
+  end
+  object StatusBar1: TStatusBar
+    Left = 956
+    Top = 0
+    Width = 19
+    Height = 661
+    Align = alRight
+    Panels = <
+      item
+        Width = 50
+      end>
+    ExplicitLeft = 958
   end
   object ImageList1: TImageList
     Left = 96

@@ -26,6 +26,7 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class procedure MemoFocusOnTheEnd(const AMemo: TMemo);
     class function IfThenColor(const Conditional: Boolean; const AColorTrue, AColorFalse: TColor): TColor;
     class function GetFormFromComponent(const AWinControl: TWinControl): TForm;
     class procedure CenterPanel(const APanel: TPanel); overload;
@@ -130,6 +131,21 @@ uses
   DelphiCopilot.View.Dialog,
   DelphiCopilot.Consts,
   DelphiCopilot.WaitingScreen;
+
+class procedure TUtils.MemoFocusOnTheEnd(const AMemo: TMemo);
+begin
+  TThread.CreateAnonymousThread(
+    procedure
+    begin
+      TThread.Synchronize(nil,
+        procedure
+        begin
+          AMemo.SelStart := Length(AMemo.Text);
+          AMemo.SelLength := 0;
+          AMemo.SetFocus;
+        end);
+    end).Start;
+end;
 
 class function TUtils.IfThenColor(const Conditional: Boolean; const AColorTrue, AColorFalse: TColor): TColor;
 begin
