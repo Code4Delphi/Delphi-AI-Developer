@@ -76,11 +76,10 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       ParentFont = False
       ParentShowHint = False
       PopupMenu = PopupMenu1
-      ScrollBars = ssVertical
+      ScrollBars = ssBoth
       ShowHint = True
       TabOrder = 1
       Zoom = 100
-      ExplicitHeight = 505
     end
     object pnBackQuestion: TPanel
       Left = 18
@@ -96,7 +95,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Padding.Top = 5
       ParentBackground = False
       TabOrder = 0
-      ExplicitTop = 526
       object mmQuestion: TMemo
         AlignWithMargins = True
         Left = 0
@@ -150,7 +148,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Caption = 'lbCurrentAI'
         PopupMenu = pMenuCurrentAI
         OnClick = lbCurrentAIClick
-        ExplicitTop = 1
         ExplicitHeight = 13
       end
       object btnSend: TButton
@@ -168,8 +165,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Caption = 'Send'
         TabOrder = 0
         OnClick = btnSendClick
-        ExplicitTop = 1
-        ExplicitHeight = 19
       end
     end
   end

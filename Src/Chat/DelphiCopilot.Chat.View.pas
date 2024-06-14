@@ -497,15 +497,15 @@ begin
 end;
 
 procedure TDelphiCopilotChatView.ConfLabelCurrentAI;
-var
-  LModel: string;
 begin
-  case FSettings.AIDefault of
-    TAIsAvailable.Gemini: LModel := FSettings.ModelGemini;
-    TAIsAvailable.OpenAI: LModel := FSettings.ModelOpenAI;
-  end;
+  lbCurrentAI.Caption := FSettings.AIDefault.ToString;
 
-  lbCurrentAI.Caption := FSettings.AIDefault.ToString + ' / ' + LModel;
+  case FSettings.AIDefault of
+    TAIsAvailable.Gemini:
+      lbCurrentAI.Hint := FSettings.ModelGemini;
+    TAIsAvailable.OpenAI:
+      lbCurrentAI.Hint := FSettings.ModelOpenAI;
+  end;
 end;
 
 procedure TDelphiCopilotChatView.Gemini1Click(Sender: TObject);
