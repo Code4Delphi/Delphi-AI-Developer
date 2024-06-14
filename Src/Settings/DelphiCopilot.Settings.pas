@@ -6,13 +6,19 @@ uses
   System.SysUtils,
   System.Win.Registry,
   Winapi.Windows,
+  Vcl.Graphics,
   DelphiCopilot.Types,
-  DelphiCopilot.Consts;
+  DelphiCopilot.Consts,
+  DelphiCopilot.Utils,
+  DelphiCopilot.Utils.OTA;
 
 type
   TDelphiCopilotSettings = class
   private
     FAIDefault: TAIsAvailable;
+    FColorHighlightCodeDelphiUse: Boolean;
+    FColorHighlightCodeDelphi: TColor;
+
     FBaseUrlGemini: string;
     FModelGemini: string;
     FApiKeyGemini: string;
@@ -23,6 +29,8 @@ type
 
     const
     FIELD_AIDefault = 'AIDefault';
+    FIELD_ColorHighlightCodeDelphiUse = 'ColorHighlightCodeDelphiUse';
+    FIELD_ColorHighlightCodeDelphi =  'ColorHighlightCodeDelphi';
     FIELD_BaseUrlGemini = 'BaseUrlGemini';
     FIELD_ModelGemini = 'ModelGemini';
     FIELD_ApiKeyGemini = 'ApiKeyGemini';
@@ -38,6 +46,9 @@ type
     procedure LoadData;
 
     property AIDefault: TAIsAvailable read FAIDefault write FAIDefault;
+    property ColorHighlightCodeDelphiUse: Boolean read FColorHighlightCodeDelphiUse write FColorHighlightCodeDelphiUse;
+    property ColorHighlightCodeDelphi: TColor read FColorHighlightCodeDelphi write FColorHighlightCodeDelphi;
+
 
     property BaseUrlGemini: string read FBaseUrlGemini write FBaseUrlGemini;
     property ModelGemini: string read FModelGemini write FModelGemini;
@@ -69,6 +80,9 @@ procedure TDelphiCopilotSettings.LoadDefaults;
 begin
   FAIDefault := TAIsAvailable.Gemini;
 
+  FColorHighlightCodeDelphiUse := False;
+  FColorHighlightCodeDelphi := clNone;
+
   FBaseUrlGemini := TC4DConsts.BASE_URL_GEMINI_DEFAULT;
   FModelGemini := TC4DConsts.MODEL_GEMINI_DEFAULT;
   FApiKeyGemini := '';
@@ -90,6 +104,9 @@ begin
       raise Exception.Create('Unable to save settings to Windows registry');
 
     LReg.WriteInteger(FIELD_AIDefault, Integer(FAIDefault));
+
+    LReg.WriteBool(FIELD_ColorHighlightCodeDelphiUse, FColorHighlightCodeDelphiUse);
+    LReg.WriteString(FIELD_ColorHighlightCodeDelphi, ColorToString(FColorHighlightCodeDelphi));
 
     LReg.WriteString(FIELD_BaseUrlGemini, FBaseUrlGemini);
     LReg.WriteString(FIELD_ModelGemini, FModelGemini);
@@ -119,6 +136,14 @@ begin
 
       if LReg.ValueExists(FIELD_AIDefault) then
         FAIDefault := TAIsAvailable(LReg.ReadInteger(FIELD_AIDefault));
+
+      //COLOR FOR HIGHLIGHT CODE DELPHI/PASCAL
+      if LReg.ValueExists(FIELD_ColorHighlightCodeDelphiUse) then
+        FColorHighlightCodeDelphiUse := LReg.ReadBool(FIELD_ColorHighlightCodeDelphiUse);
+
+      if LReg.ValueExists(FIELD_ColorHighlightCodeDelphi) then
+        FColorHighlightCodeDelphi := TUtils.StringToColorDef(LReg.ReadString(FIELD_ColorHighlightCodeDelphi),
+          TUtilsOTA.ActiveThemeForCode);
 
       //GEMINI
       if LReg.ValueExists(FIELD_BaseUrlGemini) then

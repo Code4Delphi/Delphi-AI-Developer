@@ -359,7 +359,12 @@ begin
     end;
 
     if FCodeStarted then
-      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeForCode
+    begin
+      if (FSettings.ColorHighlightCodeDelphiUse) and (FSettings.ColorHighlightCodeDelphi <> clNone) then
+        mmReturn.SelAttributes.Color := FSettings.ColorHighlightCodeDelphi
+      else
+        mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeForCode;
+    end
     else
       mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
 

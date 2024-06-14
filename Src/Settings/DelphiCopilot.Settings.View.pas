@@ -15,7 +15,8 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   DelphiCopilot.Settings,
-  DelphiCopilot.Types, Vcl.Buttons;
+  DelphiCopilot.Types,
+  Vcl.Buttons;
 
 type
   TDelphiCopilotSettingsView = class(TForm)
@@ -50,6 +51,8 @@ type
     btnApiKeyOpenAIView: TSpeedButton;
     lbLink04: TLabel;
     lbRestoreDefaults: TLabel;
+    ColorBoxColorHighlightCodeDelphi: TColorBox;
+    ckColorHighlightCodeDelphiUse: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -60,11 +63,13 @@ type
     procedure btnApiKeyOpenAIViewClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure lbRestoreDefaultsClick(Sender: TObject);
+    procedure ckColorHighlightCodeDelphiUseClick(Sender: TObject);
   private
     FSettings: TDelphiCopilotSettings;
     procedure SaveSettings;
     procedure LoadSettings;
     procedure ConfigScreen;
+    procedure ConfigFieldsColorHighlightDelphi;
   public
 
   end;
@@ -165,9 +170,23 @@ begin
   Self.ModalResult := mrOk;
 end;
 
+procedure TDelphiCopilotSettingsView.ckColorHighlightCodeDelphiUseClick(Sender: TObject);
+begin
+  Self.ConfigFieldsColorHighlightDelphi;
+end;
+
+procedure TDelphiCopilotSettingsView.ConfigFieldsColorHighlightDelphi;
+begin
+  ColorBoxColorHighlightCodeDelphi.Enabled := ckColorHighlightCodeDelphiUse.Checked;
+end;
+
 procedure TDelphiCopilotSettingsView.LoadSettings;
 begin
   cBoxAIDefault.ItemIndex := Integer(FSettings.AIDefault);
+
+  ckColorHighlightCodeDelphiUse.Checked := FSettings.ColorHighlightCodeDelphiUse;
+  ColorBoxColorHighlightCodeDelphi.Selected := FSettings.ColorHighlightCodeDelphi;
+  Self.ConfigFieldsColorHighlightDelphi;
 
   edtBaseUrlGemini.Text := FSettings.BaseUrlGemini;
   cBoxModelGemini.ItemIndex := cBoxModelGemini.Items.IndexOf(FSettings.ModelGemini);
@@ -181,6 +200,9 @@ end;
 procedure TDelphiCopilotSettingsView.SaveSettings;
 begin
   FSettings.AIDefault := TAIsAvailable(cBoxAIDefault.ItemIndex);
+
+  FSettings.ColorHighlightCodeDelphiUse := ckColorHighlightCodeDelphiUse.Checked;
+  FSettings.ColorHighlightCodeDelphi := ColorBoxColorHighlightCodeDelphi.Selected;
 
   FSettings.BaseUrlGemini := edtBaseUrlGemini.Text;
   FSettings.ModelGemini := cBoxModelGemini.Text;

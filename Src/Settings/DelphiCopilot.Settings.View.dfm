@@ -69,6 +69,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
       Caption = 'Confirm'
       TabOrder = 0
       OnClick = btnConfirmClick
+      ExplicitTop = 3
     end
     object btnClose: TButton
       AlignWithMargins = True
@@ -272,6 +273,22 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
           Items.Strings = (
             'Gemini'
             'OpenAI (ChatGPT)')
+        end
+        object ColorBoxColorHighlightCodeDelphi: TColorBox
+          Left = 472
+          Top = 38
+          Width = 133
+          Height = 22
+          TabOrder = 1
+        end
+        object ckColorHighlightCodeDelphiUse: TCheckBox
+          Left = 272
+          Top = 40
+          Width = 197
+          Height = 17
+          Caption = 'Color to highlight Delphi/Pascal code'
+          TabOrder = 2
+          OnClick = ckColorHighlightCodeDelphiUseClick
         end
       end
       object gBoxOpenAI: TGroupBox
