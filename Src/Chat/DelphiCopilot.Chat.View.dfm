@@ -41,7 +41,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     TabOrder = 0
     object Splitter1: TSplitter
       Left = 18
-      Top = 523
+      Top = 520
       Width = 938
       Height = 3
       Cursor = crVSplit
@@ -55,7 +55,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Left = 18
       Top = 15
       Width = 938
-      Height = 505
+      Height = 502
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -80,10 +80,11 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       ShowHint = True
       TabOrder = 1
       Zoom = 100
+      ExplicitHeight = 505
     end
     object pnBackQuestion: TPanel
       Left = 18
-      Top = 526
+      Top = 523
       Width = 938
       Height = 113
       Margins.Left = 0
@@ -95,42 +96,12 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Padding.Top = 5
       ParentBackground = False
       TabOrder = 0
-      object pnBackBtnSend: TPanel
-        Left = 856
-        Top = 5
-        Width = 82
-        Height = 108
-        Margins.Left = 0
-        Margins.Top = 0
-        Margins.Right = 0
-        Margins.Bottom = 0
-        Align = alRight
-        BevelOuter = bvNone
-        Padding.Left = 3
-        ParentBackground = False
-        TabOrder = 0
-        object btnSend: TButton
-          AlignWithMargins = True
-          Left = 3
-          Top = 0
-          Width = 79
-          Height = 24
-          Cursor = crHandPoint
-          Margins.Left = 0
-          Margins.Top = 0
-          Margins.Right = 0
-          Margins.Bottom = 0
-          Align = alTop
-          Caption = 'Send'
-          TabOrder = 0
-          OnClick = btnSendClick
-        end
-      end
+      ExplicitTop = 526
       object mmQuestion: TMemo
         AlignWithMargins = True
         Left = 0
         Top = 5
-        Width = 856
+        Width = 938
         Height = 108
         Margins.Left = 0
         Margins.Top = 0
@@ -143,7 +114,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        TabOrder = 1
+        TabOrder = 0
         OnChange = mmQuestionChange
         OnKeyDown = mmQuestionKeyDown
         OnKeyUp = mmQuestionKeyUp
@@ -151,9 +122,9 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     end
     object pnBackStatusBar: TPanel
       Left = 18
-      Top = 639
+      Top = 636
       Width = 938
-      Height = 22
+      Height = 25
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -161,20 +132,44 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Align = alBottom
       BevelOuter = bvNone
       Padding.Top = 3
+      Padding.Bottom = 2
       ParentBackground = False
       TabOrder = 2
       object lbCurrentAI: TLabel
         Left = 0
         Top = 3
         Width = 56
-        Height = 19
+        Height = 20
         Cursor = crHandPoint
         Hint = 'AI being used'
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
         Align = alLeft
         Caption = 'lbCurrentAI'
         PopupMenu = pMenuCurrentAI
         OnClick = lbCurrentAIClick
+        ExplicitTop = 1
         ExplicitHeight = 13
+      end
+      object btnSend: TButton
+        AlignWithMargins = True
+        Left = 864
+        Top = 3
+        Width = 74
+        Height = 20
+        Cursor = crHandPoint
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alRight
+        Caption = 'Send'
+        TabOrder = 0
+        OnClick = btnSendClick
+        ExplicitTop = 1
+        ExplicitHeight = 19
       end
     end
   end
@@ -231,7 +226,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     Left = 936
     Top = 8
     Width = 26
-    Height = 66
+    Height = 70
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -252,9 +247,9 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     object btnCopy: TSpeedButton
       AlignWithMargins = True
       Left = 0
-      Top = 20
+      Top = 23
       Width = 26
-      Height = 20
+      Height = 23
       Cursor = crHandPoint
       Hint = 'Copy'
       Margins.Left = 0
@@ -278,15 +273,14 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         0202020F01010103030F0F0F0F0202020202020F01010101010F0E0F02020202
         0202020F0F0F0F0F0F0F0F02020202020202}
       OnClick = btnCopyClick
-      ExplicitTop = 22
-      ExplicitWidth = 23
+      ExplicitTop = 24
     end
     object btnInsertAtCursor: TSpeedButton
       AlignWithMargins = True
       Left = 0
       Top = 0
       Width = 26
-      Height = 20
+      Height = 23
       Cursor = crHandPoint
       Hint = 'Insert Selected Text at Cursor'
       Margins.Left = 0
@@ -310,15 +304,13 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         080A0D0F12020202020202020202030507090B0E120202020202020202021212
         1212121212020202020202020202}
       OnClick = btnInsertAtCursorClick
-      ExplicitLeft = 2
-      ExplicitWidth = 21
     end
     object btnMoreActions: TSpeedButton
       AlignWithMargins = True
       Left = 0
-      Top = 40
+      Top = 46
       Width = 26
-      Height = 20
+      Height = 23
       Cursor = crHandPoint
       Hint = 'More actions...'
       Margins.Left = 0
@@ -329,7 +321,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Caption = '...'
       Flat = True
       PopupMenu = PopupMenu1
-      ExplicitWidth = 23
     end
   end
   object ImageList1: TImageList

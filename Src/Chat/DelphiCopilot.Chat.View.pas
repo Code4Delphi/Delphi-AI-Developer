@@ -39,8 +39,6 @@ type
     SelectAll1: TMenuItem;
     pnBack: TPanel;
     pnBackQuestion: TPanel;
-    pnBackBtnSend: TPanel;
-    btnSend: TButton;
     mmQuestion: TMemo;
     N1: TMenuItem;
     mmReturn: TRichEdit;
@@ -59,6 +57,7 @@ type
     btnInsertAtCursor: TSpeedButton;
     btnMoreActions: TSpeedButton;
     ShapeCommands: TShape;
+    btnSend: TButton;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
