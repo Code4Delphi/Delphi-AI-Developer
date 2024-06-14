@@ -38,7 +38,7 @@ uses
 
 procedure TDelphiCopilotViewMemo.FormCreate(Sender: TObject);
 begin
-  TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotViewMemo, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiCopilotViewMemo, Self);
 end;
 
 procedure TDelphiCopilotViewMemo.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

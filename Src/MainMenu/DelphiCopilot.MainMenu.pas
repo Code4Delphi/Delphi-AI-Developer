@@ -44,7 +44,7 @@ end;
 
 constructor TDelphiCopilotIDEMainMenu.Create;
 begin
-  FMainMenuIDE := TDelphiCopilotUtilsOTA.GetINTAServices.MainMenu;
+  FMainMenuIDE := TUtilsOTA.GetINTAServices.MainMenu;
 end;
 
 destructor TDelphiCopilotIDEMainMenu.Destroy;
@@ -120,7 +120,7 @@ begin
   LMenuItem.Caption := ACaption;
   LMenuItem.OnClick := AOnClick;
   LMenuItem.ImageIndex := AImgIndex;
-  LMenuItem.ShortCut := TextToShortCut(TDelphiCopilotUtils.RemoveSpacesAll(AShortCutStr));
+  LMenuItem.ShortCut := TextToShortCut(TUtils.RemoveSpacesAll(AShortCutStr));
   FMenuItemC4D.Add(LMenuItem);
   Result := LMenuItem;
 end;

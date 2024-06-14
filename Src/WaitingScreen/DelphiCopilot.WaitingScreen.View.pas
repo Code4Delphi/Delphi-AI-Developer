@@ -40,7 +40,7 @@ const
 
 procedure TDelphiCopilotWaitingScreenView.FormCreate(Sender: TObject);
 begin
-  TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotWaitingScreenView, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiCopilotWaitingScreenView, Self);
   FMsg := '';
 end;
 

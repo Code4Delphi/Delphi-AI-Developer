@@ -21,7 +21,7 @@ uses
   DelphiCopilot.Types;
 
 type
-  TDelphiCopilotUtils = class
+  TUtils = class
   private
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
@@ -106,6 +106,7 @@ type
     class function IsBpr(const AFilePath: string): Boolean;
     {$REGION 'MessagesDeclarations'}
     class procedure ShowMsg(const AMsg: string; const ADetails: string = '');
+    class procedure ShowMsgSynchronize(const AMsg: string; const ADetails: string = '');
     class procedure ShowV(const AMsg: string; const ADetails: string = '');
     class procedure ShowError(const AMsg: string; const ADetails: string = ''); overload;
     class procedure ShowError(const AMsg: string; const AWinControlFocu: TWinControl); overload;
@@ -130,14 +131,14 @@ uses
   DelphiCopilot.Consts,
   DelphiCopilot.WaitingScreen;
 
-class function TDelphiCopilotUtils.IfThenColor(const Conditional: Boolean; const AColorTrue, AColorFalse: TColor): TColor;
+class function TUtils.IfThenColor(const Conditional: Boolean; const AColorTrue, AColorFalse: TColor): TColor;
 begin
   Result := AColorFalse;
   if Conditional then
     Result := AColorTrue;
 end;
 
-class function TDelphiCopilotUtils.GetFormFromComponent(const AWinControl: TWinControl): TForm;
+class function TUtils.GetFormFromComponent(const AWinControl: TWinControl): TForm;
 var
   LParent: TComponent;
 begin
@@ -153,7 +154,7 @@ begin
   end;
 end;
 
-class procedure TDelphiCopilotUtils.CenterPanel(const APanel: TPanel);
+class procedure TUtils.CenterPanel(const APanel: TPanel);
 var
   LForm: TForm;
   LFormCenterX: Integer;
@@ -171,7 +172,7 @@ begin
   APanel.Top := LFormCenterY - (APanel.Height div 2);
 end;
 
-class procedure TDelphiCopilotUtils.CenterPanel(const APanel: TPanel; const AWinControl: TWinControl);
+class procedure TUtils.CenterPanel(const APanel: TPanel; const AWinControl: TWinControl);
 var
   LCenterX: Integer;
   LCenterY: Integer;
@@ -186,7 +187,7 @@ begin
   APanel.Top := LCenterY - (APanel.Height div 2);
 end;
 
-class procedure TDelphiCopilotUtils.TogglePasswordChar(const AEdit: TEdit);
+class procedure TUtils.TogglePasswordChar(const AEdit: TEdit);
 begin
   if AEdit.PasswordChar = '*' then
     AEdit.PasswordChar := #0
@@ -194,14 +195,14 @@ begin
     AEdit.PasswordChar := '*';
 end;
 
-class function TDelphiCopilotUtils.ConfReturnAI(const AValue: string): string;
+class function TUtils.ConfReturnAI(const AValue: string): string;
 begin
   Result := AValue
     .Replace('```delphi', '', [rfReplaceAll, rfIgnoreCase])
     .Replace('```', '', [rfReplaceAll]);
 end;
 
-class function TDelphiCopilotUtils.ProcessTextForEditor(const AText: string): string;
+class function TUtils.ProcessTextForEditor(const AText: string): string;
 var
   AdjustRet: Boolean;
   Strings: TStrings;
@@ -247,19 +248,19 @@ begin
     Result := Result + #13#10;
 end;
 
-class function TDelphiCopilotUtils.CopyReverse(S: string; Index, Count : Integer): string;
+class function TUtils.CopyReverse(S: string; Index, Count : Integer): string;
 begin
   Result := ReverseString(S);
   Result := Copy(Result, Index, Count);
   Result := ReverseString(Result);
 end;
 
-class function TDelphiCopilotUtils.FileNameIsC4DWizardDPROJ(const AFileName: string): Boolean;
+class function TUtils.FileNameIsC4DWizardDPROJ(const AFileName: string): Boolean;
 begin
   Result := ExtractFileName(AFileName) = TC4DConsts.C4D_WIZARD_DPROJ;
 end;
 
-class procedure TDelphiCopilotUtils.RemoveBlankSpaceInBegin(var AValue: string; const ACount: Integer);
+class procedure TUtils.RemoveBlankSpaceInBegin(var AValue: string; const ACount: Integer);
 begin
   if(ACount <= 0)then
     Exit;
@@ -268,27 +269,27 @@ begin
     delete(AValue, 1, ACount);
 end;
 
-class function TDelphiCopilotUtils.BlankSpaceInBegin(const AValue: string): Integer;
+class function TUtils.BlankSpaceInBegin(const AValue: string): Integer;
 begin
   Result := AValue.Length - AValue.TrimLeft.Length;
 end;
 
-class procedure TDelphiCopilotUtils.WaitingScreenShow(const AMsg: string = '');
+class procedure TUtils.WaitingScreenShow(const AMsg: string = '');
 begin
   TDelphiCopilotWaitingScreen.GetInstance.Show(AMsg);
 end;
 
-class procedure TDelphiCopilotUtils.WaitingScreenHide;
+class procedure TUtils.WaitingScreenHide;
 begin
   TDelphiCopilotWaitingScreen.GetInstance.Close;
 end;
 
-class function TDelphiCopilotUtils.UTF8ToStr(AValue: string): string;
+class function TUtils.UTF8ToStr(AValue: string): string;
 begin
   Result := UTF8Tostring(RawBytestring(AValue));
 end;
 
-class procedure TDelphiCopilotUtils.ExplodeList(const AText, ASeparator: string; AStrings: TStrings);
+class procedure TUtils.ExplodeList(const AText, ASeparator: string; AStrings: TStrings);
 var
   LItem: string;
   LText: string;
@@ -320,7 +321,7 @@ begin
   end;
 end;
 
-class procedure TDelphiCopilotUtils.MemoVerticalCenter(AMemo: TMemo; ANumLines: Integer; AText: string);
+class procedure TUtils.MemoVerticalCenter(AMemo: TMemo; ANumLines: Integer; AText: string);
 var
   I: Integer;
   LLinesCount: Integer;
@@ -338,7 +339,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtils.StatusBarNumPanelDblClick(AStatusBar: TStatusBar): Integer;
+class function TUtils.StatusBarNumPanelDblClick(AStatusBar: TStatusBar): Integer;
 var
   LPointMouse: Tpoint;
   LWidth: Integer;
@@ -359,7 +360,7 @@ begin
   Result := LNumPanel;
 end;
 
-class function TDelphiCopilotUtils.StrToOpenExternalKind(Value: string): TDelphiCopilotOpenExternalKind;
+class function TUtils.StrToOpenExternalKind(Value: string): TDelphiCopilotOpenExternalKind;
 begin
   Result := TDelphiCopilotOpenExternalKind.None;
   if(Value = 'Files')then
@@ -376,7 +377,7 @@ begin
     Result := TDelphiCopilotOpenExternalKind.MenuMasterOnly;
 end;
 
-class procedure TDelphiCopilotUtils.OpenExternalKindFillItemsTStrings(Astrings: TStrings);
+class procedure TUtils.OpenExternalKindFillItemsTStrings(Astrings: TStrings);
 var
   LItem: TDelphiCopilotOpenExternalKind;
 begin
@@ -394,7 +395,7 @@ begin
   end;
 end;
 
-class procedure TDelphiCopilotUtils.ExtensionFillTStringsWithValid(Astrings: TStrings);
+class procedure TUtils.ExtensionFillTStringsWithValid(Astrings: TStrings);
 begin
   if(Astrings = nil)then
     Exit;
@@ -407,24 +408,24 @@ begin
   Astrings.Add('Files in Directories');
 end;
 
-class function TDelphiCopilotUtils.BoolToStrC4D(Value: Boolean): string;
+class function TUtils.BoolToStrC4D(Value: Boolean): string;
 begin
   Result := IfThen(Value, 'True', 'False');
 end;
 
-class function TDelphiCopilotUtils.StrToBoolC4D(Value: string): Boolean;
+class function TUtils.StrToBoolC4D(Value: string): Boolean;
 begin
   Result := Value = 'True';
 end;
 
-class function TDelphiCopilotUtils.RemoveCommentAfterTwoBars(Value: string): string;
+class function TUtils.RemoveCommentAfterTwoBars(Value: string): string;
 begin
   Result := Value;
   if(Result.Contains('//'))then
     Result := Copy(Result, 1, (Pos('//', Result) - 1));
 end;
 
-class procedure TDelphiCopilotUtils.FindListVewItem(AListView: TListView; AIndexSubItem: Integer; AStrFind: string);
+class procedure TUtils.FindListVewItem(AListView: TListView; AIndexSubItem: Integer; AStrFind: string);
 var
   I: Integer;
 begin
@@ -442,42 +443,42 @@ begin
   end;
 end;
 
-class procedure TDelphiCopilotUtils.ShellExecuteC4D(AFileName: string);
+class procedure TUtils.ShellExecuteC4D(AFileName: string);
 begin
   Self.ShellExecuteC4D(AFileName, '', SW_SHOWNORMAL);
 end;
 
-class procedure TDelphiCopilotUtils.ShellExecuteC4D(AFileName, AParameters: string);
+class procedure TUtils.ShellExecuteC4D(AFileName, AParameters: string);
 begin
   Self.ShellExecuteC4D(AFileName, AParameters, SW_SHOWNORMAL);
 end;
 
-class procedure TDelphiCopilotUtils.ShellExecuteC4D(AFileName: string; AShowCmd: Integer);
+class procedure TUtils.ShellExecuteC4D(AFileName: string; AShowCmd: Integer);
 begin
   Self.ShellExecuteC4D(AFileName, '', AShowCmd);
 end;
 
-class procedure TDelphiCopilotUtils.ShellExecuteC4D(AFileName: string; AParameters: string; AShowCmd: Integer);
+class procedure TUtils.ShellExecuteC4D(AFileName: string; AParameters: string; AShowCmd: Integer);
 begin
   ShellExecute(Application.Handle, nil, PWideChar(AFileName), PWideChar(AParameters), nil, AShowCmd);
 end;
 
-class procedure TDelphiCopilotUtils.OpenLink(ALink: string);
+class procedure TUtils.OpenLink(ALink: string);
 begin
   Self.ShellExecuteC4D(ALink);
 end;
 
-class function TDelphiCopilotUtils.SelectFile(const ADefaultFile: string = ''): string;
+class function TUtils.SelectFile(const ADefaultFile: string = ''): string;
 begin
   Result := Self.SelectFile(ADefaultFile, TC4DExtensionsFiles.All)
 end;
 
-class function TDelphiCopilotUtils.SelectFile(const ADefaultExt: TC4DExtensionsFiles): string;
+class function TUtils.SelectFile(const ADefaultExt: TC4DExtensionsFiles): string;
 begin
   Result := Self.SelectFile(EmptyStr, ADefaultExt)
 end;
 
-class function TDelphiCopilotUtils.SelectFile(const ADefaultFile: string; const ADefaultExt: TC4DExtensionsFiles): string;
+class function TUtils.SelectFile(const ADefaultFile: string; const ADefaultExt: TC4DExtensionsFiles): string;
 var
   LOpenDialog: TOpenDialog;
   LFolder: string;
@@ -511,7 +512,7 @@ end;
 
 //FOR VERSIONS PRIOR TO DELPHI
 {$WARN SYMBOL_PLATFORM OFF}
-class function TDelphiCopilotUtils.SelectFolder(const ADefaultFolder: string; const ADefaultFolderIfCancel: Boolean = True): string;
+class function TUtils.SelectFolder(const ADefaultFolder: string; const ADefaultFolderIfCancel: Boolean = True): string;
 var
   LFileOpenDialog: TFileOpenDialog;
 begin
@@ -538,7 +539,7 @@ begin
 end;
 {$WARN SYMBOL_PLATFORM ON}
 
-class function TDelphiCopilotUtils.StringToColorDef(AValue: string; AColorDefault: TColor = clBlack): TColor;
+class function TUtils.StringToColorDef(AValue: string; AColorDefault: TColor = clBlack): TColor;
 begin
   try
     Result := StringToColor(AValue)
@@ -547,14 +548,14 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtils.DateTimeToStrEmpty(AValue: TDateTime): string;
+class function TUtils.DateTimeToStrEmpty(AValue: TDateTime): string;
 begin
   Result := '';
   if(AValue > 0)then
     Result := DateTimeToStr(AValue);
 end;
 
-class function TDelphiCopilotUtils.DirectoryDelete(AFullPath: string): Boolean;
+class function TUtils.DirectoryDelete(AFullPath: string): Boolean;
 var
   LSr: TSearchRec;
   LFullName: string;
@@ -587,7 +588,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtils.DirectoryOrFileMove(AFrom, ATo: string): Boolean;
+class function TUtils.DirectoryOrFileMove(AFrom, ATo: string): Boolean;
 begin
   Result := False;
   try
@@ -599,23 +600,23 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtils.IncInt(var AValue: Integer): Integer;
+class function TUtils.IncInt(var AValue: Integer): Integer;
 begin
   AValue := AValue + 1;
   Result := AValue;
 end;
 
-class procedure TDelphiCopilotUtils.OpenFolder(APathFolder: string);
+class procedure TUtils.OpenFolder(APathFolder: string);
 begin
   Self.ShellExecuteC4D(APathFolder);
 end;
 
-class procedure TDelphiCopilotUtils.OpenFile(AFilePath: string);
+class procedure TUtils.OpenFile(AFilePath: string);
 begin
   Self.ShellExecuteC4D('explorer.exe', '/select, "' + AFilePath+ '"', SW_NORMAL);
 end;
 
-class procedure TDelphiCopilotUtils.OpenFileOrFolder(APath: string);
+class procedure TUtils.OpenFileOrFolder(APath: string);
 begin
   if(FileExists(APath))then
     Self.OpenFile(APath)
@@ -623,7 +624,7 @@ begin
     Self.OpenFolder(APath);
 end;
 
-class function TDelphiCopilotUtils.GetSpecialFolderPath(const ACsidl: Integer): string;
+class function TUtils.GetSpecialFolderPath(const ACsidl: Integer): string;
 var
   LFilePath: array [0..MAX_PATH] of Char;
 begin
@@ -631,12 +632,12 @@ begin
   Result := IncludeTrailingPathDelimiter(LFilePath);
 end;
 
-class function TDelphiCopilotUtils.GetDirProgramFiles: string;
+class function TUtils.GetDirProgramFiles: string;
 begin
   Result := Self.GetSpecialFolderPath(CSIDL_PROGRAM_FILES);
 end;
 
-class function TDelphiCopilotUtils.GetPathFolderRoot: string;
+class function TUtils.GetPathFolderRoot: string;
 const
   PATH_WIZARD = 'Code4DCopilot';
 begin
@@ -645,24 +646,24 @@ begin
   ForceDirectories(Result);
 end;
 
-class function TDelphiCopilotUtils.GetPathFileIniGeneralSettings: string;
+class function TUtils.GetPathFileIniGeneralSettings: string;
 begin
   Result := Self.GetPathFolderRoot + TC4DConsts.FILE_INI_GENERAL_SETTINGS;
 end;
 
-class function TDelphiCopilotUtils.GetPathFileChat: string;
+class function TUtils.GetPathFileChat: string;
 begin
   Result := Self.GetPathFolderRoot + TC4DConsts.FILE_RTF_CHAT;
 end;
 
-class function TDelphiCopilotUtils.CreateIfNecessaryAndGetPathFolderTemp: string;
+class function TUtils.CreateIfNecessaryAndGetPathFolderTemp: string;
 begin
   Result := Self.GetPathFolderRoot + TC4DConsts.NAME_FOLDER_TEMP;
   if(not DirectoryExists(Result))then
     ForceDirectories(Result);
 end;
 
-class function TDelphiCopilotUtils.GetGuidStr: string;
+class function TUtils.GetGuidStr: string;
 var
   LGUID1: TGUID;
 begin
@@ -671,19 +672,19 @@ begin
   Result := GUIDTostring(LGUID1);
 end;
 
-class function TDelphiCopilotUtils.GuidToFileName(const AGuid: string; const AExtension: string): string;
+class function TUtils.GuidToFileName(const AGuid: string; const AExtension: string): string;
 begin
   Result := AGuid.Replace('{', EmptyStr).Replace('}', EmptyStr) + AExtension.ToLower;
 end;
 
-class function TDelphiCopilotUtils.GetNamespace(AText: string): string;
+class function TUtils.GetNamespace(AText: string): string;
 begin
   Result := '';
   if(ContainsStr(AText, '.'))then
     Result := Copy(AText, 1, Pos('.', AText));
 end;
 
-class function TDelphiCopilotUtils.GetTextBetween(AText, ADelimitador1, ADelimitador2: string; ACaseSensitive: Boolean = False): string;
+class function TUtils.GetTextBetween(AText, ADelimitador1, ADelimitador2: string; ACaseSensitive: Boolean = False): string;
 var
   LPosIni: Integer;
   LPosFim: Integer;
@@ -711,12 +712,12 @@ begin
     Result := LText;
 end;
 
-class function TDelphiCopilotUtils.RemoveSpacesAll(const AText: string): string;
+class function TUtils.RemoveSpacesAll(const AText: string): string;
 begin
   Result := StringReplace(AText.Trim, ' ', '', [rfReplaceAll]);
 end;
 
-class function TDelphiCopilotUtils.RemoveSpacesExtras(const AText: string): string;
+class function TUtils.RemoveSpacesExtras(const AText: string): string;
 var
   LContinue: Boolean;
 begin
@@ -731,29 +732,29 @@ begin
   Result := Result.Trim;
 end;
 
-class function TDelphiCopilotUtils.RemoveEnter(AText: string): string;
+class function TUtils.RemoveEnter(AText: string): string;
 begin
   Result := StringReplace(AText, #$D#$A, '', [rfReplaceAll]);
   Result := StringReplace(Result, #13#10, '', [rfReplaceAll]);
 end;
 
-class function TDelphiCopilotUtils.ChangeEnterDuplicatedByOne(AText: string): string;
+class function TUtils.ChangeEnterDuplicatedByOne(AText: string): string;
 begin
   Result := StringReplace(AText, #$D#$A#$D#$A, #$D#$A, [rfReplaceAll]);
   Result := StringReplace(Result, #13#10#13#10, #13#10, [rfReplaceAll]);
 end;
 
-class function TDelphiCopilotUtils.RemoveLastComma(AValue: string): string;
+class function TUtils.RemoveLastComma(AValue: string): string;
 begin
   Result := Self.RemoveLastChar(AValue, ',');
 end;
 
-class function TDelphiCopilotUtils.RemoveLastSemicolon(AValue: string): string;
+class function TUtils.RemoveLastSemicolon(AValue: string): string;
 begin
   Result := Self.RemoveLastChar(AValue, ';');
 end;
 
-class function TDelphiCopilotUtils.ChangeLastComma(AValue: string; ANewLastChar: Char): string;
+class function TUtils.ChangeLastComma(AValue: string; ANewLastChar: Char): string;
 begin
   Result := AValue;
   AValue := AValue.TrimRight;
@@ -767,7 +768,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtils.RemoveLastChar(AValue: string; AChar: Char): string;
+class function TUtils.RemoveLastChar(AValue: string; AChar: Char): string;
 begin
   Result := AValue;
   AValue := AValue.Trim;
@@ -781,12 +782,12 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtils.RemoveAccentsSwapSymbols(AValue: string): string;
+class function TUtils.RemoveAccentsSwapSymbols(AValue: string): string;
 begin
   Result := SwapSymbols(RemoveAccents(AValue));
 end;
 
-class function TDelphiCopilotUtils.RemoveAccents(AValue: string): string;
+class function TUtils.RemoveAccents(AValue: string): string;
 const
   WITH_ACCENTS = '‡‚ÍÙ˚„ı·ÈÌÛ˙Á¸¿¬ ‘€√’¡…Õ”⁄«‹';
   OUT_ACCENTS = 'aaeouaoaeioucuAAEOUAOAEIOUCU';
@@ -800,7 +801,7 @@ begin
   Result := AValue;
 end;
 
-class function TDelphiCopilotUtils.SwapSymbols(AValue: string): string;
+class function TUtils.SwapSymbols(AValue: string): string;
 const
   SYMBOLS_OLD = '∫™&ÆΩºﬂµ˛˝›®Ê∆¯£ÿÉ™ø|~^¥`';
   SYMBOLS_NEW = 'oae   BupyY   o 0faw     ';
@@ -814,54 +815,54 @@ begin
   Result := AValue;
 end;
 
-class function TDelphiCopilotUtils.ChangeExtensionToPAS(AFilePath: string): string;
+class function TUtils.ChangeExtensionToPAS(AFilePath: string): string;
 begin
   Result := Self.ChangeExtension(AFilePath, '.' + TC4DExtensionsFiles.PAS.ToString);
 end;
 
-class function TDelphiCopilotUtils.ChangeExtensionToDFM(AFilePath: string): string;
+class function TUtils.ChangeExtensionToDFM(AFilePath: string): string;
 begin
   Result := Self.ChangeExtension(AFilePath, '.' + TC4DExtensionsFiles.DFM.ToString);
 end;
 
-class function TDelphiCopilotUtils.ChangeExtensionToExe(AFilePath: string): string;
+class function TUtils.ChangeExtensionToExe(AFilePath: string): string;
 begin
   Result := Self.ChangeExtension(AFilePath, '.exe');
 end;
 
-class function TDelphiCopilotUtils.ChangeExtensionToDPR(AFilePath: string): string;
+class function TUtils.ChangeExtensionToDPR(AFilePath: string): string;
 begin
   Result := Self.ChangeExtension(AFilePath, '.' + TC4DExtensionsFiles.DPR.ToString);
 end;
 
-class function TDelphiCopilotUtils.ChangeExtensionToDPK(AFilePath: string): string;
+class function TUtils.ChangeExtensionToDPK(AFilePath: string): string;
 begin
   Result := Self.ChangeExtension(AFilePath, '.' + TC4DExtensionsFiles.DPK.ToString);
 end;
 
-class function TDelphiCopilotUtils.ChangeExtension(AFilePath: string; ANewExtension: string): string;
+class function TUtils.ChangeExtension(AFilePath: string; ANewExtension: string): string;
 begin
   Result := FileOnlyPath(AFilePath) + GetNameFileNoExtension(AFilePath) + ANewExtension;
 end;
 
-class function TDelphiCopilotUtils.FileOnlyPath(AFilePath: string): string;
+class function TUtils.FileOnlyPath(AFilePath: string): string;
 begin
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(AFilePath));
 end;
 
-class function TDelphiCopilotUtils.GetNameFileNoExtension(AFilePath: string): string;
+class function TUtils.GetNameFileNoExtension(AFilePath: string): string;
 begin
   Result := ExtractFileName(AFilePath);
   Result := ChangeFileExt(Result, EmptyStr);
 end;
 
-class function TDelphiCopilotUtils.GetExtensionNoPoint(AFilePath: string): string;
+class function TUtils.GetExtensionNoPoint(AFilePath: string): string;
 begin
   Result := ExtractFileExt(AFilePath).ToLower;
   Result := StringReplace(Result, '.', '', [rfReplaceAll]);
 end;
 
-class function TDelphiCopilotUtils.FileCopy(const ASource, ADestiny: string; const AReplaceIfExist: Boolean = True): Boolean;
+class function TUtils.FileCopy(const ASource, ADestiny: string; const AReplaceIfExist: Boolean = True): Boolean;
 begin
   try
     CopyFile(PWideChar(ASource), PWideChar(ADestiny), not AReplaceIfExist);
@@ -871,7 +872,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtils.IsDPROJ(const AFilePath: string): Boolean;
+class function TUtils.IsDPROJ(const AFilePath: string): Boolean;
 var
   LExtension: string;
 begin
@@ -879,7 +880,7 @@ begin
   Result := LExtension = TC4DExtensionsFiles.DPROJ.ToString;
 end;
 
-class function TDelphiCopilotUtils.IsDPR(const AFilePath: string): Boolean;
+class function TUtils.IsDPR(const AFilePath: string): Boolean;
 var
   LExtension: string;
 begin
@@ -887,7 +888,7 @@ begin
   Result := LExtension = TC4DExtensionsFiles.DPR.ToString;
 end;
 
-class function TDelphiCopilotUtils.IsDPK(const AFilePath: string): Boolean;
+class function TUtils.IsDPK(const AFilePath: string): Boolean;
 var
   LExtension: string;
 begin
@@ -895,23 +896,23 @@ begin
   Result := LExtension = TC4DExtensionsFiles.DPK.ToString;
 end;
 
-class function TDelphiCopilotUtils.IsProjectGroup(const AFilePath: string): Boolean;
+class function TUtils.IsProjectGroup(const AFilePath: string): Boolean;
 begin
   Result := ExtractFileExt(AFilePath).ToLower = '.groupproj';
 end;
 
-class function TDelphiCopilotUtils.IsProject(const AFilePath: string): Boolean;
+class function TUtils.IsProject(const AFilePath: string): Boolean;
 begin
   Result := Self.IsDPR(AFilePath) or Self.IsBpr(AFilePath);
 end;
 
-class function TDelphiCopilotUtils.IsBpr(const AFilePath: string): Boolean;
+class function TUtils.IsBpr(const AFilePath: string): Boolean;
 begin
   Result := ExtractFileExt(AFilePath).ToLower = '.bpr';
 end;
 
 {$REGION 'MessagesImplementation'}
-class function TDelphiCopilotUtils.ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
+class function TUtils.ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
   const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
 begin
   Application.CreateForm(TDelphiCopilotViewDialog, DelphiCopilotViewDialog);
@@ -931,74 +932,83 @@ begin
       AWinControlFocu.SetFocus;
 end;
 
-class procedure TDelphiCopilotUtils.ShowMsg(const AMsg: string; const ADetails: string = '');
+class procedure TUtils.ShowMsg(const AMsg: string; const ADetails: string = '');
 begin
   Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Information, TC4DButtons.OK, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
-class procedure TDelphiCopilotUtils.ShowV(const AMsg: string; const ADetails: string = '');
+class procedure TUtils.ShowMsgSynchronize(const AMsg: string; const ADetails: string = '');
+begin
+  TThread.Synchronize(nil,
+    procedure
+    begin
+      Self.ShowMsg(AMsg, ADetails);
+    end);
+end;
+
+class procedure TUtils.ShowV(const AMsg: string; const ADetails: string = '');
 begin
   Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Success, TC4DButtons.OK, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
-class procedure TDelphiCopilotUtils.ShowError(const AMsg: string; const ADetails: string = '');
+class procedure TUtils.ShowError(const AMsg: string; const ADetails: string = '');
 begin
   Self.ShowError(AMsg, ADetails, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
-class procedure TDelphiCopilotUtils.ShowError(const AMsg: string; const AWinControlFocu: TWinControl);
+class procedure TUtils.ShowError(const AMsg: string; const AWinControlFocu: TWinControl);
 begin
   Self.ShowError(AMsg, '', AWinControlFocu);
 end;
 
-class procedure TDelphiCopilotUtils.ShowError(const AMsg: string; const ADetails: string; const AWinControlFocu: TWinControl);
+class procedure TUtils.ShowError(const AMsg: string; const ADetails: string; const AWinControlFocu: TWinControl);
 begin
   Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Error, TC4DButtons.OK, TC4DBtnFocu.OK, AWinControlFocu);
 end;
 
-class function TDelphiCopilotUtils.ShowQuestion(const APerg: string; const ADetails: string = ''): Boolean;
+class function TUtils.ShowQuestion(const APerg: string; const ADetails: string = ''): Boolean;
 begin
   Result := Self.ShowMsgInternal(APerg, ADetails, TDelphiCopilotIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
-class function TDelphiCopilotUtils.ShowQuestion2(const APerg: string; const ADetails: string = ''): Boolean;
+class function TUtils.ShowQuestion2(const APerg: string; const ADetails: string = ''): Boolean;
 begin
   Result := Self.ShowMsgInternal(APerg, ADetails, TDelphiCopilotIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.Cancel, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
-class procedure TDelphiCopilotUtils.ShowMsgErrorAndAbort(const AMsg: string; const ADetails: string = '');
+class procedure TUtils.ShowMsgErrorAndAbort(const AMsg: string; const ADetails: string = '');
 begin
   Self.ShowMsgErrorAndAbort(AMsg, ADetails, TC4DConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
-class procedure TDelphiCopilotUtils.ShowMsgErrorAndAbort(const AMsg: string; const AWinControlFocu: TWinControl);
+class procedure TUtils.ShowMsgErrorAndAbort(const AMsg: string; const AWinControlFocu: TWinControl);
 begin
   Self.ShowMsgErrorAndAbort(AMsg, '', AWinControlFocu);
 end;
 
-class procedure TDelphiCopilotUtils.ShowMsgErrorAndAbort(const AMsg: string; const ADetails: string; const AWinControlFocu: TWinControl);
+class procedure TUtils.ShowMsgErrorAndAbort(const AMsg: string; const ADetails: string; const AWinControlFocu: TWinControl);
 begin
   Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Error, TC4DButtons.OK, TC4DBtnFocu.OK, AWinControlFocu);
   Abort;
 end;
 
-class procedure TDelphiCopilotUtils.ShowMsgAndAbort(const AMsg: string; const ADetails: string = '');
+class procedure TUtils.ShowMsgAndAbort(const AMsg: string; const ADetails: string = '');
 begin
   Self.ShowMsgAndAbort(AMsg, ADetails, TC4DConsts.WIN_CONTROL_FOCU_NIL)
 end;
 
-class procedure TDelphiCopilotUtils.ShowMsgAndAbort(const AMsg: string; const AWinControlFocu: TWinControl);
+class procedure TUtils.ShowMsgAndAbort(const AMsg: string; const AWinControlFocu: TWinControl);
 begin
   Self.ShowMsgAndAbort(AMsg, '', AWinControlFocu)
 end;
 
-class procedure TDelphiCopilotUtils.ShowMsgAndAbort(const AMsg: string; const ADetails: string; const AWinControlFocu: TWinControl);
+class procedure TUtils.ShowMsgAndAbort(const AMsg: string; const ADetails: string; const AWinControlFocu: TWinControl);
 begin
   Self.ShowMsgInternal(AMsg, ADetails, TDelphiCopilotIcon.Information, TC4DButtons.OK, TC4DBtnFocu.OK, AWinControlFocu);
   Abort;
 end;
 
-class procedure TDelphiCopilotUtils.ShowMsgInMemo(AText: string);
+class procedure TUtils.ShowMsgInMemo(AText: string);
 var
   LDelphiCopilotViewMemo: TDelphiCopilotViewMemo;
 begin

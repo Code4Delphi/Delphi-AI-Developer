@@ -62,7 +62,7 @@ implementation
 
 procedure TDelphiCopilotViewAbout.FormCreate(Sender: TObject);
 begin
-  TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotViewAbout, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiCopilotViewAbout, Self);
 end;
 
 procedure TDelphiCopilotViewAbout.FormShow(Sender: TObject);
@@ -95,23 +95,23 @@ end;
 
 procedure TDelphiCopilotViewAbout.lbSiteCode4DelphiClick(Sender: TObject);
 begin
-  TDelphiCopilotUtils.OpenLink('http://www.code4delphi.com.br');
+  TUtils.OpenLink('http://www.code4delphi.com.br');
 end;
 
 procedure TDelphiCopilotViewAbout.lbGitHubCode4DelphiClick(Sender: TObject);
 begin
-  TDelphiCopilotUtils.OpenLink('https://github.com/code4delphi');
+  TUtils.OpenLink('https://github.com/code4delphi');
 end;
 
 procedure TDelphiCopilotViewAbout.lbDonateToCode4DelphiClick(Sender: TObject);
 begin
-  TDelphiCopilotUtils.OpenLink('https://pag.ae/7ZhEY1xKr');
+  TUtils.OpenLink('https://pag.ae/7ZhEY1xKr');
 end;
 
 procedure TDelphiCopilotViewAbout.lbSiteCode4DelphiMouseLeave(Sender: TObject);
 begin
   //*SEVERAL
-  TLabel(Sender).Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
+  TLabel(Sender).Font.Color := TUtilsOTA.ActiveThemeColorDefault;
   TLabel(Sender).Font.Style := TLabel(Sender).Font.Style - [fsUnderline];
 end;
 

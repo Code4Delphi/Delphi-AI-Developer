@@ -40,14 +40,14 @@ begin
   C4DWizardIDEMainMenuRegister := TDelphiCopilotIDEMainMenuRegister.Create;
 
   if(Supports(TObject(C4DWizardIDEMainMenuRegister), IOTAWizard, LWizard))then
-    IndexWizard := TDelphiCopilotUtilsOTA.GetIOTAWizardServices.AddWizard(LWizard);
+    IndexWizard := TUtilsOTA.GetIOTAWizardServices.AddWizard(LWizard);
 end;
 
 procedure UnRegisterSelf;
 begin
   if(IndexWizard >= 0)then
   begin
-    TDelphiCopilotUtilsOTA.GetIOTAWizardServices.RemoveWizard(IndexWizard);
+    TUtilsOTA.GetIOTAWizardServices.RemoveWizard(IndexWizard);
     IndexWizard := -1;
   end;
 end;

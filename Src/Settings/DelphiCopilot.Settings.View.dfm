@@ -86,7 +86,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
         Width = 632
         Height = 163
         Align = alTop
-        Caption = ' Gemini '
+        Caption = ' Gemini (Google) '
         ParentBackground = False
         TabOrder = 0
         object pnGeminiBack: TPanel
@@ -271,7 +271,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
         Width = 632
         Height = 163
         Align = alTop
-        Caption = ' OpenAI '
+        Caption = ' ChatGPT (OpenAI)'
         ParentBackground = False
         TabOrder = 2
         object pnOpenAIBack: TPanel

@@ -52,6 +52,9 @@ contains
   Test in '..\Src\Test\Test.pas',
   DelphiCopilot.Settings.View in '..\Src\Settings\DelphiCopilot.Settings.View.pas' {DelphiCopilotSettingsView},
   DelphiCopilot.Settings in '..\Src\Settings\DelphiCopilot.Settings.pas',
-  DelphiCopilot.Chat in '..\Src\Chat\DelphiCopilot.Chat.pas';
+  DelphiCopilot.Chat in '..\Src\Chat\DelphiCopilot.Chat.pas',
+  DelphiCopilot.AI.Gemini in '..\Src\AI\DelphiCopilot.AI.Gemini.pas',
+  DelphiCopilot.AI.ChatGPT in '..\Src\AI\DelphiCopilot.AI.ChatGPT.pas',
+  DelphiCopilot.AI.Interfaces in '..\Src\AI\DelphiCopilot.AI.Interfaces.pas';
 
 end.

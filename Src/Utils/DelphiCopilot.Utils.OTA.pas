@@ -15,7 +15,7 @@ uses
   DelphiCopilot.Types;
 
 type
-  TDelphiCopilotUtilsOTA = class
+  TUtilsOTA = class
   private
     class function EditorAsString(AIOTAModule: IOTAModule): string;
   public
@@ -88,7 +88,7 @@ implementation
 uses
   DelphiCopilot.Utils;
 
-class function TDelphiCopilotUtilsOTA.CurrentProjectIsC4DWizardDPROJ: Boolean;
+class function TUtilsOTA.CurrentProjectIsC4DWizardDPROJ: Boolean;
 var
   LIOTAProject: IOTAProject;
 begin
@@ -98,10 +98,10 @@ begin
   if(LIOTAProject = nil)then
     Exit;
 
-  Result := TDelphiCopilotUtils.FileNameIsC4DWizardDPROJ(LIOTAProject.FileName);
+  Result := TUtils.FileNameIsC4DWizardDPROJ(LIOTAProject.FileName);
 end;
 
-class function TDelphiCopilotUtilsOTA.CurrentModuleIsReadOnly: Boolean;
+class function TUtilsOTA.CurrentModuleIsReadOnly: Boolean;
 var
   LIOTAEditBuffer: IOTAEditBuffer;
 begin
@@ -114,7 +114,7 @@ begin
   Result := LIOTAEditBuffer.IsReadOnly;
 end;
 
-class procedure TDelphiCopilotUtilsOTA.SaveAllModifiedModules;
+class procedure TUtilsOTA.SaveAllModifiedModules;
 var
   LIOTAModuleServices: IOTAModuleServices;
   I: Integer;
@@ -134,7 +134,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtilsOTA.AddImgIDEResourceName(AResourceName: string): Integer;
+class function TUtilsOTA.AddImgIDEResourceName(AResourceName: string): Integer;
 var
   LBitmap: TBitmap;
   LMaskColor: TColor;
@@ -152,11 +152,11 @@ begin
       {$ELSE}
         LMaskColor := LBitmap.TransparentColor;
       {$ENDIF}
-      Result := TDelphiCopilotUtilsOTA.GetINTAServices.AddMasked(LBitmap, LMaskColor); //, AResourceName
+      Result := TUtilsOTA.GetINTAServices.AddMasked(LBitmap, LMaskColor); //, AResourceName
     except
       on E: Exception do
 //        LogFile
-//          .AddLog('Erro em TDelphiCopilotUtilsOTA.AddImgIDEResourceName')
+//          .AddLog('Erro em TUtilsOTA.AddImgIDEResourceName')
 //          .AddLog('  AResourceName: ' + AResourceName)
 //          .AddLog('  Message: ' + E.Message);
     end;
@@ -165,7 +165,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtilsOTA.AddImgIDEFilePath(AFilePath: string): Integer;
+class function TUtilsOTA.AddImgIDEFilePath(AFilePath: string): Integer;
 var
   LBitmap: TBitmap;
   LMaskColor: TColor;
@@ -180,11 +180,11 @@ begin
       {$ELSE}
         LMaskColor := LBitmap.TransparentColor;
       {$ENDIF}
-      Result := TDelphiCopilotUtilsOTA.GetINTAServices.AddMasked(LBitmap, LMaskColor); // AFilePath
+      Result := TUtilsOTA.GetINTAServices.AddMasked(LBitmap, LMaskColor); // AFilePath
     except
       on E: Exception do
 //        LogFile
-//          .AddLog('Erro em TDelphiCopilotUtilsOTA.AddImgIDEFilePath')
+//          .AddLog('Erro em TUtilsOTA.AddImgIDEFilePath')
 //          .AddLog('  AFilePath: ' + AFilePath)
 //          .AddLog('  Message: ' + E.Message);
     end;
@@ -193,7 +193,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtilsOTA.EditorAsStringList(AIOTAModule: IOTAModule): TStringList;
+class function TUtilsOTA.EditorAsStringList(AIOTAModule: IOTAModule): TStringList;
 begin
   Result := TStringList.Create;
   try
@@ -204,7 +204,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtilsOTA.EditorAsString(AIOTAModule: IOTAModule): string;
+class function TUtilsOTA.EditorAsString(AIOTAModule: IOTAModule): string;
 const
   BUFFER_SIZE: Integer = 1024;
 var
@@ -229,7 +229,7 @@ begin
   end;
 end;
 
-class procedure TDelphiCopilotUtilsOTA.DeleteBlockTextSelectedInEditor;
+class procedure TUtilsOTA.DeleteBlockTextSelectedInEditor;
 var
   LIOTAEditorServices: IOTAEditorServices;
   LIOTAEditView: IOTAEditView;
@@ -240,7 +240,7 @@ begin
   LIOTAEditorServices := Self.GetIOTAEditorServices;
   LIOTAEditView := LIOTAEditorServices.TopView;
   if(LIOTAEditView = nil)then
-    TDelphiCopilotUtils.ShowMsgAndAbort('No projects or files selected');
+    TUtils.ShowMsgAndAbort('No projects or files selected');
 
   LIOTAEditBlock := LIOTAEditView.Block;
   if not Assigned(LIOTAEditBlock) then
@@ -255,7 +255,7 @@ begin
   end;
 end;
 
-class procedure TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(const AText: string);
+class procedure TUtilsOTA.InsertBlockTextIntoEditor(const AText: string);
 var
   LOTAEditorServices: IOTAEditorServices;
   LIOTAEditView: IOTAEditView;
@@ -272,7 +272,7 @@ begin
   LIOTAEditWriter := LOTAEditorServices.GetTopBuffer.CreateUndoableWriter;
   try
     LIOTAEditWriter.CopyTo(LPosition);
-    LIOTAEditWriter.Insert(PAnsiChar(Utf8Encode(TDelphiCopilotUtils.ProcessTextForEditor(AText).TrimRight)));
+    LIOTAEditWriter.Insert(PAnsiChar(Utf8Encode(TUtils.ProcessTextForEditor(AText).TrimRight)));
   finally
     LIOTAEditWriter := nil;
   end;
@@ -280,7 +280,7 @@ begin
   LIOTAEditView.Paint;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetBlockTextSelect: string;
+class function TUtilsOTA.GetBlockTextSelect: string;
 var
   LIOTAEditorServices: IOTAEditorServices;
 begin
@@ -290,7 +290,7 @@ begin
     Result := LIOTAEditorServices.TopView.GetBlock.Text;
 end;
 
-class function TDelphiCopilotUtilsOTA.OTAFileNotificationToC4DWizardFileNotification(AOTAFileNotification: TOTAFileNotification): TDelphiCopilotFileNotification;
+class function TUtilsOTA.OTAFileNotificationToC4DWizardFileNotification(AOTAFileNotification: TOTAFileNotification): TDelphiCopilotFileNotification;
 begin
   Result := TDelphiCopilotFileNotification.None;
   case(AOTAFileNotification)of
@@ -301,23 +301,23 @@ begin
   end;
 end;
 
-class procedure TDelphiCopilotUtilsOTA.OpenFilePathInIDE(AFilePath: string);
+class procedure TUtilsOTA.OpenFilePathInIDE(AFilePath: string);
 begin
   if(not FileExists(AFilePath))then
     Exit;
 
-  if(TDelphiCopilotUtils.IsProject(AFilePath))then
+  if(TUtils.IsProject(AFilePath))then
     Self.GetIOTAActionServices.OpenProject(AFilePath, True)
   else
     Self.GetIOTAActionServices.OpenFile(AFilePath);
 end;
 
-class procedure TDelphiCopilotUtilsOTA.ShowFormProjectOptions;
+class procedure TUtilsOTA.ShowFormProjectOptions;
 begin
   GetCurrentProject.ProjectOptions.EditOptions;
 end;
 
-class function TDelphiCopilotUtilsOTA.RefreshProject: Boolean;
+class function TUtilsOTA.RefreshProject: Boolean;
 var
   LIOTAProject: IOTAProject;
 begin
@@ -328,7 +328,7 @@ begin
   LIOTAProject.Refresh(False);
 end;
 
-class function TDelphiCopilotUtilsOTA.RefreshModule: Boolean;
+class function TUtilsOTA.RefreshModule: Boolean;
 var
   LIOTAModule: IOTAModule;
 begin
@@ -339,13 +339,13 @@ begin
   LIOTAModule.Refresh(False);
 end;
 
-class procedure TDelphiCopilotUtilsOTA.RefreshProjectOrModule;
+class procedure TUtilsOTA.RefreshProjectOrModule;
 begin
   if(not Self.RefreshProject)then
     Self.RefreshModule;
 end;
 
-class function TDelphiCopilotUtilsOTA.FileIsOpenInIDE(const APathFile: string): Boolean;
+class function TUtilsOTA.FileIsOpenInIDE(const APathFile: string): Boolean;
 var
   LIOTAModuleServices: IOTAModuleServices;
   LIOTAModule: IOTAModule;
@@ -361,7 +361,7 @@ begin
   begin
     LIOTAModule := LIOTAModuleServices.Modules[i];
 
-    LIOTASourceEditor := TDelphiCopilotUtilsOTA.GetIOTASourceEditor(LIOTAModule);
+    LIOTASourceEditor := TUtilsOTA.GetIOTASourceEditor(LIOTAModule);
     if LIOTASourceEditor = nil then
       Continue;
 
@@ -374,7 +374,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtilsOTA.CheckIfExistFileInCurrentsProjectGroups(const ANameFileWithExtension: string): Boolean;
+class function TUtilsOTA.CheckIfExistFileInCurrentsProjectGroups(const ANameFileWithExtension: string): Boolean;
 var
   LIOTAModuleServices: IOTAModuleServices;
   LIOTAModuleCurrent: IOTAModule;
@@ -418,7 +418,7 @@ begin
   end;
 end;
 
-class procedure TDelphiCopilotUtilsOTA.IDEThemingAll(AFormClass: TCustomFormClass; AForm: TForm);
+class procedure TUtilsOTA.IDEThemingAll(AFormClass: TCustomFormClass; AForm: TForm);
 {$IF CompilerVersion >= 32.0}
 var
   i: Integer;
@@ -443,22 +443,22 @@ begin
   {$ENDIF}
 end;
 
-class function TDelphiCopilotUtilsOTA.ActiveThemeColorDefault: TColor;
+class function TUtilsOTA.ActiveThemeColorDefault: TColor;
 begin
-  Result := TDelphiCopilotUtils.IfThenColor(Self.ActiveThemeIsDark, clWhite, clWindowText);
+  Result := TUtils.IfThenColor(Self.ActiveThemeIsDark, clWhite, clWindowText);
 end;
 
-class function TDelphiCopilotUtilsOTA.ActiveThemeColorLink: TColor;
+class function TUtilsOTA.ActiveThemeColorLink: TColor;
 begin
-  Result := TDelphiCopilotUtils.IfThenColor(Self.ActiveThemeIsDark, clAqua, clBlue);
+  Result := TUtils.IfThenColor(Self.ActiveThemeIsDark, clAqua, clBlue);
 end;
 
-class function TDelphiCopilotUtilsOTA.ActiveThemeForCode: TColor;
+class function TUtilsOTA.ActiveThemeForCode: TColor;
 begin
-  Result := TDelphiCopilotUtils.IfThenColor(Self.ActiveThemeIsDark, clAqua, clBlue);
+  Result := TUtils.IfThenColor(Self.ActiveThemeIsDark, clAqua, clBlue);
 end;
 
-class function TDelphiCopilotUtilsOTA.ActiveThemeIsDark: Boolean;
+class function TUtilsOTA.ActiveThemeIsDark: Boolean;
 const
   THEME_DARK = 'dark';
 begin
@@ -469,7 +469,7 @@ begin
   {$ENDIF}
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAFormEditor(const AIOTAModule: IOTAModule): IOTAFormEditor;
+class function TUtilsOTA.GetIOTAFormEditor(const AIOTAModule: IOTAModule): IOTAFormEditor;
 var
   i: Integer;
   LIOTAEditor: IOTAEditor;
@@ -493,13 +493,13 @@ end;
 
 {$IF CompilerVersion >= 32.0}
 
-class function TDelphiCopilotUtilsOTA.GetIOTAIDEThemingServices: IOTAIDEThemingServices;
+class function TUtilsOTA.GetIOTAIDEThemingServices: IOTAIDEThemingServices;
 begin
   if(not Supports(BorlandIDEServices, IOTAIDEThemingServices, Result))then
     raise Exception.Create('Interface not supported: IOTAIDEThemingServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAIDEThemingServices250: IOTAIDEThemingServices250;
+class function TUtilsOTA.GetIOTAIDEThemingServices250: IOTAIDEThemingServices250;
 begin
   if(not Supports(BorlandIDEServices, IOTAIDEThemingServices250, Result))then
     raise Exception.Create('Interface not supported: IOTAIDEThemingServices250');
@@ -507,19 +507,19 @@ end;
 {$ENDIF}
 
 
-class function TDelphiCopilotUtilsOTA.GetIOTACompileServices: IOTACompileServices;
+class function TUtilsOTA.GetIOTACompileServices: IOTACompileServices;
 begin
   if(not Supports(BorlandIDEServices, IOTACompileServices, Result))then
     raise Exception.Create('Interface not supported: IOTACompileServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAWizardServices: IOTAWizardServices;
+class function TUtilsOTA.GetIOTAWizardServices: IOTAWizardServices;
 begin
   if(not Supports(BorlandIDEServices, IOTAWizardServices, Result))then
     raise Exception.Create('Interface not supported: IOTAWizardServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAEditView(AIOTAModule: IOTAModule): IOTAEditView;
+class function TUtilsOTA.GetIOTAEditView(AIOTAModule: IOTAModule): IOTAEditView;
 var
   LIOTASourceEditor: IOTASourceEditor;
   LIOTAEditView: IOTAEditView;
@@ -535,7 +535,7 @@ begin
   Result := LIOTAEditView;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAEditView(AIOTASourceEditor: IOTASourceEditor): IOTAEditView;
+class function TUtilsOTA.GetIOTAEditView(AIOTASourceEditor: IOTASourceEditor): IOTAEditView;
 var
   LIOTAEditBuffer: IOTAEditBuffer;
 begin
@@ -550,7 +550,7 @@ begin
     Result := AIOTASourceEditor.EditViews[0];
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTASourceEditor(AIOTAModule: IOTAModule): IOTASourceEditor;
+class function TUtilsOTA.GetIOTASourceEditor(AIOTAModule: IOTAModule): IOTASourceEditor;
 var
   LIOTAModule: IOTAModule;
   i: Integer;
@@ -564,14 +564,14 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTASourceEditor(AIOTAEditor: IOTAEditor): IOTASourceEditor;
+class function TUtilsOTA.GetIOTASourceEditor(AIOTAEditor: IOTAEditor): IOTASourceEditor;
 begin
   Result := nil;
   if(not Supports(AIOTAEditor, IOTASourceEditor, Result))then
     raise Exception.Create('Interface not supported: IOTASourceEditor');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTASourceEditor(AIOTAModule: IOTAModule; const AFileName: string): IOTASourceEditor;
+class function TUtilsOTA.GetIOTASourceEditor(AIOTAModule: IOTAModule; const AFileName: string): IOTASourceEditor;
 var
   i: Integer;
   LIOTAEditor: IOTAEditor;
@@ -618,7 +618,7 @@ begin
   Result := nil;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAEditBufferCurrentModule: IOTAEditBuffer;
+class function TUtilsOTA.GetIOTAEditBufferCurrentModule: IOTAEditBuffer;
 var
   LIOTAModule: IOTAModule;
 begin
@@ -628,10 +628,10 @@ begin
   if(LIOTAModule = nil)then
     Exit;
 
-  Result := TDelphiCopilotUtilsOTA.GetIOTAEditBuffer(LIOTAModule);
+  Result := TUtilsOTA.GetIOTAEditBuffer(LIOTAModule);
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAEditBuffer(AIOTAModule: IOTAModule): IOTAEditBuffer;
+class function TUtilsOTA.GetIOTAEditBuffer(AIOTAModule: IOTAModule): IOTAEditBuffer;
 var
   LIOTASourceEditor: IOTASourceEditor;
 begin
@@ -644,55 +644,55 @@ begin
     raise Exception.Create('Interface not supported: IOTAEditBuffer');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAMessageServices: IOTAMessageServices;
+class function TUtilsOTA.GetIOTAMessageServices: IOTAMessageServices;
 begin
   if(not Supports(BorlandIDEServices, IOTAMessageServices, Result))then
     raise Exception.Create('Interface not supported: IOTAMessageServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAProjectManager: IOTAProjectManager;
+class function TUtilsOTA.GetIOTAProjectManager: IOTAProjectManager;
 begin
   if(not Supports(BorlandIDEServices, IOTAProjectManager, Result))then
     raise Exception.Create('Interface not supported: IOTAProjectManager');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAKeyboardServices: IOTAKeyboardServices;
+class function TUtilsOTA.GetIOTAKeyboardServices: IOTAKeyboardServices;
 begin
   if(not Supports(BorlandIDEServices, IOTAKeyboardServices, Result))then
     raise Exception.Create('Interface not supported: IOTAKeyboardServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAServices: IOTAServices;
+class function TUtilsOTA.GetIOTAServices: IOTAServices;
 begin
   if(not Supports(BorlandIDEServices, IOTAServices, Result))then
     raise Exception.Create('Interface not supported: IOTAServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAActionServices: IOTAActionServices;
+class function TUtilsOTA.GetIOTAActionServices: IOTAActionServices;
 begin
   if(not Supports(BorlandIDEServices, IOTAActionServices, Result))then
     raise Exception.Create('Interface not supported: IOTAActionServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetINTAServices: INTAServices;
+class function TUtilsOTA.GetINTAServices: INTAServices;
 begin
   if(not Supports(BorlandIDEServices, INTAServices, Result))then
     raise Exception.Create('Interface not supported: INTAServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAModuleServices: IOTAModuleServices;
+class function TUtilsOTA.GetIOTAModuleServices: IOTAModuleServices;
 begin
   if(not Supports(BorlandIDEServices, IOTAModuleServices, Result))then
     raise Exception.Create('Interface not supported: IOTAModuleServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetIOTAEditorServices: IOTAEditorServices;
+class function TUtilsOTA.GetIOTAEditorServices: IOTAEditorServices;
 begin
   if(not Supports(BorlandIDEServices, IOTAEditorServices, Result))then
     raise Exception.Create('Interface not supported: IOTAEditorServices');
 end;
 
-class function TDelphiCopilotUtilsOTA.GetCurrentModule: IOTAModule;
+class function TUtilsOTA.GetCurrentModule: IOTAModule;
 var
   LIOTAModuleServices: IOTAModuleServices;
 begin
@@ -702,7 +702,7 @@ begin
     Result := LIOTAModuleServices.CurrentModule;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetCurrentModuleFileName: string;
+class function TUtilsOTA.GetCurrentModuleFileName: string;
 var
   LIOTAModule: IOTAModule;
 begin
@@ -712,7 +712,7 @@ begin
     Result := LIOTAModule.FileName.Trim;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetModule(const AFileName: string): IOTAModule;
+class function TUtilsOTA.GetModule(const AFileName: string): IOTAModule;
 var
   LIOTAModuleServices: IOTAModuleServices;
 begin
@@ -722,12 +722,12 @@ begin
     Result := LIOTAModuleServices.FindModule(AFileName);
 end;
 
-class function TDelphiCopilotUtilsOTA.GetCurrentProjectGroup: IOTAProjectGroup;
+class function TUtilsOTA.GetCurrentProjectGroup: IOTAProjectGroup;
 begin
   Result := Self.GetIOTAModuleServices.MainProjectGroup;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetCurrentProject: IOTAProject;
+class function TUtilsOTA.GetCurrentProject: IOTAProject;
 var
   LIOTAProjectGroup: IOTAProjectGroup;
 begin
@@ -743,7 +743,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetCurrentProjectFileName: string;
+class function TUtilsOTA.GetCurrentProjectFileName: string;
 var
   LIOTAProject: IOTAProject;
 begin
@@ -753,7 +753,7 @@ begin
     Result := LIOTAProject.FileName.Trim;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetProjectName(const AIOTAProject: IOTAProject): string;
+class function TUtilsOTA.GetProjectName(const AIOTAProject: IOTAProject): string;
 var
   i: Integer;
   LExt: string;
@@ -770,7 +770,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetFileNameDprOrDpkIfDproj(const AIOTAModule: IOTAModule): string;
+class function TUtilsOTA.GetFileNameDprOrDpkIfDproj(const AIOTAModule: IOTAModule): string;
 var
   i: Integer;
   LExt: string;
@@ -791,7 +791,7 @@ begin
   end;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetCurrentProjectOptions: IOTAProjectOptions;
+class function TUtilsOTA.GetCurrentProjectOptions: IOTAProjectOptions;
 var
   LIOTAProject: IOTAProject;
 begin
@@ -803,7 +803,7 @@ begin
   Result := LIOTAProject.ProjectOptions;
 end;
 
-class function TDelphiCopilotUtilsOTA.GetCurrentOutputDir: string;
+class function TUtilsOTA.GetCurrentOutputDir: string;
 var
   LIOTAProjectOptions: IOTAProjectOptions;
 begin
@@ -814,7 +814,7 @@ begin
   Result := VarToStr(LIOTAProjectOptions.Values['OutputDir']);
 end;
 
-class function TDelphiCopilotUtilsOTA.GetCurrentProjectOptionsConfigurations: IOTAProjectOptionsConfigurations;
+class function TUtilsOTA.GetCurrentProjectOptionsConfigurations: IOTAProjectOptionsConfigurations;
 var
   LIOTAProjectOptions: IOTAProjectOptions;
 begin
@@ -826,8 +826,7 @@ begin
   Result := nil;
 end;
 
-
-class function TDelphiCopilotUtilsOTA.GetPathsFilesOpened: TList<string>;
+class function TUtilsOTA.GetPathsFilesOpened: TList<string>;
 var
   LIOTAModuleServices: IOTAModuleServices;
   LFilePath: string;
@@ -843,7 +842,7 @@ begin
   end;
 end;
 
-class procedure TDelphiCopilotUtilsOTA.GetAllFilesFromProjectGroup(AListFiles: TStrings;
+class procedure TUtilsOTA.GetAllFilesFromProjectGroup(AListFiles: TStrings;
   const AFilePathProjectOrGroupForFilter: string;
   const AC4DWizardExtensions: TC4DExtensionsOfFiles);
 var
@@ -869,10 +868,10 @@ begin
   LFilterIsProject := False;
   if(not AFilePathProjectOrGroupForFilter.Trim.IsEmpty)then
   begin
-    if(TDelphiCopilotUtils.IsProjectGroup(AFilePathProjectOrGroupForFilter))then
+    if(TUtils.IsProjectGroup(AFilePathProjectOrGroupForFilter))then
       LFilterIsProjectGroup := True
-    else if(TDelphiCopilotUtils.IsProject(AFilePathProjectOrGroupForFilter))
-      or(TDelphiCopilotUtils.IsDPROJ(AFilePathProjectOrGroupForFilter))
+    else if(TUtils.IsProject(AFilePathProjectOrGroupForFilter))
+      or(TUtils.IsDPROJ(AFilePathProjectOrGroupForFilter))
     then
       LFilterIsProject := True;
   end;

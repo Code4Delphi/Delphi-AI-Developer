@@ -1,6 +1,7 @@
 object DelphiCopilotChatView: TDelphiCopilotChatView
   Left = 0
   Top = 0
+  Caption = 'Chat - Delphi Copilot'
   ClientHeight = 661
   ClientWidth = 974
   Color = clBtnFace
@@ -94,6 +95,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
           Top = 4
           Width = 69
           Height = 24
+          Cursor = crHandPoint
           Margins.Top = 4
           Margins.Right = 10
           Margins.Bottom = 4
@@ -101,6 +103,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
           Caption = 'Send'
           TabOrder = 0
           OnClick = btnSendClick
+          ExplicitTop = 1
         end
       end
       object mmQuestion: TMemo

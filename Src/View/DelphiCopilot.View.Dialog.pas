@@ -79,7 +79,7 @@ uses
 procedure TDelphiCopilotViewDialog.FormCreate(Sender: TObject);
 begin
   Self.DefaultValues;
-  TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotViewDialog, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiCopilotViewDialog, Self);
   Self.Constraints.MinHeight := pnTop.Height + (pnButtons.Height * 2) + 3;
   Self.Constraints.MinWidth := Self.Width;
 end;

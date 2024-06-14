@@ -83,7 +83,7 @@ uses
 
 procedure TDelphiCopilotSettingsView.FormCreate(Sender: TObject);
 begin
-  TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotSettingsView, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiCopilotSettingsView, Self);
 
   FSettings := TDelphiCopilotSettings.GetInstance;
 end;
@@ -102,19 +102,19 @@ end;
 
 procedure TDelphiCopilotSettingsView.ConfigScreen;
 begin
-  lbLink01.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorLink;
+  lbLink01.Font.Color := TUtilsOTA.ActiveThemeColorLink;
   lbLink02.Font.Color := lbLink01.Font.Color;
   lbLink03.Font.Color := lbLink01.Font.Color;
 end;
 
 procedure TDelphiCopilotSettingsView.btnApiKeyGeminiViewClick(Sender: TObject);
 begin
-  TDelphiCopilotUtils.TogglePasswordChar(edtApiKeyGemini);
+  TUtils.TogglePasswordChar(edtApiKeyGemini);
 end;
 
 procedure TDelphiCopilotSettingsView.btnApiKeyOpenAIViewClick(Sender: TObject);
 begin
-  TDelphiCopilotUtils.TogglePasswordChar(edtApiKeyOpenAI);
+  TUtils.TogglePasswordChar(edtApiKeyOpenAI);
 end;
 
 procedure TDelphiCopilotSettingsView.btnCloseClick(Sender: TObject);
@@ -138,7 +138,7 @@ end;
 procedure TDelphiCopilotSettingsView.lbLink03Click(Sender: TObject);
 begin
   //**Several
-  TDelphiCopilotUtils.OpenLink(TLabel(Sender).Hint.Trim);
+  TUtils.OpenLink(TLabel(Sender).Hint.Trim);
 end;
 
 procedure TDelphiCopilotSettingsView.btnConfirmClick(Sender: TObject);

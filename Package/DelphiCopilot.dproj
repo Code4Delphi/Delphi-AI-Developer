@@ -149,6 +149,9 @@
         </DCCReference>
         <DCCReference Include="..\Src\Settings\DelphiCopilot.Settings.pas"/>
         <DCCReference Include="..\Src\Chat\DelphiCopilot.Chat.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiCopilot.AI.Gemini.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiCopilot.AI.ChatGPT.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiCopilot.AI.Interfaces.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

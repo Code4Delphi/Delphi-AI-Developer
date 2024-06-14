@@ -143,14 +143,14 @@ end;
 
 procedure TDelphiCopilotChatView.FormShow(Sender: TObject);
 begin
-  TDelphiCopilotUtilsOTA.IDEThemingAll(TDelphiCopilotChatView, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiCopilotChatView, Self);
   Self.Constraints.MinWidth := 100;
   Self.Constraints.MinHeight := 100;
 
   Self.InitializeRichEditReturn;
   Self.ReadFromFile;
   Self.GetSelectedBlockForQuestion;
-  btnMoreActions.Font.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
+  btnMoreActions.Font.Color := TUtilsOTA.ActiveThemeColorDefault;
 
   mmQuestion.SelectAll;
   mmQuestion.SelStart := Length(mmQuestion.Text);
@@ -161,7 +161,7 @@ procedure TDelphiCopilotChatView.GetSelectedBlockForQuestion;
 var
   LBlockTextSelect: string;
 begin
-  LBlockTextSelect := TDelphiCopilotUtilsOTA.GetBlockTextSelect;
+  LBlockTextSelect := TUtilsOTA.GetBlockTextSelect;
   if not LBlockTextSelect.Trim.IsEmpty then
     mmQuestion.Text := LBlockTextSelect;
 end;
@@ -169,9 +169,9 @@ end;
 procedure TDelphiCopilotChatView.mmQuestionChange(Sender: TObject);
 begin
   if mmQuestion.Lines.Count >= 7 then
-    mmQuestion.ScrollBars := TScrollStyle.ssVertical
+    mmQuestion.ScrollBars := ssVertical
   else
-    mmQuestion.ScrollBars := TScrollStyle.ssNone;
+    mmQuestion.ScrollBars := ssNone;
 end;
 
 procedure TDelphiCopilotChatView.mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -200,8 +200,8 @@ end;
 
 procedure TDelphiCopilotChatView.ReadFromFile;
 begin
-  if(FileExists(TDelphiCopilotUtils.GetPathFileChat))then
-    mmReturn.Lines.LoadFromFile(TDelphiCopilotUtils.GetPathFileChat)
+  if(FileExists(TUtils.GetPathFileChat))then
+    mmReturn.Lines.LoadFromFile(TUtils.GetPathFileChat)
 end;
 
 procedure TDelphiCopilotChatView.SelectAll1Click(Sender: TObject);
@@ -211,7 +211,7 @@ end;
 
 procedure TDelphiCopilotChatView.WriteToFile;
 begin
-  mmReturn.Lines.SaveToFile(TDelphiCopilotUtils.GetPathFileChat);
+  mmReturn.Lines.SaveToFile(TUtils.GetPathFileChat);
 end;
 
 procedure TDelphiCopilotChatView.cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
@@ -286,64 +286,10 @@ begin
   LTask.Start;
 end;
 
-procedure TDelphiCopilotChatView.WaitingFormON;
-begin
-  pnWait.Visible := False;
-  TDelphiCopilotUtils.CenterPanel(pnWait, mmReturn);
-  pnWait.Visible := True;
-end;
-
-procedure TDelphiCopilotChatView.WaitingFormOFF;
-begin
-  pnWait.Visible := False;
-end;
-
-procedure TDelphiCopilotChatView.Last;
-begin
-  SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-end;
-
-function TDelphiCopilotChatView.GetSelectedTextOrAll: string;
-begin
-  if not mmReturn.SelText.Trim.IsEmpty then
-    Result := mmReturn.SelText
-  else
-    Result := mmReturn.Lines.Text;
-end;
-
-procedure TDelphiCopilotChatView.btnCopyClick(Sender: TObject);
-begin
-  Clipboard.AsText := Self.GetSelectedTextOrAll;
-end;
-
-procedure TDelphiCopilotChatView.btnInsertAtCursorClick(Sender: TObject);
-begin
-  TDelphiCopilotUtilsOTA.DeleteBlockTextSelectedInEditor;
-  TDelphiCopilotUtilsOTA.InsertBlockTextIntoEditor(Self.GetSelectedTextOrAll);
-end;
-
-procedure TDelphiCopilotChatView.InitializeRichEditReturn;
-begin
-  mmReturn.Lines.Clear;
-  mmReturn.SelAttributes.Name := 'Courier New';
-  mmReturn.SelAttributes.Size := 10;
-
-  if TDelphiCopilotUtilsOTA.ActiveThemeIsDark then
-  begin
-    mmReturn.Color := $004A4136;
-    mmReturn.SelAttributes.Color := clWhite;
-  end
-  else
-  begin
-    mmReturn.Color := clWindow;
-    mmReturn.SelAttributes.Color := clWindowText;
-  end;
-end;
-
 procedure TDelphiCopilotChatView.AddResponseSimple(const AString: string);
 begin
   Self.Last;
-  mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
+  mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
   mmReturn.SelAttributes.Style := [];
   mmReturn.Lines.Add(AString);
   Self.Last;
@@ -357,7 +303,7 @@ var
   FCodeStarted: Boolean;
 begin
   mmReturn.Lines.Clear;
-  mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
+  mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
   mmReturn.SelAttributes.Style := [];
 
   FCodeStarted := False;
@@ -377,14 +323,14 @@ begin
     if LLineStr.Trim = TC4DConsts.MARK_END then
     begin
       FCodeStarted := False;
-      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
+      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
       Continue;
     end;
 
     if FCodeStarted then
-      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeForCode
+      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeForCode
     else
-      mmReturn.SelAttributes.Color := TDelphiCopilotUtilsOTA.ActiveThemeColorDefault;
+      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
 
     //Optional use of one of the following lines
     //mmReturn.Lines.Add(LLineStr);
@@ -452,6 +398,60 @@ begin
   end;
   mmReturn.SelText := ' ';
   SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+end;
+
+procedure TDelphiCopilotChatView.WaitingFormON;
+begin
+  pnWait.Visible := False;
+  TUtils.CenterPanel(pnWait, mmReturn);
+  pnWait.Visible := True;
+end;
+
+procedure TDelphiCopilotChatView.WaitingFormOFF;
+begin
+  pnWait.Visible := False;
+end;
+
+procedure TDelphiCopilotChatView.Last;
+begin
+  SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+end;
+
+function TDelphiCopilotChatView.GetSelectedTextOrAll: string;
+begin
+  if not mmReturn.SelText.Trim.IsEmpty then
+    Result := mmReturn.SelText
+  else
+    Result := mmReturn.Lines.Text;
+end;
+
+procedure TDelphiCopilotChatView.btnCopyClick(Sender: TObject);
+begin
+  Clipboard.AsText := Self.GetSelectedTextOrAll;
+end;
+
+procedure TDelphiCopilotChatView.btnInsertAtCursorClick(Sender: TObject);
+begin
+  TUtilsOTA.DeleteBlockTextSelectedInEditor;
+  TUtilsOTA.InsertBlockTextIntoEditor(Self.GetSelectedTextOrAll);
+end;
+
+procedure TDelphiCopilotChatView.InitializeRichEditReturn;
+begin
+  mmReturn.Lines.Clear;
+  mmReturn.SelAttributes.Name := 'Courier New';
+  mmReturn.SelAttributes.Size := 10;
+
+  if TUtilsOTA.ActiveThemeIsDark then
+  begin
+    mmReturn.Color := $004A4136;
+    mmReturn.SelAttributes.Color := clWhite;
+  end
+  else
+  begin
+    mmReturn.Color := clWindow;
+    mmReturn.SelAttributes.Color := clWindowText;
+  end;
 end;
 
 initialization
