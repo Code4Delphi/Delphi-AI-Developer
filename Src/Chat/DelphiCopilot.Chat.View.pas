@@ -44,7 +44,7 @@ type
     btnCopy: TSpeedButton;
     btnInsertAtCursor: TSpeedButton;
     btnMoreActions: TSpeedButton;
-    Shape3: TShape;
+    ShapeCommands: TShape;
     N1: TMenuItem;
     mmReturn: TRichEdit;
     Splitter1: TSplitter;
