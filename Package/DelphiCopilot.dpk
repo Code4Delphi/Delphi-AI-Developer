@@ -58,7 +58,6 @@ contains
   DelphiCopilot.Interfaces in '..\Src\Interfaces\DelphiCopilot.Interfaces.pas',
   DelphiCopilot.ModuleCreator.OTA in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.OTA.pas',
   DelphiCopilot.ModuleCreator in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.pas',
-  DelphiCopilot.ModuleCreator.Interfaces in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.Interfaces.pas',
-  ClientTest in '..\Src\Test\ClientTest.pas';
+  DelphiCopilot.ModuleCreator.Interfaces in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.Interfaces.pas';
 
 end.

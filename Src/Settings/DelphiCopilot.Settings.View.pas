@@ -49,6 +49,7 @@ type
     btnApiKeyGeminiView: TSpeedButton;
     btnApiKeyOpenAIView: TSpeedButton;
     lbLink04: TLabel;
+    lbRestoreDefaults: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -58,6 +59,7 @@ type
     procedure btnApiKeyGeminiViewClick(Sender: TObject);
     procedure btnApiKeyOpenAIViewClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure lbRestoreDefaultsClick(Sender: TObject);
   private
     FSettings: TDelphiCopilotSettings;
     procedure SaveSettings;
@@ -88,6 +90,7 @@ procedure TDelphiCopilotSettingsView.FormShow(Sender: TObject);
 begin
   FSettings.LoadData;
   Self.ConfigScreen;
+  FSettings.LoadData;
   Self.LoadSettings;
 end;
 
@@ -102,6 +105,7 @@ begin
   lbLink02.Font.Color := lbLink01.Font.Color;
   lbLink03.Font.Color := lbLink01.Font.Color;
   lbLink04.Font.Color := lbLink01.Font.Color;
+  lbRestoreDefaults.Font.Color := lbLink01.Font.Color;
 end;
 
 procedure TDelphiCopilotSettingsView.btnApiKeyGeminiViewClick(Sender: TObject);
@@ -138,6 +142,22 @@ begin
   TUtils.OpenLink(TLabel(Sender).Hint.Trim);
 end;
 
+procedure TDelphiCopilotSettingsView.lbRestoreDefaultsClick(Sender: TObject);
+var
+  LApiKeyGemini: string;
+  LApiKeyOpenAI: string;
+begin
+  LApiKeyGemini := FSettings.ApiKeyGemini;
+  LApiKeyOpenAI := FSettings.ApiKeyOpenAI;
+
+  FSettings.LoadDefaults;
+
+  FSettings.ApiKeyGemini := LApiKeyGemini;
+  FSettings.ApiKeyOpenAI := LApiKeyOpenAI;
+
+  Self.LoadSettings;
+end;
+
 procedure TDelphiCopilotSettingsView.btnConfirmClick(Sender: TObject);
 begin
   Self.SaveSettings;
@@ -147,7 +167,6 @@ end;
 
 procedure TDelphiCopilotSettingsView.LoadSettings;
 begin
-  FSettings.LoadData;
   cBoxAIDefault.ItemIndex := Integer(FSettings.AIDefault);
 
   edtBaseUrlGemini.Text := FSettings.BaseUrlGemini;

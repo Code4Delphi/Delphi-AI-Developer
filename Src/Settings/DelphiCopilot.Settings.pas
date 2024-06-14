@@ -74,7 +74,7 @@ begin
   FApiKeyGemini := '';
 
   FBaseUrlOpenAI := TC4DConsts.BASE_URL_OPEN_AI;
-  FModelOpenAI := '';
+  FModelOpenAI := 'gpt-3.5-turbo';
   FApiKeyOpenAI := '';
 end;
 

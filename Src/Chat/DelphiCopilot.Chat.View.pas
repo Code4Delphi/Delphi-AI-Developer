@@ -28,8 +28,7 @@ uses
   DelphiCopilot.Consts,
   DelphiCopilot.Chat,
   DelphiCopilot.Settings,
-  DelphiCopilot.ModuleCreator,
-  ClientTest;
+  DelphiCopilot.ModuleCreator;
 
 type
   TDelphiCopilotChatView = class(TDockableForm)

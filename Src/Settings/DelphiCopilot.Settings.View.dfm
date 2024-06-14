@@ -32,6 +32,29 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
     Padding.Bottom = 2
     ParentBackground = False
     TabOrder = 0
+    object lbRestoreDefaults: TLabel
+      AlignWithMargins = True
+      Left = 18
+      Top = 12
+      Width = 80
+      Height = 18
+      Cursor = crHandPoint
+      Margins.Left = 16
+      Margins.Top = 10
+      Align = alLeft
+      Caption = 'Restore defaults'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      Layout = tlCenter
+      OnClick = lbRestoreDefaultsClick
+      ExplicitHeight = 13
+    end
     object btnConfirm: TButton
       AlignWithMargins = True
       Left = 404
