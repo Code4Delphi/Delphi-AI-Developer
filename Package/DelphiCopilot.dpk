@@ -55,6 +55,10 @@ contains
   DelphiCopilot.AI.Gemini in '..\Src\AI\DelphiCopilot.AI.Gemini.pas',
   DelphiCopilot.AI.ChatGPT in '..\Src\AI\DelphiCopilot.AI.ChatGPT.pas',
   DelphiCopilot.AI.Interfaces in '..\Src\AI\DelphiCopilot.AI.Interfaces.pas',
-  DelphiCopilot.Interfaces in '..\Src\Interfaces\DelphiCopilot.Interfaces.pas';
+  DelphiCopilot.Interfaces in '..\Src\Interfaces\DelphiCopilot.Interfaces.pas',
+  DelphiCopilot.ModuleCreator.OTA in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.OTA.pas',
+  DelphiCopilot.ModuleCreator in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.pas',
+  DelphiCopilot.ModuleCreator.Interfaces in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.Interfaces.pas',
+  ClientTest in '..\Src\Test\ClientTest.pas';
 
 end.

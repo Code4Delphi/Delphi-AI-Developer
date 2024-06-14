@@ -35,7 +35,6 @@ uses
 
 {$R *.dfm}
 
-
 procedure TDelphiCopilotViewMemo.FormCreate(Sender: TObject);
 begin
   TUtilsOTA.IDEThemingAll(TDelphiCopilotViewMemo, Self);
@@ -54,8 +53,10 @@ begin
 end;
 
 procedure TDelphiCopilotViewMemo.mmMensagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+const
+  KEY_A = $41;
 begin
-  if(Key = $41)and(Shift = [ssCtrl])then
+  if(Key = KEY_A)and(Shift = [ssCtrl])then
     mmMensagem.SelectAll;
 end;
 

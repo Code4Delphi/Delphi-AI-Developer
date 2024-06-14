@@ -27,12 +27,14 @@ uses
   DelphiCopilot.Types,
   DelphiCopilot.Consts,
   DelphiCopilot.Chat,
-  DelphiCopilot.Settings;
+  DelphiCopilot.Settings,
+  DelphiCopilot.ModuleCreator,
+  ClientTest;
 
 type
   TDelphiCopilotChatView = class(TDockableForm)
     ImageList1: TImageList;
-    PopupMenu1: TPopupMenu;
+    pMenuMemoReturn: TPopupMenu;
     Cut1: TMenuItem;
     Copy1: TMenuItem;
     Paste1: TMenuItem;
@@ -58,6 +60,8 @@ type
     btnMoreActions: TSpeedButton;
     ShapeCommands: TShape;
     btnSend: TButton;
+    pMenuMoreActions: TPopupMenu;
+    CreateNewUnitWithSelectedCode1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -75,6 +79,8 @@ type
     procedure lbCurrentAIClick(Sender: TObject);
     procedure Gemini1Click(Sender: TObject);
     procedure pMenuCurrentAIPopup(Sender: TObject);
+    procedure btnMoreActionsClick(Sender: TObject);
+    procedure CreateNewUnitWithSelectedCode1Click(Sender: TObject);
   private
     FChat: TDelphiCopilotChat;
     FSettings: TDelphiCopilotSettings;
@@ -110,7 +116,6 @@ uses
   DeskUtil,
   DelphiCopilot.Utils,
   DelphiCopilot.Utils.OTA;
-
 
 {$R *.dfm}
 
@@ -207,7 +212,7 @@ begin
   begin
     btnSend.Click;
     Key := 0;
-  end;
+  end
 end;
 
 procedure TDelphiCopilotChatView.mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -468,6 +473,11 @@ begin
   TUtilsOTA.InsertBlockTextIntoEditor(Self.GetSelectedTextOrAll);
 end;
 
+procedure TDelphiCopilotChatView.btnMoreActionsClick(Sender: TObject);
+begin
+  pMenuMoreActions.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
 procedure TDelphiCopilotChatView.InitializeRichEditReturn;
 begin
   mmReturn.Lines.Clear;
@@ -520,6 +530,11 @@ begin
   FSettings.AIDefault := TAIsAvailable(LTag);
   FSettings.SaveData;
   Self.ConfLabelCurrentAI;
+end;
+
+procedure TDelphiCopilotChatView.CreateNewUnitWithSelectedCode1Click(Sender: TObject);
+begin
+  TDelphiCopilotModuleCreator.New.CreateNewUnit(Self.GetSelectedTextOrAll);
 end;
 
 initialization

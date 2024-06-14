@@ -152,6 +152,10 @@
         <DCCReference Include="..\Src\AI\DelphiCopilot.AI.ChatGPT.pas"/>
         <DCCReference Include="..\Src\AI\DelphiCopilot.AI.Interfaces.pas"/>
         <DCCReference Include="..\Src\Interfaces\DelphiCopilot.Interfaces.pas"/>
+        <DCCReference Include="..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.OTA.pas"/>
+        <DCCReference Include="..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.pas"/>
+        <DCCReference Include="..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.Interfaces.pas"/>
+        <DCCReference Include="..\Src\Test\ClientTest.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

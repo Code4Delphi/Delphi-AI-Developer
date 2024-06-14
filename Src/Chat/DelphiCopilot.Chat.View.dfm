@@ -75,7 +75,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       ParentCtl3D = False
       ParentFont = False
       ParentShowHint = False
-      PopupMenu = PopupMenu1
+      PopupMenu = pMenuMemoReturn
       ScrollBars = ssBoth
       ShowHint = True
       TabOrder = 1
@@ -221,7 +221,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     Left = 936
     Top = 8
     Width = 26
-    Height = 70
+    Height = 73
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -230,11 +230,19 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 3
+    DesignSize = (
+      26
+      73)
     object ShapeCommands: TShape
-      Left = 1
+      Left = 0
       Top = 0
-      Width = 24
-      Height = 65
+      Width = 26
+      Height = 73
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Anchors = [akLeft, akTop, akRight, akBottom]
       Brush.Style = bsClear
       Pen.Color = clGray
       Pen.Style = psInsideFrame
@@ -315,7 +323,8 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Align = alTop
       Caption = '...'
       Flat = True
-      PopupMenu = PopupMenu1
+      PopupMenu = pMenuMoreActions
+      OnClick = btnMoreActionsClick
     end
   end
   object ImageList1: TImageList
@@ -989,7 +998,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       FF80803FC03FFF8FFF80807FFFFFFFFF00000000000000000000000000000000
       000000000000}
   end
-  object PopupMenu1: TPopupMenu
+  object pMenuMemoReturn: TPopupMenu
     Left = 96
     Top = 296
     object Cut1: TMenuItem
@@ -1028,6 +1037,14 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Tag = 1
       Caption = 'ChatGPT'
       OnClick = Gemini1Click
+    end
+  end
+  object pMenuMoreActions: TPopupMenu
+    Left = 904
+    Top = 80
+    object CreateNewUnitWithSelectedCode1: TMenuItem
+      Caption = 'Create new unit with selected code'
+      OnClick = CreateNewUnitWithSelectedCode1Click
     end
   end
 end
