@@ -42,11 +42,6 @@ type
     pnBackBtnSend: TPanel;
     btnSend: TButton;
     mmQuestion: TMemo;
-    pnCommands: TPanel;
-    btnCopy: TSpeedButton;
-    btnInsertAtCursor: TSpeedButton;
-    btnMoreActions: TSpeedButton;
-    ShapeCommands: TShape;
     N1: TMenuItem;
     mmReturn: TRichEdit;
     Splitter1: TSplitter;
@@ -59,6 +54,11 @@ type
     pnBackStatusBar: TPanel;
     lbCurrentAI: TLabel;
     StatusBar1: TStatusBar;
+    pnCommands: TPanel;
+    btnCopy: TSpeedButton;
+    btnInsertAtCursor: TSpeedButton;
+    btnMoreActions: TSpeedButton;
+    ShapeCommands: TShape;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -92,6 +92,7 @@ type
     procedure WaitingFormOFF;
     procedure WaitingFormON;
     procedure ConfLabelCurrentAI;
+    procedure ConfScreenOnShow;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -158,16 +159,25 @@ end;
 
 procedure TDelphiCopilotChatView.FormShow(Sender: TObject);
 begin
+  Self.ConfScreenOnShow;
+  Self.InitializeRichEditReturn;
+  Self.ReadFromFile;
+  Self.GetSelectedBlockForQuestion;
+
+  TUtils.MemoFocusOnTheEnd(mmQuestion);
+end;
+procedure TDelphiCopilotChatView.ConfScreenOnShow;
+begin
   TUtilsOTA.IDEThemingAll(TDelphiCopilotChatView, Self);
   Self.Constraints.MinWidth := 150;
   Self.Constraints.MinHeight := 150;
 
-  Self.InitializeRichEditReturn;
-  Self.ReadFromFile;
-  Self.GetSelectedBlockForQuestion;
   btnMoreActions.Font.Color := TUtilsOTA.ActiveThemeColorDefault;
 
-  TUtils.MemoFocusOnTheEnd(mmQuestion);
+  ShapeCommands.Left := 0;
+  ShapeCommands.Top := 0;
+  ShapeCommands.Width := ShapeCommands.Parent.Width;
+  ShapeCommands.Height := ShapeCommands.Parent.Height;
 end;
 
 procedure TDelphiCopilotChatView.FormActivate(Sender: TObject);
@@ -181,7 +191,7 @@ var
 begin
   LBlockTextSelect := TUtilsOTA.GetBlockTextSelect;
   if not LBlockTextSelect.Trim.IsEmpty then
-    mmQuestion.Text := LBlockTextSelect;
+    mmQuestion.Text := LBlockTextSelect.Trim;
 end;
 
 procedure TDelphiCopilotChatView.mmQuestionChange(Sender: TObject);

@@ -18,6 +18,9 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
   OnActivate = FormActivate
   OnClose = FormClose
   OnShow = FormShow
+  DesignSize = (
+    975
+    661)
   PixelsPerInch = 96
   TextHeight = 13
   object pnBack: TPanel
@@ -36,10 +39,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     Padding.Top = 15
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 958
-    DesignSize = (
-      956
-      661)
     object Splitter1: TSplitter
       Left = 18
       Top = 523
@@ -62,6 +61,8 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Margins.Right = 0
       ParentCustomHint = False
       Align = alClient
+      BevelInner = bvNone
+      BevelOuter = bvNone
       Ctl3D = True
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -77,10 +78,8 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       PopupMenu = PopupMenu1
       ScrollBars = ssVertical
       ShowHint = True
-      TabOrder = 2
+      TabOrder = 1
       Zoom = 100
-      ExplicitLeft = 15
-      ExplicitTop = 12
     end
     object pnBackQuestion: TPanel
       Left = 18
@@ -96,8 +95,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Padding.Top = 5
       ParentBackground = False
       TabOrder = 0
-      ExplicitLeft = 10
-      ExplicitWidth = 948
       object pnBackBtnSend: TPanel
         Left = 856
         Top = 5
@@ -112,7 +109,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Padding.Left = 3
         ParentBackground = False
         TabOrder = 0
-        ExplicitLeft = 866
         object btnSend: TButton
           AlignWithMargins = True
           Left = 3
@@ -128,7 +124,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
           Caption = 'Send'
           TabOrder = 0
           OnClick = btnSendClick
-          ExplicitWidth = 69
         end
       end
       object mmQuestion: TMemo
@@ -152,106 +147,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         OnChange = mmQuestionChange
         OnKeyDown = mmQuestionKeyDown
         OnKeyUp = mmQuestionKeyUp
-        ExplicitWidth = 866
-      end
-    end
-    object pnCommands: TPanel
-      Left = 850
-      Top = 0
-      Width = 79
-      Height = 24
-      Anchors = [akTop, akRight]
-      BevelOuter = bvNone
-      ParentBackground = False
-      TabOrder = 1
-      ExplicitLeft = 860
-      object ShapeCommands: TShape
-        Left = 0
-        Top = 0
-        Width = 79
-        Height = 24
-        Brush.Style = bsClear
-        Pen.Color = 12615680
-      end
-      object btnCopy: TSpeedButton
-        AlignWithMargins = True
-        Left = 27
-        Top = 0
-        Width = 22
-        Height = 24
-        Cursor = crHandPoint
-        Hint = 'Copy'
-        Margins.Left = 0
-        Margins.Top = 0
-        Margins.Bottom = 0
-        Align = alLeft
-        Flat = True
-        Glyph.Data = {
-          8E010000424D8E010000000000008E0000002800000010000000100000000100
-          08000000000000010000210B0000210B0000160000001600000000000000FFFF
-          FF00FF00FF00FBFBFB00F7F7F700F3F3F300EAEAEA00E6E6E600E2E2E200DEDE
-          DE00DADADA00D2D2D200CECECE00B5B5B500ADADAD00A0A0A000949494008C8C
-          8C00838383007F7F7F0073737300FFFFFF0002020202020F1414141414141414
-          140202020202020F0506060606060608140202020202020F0608090909090909
-          140202020202020F050B0B0B0B0B0B091402020F1414140F04090909090A0809
-          1302020F0506060F04080909090907091202020F0608090F030B0B0B0B0B0B08
-          1102020F050B0B0F03060607080605071102020F0409090F0101010303070C0D
-          1002020F0408090F01010103030F0F0F0F02020F030B0B0F01010101010F0E0F
-          0202020F0306060F0F0F0F0F0F0F0F020202020F0101010303070C0D10020202
-          0202020F01010103030F0F0F0F0202020202020F01010101010F0E0F02020202
-          0202020F0F0F0F0F0F0F0F02020202020202}
-        OnClick = btnCopyClick
-        ExplicitLeft = 50
-        ExplicitHeight = 26
-      end
-      object btnInsertAtCursor: TSpeedButton
-        AlignWithMargins = True
-        Left = 2
-        Top = 0
-        Width = 22
-        Height = 24
-        Cursor = crHandPoint
-        Hint = 'Insert Selected Text at Cursor'
-        Margins.Left = 2
-        Margins.Top = 0
-        Margins.Bottom = 0
-        Align = alLeft
-        Flat = True
-        Glyph.Data = {
-          8A010000424D8A010000000000008A0000002800000010000000100000000100
-          08000000000000010000120B0000120B0000150000001500000000000000FFFF
-          FF00FF00FF00EFEFEF00EDEDED00ECECEC00EBEBEB00E9E9E900E7E7E700E5E5
-          E500E3E3E300E1E1E100E0E0E000DEDEDE00DCDCDC00DBDBDB00D8D8D800ADAD
-          AD008C8C8C007878780064646400020202020202020202020202020202021313
-          13131313130202020202020202020507090C0E10120202020202020202020406
-          080A0D0F12020202020202020202030507090B0E120202020202020202021212
-          1212121212020202020202020202020202020202020214021213131313130202
-          02020202021414021207090C0E10020202020202141114021206080A0D0F0202
-          0202020202141402120507090B0E020202020202020214021213131313131313
-          13131313130202020202020202020507090C0E10120202020202020202020406
-          080A0D0F12020202020202020202030507090B0E120202020202020202021212
-          1212121212020202020202020202}
-        OnClick = btnInsertAtCursorClick
-        ExplicitLeft = 1
-        ExplicitHeight = 26
-      end
-      object btnMoreActions: TSpeedButton
-        AlignWithMargins = True
-        Left = 52
-        Top = 0
-        Width = 22
-        Height = 24
-        Cursor = crHandPoint
-        Hint = 'More actions...'
-        Margins.Left = 0
-        Margins.Top = 0
-        Margins.Bottom = 0
-        Align = alLeft
-        Caption = '...'
-        Flat = True
-        PopupMenu = PopupMenu1
-        ExplicitLeft = 65
-        ExplicitHeight = 22
       end
     end
     object pnBackStatusBar: TPanel
@@ -267,9 +162,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       BevelOuter = bvNone
       Padding.Top = 3
       ParentBackground = False
-      TabOrder = 3
-      ExplicitLeft = 10
-      ExplicitWidth = 948
+      TabOrder = 2
       object lbCurrentAI: TLabel
         Left = 0
         Top = 3
@@ -333,7 +226,111 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       item
         Width = 50
       end>
-    ExplicitLeft = 958
+  end
+  object pnCommands: TPanel
+    Left = 936
+    Top = 8
+    Width = 26
+    Height = 66
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Anchors = [akTop, akRight]
+    BevelOuter = bvNone
+    ParentBackground = False
+    TabOrder = 3
+    object ShapeCommands: TShape
+      Left = 1
+      Top = 0
+      Width = 24
+      Height = 65
+      Brush.Style = bsClear
+      Pen.Color = clGray
+      Pen.Style = psInsideFrame
+    end
+    object btnCopy: TSpeedButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 20
+      Width = 26
+      Height = 20
+      Cursor = crHandPoint
+      Hint = 'Copy'
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alTop
+      Flat = True
+      Glyph.Data = {
+        8E010000424D8E010000000000008E0000002800000010000000100000000100
+        08000000000000010000210B0000210B0000160000001600000000000000FFFF
+        FF00FF00FF00FBFBFB00F7F7F700F3F3F300EAEAEA00E6E6E600E2E2E200DEDE
+        DE00DADADA00D2D2D200CECECE00B5B5B500ADADAD00A0A0A000949494008C8C
+        8C00838383007F7F7F0073737300FFFFFF0002020202020F1414141414141414
+        140202020202020F0506060606060608140202020202020F0608090909090909
+        140202020202020F050B0B0B0B0B0B091402020F1414140F04090909090A0809
+        1302020F0506060F04080909090907091202020F0608090F030B0B0B0B0B0B08
+        1102020F050B0B0F03060607080605071102020F0409090F0101010303070C0D
+        1002020F0408090F01010103030F0F0F0F02020F030B0B0F01010101010F0E0F
+        0202020F0306060F0F0F0F0F0F0F0F020202020F0101010303070C0D10020202
+        0202020F01010103030F0F0F0F0202020202020F01010101010F0E0F02020202
+        0202020F0F0F0F0F0F0F0F02020202020202}
+      OnClick = btnCopyClick
+      ExplicitTop = 22
+      ExplicitWidth = 23
+    end
+    object btnInsertAtCursor: TSpeedButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 0
+      Width = 26
+      Height = 20
+      Cursor = crHandPoint
+      Hint = 'Insert Selected Text at Cursor'
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alTop
+      Flat = True
+      Glyph.Data = {
+        8A010000424D8A010000000000008A0000002800000010000000100000000100
+        08000000000000010000120B0000120B0000150000001500000000000000FFFF
+        FF00FF00FF00EFEFEF00EDEDED00ECECEC00EBEBEB00E9E9E900E7E7E700E5E5
+        E500E3E3E300E1E1E100E0E0E000DEDEDE00DCDCDC00DBDBDB00D8D8D800ADAD
+        AD008C8C8C007878780064646400020202020202020202020202020202021313
+        13131313130202020202020202020507090C0E10120202020202020202020406
+        080A0D0F12020202020202020202030507090B0E120202020202020202021212
+        1212121212020202020202020202020202020202020214021213131313130202
+        02020202021414021207090C0E10020202020202141114021206080A0D0F0202
+        0202020202141402120507090B0E020202020202020214021213131313131313
+        13131313130202020202020202020507090C0E10120202020202020202020406
+        080A0D0F12020202020202020202030507090B0E120202020202020202021212
+        1212121212020202020202020202}
+      OnClick = btnInsertAtCursorClick
+      ExplicitLeft = 2
+      ExplicitWidth = 21
+    end
+    object btnMoreActions: TSpeedButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 40
+      Width = 26
+      Height = 20
+      Cursor = crHandPoint
+      Hint = 'More actions...'
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alTop
+      Caption = '...'
+      Flat = True
+      PopupMenu = PopupMenu1
+      ExplicitWidth = 23
+    end
   end
   object ImageList1: TImageList
     Left = 96
