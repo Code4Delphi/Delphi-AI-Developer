@@ -16,6 +16,7 @@ type
   TDelphiCopilotEscope = (FileCurrent = 0, FilesInGroup = 1, FilesInProject = 2, FilesOpened = 3, FilesInDirectories = 4);
   TC4DExtensionsFiles = (None, PAS, DFM, FMX, DPR, DPK, DPROJ, ZIP, BMP, INI, ALL);
   TC4DExtensionsOfFiles = set of TC4DExtensionsFiles;
+  TC4DExtensionsCommons = (rtf);
   TDelphiCopilotListUsesKind = (Normal, Directiva);
   TDelphiCopilotFavorite = (None, Yes, No);
   TDelphiCopilotFileNotification = (None, FileOpened, FileClosing);

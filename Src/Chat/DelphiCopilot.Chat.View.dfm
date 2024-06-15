@@ -221,7 +221,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     Left = 936
     Top = 8
     Width = 26
-    Height = 73
+    Height = 95
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -232,12 +232,12 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     TabOrder = 3
     DesignSize = (
       26
-      73)
+      95)
     object ShapeCommands: TShape
       Left = 0
       Top = 0
       Width = 26
-      Height = 73
+      Height = 95
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -246,6 +246,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Brush.Style = bsClear
       Pen.Color = clGray
       Pen.Style = psInsideFrame
+      ExplicitHeight = 73
     end
     object btnCopy: TSpeedButton
       AlignWithMargins = True
@@ -324,7 +325,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     object btnMoreActions: TSpeedButton
       AlignWithMargins = True
       Left = 0
-      Top = 46
+      Top = 69
       Width = 26
       Height = 23
       Cursor = crHandPoint
@@ -338,6 +339,51 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
       Flat = True
       PopupMenu = pMenuMoreActions
       OnClick = btnMoreActionsClick
+      ExplicitTop = 46
+    end
+    object btnCreateNewUnit: TSpeedButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 46
+      Width = 26
+      Height = 23
+      Cursor = crHandPoint
+      Hint = 'Create new unit with selected code'
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alTop
+      Flat = True
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000000000000000000000000000000000000FF00FFFF00FF
+        FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+        FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFAD7384B58484B58484B58484B5
+        8484B58484B58484B58484B58484B58484B58484B58484FF00FFFF00FFFF00FF
+        FF00FFAD7384FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFB58484FF00FFFF00FFFF00FFFF00FFAD7384FFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB58484FF00FFFF00FFFF00FF
+        FF00FFAD7384FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFB58484FF00FFFF00FFFF00FFFF00FFAD7384FFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB58484FF00FFFF00FFFF00FF
+        FF00FFAD7384FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFB58484FF00FFFF00FFFF00FFFF00FFAD7384FFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB58484FF00FFFF00FFFF00FF
+        FF00FFAD7384FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFB58484FF00FFFF00FFFF00FF3184FF3184FF3184FFF7F7F7F7F7F7F7
+        F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7B58484FF00FFFF00FFFF00FF
+        3184FF42B5F73184FFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEF
+        EFEFEFEFB58484FF00FF3184FF3184FF3184FF42B5F73184FF3184FF3184FFE7
+        E7E7E7E7E7E7E7E7E7E7E7B58473B5948CB58C84B58484FF00FF3184FF8CD6F7
+        B5DEF7B5DEF7B5DEF78CD6F73184FFDEDEDEDEDEDEDEDEDEC6C6C6B58473FFFF
+        FFFFFFFFB58484FF00FF3184FF3184FF3184FFB5DEF73184FF3184FF3184FFD6
+        D6D6D6D6D6D6D6D6C6C6C6B58473FFFFFFB58484FF00FFFF00FFFF00FFFF00FF
+        3184FFB5DEF73184FFCECECECECECECECECECECECECECECEC6C6C6B58473B584
+        84FF00FFFF00FFFF00FFFF00FFFF00FF3184FF3184FF3184FFEFD6C6EFD6C6EF
+        D6C6EFD6C6EFD6C6D6BDB5B58473FF00FFFF00FFFF00FFFF00FF}
+      OnClick = btnCreateNewUnitClick
+      ExplicitTop = 55
     end
   end
   object ImageList1: TImageList
@@ -528,10 +574,13 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
     Images = ImageList1
     Left = 824
     Top = 40
-    object CreateNewUnitWithSelectedCode1: TMenuItem
-      Caption = 'Create new unit with selected code'
-      ImageIndex = 0
-      OnClick = CreateNewUnitWithSelectedCode1Click
+    object SaveContentToFile1: TMenuItem
+      Caption = 'Save content to file'
+      OnClick = SaveContentToFile1Click
+    end
+    object ClearContent1: TMenuItem
+      Caption = 'Clear content'
+      OnClick = ClearContent1Click
     end
   end
 end

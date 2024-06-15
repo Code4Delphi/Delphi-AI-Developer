@@ -60,7 +60,9 @@ type
     ShapeCommands: TShape;
     btnSend: TButton;
     pMenuMoreActions: TPopupMenu;
-    CreateNewUnitWithSelectedCode1: TMenuItem;
+    SaveContentToFile1: TMenuItem;
+    btnCreateNewUnit: TSpeedButton;
+    ClearContent1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -79,7 +81,9 @@ type
     procedure Gemini1Click(Sender: TObject);
     procedure pMenuCurrentAIPopup(Sender: TObject);
     procedure btnMoreActionsClick(Sender: TObject);
-    procedure CreateNewUnitWithSelectedCode1Click(Sender: TObject);
+    procedure SaveContentToFile1Click(Sender: TObject);
+    procedure btnCreateNewUnitClick(Sender: TObject);
+    procedure ClearContent1Click(Sender: TObject);
   private
     FChat: TDelphiCopilotChat;
     FSettings: TDelphiCopilotSettings;
@@ -92,6 +96,7 @@ type
     procedure AddResponseLine(const ALineStr: string);
     procedure Last;
     function GetSelectedTextOrAll: string;
+    function GetSelectedTextOrAllOrAbort: string;
     procedure GetSelectedBlockForQuestion;
     procedure WaitingFormOFF;
     procedure WaitingFormON;
@@ -466,15 +471,52 @@ begin
     Result := mmReturn.Lines.Text;
 end;
 
-procedure TDelphiCopilotChatView.btnCopyClick(Sender: TObject);
+function TDelphiCopilotChatView.GetSelectedTextOrAllOrAbort: string;
 begin
-  Clipboard.AsText := Self.GetSelectedTextOrAll;
+  Result := Self.GetSelectedTextOrAll;
+  if Result.Trim.IsEmpty then
+    TUtils.ShowMsgAndAbort('There is no data to be used in this action');
 end;
 
 procedure TDelphiCopilotChatView.btnInsertAtCursorClick(Sender: TObject);
+var
+ LText: string;
 begin
+  LText := Self.GetSelectedTextOrAllOrAbort;
   TUtilsOTA.DeleteBlockTextSelectedInEditor;
-  TUtilsOTA.InsertBlockTextIntoEditor(Self.GetSelectedTextOrAll);
+  TUtilsOTA.InsertBlockTextIntoEditor(LText);
+end;
+
+procedure TDelphiCopilotChatView.btnCopyClick(Sender: TObject);
+var
+ LText: string;
+begin
+  LText := Self.GetSelectedTextOrAllOrAbort;
+  Clipboard.AsText := LText;
+end;
+
+procedure TDelphiCopilotChatView.btnCreateNewUnitClick(Sender: TObject);
+var
+ LText: string;
+begin
+  LText := Self.GetSelectedTextOrAllOrAbort;
+  TDelphiCopilotModuleCreator.New.CreateNewUnit(LText);
+end;
+
+procedure TDelphiCopilotChatView.SaveContentToFile1Click(Sender: TObject);
+var
+  LFileName: string;
+begin
+  Self.GetSelectedTextOrAllOrAbort;
+
+  LFileName := TUtils.GetFileName('rtf');
+  mmReturn.Lines.SaveToFile(LFileName);
+  TUtils.ShowV('File saved successfully');
+end;
+
+procedure TDelphiCopilotChatView.ClearContent1Click(Sender: TObject);
+begin
+  mmReturn.Lines.Clear;
 end;
 
 procedure TDelphiCopilotChatView.btnMoreActionsClick(Sender: TObject);
@@ -534,11 +576,6 @@ begin
   FSettings.AIDefault := TAIsAvailable(LTag);
   FSettings.SaveData;
   Self.ConfLabelCurrentAI;
-end;
-
-procedure TDelphiCopilotChatView.CreateNewUnitWithSelectedCode1Click(Sender: TObject);
-begin
-  TDelphiCopilotModuleCreator.New.CreateNewUnit(Self.GetSelectedTextOrAll);
 end;
 
 initialization

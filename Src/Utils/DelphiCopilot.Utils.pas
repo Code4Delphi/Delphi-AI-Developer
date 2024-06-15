@@ -26,6 +26,7 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TDelphiCopilotIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class function GetFileName(const AExtension: string): string;
     class procedure MemoFocusOnTheEnd(const AMemo: TMemo);
     class function IfThenColor(const Conditional: Boolean; const AColorTrue, AColorFalse: TColor): TColor;
     class function GetFormFromComponent(const AWinControl: TWinControl): TForm;
@@ -131,6 +132,42 @@ uses
   DelphiCopilot.View.Dialog,
   DelphiCopilot.Consts,
   DelphiCopilot.WaitingScreen;
+
+class function TUtils.GetFileName(const AExtension: string): string;
+var
+  LFileName: string;
+  LSaveDialog: TSaveDialog;
+  LAsteriskAndExtension: string;
+begin
+  Result := '';
+  LAsteriskAndExtension := '*.' + AExtension.ToLower;
+  LFileName := Format('%S-%s.%s', ['Copilot4D', FormatDateTime('yyyyMMdd-hhnnss', now), AExtension.ToLower]);
+
+  LSaveDialog := TSaveDialog.Create(nil);
+  try
+    LSaveDialog.Title := 'Save file in';
+    LSaveDialog.DefaulText := LAsteriskAndExtension;
+    LSaveDialog.Filter := format('File %s (%s)|%s|All files (*.*)|*.*',
+      [AExtension.ToUpper, LAsteriskAndExtension, LAsteriskAndExtension]);
+    //LSaveDialog.InitialDir := 'C:\Temp\';
+    LSaveDialog.FileName := LFileName;
+
+    if not(LSaveDialog.Execute) then
+      Abort;
+
+    if FileExists(LSaveDialog.FileName) then
+    begin
+      if not(TUtils.ShowQuestion('There is already a file with the same name in this location.' + sLineBreak +
+        'Do you want to replace it?'))
+      then
+        Abort;
+    end;
+
+    Result := LSaveDialog.FileName;
+  finally
+    LSaveDialog.Free;
+  end;
+end;
 
 class procedure TUtils.MemoFocusOnTheEnd(const AMemo: TMemo);
 begin
