@@ -63,6 +63,7 @@ type
     SaveContentToFile1: TMenuItem;
     btnCreateNewUnit: TSpeedButton;
     ClearContent1: TMenuItem;
+    btnUseCurrentUnitData: TButton;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -84,6 +85,8 @@ type
     procedure SaveContentToFile1Click(Sender: TObject);
     procedure btnCreateNewUnitClick(Sender: TObject);
     procedure ClearContent1Click(Sender: TObject);
+    procedure btnUseCurrentUnitDataClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     FChat: TDelphiCopilotChat;
     FSettings: TDelphiCopilotSettings;
@@ -95,13 +98,13 @@ type
     procedure AddResponseComplete(const AStrings: TStrings);
     procedure AddResponseLine(const ALineStr: string);
     procedure Last;
-    function GetSelectedTextOrAll: string;
+    function GetSelectedTextOrAllFromReturn: string;
     function GetSelectedTextOrAllOrAbort: string;
-    procedure GetSelectedBlockForQuestion;
     procedure WaitingFormOFF;
     procedure WaitingFormON;
     procedure ConfLabelCurrentAI;
     procedure ConfScreenOnShow;
+    procedure ChangeUseCurrentUnitData;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -170,7 +173,7 @@ begin
   Self.ConfScreenOnShow;
   Self.InitializeRichEditReturn;
   Self.ReadFromFile;
-  Self.GetSelectedBlockForQuestion;
+  //Self.GetSelectedBlockForQuestion;
 
   TUtils.MemoFocusOnTheEnd(mmQuestion);
 end;
@@ -191,15 +194,6 @@ end;
 procedure TDelphiCopilotChatView.FormActivate(Sender: TObject);
 begin
   Self.ConfLabelCurrentAI;
-end;
-
-procedure TDelphiCopilotChatView.GetSelectedBlockForQuestion;
-var
-  LBlockTextSelect: string;
-begin
-  LBlockTextSelect := TUtilsOTA.GetBlockTextSelect;
-  if not LBlockTextSelect.Trim.IsEmpty then
-    mmQuestion.Text := LBlockTextSelect.Trim;
 end;
 
 procedure TDelphiCopilotChatView.mmQuestionChange(Sender: TObject);
@@ -232,6 +226,24 @@ procedure TDelphiCopilotChatView.FormClose(Sender: TObject; var Action: TCloseAc
 begin
   Self.WriteToFile;
   Self.WaitingFormOFF;
+end;
+
+procedure TDelphiCopilotChatView.FormResize(Sender: TObject);
+const
+  CAPTION = 'Use data from current unit in query';
+begin
+  if(Self.Width > 450)then
+  begin
+    btnUseCurrentUnitData.Caption := CAPTION;
+    btnUseCurrentUnitData.Width := 208;
+    btnUseCurrentUnitData.ImageAlignment := TImageAlignment.iaLeft;
+  end
+  else
+  begin
+    btnUseCurrentUnitData.Caption := '';
+    btnUseCurrentUnitData.Width := btnSend.Width;
+    btnUseCurrentUnitData.ImageAlignment := TImageAlignment.iaCenter;
+  end;
 end;
 
 procedure TDelphiCopilotChatView.ReadFromFile;
@@ -276,19 +288,41 @@ begin
   Self.ProcessSend;
 end;
 
+procedure TDelphiCopilotChatView.btnUseCurrentUnitDataClick(Sender: TObject);
+begin
+  Self.ChangeUseCurrentUnitData;
+end;
+
+procedure TDelphiCopilotChatView.ChangeUseCurrentUnitData;
+begin
+  if btnUseCurrentUnitData.ImageIndex = 0 then
+    btnUseCurrentUnitData.ImageIndex := 1
+  else
+    btnUseCurrentUnitData.ImageIndex := 0;
+end;
+
 procedure TDelphiCopilotChatView.ProcessSend;
 var
   LTask: ITask;
+  LQuestion: string;
 begin
+  if mmQuestion.Lines.Text.Trim.IsEmpty then
+    TUtils.ShowMsgAndAbort('No questions have been added', mmQuestion);
+
   mmReturn.Lines.Clear;
   Self.WaitingFormON;
+
+  LQuestion := mmQuestion.Lines.Text;
+
+  if btnUseCurrentUnitData.ImageIndex = 1 then
+    LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak + mmQuestion.Lines.Text;
 
   LTask := TTask.Create(
     procedure
     begin
       try
         try
-          FChat.ProcessSend(mmQuestion.Lines.Text);
+          FChat.ProcessSend(LQuestion);
         except
           on E: Exception do
             TThread.Synchronize(nil,
@@ -463,7 +497,7 @@ begin
   pMenuCurrentAI.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
-function TDelphiCopilotChatView.GetSelectedTextOrAll: string;
+function TDelphiCopilotChatView.GetSelectedTextOrAllFromReturn: string;
 begin
   if not mmReturn.SelText.Trim.IsEmpty then
     Result := mmReturn.SelText
@@ -473,7 +507,7 @@ end;
 
 function TDelphiCopilotChatView.GetSelectedTextOrAllOrAbort: string;
 begin
-  Result := Self.GetSelectedTextOrAll;
+  Result := Self.GetSelectedTextOrAllFromReturn;
   if Result.Trim.IsEmpty then
     TUtils.ShowMsgAndAbort('There is no data to be used in this action');
 end;

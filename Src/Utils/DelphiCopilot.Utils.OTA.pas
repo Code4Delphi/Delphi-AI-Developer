@@ -17,7 +17,6 @@ uses
 type
   TUtilsOTA = class
   private
-    class function EditorAsString(AIOTAModule: IOTAModule): string;
   public
     class function CurrentProjectIsC4DWizardDPROJ: Boolean;
     class function CurrentModuleIsReadOnly: Boolean;
@@ -25,6 +24,7 @@ type
     class function AddImgIDEResourceName(AResourceName: string): Integer;
     class function AddImgIDEFilePath(AFilePath: string): Integer;
     class function EditorAsStringList(AIOTAModule: IOTAModule): TStringList;
+    class function EditorAsString(AIOTAModule: IOTAModule): string;
     class procedure DeleteBlockTextSelectedInEditor;
     class procedure InsertBlockTextIntoEditor(const AText: string);
     class procedure OpenFilePathInIDE(AFilePath: string);
@@ -65,6 +65,7 @@ type
     class function GetIOTAModuleServices: IOTAModuleServices;
     class function GetIOTAEditorServices: IOTAEditorServices;
     class function GetBlockTextSelect: string;
+    class function GetSelectedBlockOrAllCodeUnit: string;
     class function GetCurrentModule: IOTAModule;
     class function GetCurrentModuleFileName: string;
     class function GetModule(const AFileName: string): IOTAModule;
@@ -287,6 +288,13 @@ begin
   LIOTAEditorServices := Self.GetIOTAEditorServices;
   if(LIOTAEditorServices.TopView <> nil)then
     Result := LIOTAEditorServices.TopView.GetBlock.Text;
+end;
+
+class function TUtilsOTA.GetSelectedBlockOrAllCodeUnit: string;
+begin
+  Result := TUtilsOTA.GetBlockTextSelect;
+  if Result.Trim.IsEmpty then
+    Result := TUtilsOTA.EditorAsString(TUtilsOTA.GetCurrentModule);
 end;
 
 class procedure TUtilsOTA.OpenFilePathInIDE(AFilePath: string);

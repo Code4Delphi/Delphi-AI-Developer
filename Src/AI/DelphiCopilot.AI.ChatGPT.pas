@@ -52,10 +52,7 @@ var
 begin
   Result := '';
   LApiUrl := FSettings.BaseUrlOpenAI;
-
-  TUtils.ShowMsgSynchronize(AQuestion);
   LQuestion := AQuestion.Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase]);
-  TUtils.ShowMsgSynchronize(LQuestion);
 
   LResponse := TRequest.New
     .BaseURL(LApiUrl)
