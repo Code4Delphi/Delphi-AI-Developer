@@ -68,6 +68,8 @@
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <SanitizedProjectName>DelphiCopilot</SanitizedProjectName>
         <DCC_UnitSearchPath>modules\.dcp;modules\.dcu;modules;modules\restrequest4delphi\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
@@ -86,9 +88,9 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_DcuOutput>.\dcu\</DCC_DcuOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;$(DCC_UsePackage)</DCC_UsePackage>
@@ -103,6 +105,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -155,6 +159,27 @@
         <DCCReference Include="..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.OTA.pas"/>
         <DCCReference Include="..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.pas"/>
         <DCCReference Include="..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.Interfaces.pas"/>
+        <DCCReference Include="..\Src\IDE\ImageListMain\DelphiCopilot.IDE.ImageListMain.pas"/>
+        <RcItem Include="Img\c4d_gear.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_gear</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_Logo.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_Logo</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_logo_24x24.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_logo_24x24</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_logo_48x48.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_logo_48x48</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_message.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_message</ResourceId>
+        </RcItem>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -175,6 +200,13 @@
                 <Source>
                     <Source Name="MainSource">DelphiCopilot.dpk</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\20.0\Bpl\HcConnection.bpl">HcComponentes - HcConnection</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclDataSnapNativeServer260.bpl">Embarcadero DBExpress DataSnap Native Server Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclbindcompfmx260.bpl">Embarcadero LiveBindings Components FireMonkey</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k260.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp260.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">

@@ -2,6 +2,7 @@
 package DelphiCopilot;
 
 {$R *.res}
+{$R *.dres}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -58,6 +59,7 @@ contains
   DelphiCopilot.Interfaces in '..\Src\Interfaces\DelphiCopilot.Interfaces.pas',
   DelphiCopilot.ModuleCreator.OTA in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.OTA.pas',
   DelphiCopilot.ModuleCreator in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.pas',
-  DelphiCopilot.ModuleCreator.Interfaces in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.Interfaces.pas';
+  DelphiCopilot.ModuleCreator.Interfaces in '..\Src\ModuleCreator\DelphiCopilot.ModuleCreator.Interfaces.pas',
+  DelphiCopilot.IDE.ImageListMain in '..\Src\IDE\ImageListMain\DelphiCopilot.IDE.ImageListMain.pas';
 
 end.

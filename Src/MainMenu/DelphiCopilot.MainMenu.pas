@@ -30,6 +30,7 @@ uses
   DelphiCopilot.Consts,
   DelphiCopilot.Utils,
   DelphiCopilot.Utils.OTA,
+  DelphiCopilot.IDE.ImageListMain,
   DelphiCopilot.MainMenu.Clicks;
 
 var
@@ -61,7 +62,7 @@ begin
   Self.CreateSubMenu(TC4DConsts.MENU_IDE_CHAT_NAME,
     TC4DConsts.MENU_IDE_CHAT_CAPTION,
     TDelphiCopilotIDEMainMenuClicks.ChatClick,
-    -1 //TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexNotes,
+    TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexMessage
     );
 
   Self.CreateSubMenu('C4DSeparator50', '-', nil);
@@ -69,7 +70,7 @@ begin
   Self.CreateSubMenu(TC4DConsts.MENU_IDE_SETTINGS_NAME,
     TC4DConsts.MENU_IDE_SETTINGS_CAPTION,
     TDelphiCopilotIDEMainMenuClicks.SettingsClick,
-    -1 //TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexNotes,
+    TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexGear
     );
 
 
@@ -77,7 +78,7 @@ begin
   Self.CreateSubMenu(TC4DConsts.MENU_IDE_ABOUT_NAME,
     TC4DConsts.MENU_IDE_ABOUT_CAPTION,
     TDelphiCopilotIDEMainMenuClicks.AboutClick,
-    -1 //TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexC4D_Logo
+    TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexC4D_Logo
     );
 end;
 
