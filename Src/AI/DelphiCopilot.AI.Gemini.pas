@@ -51,10 +51,9 @@ var
 begin
   Result := '';
   LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + '?key=' + FSettings.ApiKeyGemini;
-  //TUtils.ShowMsgSynchronize(LApiUrl);
 
   LResponse := TRequest.New
-    .BaseURL(LApiUrl) //API_URL - API_KEY
+    .BaseURL(LApiUrl)
     .Accept('application/json')
     .AddBody(Format(API_JSON_BODY_BASE, [AQuestion.Trim]))
     .Post;
@@ -78,7 +77,6 @@ begin
       begin
         LPartsObj := LPartsArray.Items[j] as TJsonObject;
         LJsonText := LPartsObj.GetValue<string>('text');
-        //FResponse.Add(TUtils.ConfReturnAI(JsonText));
         Result := LJsonText;
       end;
     end;

@@ -39,6 +39,7 @@ end;
 
 function TDelphiCopilotAIChatGPT.GetResponse(const AQuestion: string): string;
 var
+  LQuestion: string;
   LApiUrl: string;
   LResponse: IResponse;
   LReturnValue: TJSONValue;
@@ -52,12 +53,16 @@ begin
   Result := '';
   LApiUrl := FSettings.BaseUrlOpenAI;
 
+  TUtils.ShowMsgSynchronize(AQuestion);
+  LQuestion := AQuestion.Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase]);
+  TUtils.ShowMsgSynchronize(LQuestion);
+
   LResponse := TRequest.New
     .BaseURL(LApiUrl)
     .ContentType('application/json')
     .Accept('application/json')
     .Token('Bearer ' + FSettings.ApiKeyOpenAI)
-    .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOpenAI, AQuestion.Trim]))
+    .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOpenAI, LQuestion.Trim]))
     .Post;
 
   if LResponse.StatusCode <> 200 then
