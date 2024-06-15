@@ -8,36 +8,26 @@ uses
   System.TypInfo;
 
 type
-  TDelphiCopilotMenuContextList = procedure(const MenuContextList: IInterfaceList) of object;
-  TProcReplaceLine = reference to procedure(const ANumLine: Integer; const AStrLineOld, AStrLineNew: string);
-
   {$SCOPEDENUMS ON}
-  TAIsAvailable = (Gemini, OpenAI);
-  TDelphiCopilotEscope = (FileCurrent = 0, FilesInGroup = 1, FilesInProject = 2, FilesOpened = 3, FilesInDirectories = 4);
+  TC4DAIsAvailable = (Gemini, OpenAI);
   TC4DExtensionsFiles = (None, PAS, DFM, FMX, DPR, DPK, DPROJ, ZIP, BMP, INI, ALL);
   TC4DExtensionsOfFiles = set of TC4DExtensionsFiles;
-  TC4DExtensionsCommons = (rtf);
-  TDelphiCopilotListUsesKind = (Normal, Directiva);
-  TDelphiCopilotFavorite = (None, Yes, No);
-  TDelphiCopilotFileNotification = (None, FileOpened, FileClosing);
-  TDelphiCopilotOpenExternalKind = (None, Files, Folders, Links, Separators, CMD, MenuMasterOnly);
-  TDelphiCopilotIcon = (Information, Question, Warning, Error, Success);
+  TC4DExtensionsCommon = (rtf);
+  TC4DIcon = (Information, Question, Warning, Error, Success);
   TC4DButtons = (OK, OK_Cancel);
   TC4DBtnFocu = (OK, Cancel);
-  TC4DMsgClear = (ALL, Compiler, Search, Tool);
-  TC4DMsgsClear = set of TC4DMsgClear;
-  TC4DTextIgnoreEscope = (None = 0, Line = 1, Word = 2);
   {$SCOPEDENUMS OFF}
 
-  TAIsAvailableHelper = record helper for TAIsAvailable
-    function ToString: string;
-  end;
-
-  TDelphiCopilotOpenExternalKindHelper = record helper for TDelphiCopilotOpenExternalKind
+  TC4DAIsAvailableHelper = record helper for TC4DAIsAvailable
     function ToString: string;
   end;
 
   TC4DExtensionsFilesHelper = record helper for TC4DExtensionsFiles
+    function ToString: string;
+    function ToStringWithPoint: string;
+  end;
+
+  TC4DExtensionsCommonHelper = record helper for TC4DExtensionsCommon
     function ToString: string;
     function ToStringWithPoint: string;
   end;
@@ -52,23 +42,12 @@ uses
   DelphiCopilot.Consts;
 
 { TAIsAvailableHelper }
-function TAIsAvailableHelper.ToString: string;
+function TC4DAIsAvailableHelper.ToString: string;
 begin
   case Self of
-    TAIsAvailable.Gemini: Result := 'Gemini';
-    TAIsAvailable.OpenAI: Result := 'ChatGPT';
+    TC4DAIsAvailable.Gemini: Result := 'Gemini';
+    TC4DAIsAvailable.OpenAI: Result := 'ChatGPT';
   end;
-end;
-
-{TDelphiCopilotOpenExternalKindHelper}
-function TDelphiCopilotOpenExternalKindHelper.ToString: string;
-begin
-  if(Self = TDelphiCopilotOpenExternalKind.CMD)then
-    Exit(TC4DConsts.STR_CMD_COMMANDS)
-  else if(Self = TDelphiCopilotOpenExternalKind.MenuMasterOnly)then
-    Exit(TC4DConsts.STR_MENU_MASTER_ONLY);
-
-  Result := GetEnumName(TypeInfo(TDelphiCopilotOpenExternalKind), Integer(Self));
 end;
 
 { TC4DExtensionsFilesHelper }
@@ -107,6 +86,17 @@ begin
     Result := TC4DExtensionsFiles.BMP in Self
   else if(LExtension = '.ini')then
     Result := TC4DExtensionsFiles.INI in Self;
+end;
+
+{ TC4DExtensionsCommonHelper }
+function TC4DExtensionsCommonHelper.ToString: string;
+begin
+  Result := GetEnumName(TypeInfo(TC4DExtensionsFiles), Integer(Self)).ToLower;
+end;
+
+function TC4DExtensionsCommonHelper.ToStringWithPoint: string;
+begin
+  Result := '.' + Self.ToString;
 end;
 
 end.

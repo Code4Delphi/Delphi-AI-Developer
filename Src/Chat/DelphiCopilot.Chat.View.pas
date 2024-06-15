@@ -547,8 +547,10 @@ begin
   Gemini1.Checked := False;
   ChatGPT1.Checked := False;
   case FSettings.AIDefault of
-    TAIsAvailable.Gemini: Gemini1.Checked := True;
-    TAIsAvailable.OpenAI: ChatGPT1.Checked := True;
+    TC4DAIsAvailable.Gemini:
+      Gemini1.Checked := True;
+    TC4DAIsAvailable.OpenAI:
+      ChatGPT1.Checked := True;
   end;
 end;
 
@@ -557,9 +559,9 @@ begin
   lbCurrentAI.Caption := FSettings.AIDefault.ToString;
 
   case FSettings.AIDefault of
-    TAIsAvailable.Gemini:
+    TC4DAIsAvailable.Gemini:
       lbCurrentAI.Hint := FSettings.ModelGemini;
-    TAIsAvailable.OpenAI:
+    TC4DAIsAvailable.OpenAI:
       lbCurrentAI.Hint := FSettings.ModelOpenAI;
   end;
 end;
@@ -573,7 +575,7 @@ begin
   if not(LTag in [0, 1])then
     Exit;
 
-  FSettings.AIDefault := TAIsAvailable(LTag);
+  FSettings.AIDefault := TC4DAIsAvailable(LTag);
   FSettings.SaveData;
   Self.ConfLabelCurrentAI;
 end;

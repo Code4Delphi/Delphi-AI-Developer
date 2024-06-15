@@ -15,7 +15,7 @@ uses
 type
   TDelphiCopilotSettings = class
   private
-    FAIDefault: TAIsAvailable;
+    FAIDefault: TC4DAIsAvailable;
     FColorHighlightCodeDelphiUse: Boolean;
     FColorHighlightCodeDelphi: TColor;
 
@@ -45,7 +45,7 @@ type
     procedure SaveData;
     procedure LoadData;
 
-    property AIDefault: TAIsAvailable read FAIDefault write FAIDefault;
+    property AIDefault: TC4DAIsAvailable read FAIDefault write FAIDefault;
     property ColorHighlightCodeDelphiUse: Boolean read FColorHighlightCodeDelphiUse write FColorHighlightCodeDelphiUse;
     property ColorHighlightCodeDelphi: TColor read FColorHighlightCodeDelphi write FColorHighlightCodeDelphi;
 
@@ -78,7 +78,7 @@ end;
 
 procedure TDelphiCopilotSettings.LoadDefaults;
 begin
-  FAIDefault := TAIsAvailable.Gemini;
+  FAIDefault := TC4DAIsAvailable.Gemini;
 
   FColorHighlightCodeDelphiUse := False;
   FColorHighlightCodeDelphi := clNone;
@@ -135,7 +135,7 @@ begin
         Exit;
 
       if LReg.ValueExists(FIELD_AIDefault) then
-        FAIDefault := TAIsAvailable(LReg.ReadInteger(FIELD_AIDefault));
+        FAIDefault := TC4DAIsAvailable(LReg.ReadInteger(FIELD_AIDefault));
 
       //COLOR FOR HIGHLIGHT CODE DELPHI/PASCAL
       if LReg.ValueExists(FIELD_ColorHighlightCodeDelphiUse) then

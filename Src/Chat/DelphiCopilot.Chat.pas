@@ -48,9 +48,9 @@ begin
   FResponse.Clear;
 
   case FSettings.AIDefault of
-    TAIsAvailable.Gemini:
+    TC4DAIsAvailable.Gemini:
       FResponse.Text := TDelphiCopilotAIGemini.New(FSettings).GetResponse(AQuestion);
-    TAIsAvailable.OpenAI:
+    TC4DAIsAvailable.OpenAI:
       FResponse.Text := TDelphiCopilotAIChatGPT.New(FSettings).GetResponse(AQuestion);
   else
     FResponse.Add('Default AI not reported in Copilot settings');

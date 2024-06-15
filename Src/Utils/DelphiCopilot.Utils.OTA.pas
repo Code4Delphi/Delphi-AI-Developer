@@ -27,7 +27,6 @@ type
     class function EditorAsStringList(AIOTAModule: IOTAModule): TStringList;
     class procedure DeleteBlockTextSelectedInEditor;
     class procedure InsertBlockTextIntoEditor(const AText: string);
-    class function OTAFileNotificationToC4DWizardFileNotification(AOTAFileNotification: TOTAFileNotification): TDelphiCopilotFileNotification;
     class procedure OpenFilePathInIDE(AFilePath: string);
     class procedure ShowFormProjectOptions;
     class function RefreshProject: Boolean;
@@ -288,17 +287,6 @@ begin
   LIOTAEditorServices := Self.GetIOTAEditorServices;
   if(LIOTAEditorServices.TopView <> nil)then
     Result := LIOTAEditorServices.TopView.GetBlock.Text;
-end;
-
-class function TUtilsOTA.OTAFileNotificationToC4DWizardFileNotification(AOTAFileNotification: TOTAFileNotification): TDelphiCopilotFileNotification;
-begin
-  Result := TDelphiCopilotFileNotification.None;
-  case(AOTAFileNotification)of
-    ofnFileOpened:
-    Result := TDelphiCopilotFileNotification.FileOpened;
-    ofnFileClosing:
-    Result := TDelphiCopilotFileNotification.FileClosing;
-  end;
 end;
 
 class procedure TUtilsOTA.OpenFilePathInIDE(AFilePath: string);

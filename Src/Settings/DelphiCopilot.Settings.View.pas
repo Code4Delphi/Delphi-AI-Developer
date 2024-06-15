@@ -199,7 +199,7 @@ end;
 
 procedure TDelphiCopilotSettingsView.SaveSettings;
 begin
-  FSettings.AIDefault := TAIsAvailable(cBoxAIDefault.ItemIndex);
+  FSettings.AIDefault := TC4DAIsAvailable(cBoxAIDefault.ItemIndex);
 
   FSettings.ColorHighlightCodeDelphiUse := ckColorHighlightCodeDelphiUse.Checked;
   FSettings.ColorHighlightCodeDelphi := ColorBoxColorHighlightCodeDelphi.Selected;

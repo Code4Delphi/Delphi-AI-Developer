@@ -37,7 +37,7 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
       Left = 18
       Top = 12
       Width = 80
-      Height = 18
+      Height = 13
       Cursor = crHandPoint
       Margins.Left = 16
       Margins.Top = 10
@@ -53,7 +53,6 @@ object DelphiCopilotSettingsView: TDelphiCopilotSettingsView
       ShowHint = True
       Layout = tlCenter
       OnClick = lbRestoreDefaultsClick
-      ExplicitHeight = 13
     end
     object btnConfirm: TButton
       AlignWithMargins = True

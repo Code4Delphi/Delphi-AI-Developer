@@ -100,8 +100,8 @@ object DelphiCopilotViewDialog: TDelphiCopilotViewDialog
     object lbMsg: TLabel
       Left = 32
       Top = 0
-      Width = 432
-      Height = 133
+      Width = 30
+      Height = 14
       Align = alClient
       Alignment = taCenter
       Caption = 'lbMsg'
@@ -114,8 +114,6 @@ object DelphiCopilotViewDialog: TDelphiCopilotViewDialog
       PopupMenu = PopupMenu1
       Layout = tlCenter
       WordWrap = True
-      ExplicitWidth = 30
-      ExplicitHeight = 14
     end
     object pnDetailsLabel: TPanel
       Left = 0
@@ -132,7 +130,7 @@ object DelphiCopilotViewDialog: TDelphiCopilotViewDialog
         Left = 389
         Top = 0
         Width = 68
-        Height = 17
+        Height = 14
         Cursor = crHandPoint
         Margins.Left = 0
         Margins.Top = 0
@@ -149,14 +147,13 @@ object DelphiCopilotViewDialog: TDelphiCopilotViewDialog
         ParentFont = False
         Layout = tlCenter
         OnClick = lbViewDetailsClick
-        ExplicitHeight = 14
       end
       object lbViewDetails02: TLabel
         AlignWithMargins = True
         Left = 462
         Top = 0
         Width = 12
-        Height = 17
+        Height = 14
         Cursor = crHandPoint
         Margins.Left = 0
         Margins.Top = 0
@@ -173,7 +170,6 @@ object DelphiCopilotViewDialog: TDelphiCopilotViewDialog
         ParentFont = False
         Layout = tlCenter
         OnClick = lbViewDetailsClick
-        ExplicitHeight = 14
       end
     end
     object pnImg: TPanel
