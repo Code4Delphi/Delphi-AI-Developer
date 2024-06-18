@@ -138,7 +138,7 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Left = 0
         Top = 3
         Width = 56
-        Height = 20
+        Height = 13
         Cursor = crHandPoint
         Hint = 'AI being used'
         Margins.Left = 0
@@ -149,7 +149,6 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         Caption = 'lbCurrentAI'
         PopupMenu = pMenuCurrentAI
         OnClick = lbCurrentAIClick
-        ExplicitHeight = 13
       end
       object btnSend: TButton
         AlignWithMargins = True
@@ -166,23 +165,33 @@ object DelphiCopilotChatView: TDelphiCopilotChatView
         TabOrder = 0
         OnClick = btnSendClick
       end
-      object btnUseCurrentUnitData: TButton
-        AlignWithMargins = True
+      object Panel9: TPanel
         Left = 653
         Top = 3
         Width = 208
         Height = 20
-        Cursor = crHandPoint
-        Hint = 'Use data from current unit in query'
-        Margins.Top = 0
-        Margins.Right = 0
-        Margins.Bottom = 0
         Align = alRight
-        Caption = '* Use data from current unit in query* '
-        ImageIndex = 1
-        Images = ImageList1
+        BevelOuter = bvNone
+        ParentBackground = False
         TabOrder = 1
-        OnClick = btnUseCurrentUnitDataClick
+        object btnUseCurrentUnitCode: TButton
+          AlignWithMargins = True
+          Left = 3
+          Top = 0
+          Width = 205
+          Height = 20
+          Cursor = crHandPoint
+          Hint = 'Use data from current unit in query'
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alRight
+          Caption = '* Use current unit code in query * '
+          ImageIndex = 1
+          Images = ImageList1
+          TabOrder = 0
+          OnClick = btnUseCurrentUnitCodeClick
+        end
       end
     end
   end

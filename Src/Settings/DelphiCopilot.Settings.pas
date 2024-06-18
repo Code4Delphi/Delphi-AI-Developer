@@ -83,11 +83,11 @@ begin
   FColorHighlightCodeDelphiUse := False;
   FColorHighlightCodeDelphi := clNone;
 
-  FBaseUrlGemini := TC4DConsts.BASE_URL_GEMINI_DEFAULT;
-  FModelGemini := TC4DConsts.MODEL_GEMINI_DEFAULT;
+  FBaseUrlGemini := TConsts.BASE_URL_GEMINI_DEFAULT;
+  FModelGemini := TConsts.MODEL_GEMINI_DEFAULT;
   FApiKeyGemini := '';
 
-  FBaseUrlOpenAI := TC4DConsts.BASE_URL_OPEN_AI;
+  FBaseUrlOpenAI := TConsts.BASE_URL_OPEN_AI;
   FModelOpenAI := 'gpt-3.5-turbo';
   FApiKeyOpenAI := '';
 end;
@@ -100,7 +100,7 @@ begin
   try
     LReg.CloseKey;
     LReg.RootKey := HKEY_CURRENT_USER;
-    if not(LReg.OpenKey(TC4DConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, True))then
+    if not(LReg.OpenKey(TConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, True))then
       raise Exception.Create('Unable to save settings to Windows registry');
 
     LReg.WriteInteger(FIELD_AIDefault, Integer(FAIDefault));
@@ -131,7 +131,7 @@ begin
       LReg.CloseKey;
       LReg.RootKey := HKEY_CURRENT_USER;
 
-      if not(LReg.OpenKey(TC4DConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, False)) then
+      if not(LReg.OpenKey(TConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, False)) then
         Exit;
 
       if LReg.ValueExists(FIELD_AIDefault) then

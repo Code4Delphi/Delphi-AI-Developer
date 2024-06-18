@@ -59,24 +59,24 @@ procedure TDelphiCopilotIDEMainMenu.CreateMenus;
 begin
   Self.CreateMenuCode4DelphiInIDEMenu;
 
-  Self.CreateSubMenu(TC4DConsts.MENU_IDE_CHAT_NAME,
-    TC4DConsts.MENU_IDE_CHAT_CAPTION,
+  Self.CreateSubMenu(TConsts.MENU_IDE_CHAT_NAME,
+    TConsts.MENU_IDE_CHAT_CAPTION,
     TDelphiCopilotIDEMainMenuClicks.ChatClick,
     TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexMessage
     );
 
   Self.CreateSubMenu('C4DSeparator50', '-', nil);
 
-  Self.CreateSubMenu(TC4DConsts.MENU_IDE_SETTINGS_NAME,
-    TC4DConsts.MENU_IDE_SETTINGS_CAPTION,
+  Self.CreateSubMenu(TConsts.MENU_IDE_SETTINGS_NAME,
+    TConsts.MENU_IDE_SETTINGS_CAPTION,
     TDelphiCopilotIDEMainMenuClicks.SettingsClick,
     TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexGear
     );
 
 
   Self.CreateSubMenu('C4DSeparator90', '-', nil);
-  Self.CreateSubMenu(TC4DConsts.MENU_IDE_ABOUT_NAME,
-    TC4DConsts.MENU_IDE_ABOUT_CAPTION,
+  Self.CreateSubMenu(TConsts.MENU_IDE_ABOUT_NAME,
+    TConsts.MENU_IDE_ABOUT_CAPTION,
     TDelphiCopilotIDEMainMenuClicks.AboutClick,
     TDelphiCopilotIDEImageListMain.GetInstance.ImgIndexC4D_Logo
     );
@@ -87,13 +87,13 @@ var
   LMenuItemTabs: TMenuItem;
   LMenuItemTools: TMenuItem;
 begin
-  FMenuItemC4D := TMenuItem(FMainMenuIDE.FindComponent(TC4DConsts.ITEM_MENU_Code4D_NAME));
+  FMenuItemC4D := TMenuItem(FMainMenuIDE.FindComponent(TConsts.ITEM_MENU_Code4D_NAME));
   if(Assigned(FMenuItemC4D))then
     FreeAndNil(FMenuItemC4D);
 
   FMenuItemC4D := TMenuItem.Create(FMainMenuIDE);
-  FMenuItemC4D.Name := TC4DConsts.ITEM_MENU_Code4D_NAME;
-  FMenuItemC4D.Caption := TC4DConsts.ITEM_MENU_Code4D_CAPTION;
+  FMenuItemC4D.Name := TConsts.ITEM_MENU_Code4D_NAME;
+  FMenuItemC4D.Caption := TConsts.ITEM_MENU_Code4D_CAPTION;
 
   LMenuItemTabs := FMainMenuIDE.Items.Find('Tabs');
   if(Assigned(LMenuItemTabs))then

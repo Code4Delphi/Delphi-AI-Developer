@@ -63,7 +63,8 @@ type
     SaveContentToFile1: TMenuItem;
     btnCreateNewUnit: TSpeedButton;
     ClearContent1: TMenuItem;
-    btnUseCurrentUnitData: TButton;
+    Panel9: TPanel;
+    btnUseCurrentUnitCode: TButton;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -85,7 +86,7 @@ type
     procedure SaveContentToFile1Click(Sender: TObject);
     procedure btnCreateNewUnitClick(Sender: TObject);
     procedure ClearContent1Click(Sender: TObject);
-    procedure btnUseCurrentUnitDataClick(Sender: TObject);
+    procedure btnUseCurrentUnitCodeClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
   private
     FChat: TDelphiCopilotChat;
@@ -230,19 +231,19 @@ end;
 
 procedure TDelphiCopilotChatView.FormResize(Sender: TObject);
 const
-  CAPTION = 'Use data from current unit in query';
+  CAPTION = 'Use current unit code in query';
 begin
   if(Self.Width > 450)then
   begin
-    btnUseCurrentUnitData.Caption := CAPTION;
-    btnUseCurrentUnitData.Width := 208;
-    btnUseCurrentUnitData.ImageAlignment := TImageAlignment.iaLeft;
+    btnUseCurrentUnitCode.Caption := CAPTION;
+    btnUseCurrentUnitCode.Width := 208;
+    btnUseCurrentUnitCode.ImageAlignment := TImageAlignment.iaLeft;
   end
   else
   begin
-    btnUseCurrentUnitData.Caption := '';
-    btnUseCurrentUnitData.Width := btnSend.Width;
-    btnUseCurrentUnitData.ImageAlignment := TImageAlignment.iaCenter;
+    btnUseCurrentUnitCode.Caption := '';
+    btnUseCurrentUnitCode.Width := btnSend.Width;
+    btnUseCurrentUnitCode.ImageAlignment := TImageAlignment.iaCenter;
   end;
 end;
 
@@ -283,22 +284,22 @@ begin
   mmReturn.PasteFromClipboard;
 end;
 
-procedure TDelphiCopilotChatView.btnSendClick(Sender: TObject);
-begin
-  Self.ProcessSend;
-end;
-
-procedure TDelphiCopilotChatView.btnUseCurrentUnitDataClick(Sender: TObject);
+procedure TDelphiCopilotChatView.btnUseCurrentUnitCodeClick(Sender: TObject);
 begin
   Self.ChangeUseCurrentUnitData;
 end;
 
 procedure TDelphiCopilotChatView.ChangeUseCurrentUnitData;
 begin
-  if btnUseCurrentUnitData.ImageIndex = 0 then
-    btnUseCurrentUnitData.ImageIndex := 1
+  if btnUseCurrentUnitCode.ImageIndex = 0 then
+    btnUseCurrentUnitCode.ImageIndex := 1
   else
-    btnUseCurrentUnitData.ImageIndex := 0;
+    btnUseCurrentUnitCode.ImageIndex := 0;
+end;
+
+procedure TDelphiCopilotChatView.btnSendClick(Sender: TObject);
+begin
+  Self.ProcessSend;
 end;
 
 procedure TDelphiCopilotChatView.ProcessSend;
@@ -314,7 +315,7 @@ begin
 
   LQuestion := mmQuestion.Lines.Text;
 
-  if btnUseCurrentUnitData.ImageIndex = 1 then
+  if btnUseCurrentUnitCode.ImageIndex = 1 then
     LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak + mmQuestion.Lines.Text;
 
   LTask := TTask.Create(
@@ -383,14 +384,14 @@ begin
 
     if not FCodeStarted then
     begin
-      if (LLineStr.Trim = TC4DConsts.MARK_BEGIN_DELPHI) or (LLineStr.Trim = TC4DConsts.MARK_BEGIN_PASCAL) then
+      if TUtils.CodeIdMarkBeginCode(LLineStr) then
       begin
         FCodeStarted := True;
         Continue;
       end;
     end;
 
-    if LLineStr.Trim = TC4DConsts.MARK_END then
+    if LLineStr.Trim = TConsts.MARK_END then
     begin
       FCodeStarted := False;
       mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
@@ -409,7 +410,7 @@ begin
 
     //Optional use of one of the following lines
     //mmReturn.Lines.Add(LLineStr);
-    Self.AddResponseLine(LLineStr);
+    Self.AddResponseLine(LLineStr); //.Replace(TConsts.MARK_BEGIN_PASCAL2, '', [rfReplaceAll, rfIgnoreCase])
   end;
   Self.Last;
 end;

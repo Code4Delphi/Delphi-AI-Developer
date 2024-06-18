@@ -18,6 +18,7 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   System.StrUtils,
+  DelphiCopilot.Consts,
   DelphiCopilot.Types;
 
 type
@@ -33,6 +34,7 @@ type
     class procedure CenterPanel(const APanel: TPanel); overload;
     class procedure CenterPanel(const APanel: TPanel; const AWinControl: TWinControl); overload;
     class procedure TogglePasswordChar(const AEdit: TEdit);
+    class function CodeIdMarkBeginCode(const AValue: string): Boolean;
     class function ConfReturnAI(const AValue: string): string;
     class function ProcessTextForEditor(const AText: string): string;
     class function CopyReverse(S: string; Index, Count: Integer): string;
@@ -127,7 +129,6 @@ implementation
 uses
   DelphiCopilot.View.Memo,
   DelphiCopilot.View.Dialog,
-  DelphiCopilot.Consts,
   DelphiCopilot.WaitingScreen;
 
 class function TUtils.GetFileName(const AExtension: string): string;
@@ -245,11 +246,20 @@ begin
     AEdit.PasswordChar := '*';
 end;
 
+class function TUtils.CodeIdMarkBeginCode(const AValue: string): Boolean;
+begin
+ Result := (AValue.Trim = TConsts.MARK_BEGIN_DELPHI)
+   or(AValue.Trim = TConsts.MARK_BEGIN_PASCAL);
+   //or(AValue.Trim = TConsts.MARK_BEGIN_PASCAL2);
+end;
+
 class function TUtils.ConfReturnAI(const AValue: string): string;
 begin
-  Result := AValue
-    .Replace('```delphi', '', [rfReplaceAll, rfIgnoreCase])
-    .Replace('```', '', [rfReplaceAll]);
+  Result := AValue.Trim
+    .Replace(TConsts.MARK_BEGIN_DELPHI, '', [rfReplaceAll, rfIgnoreCase])
+    .Replace(TConsts.MARK_BEGIN_PASCAL, '', [rfReplaceAll, rfIgnoreCase])
+    //.Replace(TConsts.MARK_BEGIN_PASCAL2, '', [rfReplaceAll, rfIgnoreCase])
+    .Replace(TConsts.MARK_END, '', [rfReplaceAll, rfIgnoreCase]);
 end;
 
 class function TUtils.ProcessTextForEditor(const AText: string): string;
@@ -307,7 +317,7 @@ end;
 
 class function TUtils.FileNameIsC4DWizardDPROJ(const AFileName: string): Boolean;
 begin
-  Result := ExtractFileName(AFileName) = TC4DConsts.C4D_WIZARD_DPROJ;
+  Result := ExtractFileName(AFileName) = TConsts.C4D_WIZARD_DPROJ;
 end;
 
 class procedure TUtils.RemoveBlankSpaceInBegin(var AValue: string; const ACount: Integer);
@@ -650,17 +660,17 @@ end;
 
 class function TUtils.GetPathFileIniGeneralSettings: string;
 begin
-  Result := Self.GetPathFolderRoot + TC4DConsts.FILE_INI_GENERAL_SETTINGS;
+  Result := Self.GetPathFolderRoot + TConsts.FILE_INI_GENERAL_SETTINGS;
 end;
 
 class function TUtils.GetPathFileChat: string;
 begin
-  Result := Self.GetPathFolderRoot + TC4DConsts.FILE_RTF_CHAT;
+  Result := Self.GetPathFolderRoot + TConsts.FILE_RTF_CHAT;
 end;
 
 class function TUtils.CreateIfNecessaryAndGetPathFolderTemp: string;
 begin
-  Result := Self.GetPathFolderRoot + TC4DConsts.NAME_FOLDER_TEMP;
+  Result := Self.GetPathFolderRoot + TConsts.NAME_FOLDER_TEMP;
   if(not DirectoryExists(Result))then
     ForceDirectories(Result);
 end;
@@ -936,7 +946,7 @@ end;
 
 class procedure TUtils.ShowMsg(const AMsg: string; const ADetails: string = '');
 begin
-  Self.ShowMsgInternal(AMsg, ADetails, TC4DIcon.Information, TC4DButtons.OK, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Self.ShowMsgInternal(AMsg, ADetails, TC4DIcon.Information, TC4DButtons.OK, TC4DBtnFocu.OK, TConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class procedure TUtils.ShowMsgSynchronize(const AMsg: string; const ADetails: string = '');
@@ -950,12 +960,12 @@ end;
 
 class procedure TUtils.ShowV(const AMsg: string; const ADetails: string = '');
 begin
-  Self.ShowMsgInternal(AMsg, ADetails, TC4DIcon.Success, TC4DButtons.OK, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Self.ShowMsgInternal(AMsg, ADetails, TC4DIcon.Success, TC4DButtons.OK, TC4DBtnFocu.OK, TConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class procedure TUtils.ShowError(const AMsg: string; const ADetails: string = '');
 begin
-  Self.ShowError(AMsg, ADetails, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Self.ShowError(AMsg, ADetails, TConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class procedure TUtils.ShowError(const AMsg: string; const AWinControlFocu: TWinControl);
@@ -970,17 +980,17 @@ end;
 
 class function TUtils.ShowQuestion(const APerg: string; const ADetails: string = ''): Boolean;
 begin
-  Result := Self.ShowMsgInternal(APerg, ADetails, TC4DIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.OK, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Result := Self.ShowMsgInternal(APerg, ADetails, TC4DIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.OK, TConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class function TUtils.ShowQuestion2(const APerg: string; const ADetails: string = ''): Boolean;
 begin
-  Result := Self.ShowMsgInternal(APerg, ADetails, TC4DIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.Cancel, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Result := Self.ShowMsgInternal(APerg, ADetails, TC4DIcon.Question, TC4DButtons.OK_Cancel, TC4DBtnFocu.Cancel, TConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class procedure TUtils.ShowMsgErrorAndAbort(const AMsg: string; const ADetails: string = '');
 begin
-  Self.ShowMsgErrorAndAbort(AMsg, ADetails, TC4DConsts.WIN_CONTROL_FOCU_NIL);
+  Self.ShowMsgErrorAndAbort(AMsg, ADetails, TConsts.WIN_CONTROL_FOCU_NIL);
 end;
 
 class procedure TUtils.ShowMsgErrorAndAbort(const AMsg: string; const AWinControlFocu: TWinControl);
@@ -996,7 +1006,7 @@ end;
 
 class procedure TUtils.ShowMsgAndAbort(const AMsg: string; const ADetails: string = '');
 begin
-  Self.ShowMsgAndAbort(AMsg, ADetails, TC4DConsts.WIN_CONTROL_FOCU_NIL)
+  Self.ShowMsgAndAbort(AMsg, ADetails, TConsts.WIN_CONTROL_FOCU_NIL)
 end;
 
 class procedure TUtils.ShowMsgAndAbort(const AMsg: string; const AWinControlFocu: TWinControl);

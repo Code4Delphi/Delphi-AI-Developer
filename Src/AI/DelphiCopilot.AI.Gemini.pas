@@ -77,7 +77,7 @@ begin
       begin
         LPartsObj := LPartsArray.Items[j] as TJsonObject;
         LJsonText := LPartsObj.GetValue<string>('text');
-        Result := LJsonText;
+        Result := LJsonText.Trim;
       end;
     end;
   end;

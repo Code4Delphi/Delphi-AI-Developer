@@ -3,7 +3,7 @@ unit DelphiCopilot.Consts;
 interface
 
 type
-  TC4DConsts = class
+  TConsts = class
   public const
     SEMANTIC_VERSION = '1.0.0';
     SEMANTIC_VERSION_LB = 'Version: ' + SEMANTIC_VERSION;
@@ -17,6 +17,7 @@ type
 
     MARK_BEGIN_DELPHI = '```delphi';
     MARK_BEGIN_PASCAL = '```objectpascal';
+    MARK_BEGIN_PASCAL2 = '``pascal';
     MARK_END = '```';
 
     //SETTINGS

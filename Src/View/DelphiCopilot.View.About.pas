@@ -67,13 +67,13 @@ end;
 
 procedure TDelphiCopilotViewAbout.FormShow(Sender: TObject);
 begin
-  Self.Caption := 'About Delphi Copilot ' + TC4DConsts.SEMANTIC_VERSION;
+  Self.Caption := 'About Delphi Copilot ' + TConsts.SEMANTIC_VERSION;
 
   mmMensagem.Lines.Clear;
-  mmMensagem.Lines.Add(TC4DConsts.ABOUT_COPY_RIGHT);
-  mmMensagem.Lines.Add(TC4DConsts.ABOUT_DESCRIPTION);
-  mmMensagem.Lines.Add(TC4DConsts.SEMANTIC_VERSION_LB);
-  mmMensagem.Lines.Add(TC4DConsts.WIZARD_LICENSE);
+  mmMensagem.Lines.Add(TConsts.ABOUT_COPY_RIGHT);
+  mmMensagem.Lines.Add(TConsts.ABOUT_DESCRIPTION);
+  mmMensagem.Lines.Add(TConsts.SEMANTIC_VERSION_LB);
+  mmMensagem.Lines.Add(TConsts.WIZARD_LICENSE);
 end;
 
 procedure TDelphiCopilotViewAbout.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
