@@ -212,9 +212,15 @@ var
   LRead: Integer;
   LPosition: Integer;
   LStrBuffer: AnsiString;
+  LOTASourceEditor: IOTASourceEditor;
 begin
   Result := '';
-  LIOTAEditReader := Self.GetIOTASourceEditor(AIOTAModule).CreateReader;
+
+  LOTASourceEditor := Self.GetIOTASourceEditor(AIOTAModule);
+  if LOTASourceEditor = nil then
+    TUtils.ShowMsgSynchronize('Unable to get SourceEditor.');
+
+  LIOTAEditReader := LOTASourceEditor.CreateReader;
   try
     LPosition := 0;
     repeat

@@ -264,47 +264,45 @@ end;
 
 class function TUtils.ProcessTextForEditor(const AText: string): string;
 var
-  AdjustRet: Boolean;
-  Strings: TStrings;
+  LAdjustRet: Boolean;
+  LStrings: TStrings;
   I: Integer;
-  SpcCount: Integer;
-  c: Char;
-  s: string;
+  LCount: Integer;
+  LChar: Char;
+  LStrLine: string;
 begin
-  AdjustRet := CopyReverse(AText, 1, 2) = #13#10;
-  Strings := TStringList.Create;
+  LAdjustRet := CopyReverse(AText, 1, 2) = #13#10;
+  LStrings := TStringList.Create;
   try
-    Strings.Text := AText;
+    LStrings.Text := AText;
     //SpcCount := 0;
-    for I := 0 to Pred(Strings.Count) do
+    for I := 0 to Pred(LStrings.Count) do
     begin
-      s := Strings[I];
-      if Length(s) > 2 then
+      LStrLine := LStrings[I];
+      if Length(LStrLine) > 2 then
       begin
-        if s[2] = ' ' then
+        if LStrLine[2] = ' ' then
         begin
-          c := s[1];
-          s[1] := ' ';
-          SpcCount := 0;
-          while (SpcCount < Length(s)) and (s[SpcCount + 2] = ' ') do
-            Inc(SpcCount);
-          s[SpcCount + 1] := c;
+          LChar := LStrLine[1];
+          LStrLine[1] := ' ';
+          LCount := 0;
+          while (LCount < Length(LStrLine)) and (LStrLine[LCount + 2] = ' ') do
+            Inc(LCount);
+          LStrLine[LCount + 1] := LChar;
 
-          Strings[I] := s;
+          LStrings[I] := LStrLine;
         end
         else
-        begin
-          Strings[I] := s;
-        end;
+          LStrings[I] := LStrLine;
       end;
     end;
-    Result := Strings.Text;
+    Result := LStrings.Text;
     Delete(Result, Pred(Result.Length), 2);
   finally
-    Strings.Free;
+    LStrings.Free;
   end;
 
-  if AdjustRet then
+  if LAdjustRet then
     Result := Result + #13#10;
 end;
 
