@@ -21,7 +21,7 @@ type
     MARK_END = '```';
 
     //SETTINGS
-    KEY_SETTINGS_IN_WINDOWS_REGISTRY = '\SOFTWARE\DelphiAIDeveloperC4D';
+    KEY_SETTINGS_IN_WINDOWS_REGISTRY = '\SOFTWARE\DelphiAIDeveloper';
     BASE_URL_GEMINI_DEFAULT = 'https://generativelanguage.googleapis.com/';
     MODEL_GEMINI_DEFAULT = 'v1/models/gemini-1.5-flash:generateContent';
     BASE_URL_OPEN_AI = 'https://api.openai.com/v1/chat/completions/';

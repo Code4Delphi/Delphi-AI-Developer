@@ -65,6 +65,9 @@ type
     ClearContent1: TMenuItem;
     Panel9: TPanel;
     btnUseCurrentUnitCode: TButton;
+    Clear1: TMenuItem;
+    N2: TMenuItem;
+    WordWrap1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -88,6 +91,7 @@ type
     procedure ClearContent1Click(Sender: TObject);
     procedure btnUseCurrentUnitCodeClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure WordWrap1Click(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -481,6 +485,14 @@ begin
   pnWait.Visible := False;
   TUtils.CenterPanel(pnWait, mmReturn);
   pnWait.Visible := True;
+end;
+
+procedure TDelphiAIDevChatView.WordWrap1Click(Sender: TObject);
+begin
+  if WordWrap1.Checked then
+    mmReturn.ScrollBars := ssVertical
+  else
+    mmReturn.ScrollBars := ssBoth;
 end;
 
 procedure TDelphiAIDevChatView.WaitingFormOFF;

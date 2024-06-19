@@ -77,7 +77,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       ParentFont = False
       ParentShowHint = False
       PopupMenu = pMenuMemoReturn
-      ScrollBars = ssBoth
+      ScrollBars = ssVertical
       ShowHint = True
       TabOrder = 1
       Zoom = 100
@@ -575,6 +575,15 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       ShortCut = 16470
       OnClick = Paste1Click
     end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object WordWrap1: TMenuItem
+      AutoCheck = True
+      Caption = 'WordWrap'
+      Checked = True
+      OnClick = WordWrap1Click
+    end
     object N1: TMenuItem
       Caption = '-'
     end
@@ -582,6 +591,9 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       Caption = 'Select all'
       ShortCut = 16449
       OnClick = SelectAll1Click
+    end
+    object Clear1: TMenuItem
+      Caption = 'Clear'
     end
   end
   object pMenuCurrentAI: TPopupMenu
