@@ -1,0 +1,65 @@
+{$WARN IMPLICIT_IMPORT OFF}
+package DelphiAIDeveloper;
+
+{$R *.res}
+{$R *.dres}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  designide,
+  RESTComponents;
+
+contains
+  DelphiAIDeveloper.Register in '..\Src\DelphiAIDeveloper.Register.pas',
+  DelphiAIDev.Chat.View in '..\Src\Chat\DelphiAIDev.Chat.View.pas' {DelphiCopilotChatView},
+  DelphiAIDev.Utils.OTA in '..\Src\Utils\DelphiAIDev.Utils.OTA.pas',
+  DelphiAIDev.Utils in '..\Src\Utils\DelphiAIDev.Utils.pas',
+  DelphiAIDev.Types in '..\Src\Types\DelphiAIDev.Types.pas',
+  DelphiAIDev.Consts in '..\Src\Consts\DelphiAIDev.Consts.pas',
+  DelphiAIDev.View.Dialog in '..\Src\View\DelphiAIDev.View.Dialog.pas' {DelphiCopilotViewDialog},
+  DelphiAIDev.WaitingScreen in '..\Src\WaitingScreen\DelphiAIDev.WaitingScreen.pas',
+  DelphiAIDev.WaitingScreen.View in '..\Src\WaitingScreen\DelphiAIDev.WaitingScreen.View.pas' {DelphiCopilotWaitingScreenView},
+  DelphiAIDev.View.Memo in '..\Src\View\DelphiAIDev.View.Memo.pas' {DelphiCopilotViewMemo},
+  DelphiAIDev.MainMenu.Register in '..\Src\MainMenu\DelphiAIDev.MainMenu.Register.pas',
+  DelphiAIDev.MainMenu in '..\Src\MainMenu\DelphiAIDev.MainMenu.pas',
+  DelphiAIDev.MainMenu.Clicks in '..\Src\MainMenu\DelphiAIDev.MainMenu.Clicks.pas',
+  DelphiAIDev.View.About in '..\Src\View\DelphiAIDev.View.About.pas' {DelphiCopilotViewAbout},
+  Test in '..\Src\Test\Test.pas',
+  DelphiAIDev.Settings.View in '..\Src\Settings\DelphiAIDev.Settings.View.pas' {DelphiCopilotSettingsView},
+  DelphiAIDev.Settings in '..\Src\Settings\DelphiAIDev.Settings.pas',
+  DelphiAIDev.Chat in '..\Src\Chat\DelphiAIDev.Chat.pas',
+  DelphiAIDev.AI.Gemini in '..\Src\AI\DelphiAIDev.AI.Gemini.pas',
+  DelphiAIDev.AI.ChatGPT in '..\Src\AI\DelphiAIDev.AI.ChatGPT.pas',
+  DelphiAIDev.AI.Interfaces in '..\Src\AI\DelphiAIDev.AI.Interfaces.pas',
+  DelphiAIDev.Interfaces in '..\Src\Interfaces\DelphiAIDev.Interfaces.pas',
+  DelphiAIDev.ModuleCreator.OTA in '..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.OTA.pas',
+  DelphiAIDev.ModuleCreator in '..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.pas',
+  DelphiAIDev.ModuleCreator.Interfaces in '..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.Interfaces.pas',
+  DelphiAIDev.IDE.ImageListMain in '..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas';
+
+end.
