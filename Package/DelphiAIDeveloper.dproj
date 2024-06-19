@@ -124,31 +124,31 @@
         <DCCReference Include="RESTComponents.dcp"/>
         <DCCReference Include="..\Src\DelphiAIDeveloper.Register.pas"/>
         <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
-            <Form>DelphiCopilotChatView</Form>
+            <Form>DelphiAIDevChatView</Form>
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.OTA.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.pas"/>
         <DCCReference Include="..\Src\Types\DelphiAIDev.Types.pas"/>
         <DCCReference Include="..\Src\Consts\DelphiAIDev.Consts.pas"/>
         <DCCReference Include="..\Src\View\DelphiAIDev.View.Dialog.pas">
-            <Form>DelphiCopilotViewDialog</Form>
+            <Form>DelphiAIDevViewDialog</Form>
         </DCCReference>
         <DCCReference Include="..\Src\WaitingScreen\DelphiAIDev.WaitingScreen.pas"/>
         <DCCReference Include="..\Src\WaitingScreen\DelphiAIDev.WaitingScreen.View.pas">
-            <Form>DelphiCopilotWaitingScreenView</Form>
+            <Form>DelphiAIDevWaitingScreenView</Form>
         </DCCReference>
         <DCCReference Include="..\Src\View\DelphiAIDev.View.Memo.pas">
-            <Form>DelphiCopilotViewMemo</Form>
+            <Form>DelphiAIDevViewMemo</Form>
         </DCCReference>
         <DCCReference Include="..\Src\MainMenu\DelphiAIDev.MainMenu.Register.pas"/>
         <DCCReference Include="..\Src\MainMenu\DelphiAIDev.MainMenu.pas"/>
         <DCCReference Include="..\Src\MainMenu\DelphiAIDev.MainMenu.Clicks.pas"/>
         <DCCReference Include="..\Src\View\DelphiAIDev.View.About.pas">
-            <Form>DelphiCopilotViewAbout</Form>
+            <Form>DelphiAIDevViewAbout</Form>
         </DCCReference>
         <DCCReference Include="..\Src\Test\Test.pas"/>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.View.pas">
-            <Form>DelphiCopilotSettingsView</Form>
+            <Form>DelphiAIDevSettingsView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.pas"/>
