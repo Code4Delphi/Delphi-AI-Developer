@@ -66,4 +66,14 @@ __recovery/
 *.stat
 
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
-modules/
+#modules/
+/Package/modules/*
+!/Package/modules/restrequest4delphi/
+/Package/modules/restrequest4delphi/img/
+/Package/modules/restrequest4delphi/samples/
+/Package/modules/restrequest4delphi/.gitignore
+/Package/modules/restrequest4delphi/LICENSE
+/Package/modules/restrequest4delphi/**/*.json
+/Package/modules/restrequest4delphi/**/*.md
+/Package/modules/restrequest4delphi/**/*.pdf
+/Package/modules/restrequest4delphi/**/*.yml
