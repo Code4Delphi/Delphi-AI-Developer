@@ -63,11 +63,12 @@ type
     SaveContentToFile1: TMenuItem;
     btnCreateNewUnit: TSpeedButton;
     ClearContent1: TMenuItem;
-    Panel9: TPanel;
-    btnUseCurrentUnitCode: TButton;
     Clear1: TMenuItem;
     N2: TMenuItem;
     WordWrap1: TMenuItem;
+    pnBackConfigurableButtons: TPanel;
+    btnUseCurrentUnitCode: TButton;
+    btnCodeOnly: TButton;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -92,9 +93,12 @@ type
     procedure btnUseCurrentUnitCodeClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure WordWrap1Click(Sender: TObject);
+    procedure btnCodeOnlyClick(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
+    LbtnUseCurrentUnitCodeWidth: Integer;
+    LbtnCodeOnlyWidth: Integer;
     procedure ReadFromFile;
     procedure WriteToFile;
     procedure InitializeRichEditReturn;
@@ -109,7 +113,8 @@ type
     procedure WaitingFormON;
     procedure ConfLabelCurrentAI;
     procedure ConfScreenOnShow;
-    procedure ChangeUseCurrentUnitData;
+    procedure ChangeUseCurrentUnitCode;
+    procedure ChangeCodeOnly;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -165,6 +170,8 @@ begin
   FChat := TDelphiAIDevChat.Create;
   FSettings := FChat.Settings.GetInstance;
   pnWait.Visible := False;
+  LbtnUseCurrentUnitCodeWidth := btnUseCurrentUnitCode.Width;
+  LbtnCodeOnlyWidth := btnCodeOnly.Width;
 end;
 
 destructor TDelphiAIDevChatView.Destroy;
@@ -235,19 +242,28 @@ end;
 
 procedure TDelphiAIDevChatView.FormResize(Sender: TObject);
 const
-  CAPTION = 'Use current unit code in query';
+  CAPTION_UseCurrentUnitCode = 'Use current unit code in query';
+  CAPTION_CodeOnly = 'Code only';
 begin
-  if(Self.Width > 450)then
+  if(Self.Width > 530)then
   begin
-    btnUseCurrentUnitCode.Caption := CAPTION;
-    btnUseCurrentUnitCode.Width := 208;
+    btnUseCurrentUnitCode.Caption := CAPTION_UseCurrentUnitCode;
+    btnUseCurrentUnitCode.Width := LbtnUseCurrentUnitCodeWidth;
     btnUseCurrentUnitCode.ImageAlignment := TImageAlignment.iaLeft;
+
+    btnCodeOnly.Caption := CAPTION_CodeOnly;
+    btnCodeOnly.Width := LbtnCodeOnlyWidth;
+    btnCodeOnly.ImageAlignment := TImageAlignment.iaLeft;
   end
   else
   begin
     btnUseCurrentUnitCode.Caption := '';
     btnUseCurrentUnitCode.Width := btnSend.Width;
     btnUseCurrentUnitCode.ImageAlignment := TImageAlignment.iaCenter;
+
+    btnCodeOnly.Caption := '';
+    btnCodeOnly.Width := btnSend.Width;
+    btnCodeOnly.ImageAlignment := TImageAlignment.iaCenter;
   end;
 end;
 
@@ -270,7 +286,7 @@ end;
 procedure TDelphiAIDevChatView.cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
 begin
   if not(CharInSet(Key, ['0'..'9', #8]))then
-    key := #0;
+    Key := #0;
 end;
 
 procedure TDelphiAIDevChatView.Cut1Click(Sender: TObject);
@@ -290,15 +306,28 @@ end;
 
 procedure TDelphiAIDevChatView.btnUseCurrentUnitCodeClick(Sender: TObject);
 begin
-  Self.ChangeUseCurrentUnitData;
+  Self.ChangeUseCurrentUnitCode;
 end;
 
-procedure TDelphiAIDevChatView.ChangeUseCurrentUnitData;
+procedure TDelphiAIDevChatView.ChangeUseCurrentUnitCode;
 begin
   if btnUseCurrentUnitCode.ImageIndex = 0 then
     btnUseCurrentUnitCode.ImageIndex := 1
   else
     btnUseCurrentUnitCode.ImageIndex := 0;
+end;
+
+procedure TDelphiAIDevChatView.btnCodeOnlyClick(Sender: TObject);
+begin
+  Self.ChangeCodeOnly;
+end;
+
+procedure TDelphiAIDevChatView.ChangeCodeOnly;
+begin
+  if btnCodeOnly.ImageIndex = 2 then
+    btnCodeOnly.ImageIndex := 3
+  else
+    btnCodeOnly.ImageIndex := 2;
 end;
 
 procedure TDelphiAIDevChatView.btnSendClick(Sender: TObject);
@@ -317,10 +346,17 @@ begin
   mmReturn.Lines.Clear;
   Self.WaitingFormON;
 
-  LQuestion := mmQuestion.Lines.Text;
+  LQuestion := '';
 
   if btnUseCurrentUnitCode.ImageIndex = 1 then
-    LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak + mmQuestion.Lines.Text;
+    LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak;
+
+  if btnCodeOnly.ImageIndex = 3 then
+    LQuestion := LQuestion + 'Faça a seguinte ação sem adicionar comentários: ' + sLineBreak;
+
+  LQuestion := LQuestion + mmQuestion.Lines.Text;
+
+  TUtils.ShowMsg(LQuestion);
 
   LTask := TTask.Create(
     procedure
