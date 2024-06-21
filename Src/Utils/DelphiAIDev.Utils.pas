@@ -141,18 +141,23 @@ var
 begin
   try
     if not(DirectoryExists(DIRECTORY)) then
-      ForceCurrentDirectory(DIRECTORY);
+      ForceDirectories(DIRECTORY);
 
-    LFileName := DIRECTORY + FormatDateTime('yyyy-mm-dd', Now) + 'txt';
+    LFileName := DIRECTORY + FormatDateTime('yyyy-mm-dd', Now) + '.txt';
     AssignFile(LTextFile, LFileName);
+    if not FileExists(LFileName)then
+      Rewrite(LTextFile);
     Append(LTextFile);
     Writeln(LTextFile, AMessage);
     CloseFile(LTextFile);
   except
+//    on E: Exception do
+//      ShowMsg('Unable to generate log. Message: ' + E.Message + sLineBreak + 'Filename: ' + LFileName);
   end;
 end;
 
 class function TUtils.GetFileName(const AExtension: string): string;
+
 var
   LFileName: string;
   LSaveDialog: TSaveDialog;

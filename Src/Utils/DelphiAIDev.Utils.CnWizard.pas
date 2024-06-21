@@ -27,9 +27,13 @@ function CnOtaGetTopMostEditView: IOTAEditView;
 function CnOtaEditPosToLinePos(EditPos: TOTAEditPos; EditView: IOTAEditView = nil): Integer;
 function OTAEditPos(Col: SmallInt; Line: Longint): TOTAEditPos;
 function CnOtaGetCurrLineText(var Text: string; var LineNo: Integer; var CharIndex: Integer; View: IOTAEditView = nil): Boolean;
-function GetCurrentLine(const AEditView: IOTAEditView): string;
+function GetCurrentLineOrBlock(const AEditView: IOTAEditView): string;
 
 implementation
+
+uses
+  DelphiAiDev.Utils,
+  DelphiAiDev.Utils.OTA;
 
 function QuerySvcs(const Instance: IUnknown; const Intf: TGUID; out Inst): Boolean;
 begin
@@ -98,7 +102,7 @@ var
   OutStr: AnsiString;
 begin
   Result := False;
-  //teste
+
   if not Assigned(View)then
     View := CnOtaGetTopMostEditView;
   if not Assigned(View) then
@@ -130,14 +134,11 @@ begin
   Result := True;
 end;
 
-function GetCurrentLine(const AEditView: IOTAEditView): string;
+function GetCurrentLineOrBlock(const AEditView: IOTAEditView): string;
 var
-  TextLen: Integer;
-  StartPos: Integer;
-  EndPos: Integer;
-  LineNo: Integer;
-  CharIndex: Integer;
-  LineText: String;
+  LLineText: string;
+  LLineNo: Integer;
+  LCharIndex: Integer;
 begin
   Result := '';
 //  if IsEditControl(Screen.ActiveControl) and Assigned(AEditView) then
@@ -148,32 +149,11 @@ begin
     Exit;
 
   if AEditView.Block.IsValid then
-  begin
-//    StartPos := CnOtaEditPosToLinePos(OTAEditPos(AEditView.Block.StartingColumn,
-//      AEditView.Block.StartingRow), AEditView);
-//    EndPos := CnOtaEditPosToLinePos(OTAEditPos(AEditView.Block.EndingColumn,
-//      AEditView.Block.EndingRow), AEditView);
-//    TextLen := AEditView.Block.Size;
-//
-//  {$IFDEF UNICODE}
-//    CnOtaInsertTextIntoEditorAtPosW(AEditView.Block.Text, StartPos, AEditView.Buffer);
-//  {$ELSE}
-//    CnOtaInsertTextIntoEditorAtPos(ConvertEditorTextToText(AEditView.Block.Text), StartPos, AEditView.Buffer);
-//  {$ENDIF}
-//    AEditView.CursorPos := CnOtaLinePosToEditPos(StartPos + TextLen);
-//    AEditView.Block.BeginBlock;
-//    AEditView.CursorPos := CnOtaLinePosToEditPos(EndPos + TextLen);
-//    AEditView.Block.EndBlock;
-//
-//    AEditView.Paint;
-  end
+    Result := TUtilsOTA.GetBlockTextSelect
   else
   begin
-    CnOtaGetCurrLineText(LineText, LineNo, CharIndex);
-    Result := LineText;
-
-    //Inc(LineNo);
-    //CnOtaInsertSingleLine(LineNo, LineText, AEditView);
+    CnOtaGetCurrLineText(LLineText, LLineNo, LCharIndex);
+    Result := LLineText;
   end;
 end;
 

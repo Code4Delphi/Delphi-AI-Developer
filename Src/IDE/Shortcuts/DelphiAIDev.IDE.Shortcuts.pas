@@ -22,8 +22,6 @@ type
     procedure BindKeyboard(const BindingServices: IOTAKeyBindingServices);
   public
     class function New: IOTAKeyboardBinding;
-    constructor Create;
-    destructor Destroy; override;
   end;
 
 procedure RefreshRegister;
@@ -63,16 +61,6 @@ begin
   Result := Self.Create;
 end;
 
-constructor TDelphiAIDevIDEShortcuts.Create;
-begin
-
-end;
-
-destructor TDelphiAIDevIDEShortcuts.Destroy;
-begin
-  inherited;
-end;
-
 function TDelphiAIDevIDEShortcuts.GetBindingType: TBindingType;
 begin
   Result := btPartial;
@@ -90,51 +78,24 @@ end;
 
 procedure TDelphiAIDevIDEShortcuts.BindKeyboard(const BindingServices: IOTAKeyBindingServices);
 begin
-  Exit;
-
   BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [])], Self.KeyProcBlockReturn, nil);
   BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [ssAlt])], Self.KeyProcBlockReturnAndAlt, nil);
 end;
 
 procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 begin
-  TUtils.ShowMsg(GetCurrentLine(CnOtaGetTopMostEditView));
+  TUtils.AddLog(GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
   BindingResult := krUnhandled;
 end;
 
 procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 begin
-  TUtils.ShowMsg('Enter and Alt' + GetCurrentLine(CnOtaGetTopMostEditView));
+  TUtils.AddLog('Enter and Alt' + GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
   BindingResult := krUnhandled;
 end;
 initialization
 
 finalization
   UnRegisterSelf;
-
-//procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
-//var
-//  LIOTAProject: IOTAProject;
-//begin
-//  LIOTAProject := TUtilsOTA.GetCurrentProject;
-//  if LIOTAProject = nil then
-//  begin
-//    BindingResult := krUnhandled;
-//    Exit;
-//  end;
-
-//  if TUtils.FileNameIsDelphiAIDeveloperDPROJ(LIOTAProject.FileName) then
-//  begin
-//    BindingResult := krUnhandled;
-//    Exit;
-//  end;
-//
-//  TUtils.ShowMsg('Enter and Alt' + GetCurrentLine(CnOtaGetTopMostEditView));
-
-//  if(C4DWizardSettingsModel.BlockKeyInsert)then
-//    BindingResult := krHandled
-//  else
-//    BindingResult := krUnhandled;
-//end;
 
 end.
