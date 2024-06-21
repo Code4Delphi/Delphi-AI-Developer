@@ -4,7 +4,8 @@ interface
 
 uses
   DelphiAIDev.Chat.View,
-  DelphiAIDev.MainMenu.Register;
+  DelphiAIDev.MainMenu.Register,
+  DelphiAIDev.IDE.Shortcuts;
 
 procedure Register;
 
@@ -14,6 +15,7 @@ procedure Register;
 begin
   DelphiAIDev.Chat.View.RegisterSelf;
   DelphiAIDev.MainMenu.Register.RegisterSelf;
+  DelphiAIDev.IDE.Shortcuts.RefreshRegister;
 end;
 
 end.

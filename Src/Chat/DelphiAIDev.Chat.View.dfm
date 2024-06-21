@@ -2,7 +2,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu, biMaximize]
-  Caption = 'Delphi AI Developer Chat'
+  Caption = 'AI Chat'
   ClientHeight = 661
   ClientWidth = 975
   Color = clBtnFace

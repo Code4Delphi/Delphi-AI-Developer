@@ -27,6 +27,7 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TC4DIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class procedure AddLog(const AMessage: string);
     class function GetFileName(const AExtension: string): string;
     class procedure MemoFocusOnTheEnd(const AMemo: TMemo);
     class function IfThenColor(const Conditional: Boolean; const AColorTrue, AColorFalse: TColor): TColor;
@@ -130,6 +131,26 @@ uses
   DelphiAIDev.View.Memo,
   DelphiAIDev.View.Dialog,
   DelphiAIDev.WaitingScreen;
+
+class procedure TUtils.AddLog(const AMessage: string);
+const
+  DIRECTORY = 'C:\TempLog\DelphiAIDev\';
+var
+  LFileName: string;
+  LTextFile: TextFile;
+begin
+  try
+    if not(DirectoryExists(DIRECTORY)) then
+      ForceCurrentDirectory(DIRECTORY);
+
+    LFileName := DIRECTORY + FormatDateTime('yyyy-mm-dd', Now) + 'txt';
+    AssignFile(LTextFile, LFileName);
+    Append(LTextFile);
+    Writeln(LTextFile, AMessage);
+    CloseFile(LTextFile);
+  except
+  end;
+end;
 
 class function TUtils.GetFileName(const AExtension: string): string;
 var

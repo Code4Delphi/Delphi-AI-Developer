@@ -161,6 +161,8 @@
         <DCCReference Include="..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.pas"/>
         <DCCReference Include="..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.Interfaces.pas"/>
         <DCCReference Include="..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas"/>
+        <DCCReference Include="..\Src\IDE\Shortcuts\DelphiAIDev.IDE.Shortcuts.pas"/>
+        <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas"/>
         <RcItem Include="Img\c4d_gear.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_gear</ResourceId>

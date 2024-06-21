@@ -60,6 +60,8 @@ contains
   DelphiAIDev.ModuleCreator.OTA in '..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.OTA.pas',
   DelphiAIDev.ModuleCreator in '..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.pas',
   DelphiAIDev.ModuleCreator.Interfaces in '..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.Interfaces.pas',
-  DelphiAIDev.IDE.ImageListMain in '..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas';
+  DelphiAIDev.IDE.ImageListMain in '..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas',
+  DelphiAIDev.IDE.Shortcuts in '..\Src\IDE\Shortcuts\DelphiAIDev.IDE.Shortcuts.pas',
+  DelphiAIDev.Utils.CnWizard in '..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas';
 
 end.
