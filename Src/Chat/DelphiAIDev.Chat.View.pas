@@ -69,6 +69,7 @@ type
     pnBackConfigurableButtons: TPanel;
     btnUseCurrentUnitCode: TButton;
     btnCodeOnly: TButton;
+    Button1: TButton;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -355,8 +356,6 @@ begin
     LQuestion := LQuestion + 'Faça a seguinte ação sem adicionar comentários: ' + sLineBreak;
 
   LQuestion := LQuestion + mmQuestion.Lines.Text;
-
-  TUtils.ShowMsg(LQuestion);
 
   LTask := TTask.Create(
     procedure

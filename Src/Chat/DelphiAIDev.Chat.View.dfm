@@ -81,6 +81,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       ShowHint = True
       TabOrder = 1
       Zoom = 100
+      ExplicitTop = 12
     end
     object pnBackQuestion: TPanel
       Left = 18
@@ -167,16 +168,16 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         OnClick = btnSendClick
       end
       object pnBackConfigurableButtons: TPanel
-        Left = 528
+        Left = 395
         Top = 3
-        Width = 333
+        Width = 466
         Height = 20
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 1
         object btnUseCurrentUnitCode: TButton
           AlignWithMargins = True
-          Left = 128
+          Left = 261
           Top = 0
           Width = 205
           Height = 20
@@ -191,10 +192,11 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
           Images = ImageList1
           TabOrder = 0
           OnClick = btnUseCurrentUnitCodeClick
+          ExplicitLeft = 128
         end
         object btnCodeOnly: TButton
           AlignWithMargins = True
-          Left = 16
+          Left = 149
           Top = 0
           Width = 109
           Height = 20
@@ -209,6 +211,26 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
           Images = ImageList1
           TabOrder = 1
           OnClick = btnCodeOnlyClick
+          ExplicitLeft = 16
+        end
+        object Button1: TButton
+          AlignWithMargins = True
+          Left = 37
+          Top = 0
+          Width = 109
+          Height = 20
+          Cursor = crHandPoint
+          Hint = 'Return only code without comments or explanations'
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alRight
+          Caption = 'Question '
+          ImageIndex = 2
+          Images = ImageList1
+          TabOrder = 2
+          OnClick = btnCodeOnlyClick
+          ExplicitLeft = 16
         end
       end
     end

@@ -17,6 +17,7 @@ type
     constructor Create;
     procedure CreateMenuDelphiAIDeveloperInIDEMenu;
     function CreateSubMenu(AName: string; ACaption: string; AOnClick: TNotifyEvent; AImgIndex: Integer = -1; AShortCutStr: string = ''): TMenuItem;
+    function GetShortCutStrChat: string;
   protected
     procedure CreateMenus;
   public
@@ -62,7 +63,8 @@ begin
   Self.CreateSubMenu(TConsts.MENU_IDE_CHAT_NAME,
     TConsts.MENU_IDE_CHAT_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.ChatClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexMessage
+    TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexMessage,
+    Self.GetShortCutStrChat
     );
 
   Self.CreateSubMenu('C4DSeparator50', '-', nil);
@@ -124,6 +126,11 @@ begin
   LMenuItem.ShortCut := TextToShortCut(TUtils.RemoveSpacesAll(AShortCutStr));
   FMenuItemC4D.Add(LMenuItem);
   Result := LMenuItem;
+end;
+
+function TDelphiAIDevIDEMainMenu.GetShortCutStrChat: string;
+begin
+  Result := 'Ctrl+Shift+Alt+A';
 end;
 
 initialization

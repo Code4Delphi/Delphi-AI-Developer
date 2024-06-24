@@ -37,7 +37,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
       Left = 18
       Top = 12
       Width = 80
-      Height = 13
+      Height = 18
       Cursor = crHandPoint
       Margins.Left = 16
       Margins.Top = 10
@@ -53,6 +53,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
       ShowHint = True
       Layout = tlCenter
       OnClick = lbRestoreDefaultsClick
+      ExplicitHeight = 13
     end
     object btnConfirm: TButton
       AlignWithMargins = True
@@ -68,7 +69,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
       Caption = 'Confirm'
       TabOrder = 0
       OnClick = btnConfirmClick
-      ExplicitTop = 3
     end
     object btnClose: TButton
       AlignWithMargins = True
@@ -143,7 +143,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Height = 13
             Caption = 'Model'
           end
-          object lbLink01: TLabel
+          object lbLinkGemini01: TLabel
             Left = 16
             Top = 103
             Width = 86
@@ -159,9 +159,9 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            OnClick = lbLink03Click
+            OnClick = lbLinkGpt01Click
           end
-          object lbLink02: TLabel
+          object lbLinkGemini02: TLabel
             Left = 128
             Top = 103
             Width = 72
@@ -177,7 +177,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            OnClick = lbLink03Click
+            OnClick = lbLinkGpt01Click
           end
           object btnApiKeyGeminiView: TSpeedButton
             Left = 582
@@ -217,6 +217,24 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             ParentShowHint = False
             ShowHint = True
             OnClick = btnApiKeyGeminiViewClick
+          end
+          object lbLinkGemini03: TLabel
+            Left = 232
+            Top = 103
+            Width = 67
+            Height = 13
+            Cursor = crHandPoint
+            Hint = 'https://ai.google.dev/gemini-api/docs/models/gemini?hl=pt-br'
+            Caption = 'Gemini Models'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlue
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            ParentShowHint = False
+            ShowHint = True
+            OnClick = lbLinkGpt01Click
           end
           object edtBaseUrlGemini: TEdit
             Left = 16
@@ -330,7 +348,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Height = 13
             Caption = 'Model'
           end
-          object lbLink03: TLabel
+          object lbLinkGpt01: TLabel
             Left = 16
             Top = 103
             Width = 86
@@ -346,7 +364,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            OnClick = lbLink03Click
+            OnClick = lbLinkGpt01Click
           end
           object btnApiKeyOpenAIView: TSpeedButton
             Left = 582
@@ -387,7 +405,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             ShowHint = True
             OnClick = btnApiKeyOpenAIViewClick
           end
-          object lbLink04: TLabel
+          object lbLinkGpt02: TLabel
             Left = 128
             Top = 103
             Width = 72
@@ -403,7 +421,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            OnClick = lbLink03Click
+            OnClick = lbLinkGpt01Click
           end
           object edtBaseUrlOpenAI: TEdit
             Left = 16

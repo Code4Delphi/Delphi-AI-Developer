@@ -27,6 +27,7 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TC4DIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class function AdjustQuestionToJson(const AValue: string): string; static;
     class procedure AddLog(const AMessage: string);
     class function GetFileName(const AExtension: string): string;
     class procedure MemoFocusOnTheEnd(const AMemo: TMemo);
@@ -131,6 +132,13 @@ uses
   DelphiAIDev.View.Memo,
   DelphiAIDev.View.Dialog,
   DelphiAIDev.WaitingScreen;
+
+class function TUtils.AdjustQuestionToJson(const AValue: string): string;
+begin
+  Result := AValue
+    .Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase])
+    .Replace('"', '\"', [rfReplaceAll, rfIgnoreCase]);
+end;
 
 class procedure TUtils.AddLog(const AMessage: string);
 const

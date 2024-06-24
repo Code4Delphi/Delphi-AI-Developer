@@ -30,18 +30,18 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
-    lbLink01: TLabel;
+    lbLinkGemini01: TLabel;
     edtBaseUrlGemini: TEdit;
     edtApiKeyGemini: TEdit;
     cBoxModelGemini: TComboBox;
-    lbLink02: TLabel;
+    lbLinkGemini02: TLabel;
     GroupBox2: TGroupBox;
     gBoxOpenAI: TGroupBox;
     pnOpenAIBack: TPanel;
     Label1: TLabel;
     Label3: TLabel;
     Label2: TLabel;
-    lbLink03: TLabel;
+    lbLinkGpt01: TLabel;
     edtBaseUrlOpenAI: TEdit;
     edtApiKeyOpenAI: TEdit;
     cBoxModelOpenAI: TComboBox;
@@ -49,14 +49,15 @@ type
     cBoxAIDefault: TComboBox;
     btnApiKeyGeminiView: TSpeedButton;
     btnApiKeyOpenAIView: TSpeedButton;
-    lbLink04: TLabel;
+    lbLinkGpt02: TLabel;
     lbRestoreDefaults: TLabel;
     ColorBoxColorHighlightCodeDelphi: TColorBox;
     ckColorHighlightCodeDelphiUse: TCheckBox;
+    lbLinkGemini03: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
-    procedure lbLink03Click(Sender: TObject);
+    procedure lbLinkGpt01Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnConfirmClick(Sender: TObject);
     procedure btnApiKeyGeminiViewClick(Sender: TObject);
@@ -105,12 +106,16 @@ begin
 end;
 
 procedure TDelphiAIDevSettingsView.ConfigScreen;
+var
+  LColor: TColor;
 begin
-  lbLink01.Font.Color := TUtilsOTA.ActiveThemeColorLink;
-  lbLink02.Font.Color := lbLink01.Font.Color;
-  lbLink03.Font.Color := lbLink01.Font.Color;
-  lbLink04.Font.Color := lbLink01.Font.Color;
-  lbRestoreDefaults.Font.Color := lbLink01.Font.Color;
+  LColor := TUtilsOTA.ActiveThemeColorLink;
+  lbLinkGemini01.Font.Color := LColor;
+  lbLinkGemini02.Font.Color := LColor;
+  lbLinkGemini03.Font.Color := LColor;
+  lbLinkGpt01.Font.Color := LColor;
+  lbLinkGpt02.Font.Color := LColor;
+  lbRestoreDefaults.Font.Color := LColor;
 end;
 
 procedure TDelphiAIDevSettingsView.btnApiKeyGeminiViewClick(Sender: TObject);
@@ -141,7 +146,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevSettingsView.lbLink03Click(Sender: TObject);
+procedure TDelphiAIDevSettingsView.lbLinkGpt01Click(Sender: TObject);
 begin
   //**Several
   TUtils.OpenLink(TLabel(Sender).Hint.Trim);

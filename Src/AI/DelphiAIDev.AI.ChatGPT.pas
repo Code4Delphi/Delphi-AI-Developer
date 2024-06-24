@@ -39,8 +39,8 @@ end;
 
 function TDelphiAIDevAIChatGPT.GetResponse(const AQuestion: string): string;
 var
-  LQuestion: string;
   LApiUrl: string;
+  LQuestion: string;
   LResponse: IResponse;
   LReturnValue: TJSONValue;
   LChoicesValue: TJSONValue;
@@ -52,14 +52,14 @@ var
 begin
   Result := '';
   LApiUrl := FSettings.BaseUrlOpenAI;
-  LQuestion := AQuestion.Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase]);
+  LQuestion := TUtils.AdjustQuestionToJson(AQuestion); //AQuestion.Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase]);
 
   LResponse := TRequest.New
     .BaseURL(LApiUrl)
     .ContentType('application/json')
     .Accept('application/json')
     .Token('Bearer ' + FSettings.ApiKeyOpenAI)
-    .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOpenAI, LQuestion.Trim]))
+    .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOpenAI, LQuestion]))
     .Post;
 
   if LResponse.StatusCode <> 200 then

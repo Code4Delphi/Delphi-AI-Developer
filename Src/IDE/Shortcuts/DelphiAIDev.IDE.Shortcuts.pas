@@ -78,6 +78,9 @@ end;
 
 procedure TDelphiAIDevIDEShortcuts.BindKeyboard(const BindingServices: IOTAKeyBindingServices);
 begin
+  if TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ then
+    Exit;
+
   BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [])], Self.KeyProcBlockReturn, nil);
   BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [ssAlt])], Self.KeyProcBlockReturnAndAlt, nil);
 end;
@@ -85,13 +88,13 @@ end;
 procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 begin
   TUtils.AddLog(GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
-  BindingResult := krUnhandled;
+  BindingResult := krNextProc; //krUnhandled;
 end;
 
 procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 begin
   TUtils.AddLog('Enter and Alt' + GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
-  BindingResult := krUnhandled;
+  BindingResult := krNextProc; //krUnhandled;
 end;
 initialization
 

@@ -5,19 +5,15 @@ interface
 type
   TTest = class
   private
-    FId: Integer;
-    FNome: string;
-    FEndereco: string;
   public
-    class procedure LoadClient;
+
+  // The following string constants are the internal names of editor macro
+  // "scripts" that get executed in response to certain menu commands.  This
+
+  // as the direct key binding.
+
   end;
 
 implementation
-
-
-class procedure TTest.LoadClient;
-begin
-
-end;
 
 end.
