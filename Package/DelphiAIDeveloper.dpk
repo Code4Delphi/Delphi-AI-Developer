@@ -77,6 +77,9 @@ contains
   C4D.Conn.Utils in '..\Src\Conn\C4D.Conn.Utils.pas',
   DelphiAIDev.DefaultsQuestions.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas' {DelphiAIDevDefaultsQuestionsView},
   DelphiAIDev.Utils.ListView in '..\Src\Utils\DelphiAIDev.Utils.ListView.pas',
-  DelphiAIDev.Utils.GetIniPositionStr in '..\Src\Utils\DelphiAIDev.Utils.GetIniPositionStr.pas';
+  DelphiAIDev.Utils.GetIniPositionStr in '..\Src\Utils\DelphiAIDev.Utils.GetIniPositionStr.pas',
+  DelphiAIDev.DefaultsQuestions.Model in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas',
+  DelphiAIDev.DefaultsQuestions.Interfaces in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Interfaces.pas',
+  DelphiAIDev.DefaultsQuestions.Dao in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Dao.pas';
 
 end.

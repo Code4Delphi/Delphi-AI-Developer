@@ -181,6 +181,9 @@
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ListView.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.GetIniPositionStr.pas"/>
+        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas"/>
+        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Interfaces.pas"/>
+        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Dao.pas"/>
         <RcItem Include="Img\c4d_gear.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_gear</ResourceId>

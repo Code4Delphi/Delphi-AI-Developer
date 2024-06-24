@@ -12,7 +12,9 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
-  DelphiAIDev.Utils.ListView;
+  DelphiAIDev.Utils.ListView,
+  DelphiAIDev.DefaultsQuestions.Dao,
+  DelphiAIDev.DefaultsQuestions.Model;
 
 type
   TDelphiAIDevDefaultsQuestionsView = class(TForm)
@@ -167,6 +169,26 @@ begin
     LId := ListViewHistory.Items[ListViewHistory.Selected.Index].SubItems[C_INDEX_SUBITEM_Id];
 
   ListViewHistory.Clear;
+
+  TDelphiAIDevDefaultsQuestionsDao.New.ReadData(
+    procedure(AModel: TDelphiAIDevDefaultsQuestionsModel)
+    begin
+      if(LStrSearch.Trim.IsEmpty)
+        or(AModel.Question.ToLower.Contains(LStrSearch))
+      then
+      begin
+        LListItem := ListViewHistory.Items.Add;
+        LListItem.Caption := AModel.Question;
+        LListItem.ImageIndex := -1;
+        LListItem.SubItems.Add(AModel.Order.Tostring);
+        LListItem.SubItems.Add(TUtils.BoolToStrC4D(AModel.Visible));
+        LListItem.SubItems.Add(TUtils.BoolToStrC4D(AModel.CodeOnly));
+        LListItem.SubItems.Add(AModel.Id.ToString);
+        LListItem.SubItems.Add(AModel.IdParent.Tostring);
+      end;
+    end
+  );
+
   {TC4DWizardOpenExternalModel.New.ReadIniFile(
     procedure(AC4DWizardOpenExternal: TC4DWizardOpenExternal)
     begin
