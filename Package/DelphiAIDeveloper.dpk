@@ -32,7 +32,12 @@ package DelphiAIDeveloper;
 requires
   rtl,
   designide,
-  RESTComponents;
+  RESTComponents,
+  vclFireDAC,
+  FireDAC,
+  FireDACCommonDriver,
+  FireDACCommon,
+  FireDACMySQLDriver;
 
 contains
   DelphiAIDev.Register in '..\Src\DelphiAIDev.Register.pas',
@@ -62,6 +67,13 @@ contains
   DelphiAIDev.ModuleCreator.Interfaces in '..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.Interfaces.pas',
   DelphiAIDev.IDE.ImageListMain in '..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas',
   DelphiAIDev.IDE.Shortcuts in '..\Src\IDE\Shortcuts\DelphiAIDev.IDE.Shortcuts.pas',
-  DelphiAIDev.Utils.CnWizard in '..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas';
+  DelphiAIDev.Utils.CnWizard in '..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas',
+  C4D.Conn.Configs in '..\Src\Conn\C4D.Conn.Configs.pas',
+  C4D.Conn.Firedac in '..\Src\Conn\C4D.Conn.Firedac.pas',
+  C4D.Conn.Firedac.Query in '..\Src\Conn\C4D.Conn.Firedac.Query.pas',
+  C4D.Conn.Interfaces in '..\Src\Conn\C4D.Conn.Interfaces.pas',
+  C4D.Conn in '..\Src\Conn\C4D.Conn.pas',
+  C4D.Conn.Types in '..\Src\Conn\C4D.Conn.Types.pas',
+  C4D.Conn.Utils in '..\Src\Conn\C4D.Conn.Utils.pas';
 
 end.
