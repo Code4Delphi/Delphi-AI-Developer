@@ -1,4 +1,4 @@
-unit DelphiAIDeveloper.Register;
+unit DelphiAIDev.Register;
 
 interface
 

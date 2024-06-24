@@ -122,7 +122,7 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="designide.dcp"/>
         <DCCReference Include="RESTComponents.dcp"/>
-        <DCCReference Include="..\Src\DelphiAIDeveloper.Register.pas"/>
+        <DCCReference Include="..\Src\DelphiAIDev.Register.pas"/>
         <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
             <Form>DelphiAIDevChatView</Form>
         </DCCReference>

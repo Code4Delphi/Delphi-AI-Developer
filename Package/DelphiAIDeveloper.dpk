@@ -35,7 +35,7 @@ requires
   RESTComponents;
 
 contains
-  DelphiAIDeveloper.Register in '..\Src\DelphiAIDeveloper.Register.pas',
+  DelphiAIDev.Register in '..\Src\DelphiAIDev.Register.pas',
   DelphiAIDev.Chat.View in '..\Src\Chat\DelphiAIDev.Chat.View.pas' {DelphiAIDevChatView},
   DelphiAIDev.Utils.OTA in '..\Src\Utils\DelphiAIDev.Utils.OTA.pas',
   DelphiAIDev.Utils in '..\Src\Utils\DelphiAIDev.Utils.pas',
