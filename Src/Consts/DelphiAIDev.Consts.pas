@@ -47,6 +47,10 @@ type
     //MAIN MENU IDE NAME AND CAPTIONS
     MENU_IDE_CHAT_NAME = 'DelphiAIDevChat1';
     MENU_IDE_CHAT_CAPTION = 'Chat';
+
+    MENU_IDE_DEFAULTS_QUESTIONS_NAME = 'DelphiAIDevDefaultsQuestions1';
+    MENU_IDE_DEFAULTS_QUESTIONS_CAPTION = 'Defaults questions';
+
     MENU_IDE_CHAT_SETTINGS_NAME = 'DelphiAIDevSettings1';
     MENU_IDE_CHAT_SETTINGS_CAPTION = 'Settings';
     MENU_IDE_SETTINGS_NAME = 'C4DWizarSettings1';

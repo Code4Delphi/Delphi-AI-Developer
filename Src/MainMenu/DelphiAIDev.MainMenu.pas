@@ -67,6 +67,14 @@ begin
     Self.GetShortCutStrChat
     );
 
+  Self.CreateSubMenu('C4DSeparator40', '-', nil);
+
+  Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_QUESTIONS_NAME,
+    TConsts.MENU_IDE_DEFAULTS_QUESTIONS_CAPTION,
+    TDelphiAIDevIDEMainMenuClicks.DefaultsQuestionsClick,
+    -1
+    );
+
   Self.CreateSubMenu('C4DSeparator50', '-', nil);
 
   Self.CreateSubMenu(TConsts.MENU_IDE_SETTINGS_NAME,

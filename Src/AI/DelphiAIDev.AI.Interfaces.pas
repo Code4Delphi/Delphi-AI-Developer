@@ -4,7 +4,7 @@ interface
 
 type
   IDelphiAIDevAI = interface
-    ['{2B55607E-0A53-469F-8E63-FA467BFD021B}']
+    ['{B82FACA6-66DA-4DC0-877F-8263B5C172C1}']
     function GetResponse(const AQuestion: string): string;
   end;
 

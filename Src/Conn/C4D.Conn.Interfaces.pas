@@ -9,7 +9,7 @@ uses
 
 type
   IC4DConnection = interface
-    ['{1495345D-9D24-4BA6-B9F5-830514B06DBD}']
+    ['{F76544A9-F17F-4220-8C9E-A99D3A1A9DEC}']
     function Component: TComponent;
     function Open: IC4DConnection;
     function Close: IC4DConnection;
@@ -23,7 +23,7 @@ type
   end;
 
   IC4DConnQuery = interface
-    ['{4510C139-4A3F-4602-9B17-F93D00C5825F}']
+    ['{9F8958BA-2128-4D47-B2F5-F42B449B0E3C}']
     function Close: IC4DConnQuery;
     function Clear: IC4DConnQuery;
     function CloseClear: IC4DConnQuery;
@@ -69,7 +69,7 @@ type
   end;
 
   IC4DConn = interface
-    ['{89324C16-161B-449E-AD00-2F1AACC30CA3}']
+    ['{0940FDA5-86DA-495A-B3A9-949869639B3F}']
     function Configs: TC4DConnConfigs;
     function Connection: IC4DConnection;
     function Query: IC4DConnQuery; overload;

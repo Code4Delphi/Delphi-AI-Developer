@@ -19,7 +19,9 @@ type
     constructor Create;
     destructor Destroy; override;
     function ComponentConnection: TComponentConnection;
+    {$IFDEF C4DConnZeos}
     function ComponentConnectionZeos: TC4DConnConfigs;
+    {$ENDIF}
     function ComponentConnectionFireDac: TC4DConnConfigs;
     function ConnectionSingleton: Boolean;
     function ConnectionSingletonON: TC4DConnConfigs;
@@ -54,6 +56,7 @@ begin
   Result := FComponentConnection;
 end;
 
+{$IFDEF C4DConnZeos}
 function TC4DConnConfigs.ComponentConnectionZeos: TC4DConnConfigs;
 begin
   Result := Self;
@@ -62,6 +65,7 @@ begin
 
   FComponentConnection := TComponentConnection.Zeos;
 end;
+{$ENDIF}
 
 function TC4DConnConfigs.ComponentConnectionFireDac: TC4DConnConfigs;
 begin

@@ -11,17 +11,17 @@ uses
 
 type
   IDelphiAIDevIDEMainMenu = interface
-    ['{AE2F4702-14B1-42A1-A791-CEBCAAF519E1}']
+    ['{897CE9C0-D54E-4F53-AD8C-AE68E26B2F8C}']
     procedure CreateMenus;
   end;
 
   IDelphiAIDevOneUseForLine = interface
-    ['{BAB5ACC2-7CCC-435B-A237-4730BF0B2944}']
+    ['{806F6BB9-0D97-4C01-8EE8-35BB9E13ACE3}']
     procedure Process;
   end;
 
   IDelphiAIDevAbout = interface
-    ['{D0120219-6F60-4047-893F-23B8E7D2AFA0}']
+    ['{CE7562A6-5060-4BF1-98D0-0AA50B41ACCA}']
     procedure Show;
   end;
 

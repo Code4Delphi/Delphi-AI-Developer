@@ -74,6 +74,9 @@ contains
   C4D.Conn.Interfaces in '..\Src\Conn\C4D.Conn.Interfaces.pas',
   C4D.Conn in '..\Src\Conn\C4D.Conn.pas',
   C4D.Conn.Types in '..\Src\Conn\C4D.Conn.Types.pas',
-  C4D.Conn.Utils in '..\Src\Conn\C4D.Conn.Utils.pas';
+  C4D.Conn.Utils in '..\Src\Conn\C4D.Conn.Utils.pas',
+  DelphiAIDev.DefaultsQuestions.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas' {DelphiAIDevDefaultsQuestionsView},
+  DelphiAIDev.Utils.ListView in '..\Src\Utils\DelphiAIDev.Utils.ListView.pas',
+  DelphiAIDev.Utils.GetIniPositionStr in '..\Src\Utils\DelphiAIDev.Utils.GetIniPositionStr.pas';
 
 end.
