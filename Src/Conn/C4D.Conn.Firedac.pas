@@ -75,6 +75,7 @@ function TC4DConnFiredac.LoadConnectionConfig: IC4DConnection;
 begin
   Result := Self;
   FConnection.Close;
+  FConnection.LoginPrompt := False;
   FConnection.Params.Clear;
   FConnection.Params.DriverID := 'SQLite';
   FConnection.Params.Database := FC4DConnConfigs.Database;

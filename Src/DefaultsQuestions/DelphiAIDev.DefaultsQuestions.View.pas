@@ -14,7 +14,8 @@ uses
   Vcl.ComCtrls,
   DelphiAIDev.Utils.ListView,
   DelphiAIDev.DefaultsQuestions.Dao,
-  DelphiAIDev.DefaultsQuestions.Model;
+  DelphiAIDev.DefaultsQuestions.Model,
+  DelphiAIDev.DefaultsQuestions.AddEdit.View;
 
 type
   TDelphiAIDevDefaultsQuestionsView = class(TForm)
@@ -47,7 +48,7 @@ type
     FReloadPopupMenuChat: Boolean;
     procedure ReloadData;
     procedure FillStatusBar(AItem: TListItem);
-    //procedure FillOpenExternalSelectedItem(var AC4DWizardOpenExternal: TC4DWizardOpenExternal);
+    procedure FillModelWithSelectedItem(var AModel: TDelphiAIDevDefaultsQuestionsModel);
   public
 
   end;
@@ -229,6 +230,23 @@ begin
   Self.FillStatusBar(Item);
 end;
 
+procedure TDelphiAIDevDefaultsQuestionsView.FillModelWithSelectedItem(var AModel: TDelphiAIDevDefaultsQuestionsModel);
+var
+  LListItem: TListItem;
+begin
+  AModel.Clear;
+  if(ListViewHistory.Selected = nil)then
+    Exit;
+
+  LListItem := ListViewHistory.Items[ListViewHistory.Selected.Index];
+  AModel.Question := LListItem.Caption;
+  AModel.Order := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Order], 0);
+  AModel.Visible := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_Visible]);
+  AModel.CodeOnly := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_CodeOnly]);
+  AModel.Id := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Id], 0);
+  AModel.IdParent := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_IdParent], 0);
+end;
+
 procedure TDelphiAIDevDefaultsQuestionsView.FillStatusBar(AItem: TListItem);
 var
   LIndex: Integer;
@@ -239,7 +257,7 @@ begin
   if(AItem <> nil)then
   begin
     LIndex := AItem.Index;
-    LQuestion := ListViewHistory.Items[LIndex].ToString //.SubItems[C_INDEX_SUBITEM_Question];
+    LQuestion := ListViewHistory.Items[LIndex].Caption //.SubItems[C_INDEX_SUBITEM_Question];
   end;
 
   StatusBar1.Panels[0].Text := Format('%d of %d', [LIndex + 1, ListViewHistory.Items.Count]);
@@ -275,81 +293,60 @@ begin
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.btnAddClick(Sender: TObject);
-//var
-//  LC4DWizardOpenExternal: TC4DWizardOpenExternal;
+var
+  LModel: TDelphiAIDevDefaultsQuestionsModel;
+  LView: TDelphiAIDevDefaultsQuestionsAddEditView;
 begin
-//  LC4DWizardOpenExternal := TC4DWizardOpenExternal.Create;
-//  try
-//    LC4DWizardOpenExternal.Guid := TC4DWizardUtils.GetGuidStr;
-//    LC4DWizardOpenExternal.Visible := True;
-//    LC4DWizardOpenExternal.VisibleInToolBarUtilities := False;
-//    C4DWizardOpenExternalAddEditView := TC4DWizardOpenExternalAddEditView.Create(nil);
-//    try
-//      C4DWizardOpenExternalAddEditView.Caption := 'Code4D Open External - Adding';
-//      C4DWizardOpenExternalAddEditView.C4DWizardOpenExternal := LC4DWizardOpenExternal;
-//      if(C4DWizardOpenExternalAddEditView.ShowModal <> mrOk)then
-//        Exit;
-//      FReloadPopupMenuChat := True;
-//    finally
-//      FreeAndNil(C4DWizardOpenExternalAddEditView);
-//    end;
-//    Self.ReloadData;
-//  finally
-//    LC4DWizardOpenExternal.Free;
-//  end;
+  LModel := TDelphiAIDevDefaultsQuestionsModel.Create;
+  try
+    LView := TDelphiAIDevDefaultsQuestionsAddEditView.Create(nil);
+    try
+      LView.Caption := string(LView.Caption).Replace('[action]', 'Adding', [rfReplaceAll, rfIgnoreCase]);
+      LView.Model := LModel;
+
+      if(LView.ShowModal <> mrOk)then
+        Exit;
+
+      FReloadPopupMenuChat := True;
+    finally
+      LView.Free;
+    end;
+    Self.ReloadData;
+  finally
+    LModel.Free;
+  end;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.btnEditClick(Sender: TObject);
-//var
-//  LC4DWizardOpenExternal: TC4DWizardOpenExternal;
-begin
-//  if(ListViewHistory.Selected = nil)then
-//    Exit;
-//
-//  LC4DWizardOpenExternal := TC4DWizardOpenExternal.Create;
-//  try
-//    Self.FillOpenExternalSelectedItem(LC4DWizardOpenExternal);
-//    if(LC4DWizardOpenExternal.Description.Trim.IsEmpty)then
-//      TC4DWizardUtils.ShowMsgErrorAndAbort('Name group not found');
-//
-//    C4DWizardOpenExternalAddEditView := TC4DWizardOpenExternalAddEditView.Create(nil);
-//    try
-//      C4DWizardOpenExternalAddEditView.Caption := 'Code4D Open External - Editing';
-//      C4DWizardOpenExternalAddEditView.C4DWizardOpenExternal := LC4DWizardOpenExternal;
-//      if(C4DWizardOpenExternalAddEditView.ShowModal <> mrOk)then
-//        Exit;
-//      FReloadPopupMenuChat := True;
-//    finally
-//      FreeAndNil(C4DWizardOpenExternalAddEditView);
-//    end;
-//    Self.ReloadData;
-//  finally
-//    LC4DWizardOpenExternal.Free;
-//  end;
-end;
-
-{procedure TDelphiAIDevDefaultsQuestionsView.FillSelectedItem(var AC4DWizardOpenExternal: TC4DWizardOpenExternal);
 var
-  LListItem: TListItem;
+  LModel: TDelphiAIDevDefaultsQuestionsModel;
+  LView: TDelphiAIDevDefaultsQuestionsAddEditView;
 begin
-  AC4DWizardOpenExternal.Clear;
   if(ListViewHistory.Selected = nil)then
     Exit;
 
-  LListItem := ListViewHistory.Items[ListViewHistory.Selected.Index];
-  AC4DWizardOpenExternal.Description := LListItem.Caption;
-  AC4DWizardOpenExternal.Order := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Order], 0);
-  AC4DWizardOpenExternal.Shortcut := LListItem.SubItems[C_INDEX_SUBITEM_Shortcut];
-  AC4DWizardOpenExternal.Kind := TC4DWizardUtils.StrToOpenExternalKind(LListItem.SubItems[C_INDEX_SUBITEM_Kind]);
-  AC4DWizardOpenExternal.Visible := TC4DWizardUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_Visible]);
-  AC4DWizardOpenExternal.VisibleInToolBarUtilities := TC4DWizardUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_VisibleToolBarUtilities]);
+  LModel := TDelphiAIDevDefaultsQuestionsModel.Create;
+  try
+    Self.FillModelWithSelectedItem(LModel);
+    if(LModel.Question.Trim.IsEmpty)then
+      TUtils.ShowMsgErrorAndAbort('Question not found');
 
-  AC4DWizardOpenExternal.Path := LListItem.SubItems[C_INDEX_SUBITEM_Path];
-  AC4DWizardOpenExternal.Parameters := LListItem.SubItems[C_INDEX_SUBITEM_Parameters];
-  AC4DWizardOpenExternal.IconHas := TC4DWizardUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_IconHas]);
-  AC4DWizardOpenExternal.Guid := LListItem.SubItems[C_INDEX_SUBITEM_Guid];
-  AC4DWizardOpenExternal.GuidMenuMaster := LListItem.SubItems[C_INDEX_SUBITEM_GuidMenuMaster];
-end;}
+    LView := TDelphiAIDevDefaultsQuestionsAddEditView.Create(nil);
+    try
+      LView.Caption := string(LView.Caption).Replace('[action]', 'Editing', [rfReplaceAll, rfIgnoreCase]);
+      LView.Model := LModel;
+      if(LView.ShowModal <> mrOk)then
+        Exit;
+
+      FReloadPopupMenuChat := True;
+    finally
+      LView.Free;
+    end;
+    Self.ReloadData;
+  finally
+    LModel.Free;
+  end;
+end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.btnRemoveClick(Sender: TObject);
 var

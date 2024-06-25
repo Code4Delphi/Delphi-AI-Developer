@@ -73,8 +73,9 @@ type
     class function DirectoryDelete(AFullPath: string): Boolean;
     class function DirectoryOrFileMove(AFrom, ATo: string): Boolean;
     class function GetPathFolderRoot: string;
-    class function GetPathFileIniGeneralSettings: string;
+    //class function GetPathFileIniGeneralSettings: string;
     class function GetPathFileChat: string;
+    class function GetPathFileBdDefaultsQuestions: string;
     class function CreateIfNecessaryAndGetPathFolderTemp: string;
     class function GetGuidStr: string;
     class function GuidToFileName(const AGuid: string; const AExtension: string): string;
@@ -690,15 +691,21 @@ begin
   ForceDirectories(Result);
 end;
 
-class function TUtils.GetPathFileIniGeneralSettings: string;
-begin
-  Result := Self.GetPathFolderRoot + TConsts.FILE_INI_GENERAL_SETTINGS;
-end;
+//class function TUtils.GetPathFileIniGeneralSettings: string;
+//begin
+//  Result := Self.GetPathFolderRoot + TConsts.FILE_INI_GENERAL_SETTINGS;
+//end;
 
 class function TUtils.GetPathFileChat: string;
 begin
   Result := Self.GetPathFolderRoot + TConsts.FILE_RTF_CHAT;
 end;
+
+class function TUtils.GetPathFileBdDefaultsQuestions: string;
+begin
+  Result := Self.GetPathFolderRoot + TConsts.FILE_BD_DEFAULTS_QUESTIONS;
+end;
+
 
 class function TUtils.CreateIfNecessaryAndGetPathFolderTemp: string;
 begin

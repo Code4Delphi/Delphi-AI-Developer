@@ -33,6 +33,9 @@ type
     //NAMES FILES .rtf
     FILE_RTF_CHAT = 'chat.rtf';
 
+    //NAMES FILE Database
+    FILE_BD_DEFAULTS_QUESTIONS = 'delphi_ai_developer.db';
+
     //ABOUT AND SPLASH
     ABOUT_TITLE = 'Delphi AI Developer';
     ABOUT_COPY_RIGHT = 'Copyright 2024 Code4Delphi Team.';

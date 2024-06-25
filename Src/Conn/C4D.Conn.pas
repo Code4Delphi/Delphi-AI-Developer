@@ -44,6 +44,9 @@ var
 
 implementation
 
+uses
+ DelphiAIDev.Utils;
+
 class function TC4DConn.New: IC4DConn;
 begin
   Result := Self.Create;
@@ -52,7 +55,9 @@ end;
 constructor TC4DConn.Create;
 begin
   FCountNameQuery := 0;
-  FC4DConnConfigs := TC4DConnConfigs.New;
+  FC4DConnConfigs := TC4DConnConfigs.New
+    .ComponentConnectionFireDac
+    .Database(TUtils.GetPathFileBdDefaultsQuestions);
 end;
 
 destructor TC4DConn.Destroy;
