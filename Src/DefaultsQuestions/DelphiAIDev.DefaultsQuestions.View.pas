@@ -71,8 +71,8 @@ const
   C_INDEX_SUBITEM_Order = 0;
   C_INDEX_SUBITEM_Visible = 1;
   C_INDEX_SUBITEM_CodeOnly = 2;
-  C_INDEX_SUBITEM_Id = 3;
-  C_INDEX_SUBITEM_IdParent = 4;
+  C_INDEX_SUBITEM_Guid = 3;
+  C_INDEX_SUBITEM_GuidMenuMaster = 4;
 
 procedure DelphiAIDevDefaultsQuestionsViewShow;
 begin
@@ -149,7 +149,12 @@ end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.btnSearchClick(Sender: TObject);
 begin
-  Self.ReloadData;
+  Screen.Cursor := crHourGlass;
+  try
+    Self.ReloadData;
+  finally
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -162,18 +167,21 @@ procedure TDelphiAIDevDefaultsQuestionsView.ReloadData;
 var
   LStrSearch: string;
   LListItem: TListItem;
-  LId: string;
+  LGuid: string;
 begin
   LStrSearch := LowerCase(edtSearch.Text);
 
   if(ListViewHistory.Selected <> nil)then
-    LId := ListViewHistory.Items[ListViewHistory.Selected.Index].SubItems[C_INDEX_SUBITEM_Id];
+    LGuid := ListViewHistory.Items[ListViewHistory.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
 
   ListViewHistory.Clear;
 
   TDelphiAIDevDefaultsQuestionsDao.New.ReadData(
     procedure(AModel: TDelphiAIDevDefaultsQuestionsModel)
     begin
+      if AModel.Question.Trim.IsEmpty then
+        Exit;
+
       if(LStrSearch.Trim.IsEmpty)
         or(AModel.Question.ToLower.Contains(LStrSearch))
       then
@@ -184,43 +192,18 @@ begin
         LListItem.SubItems.Add(AModel.Order.Tostring);
         LListItem.SubItems.Add(TUtils.BoolToStrC4D(AModel.Visible));
         LListItem.SubItems.Add(TUtils.BoolToStrC4D(AModel.CodeOnly));
-        LListItem.SubItems.Add(AModel.Id.ToString);
-        LListItem.SubItems.Add(AModel.IdParent.Tostring);
+        LListItem.SubItems.Add(AModel.Guid);
+        LListItem.SubItems.Add(AModel.GuidMenuMaster);
       end;
     end
   );
-
-  {TC4DWizardOpenExternalModel.New.ReadIniFile(
-    procedure(AC4DWizardOpenExternal: TC4DWizardOpenExternal)
-    begin
-      if(LStrSearch.Trim.IsEmpty)
-        or(AC4DWizardOpenExternal.Description.ToLower.Contains(LStrSearch))
-        or(AC4DWizardOpenExternal.Path.ToLower.Contains(LStrSearch))
-      then
-      begin
-        LListItem := ListViewHistory.Items.Add;
-        LListItem.Caption := AC4DWizardOpenExternal.Description;
-        LListItem.ImageIndex := -1;
-        LListItem.SubItems.Add(AC4DWizardOpenExternal.Order.Tostring);
-        LListItem.SubItems.Add(AC4DWizardOpenExternal.Shortcut);
-        LListItem.SubItems.Add(AC4DWizardOpenExternal.Kind.Tostring);
-        LListItem.SubItems.Add(TC4DWizardUtils.BoolToStrC4D(AC4DWizardOpenExternal.Visible));
-        LListItem.SubItems.Add(TC4DWizardUtils.BoolToStrC4D(AC4DWizardOpenExternal.VisibleInToolBarUtilities));
-        LListItem.SubItems.Add(AC4DWizardOpenExternal.Path);
-        LListItem.SubItems.Add(AC4DWizardOpenExternal.Parameters);
-        LListItem.SubItems.Add(TC4DWizardUtils.BoolToStrC4D(AC4DWizardOpenExternal.IconHas));
-        LListItem.SubItems.Add(AC4DWizardOpenExternal.Guid);
-        LListItem.SubItems.Add(AC4DWizardOpenExternal.GuidMenuMaster);
-      end;
-    end
-    ); }
 
   FUtilsListView
     .InvertOrder(False)
     .CustomSort;
 
-  if(not LId.Trim.IsEmpty)then
-    TUtils.FindListVewItem(ListViewHistory, C_INDEX_SUBITEM_Id, LId);
+  if(not LGuid.Trim.IsEmpty)then
+    TUtils.FindListVewItem(ListViewHistory, C_INDEX_SUBITEM_Guid, LGuid);
 
   Self.FillStatusBar(ListViewHistory.Selected);
 end;
@@ -239,12 +222,12 @@ begin
     Exit;
 
   LListItem := ListViewHistory.Items[ListViewHistory.Selected.Index];
+  AModel.Guid := LListItem.SubItems[C_INDEX_SUBITEM_Guid];
+  AModel.GuidMenuMaster := LListItem.SubItems[C_INDEX_SUBITEM_GuidMenuMaster];
   AModel.Question := LListItem.Caption;
   AModel.Order := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Order], 0);
   AModel.Visible := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_Visible]);
   AModel.CodeOnly := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_CodeOnly]);
-  AModel.Id := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Id], 0);
-  AModel.IdParent := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_IdParent], 0);
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.FillStatusBar(AItem: TListItem);
@@ -299,6 +282,7 @@ var
 begin
   LModel := TDelphiAIDevDefaultsQuestionsModel.Create;
   try
+    //LModel.Guid := '';
     LView := TDelphiAIDevDefaultsQuestionsAddEditView.Create(nil);
     try
       LView.Caption := string(LView.Caption).Replace('[action]', 'Adding', [rfReplaceAll, rfIgnoreCase]);
@@ -350,13 +334,13 @@ end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.btnRemoveClick(Sender: TObject);
 var
-  LId: string;
+  LGuid: string;
 begin
   if(ListViewHistory.Selected = nil)then
     Exit;
 
-  LId := ListViewHistory.Items[ListViewHistory.Selected.Index].SubItems[C_INDEX_SUBITEM_Id];
-  if(LId.Trim.IsEmpty)then
+  LGuid := ListViewHistory.Items[ListViewHistory.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
+  if(LGuid.Trim.IsEmpty)then
     TUtils.ShowMsgErrorAndAbort('Guid not found');
 
 //  if(TC4DWizardOpenExternalModel.New.ExistGuidInIniFile(LId))then
@@ -367,7 +351,7 @@ begin
 
   Screen.Cursor := crHourGlass;
   try
-    //TC4DWizardOpenExternalModel.New.RemoveGuidInIniFile(LId);
+    //TC4DWizardOpenExternalModel.New.RemoveGuidInIniFile(LGuid);
     Self.ReloadData;
   finally
     FReloadPopupMenuChat := True;

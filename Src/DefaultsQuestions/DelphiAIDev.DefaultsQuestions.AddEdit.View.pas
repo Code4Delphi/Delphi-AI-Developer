@@ -111,11 +111,14 @@ begin
       //  Exit;
 
       LModel := TDelphiAIDevDefaultsQuestionsModel.Create;
-      LModel.Id := AModel.Id;
+      LModel.Guid := AModel.Guid;
       LModel.Question := AModel.Question;
       LItemIndex := cBoxMenuMaster.Items.AddObject(LModel.Question, LModel);
 
-      if (FModel.IdParent > 0)and(FModel.IdParent = LModel.IdParent) then
+      //if (FModel.IdParent > 0)and(FModel.IdParent = LModel.IdParent) then
+      //  LItemIndexDefault := LItemIndex;
+
+      if(FModel.GuidMenuMaster = LModel.Guid)then
         LItemIndexDefault := LItemIndex;
     end
     );
@@ -139,10 +142,10 @@ begin
   FModel.Visible := ckVisible.Checked;
   FModel.CodeOnly := ckCodeOnly.Checked;
 
-  FModel.IdParent := 0;
+  FModel.GuidMenuMaster := '';
   if(cBoxMenuMaster.ItemIndex >= 0)then
     if(TDelphiAIDevDefaultsQuestionsModel(cBoxMenuMaster.Items.Objects[cBoxMenuMaster.ItemIndex]) <> nil)then
-      FModel.IdParent := TDelphiAIDevDefaultsQuestionsModel(cBoxMenuMaster.Items.Objects[cBoxMenuMaster.ItemIndex]).Id;
+      FModel.GuidMenuMaster := TDelphiAIDevDefaultsQuestionsModel(cBoxMenuMaster.Items.Objects[cBoxMenuMaster.ItemIndex]).Guid;
 
   TDelphiAIDevDefaultsQuestionsDao.New.SaveOrEditData(FModel);
 

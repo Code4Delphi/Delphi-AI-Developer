@@ -5,8 +5,8 @@ interface
 type
   TDelphiAIDevDefaultsQuestionsModel = class
   private
-    FId: Integer;
-    FIdParent: Integer;
+    FGuid: string;
+    FGuidMenuMaster: string;
     FQuestion: string;
     FOrder: Integer;
     FVisible: Boolean;
@@ -15,8 +15,8 @@ type
     constructor Create;
     procedure Clear;
 
-    property Id: Integer read FId write FId;
-    property IdParent: Integer read FIdParent write FIdParent;
+    property Guid: string read FGuid write FGuid;
+    property GuidMenuMaster: string read FGuidMenuMaster write FGuidMenuMaster;
     property Question: string read FQuestion write FQuestion;
     property Order: Integer read FOrder write FOrder;
     property Visible: Boolean read FVisible write FVisible;
@@ -32,8 +32,8 @@ end;
 
 procedure TDelphiAIDevDefaultsQuestionsModel.Clear;
 begin
-  FId := 0;
-  FIdParent := 0;
+  FGuid := '';
+  FGuidMenuMaster := '';
   FQuestion := '';
   FOrder := 0;
   FVisible := True;

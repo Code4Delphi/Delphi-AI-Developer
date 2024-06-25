@@ -75,7 +75,7 @@ type
     class function GetPathFolderRoot: string;
     //class function GetPathFileIniGeneralSettings: string;
     class function GetPathFileChat: string;
-    class function GetPathFileBdDefaultsQuestions: string;
+    class function GetPathFileJSONDefaultsQuestions: string;
     class function CreateIfNecessaryAndGetPathFolderTemp: string;
     class function GetGuidStr: string;
     class function GuidToFileName(const AGuid: string; const AExtension: string): string;
@@ -701,11 +701,10 @@ begin
   Result := Self.GetPathFolderRoot + TConsts.FILE_RTF_CHAT;
 end;
 
-class function TUtils.GetPathFileBdDefaultsQuestions: string;
+class function TUtils.GetPathFileJSONDefaultsQuestions: string;
 begin
-  Result := Self.GetPathFolderRoot + TConsts.FILE_BD_DEFAULTS_QUESTIONS;
+  Result := Self.GetPathFolderRoot + TConsts.FILE_JSON_DEFAULTS_QUESTIONS;
 end;
-
 
 class function TUtils.CreateIfNecessaryAndGetPathFolderTemp: string;
 begin
@@ -720,7 +719,7 @@ var
 begin
   Result := '';
   CreateGUID(LGUID1);
-  Result := GUIDTostring(LGUID1);
+  Result := GUIDTostring(LGUID1).Replace('{', EmptyStr).Replace('}', EmptyStr);
 end;
 
 class function TUtils.GuidToFileName(const AGuid: string; const AExtension: string): string;

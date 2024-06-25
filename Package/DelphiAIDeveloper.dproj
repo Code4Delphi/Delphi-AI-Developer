@@ -122,11 +122,6 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="designide.dcp"/>
         <DCCReference Include="RESTComponents.dcp"/>
-        <DCCReference Include="vclFireDAC.dcp"/>
-        <DCCReference Include="FireDAC.dcp"/>
-        <DCCReference Include="FireDACCommonDriver.dcp"/>
-        <DCCReference Include="FireDACCommon.dcp"/>
-        <DCCReference Include="FireDACMySQLDriver.dcp"/>
         <DCCReference Include="..\Src\DelphiAIDev.Register.pas"/>
         <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
             <Form>DelphiAIDevChatView</Form>
@@ -168,13 +163,6 @@
         <DCCReference Include="..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas"/>
         <DCCReference Include="..\Src\IDE\Shortcuts\DelphiAIDev.IDE.Shortcuts.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas"/>
-        <DCCReference Include="..\Src\Conn\C4D.Conn.Configs.pas"/>
-        <DCCReference Include="..\Src\Conn\C4D.Conn.Firedac.pas"/>
-        <DCCReference Include="..\Src\Conn\C4D.Conn.Firedac.Query.pas"/>
-        <DCCReference Include="..\Src\Conn\C4D.Conn.Interfaces.pas"/>
-        <DCCReference Include="..\Src\Conn\C4D.Conn.pas"/>
-        <DCCReference Include="..\Src\Conn\C4D.Conn.Types.pas"/>
-        <DCCReference Include="..\Src\Conn\C4D.Conn.Utils.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas">
             <Form>DelphiAIDevDefaultsQuestionsView</Form>
             <FormType>dfm</FormType>

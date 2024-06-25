@@ -34,7 +34,7 @@ type
     FILE_RTF_CHAT = 'chat.rtf';
 
     //NAMES FILE Database
-    FILE_BD_DEFAULTS_QUESTIONS = 'delphi_ai_developer.db';
+    FILE_JSON_DEFAULTS_QUESTIONS = 'delphi_ai_developer_questions.json';
 
     //ABOUT AND SPLASH
     ABOUT_TITLE = 'Delphi AI Developer';

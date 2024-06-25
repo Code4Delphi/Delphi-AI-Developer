@@ -127,12 +127,8 @@ object DelphiAIDevDefaultsQuestionsView: TDelphiAIDevDefaultsQuestionsView
       end
       item
         Alignment = taCenter
-        Caption = 'Id'
-      end
-      item
-        Alignment = taCenter
-        Caption = 'IdParent'
-        Width = 70
+        Caption = 'Guid'
+        Width = 1
       end>
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
