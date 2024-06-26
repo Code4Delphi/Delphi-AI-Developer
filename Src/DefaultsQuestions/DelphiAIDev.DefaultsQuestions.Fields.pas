@@ -16,6 +16,7 @@ type
     FVisible: Boolean;
     FCodeOnly: Boolean;
     FCaption: string;
+    FCreated: Boolean;
   public
     constructor Create;
     procedure Clear;
@@ -27,6 +28,7 @@ type
     property Order: Integer read FOrder write FOrder;
     property Visible: Boolean read FVisible write FVisible;
     property CodeOnly: Boolean read FCodeOnly write FCodeOnly;
+    property Created: Boolean read FCreated write FCreated;
   end;
 
 implementation
@@ -46,6 +48,7 @@ begin
   FOrder := 0;
   FVisible := True;
   FCodeOnly := False;
+  FCreated := False;
 end;
 
 end.

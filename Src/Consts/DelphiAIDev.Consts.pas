@@ -61,13 +61,14 @@ type
     MENU_IDE_ABOUT_NAME = 'C4DDelphiAIDevAbout1';
     MENU_IDE_ABOUT_CAPTION = 'About Delphi AI Developer';
 
-    //UTIS
+    //UTILS
     STR_CMD_COMMANDS = 'CMD Commands';
     STR_MENU_MASTER_ONLY = 'Menu Master Only';
+
+    //SEPARATORS
+    SEPARATOR_P = '<|p|>';
   end;
 
 implementation
-
-
 
 end.

@@ -42,7 +42,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     TabOrder = 0
     object Splitter1: TSplitter
       Left = 18
-      Top = 520
+      Top = 518
       Width = 938
       Height = 3
       Cursor = crVSplit
@@ -56,7 +56,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       Left = 18
       Top = 15
       Width = 938
-      Height = 502
+      Height = 500
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -84,7 +84,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     end
     object pnBackQuestion: TPanel
       Left = 18
-      Top = 523
+      Top = 521
       Width = 938
       Height = 113
       Margins.Left = 0
@@ -121,9 +121,9 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     end
     object pnBackStatusBar: TPanel
       Left = 18
-      Top = 636
+      Top = 634
       Width = 938
-      Height = 25
+      Height = 27
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -138,7 +138,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Left = 0
         Top = 3
         Width = 56
-        Height = 20
+        Height = 22
         Cursor = crHandPoint
         Hint = 'AI being used'
         Margins.Left = 0
@@ -156,7 +156,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Left = 864
         Top = 3
         Width = 74
-        Height = 20
+        Height = 22
         Cursor = crHandPoint
         Margins.Top = 0
         Margins.Right = 0
@@ -170,7 +170,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Left = 395
         Top = 3
         Width = 466
-        Height = 20
+        Height = 22
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 1
@@ -179,7 +179,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
           Left = 261
           Top = 0
           Width = 205
-          Height = 20
+          Height = 22
           Cursor = crHandPoint
           Hint = 'Use data from current unit in query'
           Margins.Top = 0
@@ -197,7 +197,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
           Left = 149
           Top = 0
           Width = 109
-          Height = 20
+          Height = 22
           Cursor = crHandPoint
           Hint = 'Return only code without comments or explanations'
           Margins.Top = 0
@@ -212,16 +212,17 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         end
         object btnDefaultsQuestions: TButton
           AlignWithMargins = True
-          Left = 123
+          Left = 56
           Top = 0
-          Width = 23
-          Height = 20
+          Width = 90
+          Height = 22
           Cursor = crHandPoint
           Hint = 'Defaults Questions'
           Margins.Top = 0
           Margins.Right = 0
           Margins.Bottom = 0
           Align = alRight
+          Caption = 'Questions'
           ImageIndex = 4
           Images = ImageList1
           PopupMenu = pMenuQuestions

@@ -28,7 +28,8 @@ uses
   DelphiAIDev.Consts,
   DelphiAIDev.Chat,
   DelphiAIDev.Settings,
-  DelphiAIDev.ModuleCreator;
+  DelphiAIDev.ModuleCreator,
+  DelphiAIDev.DefaultsQuestions.PopupMenu;
 
 type
   TDelphiAIDevChatView = class(TDockableForm)
@@ -100,8 +101,8 @@ type
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
-    LbtnUseCurrentUnitCodeWidth: Integer;
-    LbtnCodeOnlyWidth: Integer;
+    FbtnUseCurrentUnitCodeWidth: Integer;
+    FbtnCodeOnlyWidth: Integer;
     procedure ReadFromFile;
     procedure WriteToFile;
     procedure InitializeRichEditReturn;
@@ -118,6 +119,7 @@ type
     procedure ConfScreenOnShow;
     procedure ChangeUseCurrentUnitCode;
     procedure ChangeCodeOnly;
+    procedure AddItemsPopupMenuQuestion;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -173,8 +175,8 @@ begin
   FChat := TDelphiAIDevChat.Create;
   FSettings := FChat.Settings.GetInstance;
   pnWait.Visible := False;
-  LbtnUseCurrentUnitCodeWidth := btnUseCurrentUnitCode.Width;
-  LbtnCodeOnlyWidth := btnCodeOnly.Width;
+  FbtnUseCurrentUnitCodeWidth := btnUseCurrentUnitCode.Width;
+  FbtnCodeOnlyWidth := btnCodeOnly.Width;
 end;
 
 destructor TDelphiAIDevChatView.Destroy;
@@ -190,8 +192,23 @@ begin
   Self.ReadFromFile;
   //Self.GetSelectedBlockForQuestion;
 
+  Self.AddItemsPopupMenuQuestion;
+
   TUtils.MemoFocusOnTheEnd(mmQuestion);
 end;
+
+procedure TDelphiAIDevChatView.AddItemsPopupMenuQuestion;
+var
+ LPopupMenu: TDelphiAIDevDefaultsQuestionsPopupMenu;
+begin
+  LPopupMenu := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
+  try
+    LPopupMenu.CreateMenus(pMenuQuestions);
+  finally
+    LPopupMenu.Free;
+  end;
+end;
+
 procedure TDelphiAIDevChatView.ConfScreenOnShow;
 begin
   TUtilsOTA.IDEThemingAll(TDelphiAIDevChatView, Self);
@@ -251,11 +268,11 @@ begin
   if(Self.Width > 530)then
   begin
     btnUseCurrentUnitCode.Caption := CAPTION_UseCurrentUnitCode;
-    btnUseCurrentUnitCode.Width := LbtnUseCurrentUnitCodeWidth;
+    btnUseCurrentUnitCode.Width := FbtnUseCurrentUnitCodeWidth;
     btnUseCurrentUnitCode.ImageAlignment := TImageAlignment.iaLeft;
 
     btnCodeOnly.Caption := CAPTION_CodeOnly;
-    btnCodeOnly.Width := LbtnCodeOnlyWidth;
+    btnCodeOnly.Width := FbtnCodeOnlyWidth;
     btnCodeOnly.ImageAlignment := TImageAlignment.iaLeft;
   end
   else

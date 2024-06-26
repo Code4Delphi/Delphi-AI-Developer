@@ -108,11 +108,11 @@ object DelphiAIDevDefaultsQuestionsView: TDelphiAIDevDefaultsQuestionsView
     Columns = <
       item
         Caption = 'Caption'
-        Width = 700
+        Width = 650
       end
       item
         Caption = 'Kind'
-        Width = 80
+        Width = 140
       end
       item
         Alignment = taRightJustify

@@ -69,6 +69,8 @@ contains
   DelphiAIDev.DefaultsQuestions.Fields in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Fields.pas',
   DelphiAIDev.DefaultsQuestions.Interfaces in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Interfaces.pas',
   DelphiAIDev.DefaultsQuestions.Model in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas',
-  DelphiAIDev.DefaultsQuestions.AddEdit.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas' {DelphiAIDevDefaultsQuestionsAddEditView};
+  DelphiAIDev.DefaultsQuestions.AddEdit.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas' {DelphiAIDevDefaultsQuestionsAddEditView},
+  DelphiAIDev.DefaultsQuestions.PopupMenu in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas',
+  DelphiAIDev.Utils.ABMenuAction in '..\Src\Utils\DelphiAIDev.Utils.ABMenuAction.pas';
 
 end.
