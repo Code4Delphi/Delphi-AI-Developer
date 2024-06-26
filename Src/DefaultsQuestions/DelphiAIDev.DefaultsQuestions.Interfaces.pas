@@ -4,13 +4,13 @@ interface
 
 uses
   System.SysUtils,
-  DelphiAIDev.DefaultsQuestions.Model;
+  DelphiAIDev.DefaultsQuestions.Fields;
 
 type
-  IDelphiAIDevDefaultsQuestionsDao = interface
+  IDelphiAIDevDefaultsQuestionsModel = interface
     ['{3399A776-4B23-4CFC-8992-568AE07FE065}']
-    procedure ReadData(AProc: TProc<TDelphiAIDevDefaultsQuestionsModel>);
-    procedure SaveOrEditData(const AModel: TDelphiAIDevDefaultsQuestionsModel);
+    procedure ReadData(AProc: TProc<TDelphiAIDevDefaultsQuestionsFields>);
+    procedure SaveOrEditData(const AFields: TDelphiAIDevDefaultsQuestionsFields);
     procedure RemoveData(const AGuid: string);
   end;
 

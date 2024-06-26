@@ -13,7 +13,7 @@ uses
   Vcl.Menus,
   Vcl.ComCtrls,
   DelphiAIDev.Types,
-  DelphiAIDev.DefaultsQuestions.Model;
+  DelphiAIDev.DefaultsQuestions.Fields;
 
 type
   TDelphiAIDevDefaultsQuestionsAddEditView = class(TForm)
@@ -39,11 +39,11 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    FModel: TDelphiAIDevDefaultsQuestionsModel;
+    FFields: TDelphiAIDevDefaultsQuestionsFields;
     procedure MenuMasterLoad;
     procedure MenuMasterClear;
   public
-    property Model: TDelphiAIDevDefaultsQuestionsModel read FModel write FModel;
+    property Fields: TDelphiAIDevDefaultsQuestionsFields read FFields write FFields;
   end;
 
 implementation
@@ -52,7 +52,7 @@ uses
   DelphiAIDev.Consts,
   DelphiAIDev.Utils,
   DelphiAIDev.Utils.OTA,
-  DelphiAIDev.DefaultsQuestions.Dao;
+  DelphiAIDev.DefaultsQuestions.Model;
 
 {$R *.dfm}
 
@@ -70,10 +70,10 @@ end;
 
 procedure TDelphiAIDevDefaultsQuestionsAddEditView.FormShow(Sender: TObject);
 begin
-  mmQuestion.Lines.Text := FModel.Question;
-  edtOrder.Text := FModel.Order.Tostring;
-  ckVisible.Checked := FModel.Visible;
-  ckCodeOnly.Checked := FModel.CodeOnly;
+  mmQuestion.Lines.Text := FFields.Question;
+  edtOrder.Text := FFields.Order.Tostring;
+  ckVisible.Checked := FFields.Visible;
+  ckCodeOnly.Checked := FFields.CodeOnly;
 
   Self.MenuMasterLoad;
   mmQuestion.SetFocus;
@@ -82,12 +82,12 @@ end;
 procedure TDelphiAIDevDefaultsQuestionsAddEditView.MenuMasterClear;
 var
   I: Integer;
-  LModel: TDelphiAIDevDefaultsQuestionsModel;
+  LFields: TDelphiAIDevDefaultsQuestionsFields;
 begin
   for I := Pred(cBoxMenuMaster.Items.Count) downto 0 do
   begin
-    LModel := TDelphiAIDevDefaultsQuestionsModel(cBoxMenuMaster.Items.Objects[I]);
-    LModel.Free;
+    LFields := TDelphiAIDevDefaultsQuestionsFields(cBoxMenuMaster.Items.Objects[I]);
+    LFields.Free;
   end;
   cBoxMenuMaster.Items.Clear;
 end;
@@ -101,24 +101,24 @@ begin
   cBoxMenuMaster.Items.AddObject('None', nil);
 
   LItemIndexDefault := 0;
-  TDelphiAIDevDefaultsQuestionsDao.New.ReadData(
-    procedure(AModel: TDelphiAIDevDefaultsQuestionsModel)
+  TDelphiAIDevDefaultsQuestionsModel.New.ReadData(
+    procedure(AFields: TDelphiAIDevDefaultsQuestionsFields)
     var
-      LModel: TDelphiAIDevDefaultsQuestionsModel;
+      LFields: TDelphiAIDevDefaultsQuestionsFields;
       LItemIndex: Integer;
     begin
-      //if(AModel.Kind <> TC4DWizardOpenExternalKind.MenuMasterOnly)then
+      //if(AFields.Kind <> TC4DWizardOpenExternalKind.MenuMasterOnly)then
       //  Exit;
 
-      LModel := TDelphiAIDevDefaultsQuestionsModel.Create;
-      LModel.Guid := AModel.Guid;
-      LModel.Question := AModel.Question;
-      LItemIndex := cBoxMenuMaster.Items.AddObject(LModel.Question, LModel);
+      LFields := TDelphiAIDevDefaultsQuestionsFields.Create;
+      LFields.Guid := AFields.Guid;
+      LFields.Question := AFields.Question;
+      LItemIndex := cBoxMenuMaster.Items.AddObject(LFields.Question, LFields);
 
-      //if (FModel.IdParent > 0)and(FModel.IdParent = LModel.IdParent) then
+      //if (FFields.IdParent > 0)and(FFields.IdParent = LFields.IdParent) then
       //  LItemIndexDefault := LItemIndex;
 
-      if(FModel.GuidMenuMaster = LModel.Guid)then
+      if(FFields.GuidMenuMaster = LFields.Guid)then
         LItemIndexDefault := LItemIndex;
     end
     );
@@ -137,17 +137,17 @@ begin
   if Trim(mmQuestion.Lines.Text).IsEmpty then
     TUtils.ShowMsgAndAbort('No informed Description', mmQuestion);
 
-  FModel.Question := mmQuestion.Lines.Text;
-  FModel.Order := StrToIntDef(edtOrder.Text, 0);
-  FModel.Visible := ckVisible.Checked;
-  FModel.CodeOnly := ckCodeOnly.Checked;
+  FFields.Question := mmQuestion.Lines.Text;
+  FFields.Order := StrToIntDef(edtOrder.Text, 0);
+  FFields.Visible := ckVisible.Checked;
+  FFields.CodeOnly := ckCodeOnly.Checked;
 
-  FModel.GuidMenuMaster := '';
+  FFields.GuidMenuMaster := '';
   if(cBoxMenuMaster.ItemIndex >= 0)then
-    if(TDelphiAIDevDefaultsQuestionsModel(cBoxMenuMaster.Items.Objects[cBoxMenuMaster.ItemIndex]) <> nil)then
-      FModel.GuidMenuMaster := TDelphiAIDevDefaultsQuestionsModel(cBoxMenuMaster.Items.Objects[cBoxMenuMaster.ItemIndex]).Guid;
+    if(TDelphiAIDevDefaultsQuestionsFields(cBoxMenuMaster.Items.Objects[cBoxMenuMaster.ItemIndex]) <> nil)then
+      FFields.GuidMenuMaster := TDelphiAIDevDefaultsQuestionsFields(cBoxMenuMaster.Items.Objects[cBoxMenuMaster.ItemIndex]).Guid;
 
-  TDelphiAIDevDefaultsQuestionsDao.New.SaveOrEditData(FModel);
+  TDelphiAIDevDefaultsQuestionsModel.New.SaveOrEditData(FFields);
 
   Self.Close;
   Self.ModalResult := mrOK;

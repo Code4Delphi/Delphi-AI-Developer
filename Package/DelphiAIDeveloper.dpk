@@ -66,9 +66,9 @@ contains
   DelphiAIDev.DefaultsQuestions.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas' {DelphiAIDevDefaultsQuestionsView},
   DelphiAIDev.Utils.ListView in '..\Src\Utils\DelphiAIDev.Utils.ListView.pas',
   DelphiAIDev.Utils.GetIniPositionStr in '..\Src\Utils\DelphiAIDev.Utils.GetIniPositionStr.pas',
-  DelphiAIDev.DefaultsQuestions.Model in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas',
+  DelphiAIDev.DefaultsQuestions.Fields in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Fields.pas',
   DelphiAIDev.DefaultsQuestions.Interfaces in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Interfaces.pas',
-  DelphiAIDev.DefaultsQuestions.Dao in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Dao.pas',
+  DelphiAIDev.DefaultsQuestions.Model in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas',
   DelphiAIDev.DefaultsQuestions.AddEdit.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas' {DelphiAIDevDefaultsQuestionsAddEditView};
 
 end.

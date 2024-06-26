@@ -169,9 +169,9 @@
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ListView.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.GetIniPositionStr.pas"/>
-        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas"/>
+        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Fields.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Interfaces.pas"/>
-        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Dao.pas"/>
+        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas">
             <Form>DelphiAIDevDefaultsQuestionsAddEditView</Form>
             <FormType>dfm</FormType>
