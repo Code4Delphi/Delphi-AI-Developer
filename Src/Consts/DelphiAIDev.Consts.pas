@@ -43,6 +43,9 @@ type
     PLUGIN_LICENSE = 'MIT license';
     IS_UNREGISTERED = False;
 
+    //NAMES FILES AND IMAGES RESOURCE
+    RESOURCE_c4d_logo_24x24 = 'c4d_logo_24x24';
+
     //CAPTIONS ITENS MAIN MENU IDE, AND POPUPMENU PROJ
     ITEM_MENU_C4DDelphiAIDev_NAME = 'C4DDelphiAIDevItemMenu';
     ITEM_MENU_C4DDelphiAIDev_CAPTION = 'AI Developer';
