@@ -97,10 +97,9 @@ object DelphiAIDevDefaultsQuestionsView: TDelphiAIDevDefaultsQuestionsView
       Caption = 'Remove'
       TabOrder = 3
       OnClick = btnRemoveClick
-      ExplicitTop = 1
     end
   end
-  object ListViewHistory: TListView
+  object ListView: TListView
     Left = 0
     Top = 50
     Width = 884
@@ -108,8 +107,12 @@ object DelphiAIDevDefaultsQuestionsView: TDelphiAIDevDefaultsQuestionsView
     Align = alClient
     Columns = <
       item
-        Caption = 'Question'
-        Width = 570
+        Caption = 'Caption'
+        Width = 700
+      end
+      item
+        Caption = 'Kind'
+        Width = 80
       end
       item
         Alignment = taRightJustify
@@ -129,6 +132,17 @@ object DelphiAIDevDefaultsQuestionsView: TDelphiAIDevDefaultsQuestionsView
       item
         Alignment = taCenter
         Caption = 'Guid'
+        MaxWidth = 1
+        Width = 1
+      end
+      item
+        Caption = 'GuidMenuMaster'
+        MaxWidth = 1
+        Width = 1
+      end
+      item
+        Caption = 'Question'
+        MaxWidth = 1
         Width = 1
       end>
     Font.Charset = DEFAULT_CHARSET
@@ -142,10 +156,10 @@ object DelphiAIDevDefaultsQuestionsView: TDelphiAIDevDefaultsQuestionsView
     SortType = stText
     TabOrder = 1
     ViewStyle = vsReport
-    OnColumnClick = ListViewHistoryColumnClick
-    OnDblClick = ListViewHistoryDblClick
-    OnKeyDown = ListViewHistoryKeyDown
-    OnSelectItem = ListViewHistorySelectItem
+    OnColumnClick = ListViewColumnClick
+    OnDblClick = ListViewDblClick
+    OnKeyDown = ListViewKeyDown
+    OnSelectItem = ListViewSelectItem
   end
   object pnTop: TPanel
     Left = 0

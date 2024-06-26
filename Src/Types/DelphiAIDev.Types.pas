@@ -16,6 +16,7 @@ type
   TC4DIcon = (Information, Question, Warning, Error, Success);
   TC4DButtons = (OK, OK_Cancel);
   TC4DBtnFocu = (OK, Cancel);
+  TC4DQuestionKind = (None, ItemMenuNormal, MenuMasterOnly, Separators);
   {$SCOPEDENUMS OFF}
 
   TC4DAIsAvailableHelper = record helper for TC4DAIsAvailable
@@ -34,6 +35,10 @@ type
 
   TC4DExtensionsOfFilesHelper = record helper for TC4DExtensionsOfFiles
     function ContainsStr(const AExtension: string): Boolean;
+  end;
+
+  TC4DQuestionKindHelper = record helper for TC4DQuestionKind
+    function ToString: string;
   end;
 
 implementation
@@ -97,6 +102,20 @@ end;
 function TC4DExtensionsCommonHelper.ToStringWithPoint: string;
 begin
   Result := '.' + Self.ToString;
+end;
+
+{ TC4DQuestionKindHelper }
+
+function TC4DQuestionKindHelper.ToString: string;
+begin
+  if(Self = TC4DQuestionKind.ItemMenuNormal)then
+    Exit('Item menu normal')
+  else if(Self = TC4DQuestionKind.MenuMasterOnly)then
+    Exit('Menu master only')
+  else if(Self = TC4DQuestionKind.Separators)then
+    Exit('Separator')
+  else
+    Result := GetEnumName(TypeInfo(TC4DQuestionKind), Integer(Self));
 end;
 
 end.

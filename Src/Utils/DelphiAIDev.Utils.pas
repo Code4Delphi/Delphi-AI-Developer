@@ -27,7 +27,9 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TC4DIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
-    class function AdjustQuestionToJson(const AValue: string): string; static;
+    class function StrToDefaultsQuestionsKind(Value: string): TC4DQuestionKind;
+    class procedure DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
+    class function AdjustQuestionToJson(const AValue: string): string;
     class procedure AddLog(const AMessage: string);
     class function GetFileName(const AExtension: string): string;
     class procedure MemoFocusOnTheEnd(const AMemo: TMemo);
@@ -133,6 +135,36 @@ uses
   DelphiAIDev.View.Memo,
   DelphiAIDev.View.Dialog,
   DelphiAIDev.WaitingScreen;
+
+class function TUtils.StrToDefaultsQuestionsKind(Value: string): TC4DQuestionKind;
+begin
+  Result := TC4DQuestionKind.None;
+  if(Value = 'Item menu normal')then
+    Result := TC4DQuestionKind.ItemMenuNormal
+  else if(Value = 'Menu master only')then
+    Result := TC4DQuestionKind.MenuMasterOnly
+  else if(Value = 'Separator')then
+    Result := TC4DQuestionKind.Separators;
+end;
+
+class procedure TUtils.DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
+var
+  LItem: TC4DQuestionKind;
+begin
+  if(AStrings = nil)then
+    Exit;
+
+  for LItem := Low(TC4DQuestionKind) to High(TC4DQuestionKind) do
+  begin
+//    if(LItem = TC4DQuestionKind.CMD)then
+//      AStrings.Add(TC4DConsts.STR_CMD_COMMANDS)
+//    else  if(LItem = TC4DQuestionKind.MenuMasterOnly)then
+//      AStrings.Add(TC4DConsts.STR_MENU_MASTER_ONLY)
+//    else
+//      AStrings.Add(GetEnumName(TypeInfo(TC4DQuestionKind), Integer(LItem)));
+    AStrings.Add(LItem.ToString);
+  end;
+end;
 
 class function TUtils.AdjustQuestionToJson(const AValue: string): string;
 begin

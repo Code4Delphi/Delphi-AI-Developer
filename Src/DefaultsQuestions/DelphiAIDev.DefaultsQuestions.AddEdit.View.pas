@@ -32,16 +32,26 @@ type
     Label9: TLabel;
     cBoxMenuMaster: TComboBox;
     mmQuestion: TMemo;
+    Label2: TLabel;
+    cBoxKind: TComboBox;
+    Label3: TLabel;
+    edtCaption: TEdit;
     procedure btnCloseClick(Sender: TObject);
     procedure btnConfirmClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure cBoxKindChange(Sender: TObject);
   private
     FFields: TDelphiAIDevDefaultsQuestionsFields;
+    FLastCaption: string;
+    FLastQuestion: string;
+    FLastItemIndexMenuMaster: Integer;
+    procedure FillcBoxKind;
     procedure MenuMasterLoad;
     procedure MenuMasterClear;
+    procedure ConfFieldsKind;
   public
     property Fields: TDelphiAIDevDefaultsQuestionsFields read FFields write FFields;
   end;
@@ -56,11 +66,22 @@ uses
 
 {$R *.dfm}
 
+procedure TDelphiAIDevDefaultsQuestionsAddEditView.FillcBoxKind;
+begin
+  cBoxKind.Items.Clear;
+  TUtils.DefaultsQuestionsKindFillItemsTStrings(cBoxKind.Items);
+end;
+
 procedure TDelphiAIDevDefaultsQuestionsAddEditView.FormCreate(Sender: TObject);
 begin
   Self.ModalResult := mrCancel;
 
   TUtilsOTA.IDEThemingAll(TDelphiAIDevDefaultsQuestionsAddEditView, Self);
+
+  FLastCaption := '';
+  FLastQuestion := '';
+  FLastItemIndexMenuMaster := 0;
+  Self.FillcBoxKind;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsAddEditView.FormDestroy(Sender: TObject);
@@ -70,13 +91,19 @@ end;
 
 procedure TDelphiAIDevDefaultsQuestionsAddEditView.FormShow(Sender: TObject);
 begin
+  cBoxKind.ItemIndex := cBoxKind.Items.IndexOf(FFields.Kind.ToString);
+  edtCaption.Text := FFields.Caption;
   mmQuestion.Lines.Text := FFields.Question;
   edtOrder.Text := FFields.Order.Tostring;
   ckVisible.Checked := FFields.Visible;
   ckCodeOnly.Checked := FFields.CodeOnly;
 
+  Self.ConfFieldsKind;
   Self.MenuMasterLoad;
-  mmQuestion.SetFocus;
+  if edtCaption.CanFocus then
+    edtCaption.SetFocus
+  else if cBoxKind.CanFocus then
+    cBoxKind.SetFocus;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsAddEditView.MenuMasterClear;
@@ -107,13 +134,13 @@ begin
       LFields: TDelphiAIDevDefaultsQuestionsFields;
       LItemIndex: Integer;
     begin
-      //if(AFields.Kind <> TC4DWizardOpenExternalKind.MenuMasterOnly)then
-      //  Exit;
+      if(AFields.Kind <> TC4DQuestionKind.MenuMasterOnly)then
+        Exit;
 
       LFields := TDelphiAIDevDefaultsQuestionsFields.Create;
       LFields.Guid := AFields.Guid;
-      LFields.Question := AFields.Question;
-      LItemIndex := cBoxMenuMaster.Items.AddObject(LFields.Question, LFields);
+      LFields.Caption := AFields.Caption;
+      LItemIndex := cBoxMenuMaster.Items.AddObject(LFields.Caption, LFields);
 
       //if (FFields.IdParent > 0)and(FFields.IdParent = LFields.IdParent) then
       //  LItemIndexDefault := LItemIndex;
@@ -134,9 +161,17 @@ end;
 
 procedure TDelphiAIDevDefaultsQuestionsAddEditView.btnConfirmClick(Sender: TObject);
 begin
-  if Trim(mmQuestion.Lines.Text).IsEmpty then
-    TUtils.ShowMsgAndAbort('No informed Description', mmQuestion);
+  if(cBoxKind.ItemIndex <= 0)then
+    TUtils.ShowMsgAndAbort('No informed Kind', cBoxKind);
 
+  if Trim(edtCaption.Text).IsEmpty then
+    TUtils.ShowMsgAndAbort('No informed Caption', edtCaption);
+
+  if (mmQuestion.Enabled) and (Trim(mmQuestion.Lines.Text).IsEmpty )then
+    TUtils.ShowMsgAndAbort('No informed Question', mmQuestion);
+
+  FFields.Kind := TUtils.StrToDefaultsQuestionsKind(cBoxKind.Text);
+  FFields.Caption := edtCaption.Text;
   FFields.Question := mmQuestion.Lines.Text;
   FFields.Order := StrToIntDef(edtOrder.Text, 0);
   FFields.Visible := ckVisible.Checked;
@@ -151,6 +186,56 @@ begin
 
   Self.Close;
   Self.ModalResult := mrOK;
+end;
+
+procedure TDelphiAIDevDefaultsQuestionsAddEditView.cBoxKindChange(Sender: TObject);
+begin
+  Self.ConfFieldsKind;
+end;
+
+procedure TDelphiAIDevDefaultsQuestionsAddEditView.ConfFieldsKind;
+begin
+  edtCaption.Enabled := True;
+  mmQuestion.Enabled := True;
+  cBoxMenuMaster.Enabled := True;
+
+  if(cBoxKind.Text = TC4DQuestionKind.Separators.ToString)then
+  begin
+    FLastCaption := edtCaption.Text;
+    edtCaption.Text := '-';
+    edtCaption.Enabled := False;
+
+    FLastQuestion := mmQuestion.Lines.Text;
+    mmQuestion.Lines.Clear;
+    mmQuestion.Enabled := False;
+  end
+  else if(cBoxKind.Text = TC4DQuestionKind.MenuMasterOnly.ToString)then
+  begin
+    if(edtCaption.Text = '-')and(not FLastCaption.Trim.IsEmpty)then
+      edtCaption.Text := FLastCaption;
+
+    FLastQuestion := mmQuestion.Lines.Text;
+    mmQuestion.Lines.Clear;
+    mmQuestion.Enabled := False;
+
+    FLastItemIndexMenuMaster := cBoxMenuMaster.ItemIndex;
+    cBoxMenuMaster.ItemIndex := 0;
+    cBoxMenuMaster.Enabled := False;
+  end
+  else
+  begin
+    if(edtCaption.Text = '-')and(not FLastCaption.Trim.IsEmpty)then
+      edtCaption.Text := FLastCaption;
+
+    if(mmQuestion.Text = '')and(not FLastQuestion.Trim.IsEmpty)then
+      mmQuestion.Text := FLastQuestion;
+  end;
+
+  if(cBoxKind.Text <> TC4DQuestionKind.MenuMasterOnly.ToString)then
+  begin
+    if(cBoxMenuMaster.ItemIndex <= 0)then
+      cBoxMenuMaster.ItemIndex := FLastItemIndexMenuMaster;
+  end;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsAddEditView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

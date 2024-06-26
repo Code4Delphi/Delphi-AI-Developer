@@ -8,6 +8,7 @@ uses
   System.JSON,
   Rest.JSON,
   DelphiAIDev.Utils,
+  DelphiAIDev.Types,
   DelphiAIDev.DefaultsQuestions.Interfaces,
   DelphiAIDev.DefaultsQuestions.Fields;
 
@@ -70,6 +71,8 @@ begin
         LJSONObjItem := LJSONArray.Items[i] as TJSONObject;
         LFields.Guid := LJSONObjItem.GetValue<string>('guid');
         LFields.GuidMenuMaster := LJSONObjItem.GetValue<string>('guid_menu_master');
+        LFields.Kind := TC4DQuestionKind(LJSONObjItem.GetValue<Integer>('kind')); //TUtils.StrToDefaultsQuestionsKind(LJSONObjItem.GetValue<string>('kind'));
+        LFields.Caption := LJSONObjItem.GetValue<string>('caption');
         LFields.Question := LJSONObjItem.GetValue<string>('question');
         LFields.Order := LJSONObjItem.GetValue<Integer>('order');
         LFields.Visible := LJSONObjItem.GetValue<Boolean>('visible');
@@ -111,6 +114,8 @@ begin
       LJSONObject := TJSONObject.Create;
       LJSONObject.AddPair('guid', TUtils.GetGuidStr);
       LJSONObject.AddPair('guid_menu_master', AFields.GuidMenuMaster);
+      LJSONObject.AddPair('kind', TJSONNumber.Create(Integer(AFields.Kind)));
+      LJSONObject.AddPair('caption', AFields.Caption);
       LJSONObject.AddPair('question', AFields.Question);
       LJSONObject.AddPair('order', TJSONNumber.Create(AFields.Order));
       LJSONObject.AddPair('visible', TJSONBool.Create(AFields.Visible));
@@ -156,6 +161,12 @@ begin
         begin
           LJSONObjItem.RemovePair('guid_menu_master').Free;
           LJSONObjItem.AddPair('guid_menu_master', AFields.GuidMenuMaster);
+
+          LJSONObjItem.RemovePair('kind').Free;
+          LJSONObjItem.AddPair('kind', TJSONNumber.Create(Integer(AFields.Kind))); // AFields.Kind.ToString);
+
+          LJSONObjItem.RemovePair('caption').Free;
+          LJSONObjItem.AddPair('caption', AFields.Caption);
 
           LJSONObjItem.RemovePair('question').Free;
           LJSONObjItem.AddPair('question', AFields.Question);

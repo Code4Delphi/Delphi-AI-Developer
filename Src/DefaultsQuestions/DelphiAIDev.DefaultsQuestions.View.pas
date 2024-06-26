@@ -22,7 +22,7 @@ type
     Panel1: TPanel;
     btnEdit: TButton;
     btnClose: TButton;
-    ListViewHistory: TListView;
+    ListView: TListView;
     pnTop: TPanel;
     btnSearch: TButton;
     edtSearch: TEdit;
@@ -35,14 +35,14 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
-    procedure ListViewHistorySelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
-    procedure ListViewHistoryDblClick(Sender: TObject);
-    procedure ListViewHistoryKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ListViewSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
+    procedure ListViewDblClick(Sender: TObject);
+    procedure ListViewKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnEditClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure ListViewHistoryColumnClick(Sender: TObject; Column: TListColumn);
+    procedure ListViewColumnClick(Sender: TObject; Column: TListColumn);
   private
     FUtilsListView: IDelphiAIDevUtilsListView;
     FReloadPopupMenuChat: Boolean;
@@ -69,11 +69,13 @@ uses
 {$R *.dfm}
 
 const
-  C_INDEX_SUBITEM_Order = 0;
-  C_INDEX_SUBITEM_Visible = 1;
-  C_INDEX_SUBITEM_CodeOnly = 2;
-  C_INDEX_SUBITEM_Guid = 3;
-  C_INDEX_SUBITEM_GuidMenuMaster = 4;
+  C_INDEX_SUBITEM_Kind = 0;
+  C_INDEX_SUBITEM_Order = 1;
+  C_INDEX_SUBITEM_Visible = 2;
+  C_INDEX_SUBITEM_CodeOnly = 3;
+  C_INDEX_SUBITEM_Guid = 4;
+  C_INDEX_SUBITEM_GuidMenuMaster = 5;
+  C_INDEX_SUBITEM_Question = 6;
 
 procedure DelphiAIDevDefaultsQuestionsViewShow;
 begin
@@ -88,15 +90,15 @@ end;
 procedure TDelphiAIDevDefaultsQuestionsView.FormCreate(Sender: TObject);
 begin
   TUtilsOTA.IDEThemingAll(TDelphiAIDevDefaultsQuestionsView, Self);
-  FUtilsListView := TDelphiAIDevUtilsListView.New(ListViewHistory);
+  FUtilsListView := TDelphiAIDevUtilsListView.New(ListView);
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.FormShow(Sender: TObject);
 begin
   Self.ReloadData;
 
-  if(ListViewHistory.Items.Count > 0)then
-    ListViewHistory.Items.Item[0].Selected := True;
+  if(ListView.Items.Count > 0)then
+    ListView.Items.Item[0].Selected := True;
   FReloadPopupMenuChat := False;
   edtSearch.SetFocus;
 
@@ -126,15 +128,15 @@ begin
       btnClose.Click;
     VK_DOWN, VK_UP:
     begin
-      if(ListViewHistory <> ActiveControl)then
+      if(ListView <> ActiveControl)then
       begin
         case(Key)of
           VK_DOWN:
-          if(ListViewHistory.ItemIndex < Pred(ListViewHistory.Items.Count))then
-            ListViewHistory.ItemIndex := ListViewHistory.ItemIndex + 1;
+          if(ListView.ItemIndex < Pred(ListView.Items.Count))then
+            ListView.ItemIndex := ListView.ItemIndex + 1;
           VK_UP:
-          if(ListViewHistory.ItemIndex > 0)then
-            ListViewHistory.ItemIndex := ListViewHistory.ItemIndex - 1;
+          if(ListView.ItemIndex > 0)then
+            ListView.ItemIndex := ListView.ItemIndex - 1;
         end;
         Key := 0;
       end;
@@ -148,6 +150,12 @@ begin
   Self.ModalResult := mrCancel;
 end;
 
+procedure TDelphiAIDevDefaultsQuestionsView.edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if(Key = VK_RETURN)then
+    Self.ReloadData;
+end;
+
 procedure TDelphiAIDevDefaultsQuestionsView.btnSearchClick(Sender: TObject);
 begin
   Screen.Cursor := crHourGlass;
@@ -156,12 +164,6 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
-end;
-
-procedure TDelphiAIDevDefaultsQuestionsView.edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if(Key = VK_RETURN)then
-    Self.ReloadData;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.ReloadData;
@@ -182,29 +184,35 @@ var
 begin
   LStrSearch := LowerCase(edtSearch.Text);
 
-  if(ListViewHistory.Selected <> nil)then
-    LGuid := ListViewHistory.Items[ListViewHistory.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
+  if(ListView.Selected <> nil)then
+    LGuid := ListView.Items[ListView.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
 
-  ListViewHistory.Clear;
+  ListView.Clear;
 
   TDelphiAIDevDefaultsQuestionsModel.New.ReadData(
     procedure(AFields: TDelphiAIDevDefaultsQuestionsFields)
     begin
-      if AFields.Question.Trim.IsEmpty then
+      if AFields.Caption.Trim.IsEmpty then
+        Exit;
+
+      if (AFields.Kind = TC4DQuestionKind.ItemMenuNormal) and (AFields.Question.Trim.IsEmpty) then
         Exit;
 
       if(LStrSearch.Trim.IsEmpty)
+        or(AFields.Caption.ToLower.Contains(LStrSearch))
         or(AFields.Question.ToLower.Contains(LStrSearch))
       then
       begin
-        LListItem := ListViewHistory.Items.Add;
-        LListItem.Caption := AFields.Question;
+        LListItem := ListView.Items.Add;
+        LListItem.Caption := AFields.Caption;
         LListItem.ImageIndex := -1;
+        LListItem.SubItems.Add(AFields.Kind.Tostring);
         LListItem.SubItems.Add(AFields.Order.Tostring);
         LListItem.SubItems.Add(TUtils.BoolToStrC4D(AFields.Visible));
         LListItem.SubItems.Add(TUtils.BoolToStrC4D(AFields.CodeOnly));
         LListItem.SubItems.Add(AFields.Guid);
         LListItem.SubItems.Add(AFields.GuidMenuMaster);
+        LListItem.SubItems.Add(AFields.Question);
       end;
     end
   );
@@ -214,12 +222,12 @@ begin
     .CustomSort;
 
   if(not LGuid.Trim.IsEmpty)then
-    TUtils.FindListVewItem(ListViewHistory, C_INDEX_SUBITEM_Guid, LGuid);
+    TUtils.FindListVewItem(ListView, C_INDEX_SUBITEM_Guid, LGuid);
 
-  Self.FillStatusBar(ListViewHistory.Selected);
+  Self.FillStatusBar(ListView.Selected);
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ListViewHistorySelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
+procedure TDelphiAIDevDefaultsQuestionsView.ListViewSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
 begin
   Self.FillStatusBar(Item);
 end;
@@ -229,16 +237,18 @@ var
   LListItem: TListItem;
 begin
   AFields.Clear;
-  if(ListViewHistory.Selected = nil)then
+  if(ListView.Selected = nil)then
     Exit;
 
-  LListItem := ListViewHistory.Items[ListViewHistory.Selected.Index];
+  LListItem := ListView.Items[ListView.Selected.Index];
   AFields.Guid := LListItem.SubItems[C_INDEX_SUBITEM_Guid];
   AFields.GuidMenuMaster := LListItem.SubItems[C_INDEX_SUBITEM_GuidMenuMaster];
-  AFields.Question := LListItem.Caption;
+  AFields.Caption := LListItem.Caption;
+  AFields.Kind := TUtils.StrToDefaultsQuestionsKind(LListItem.SubItems[C_INDEX_SUBITEM_Kind]);
   AFields.Order := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Order], 0);
   AFields.Visible := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_Visible]);
   AFields.CodeOnly := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_CodeOnly]);
+  AFields.Question := LListItem.SubItems[C_INDEX_SUBITEM_Question];
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.FillStatusBar(AItem: TListItem);
@@ -251,14 +261,14 @@ begin
   if(AItem <> nil)then
   begin
     LIndex := AItem.Index;
-    LQuestion := ListViewHistory.Items[LIndex].Caption //.SubItems[C_INDEX_SUBITEM_Question];
+    LQuestion := ListView.Items[LIndex].SubItems[C_INDEX_SUBITEM_Question];
   end;
 
-  StatusBar1.Panels[0].Text := Format('%d of %d', [LIndex + 1, ListViewHistory.Items.Count]);
+  StatusBar1.Panels[0].Text := Format('%d of %d', [LIndex + 1, ListView.Items.Count]);
   StatusBar1.Panels[1].Text := LQuestion;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ListViewHistoryColumnClick(Sender: TObject; Column: TListColumn);
+procedure TDelphiAIDevDefaultsQuestionsView.ListViewColumnClick(Sender: TObject; Column: TListColumn);
 var
   LSortStyle: TDelphiAIDevUtilsListViewSortStyle;
 begin
@@ -275,12 +285,12 @@ begin
     .CustomSort;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ListViewHistoryDblClick(Sender: TObject);
+procedure TDelphiAIDevDefaultsQuestionsView.ListViewDblClick(Sender: TObject);
 begin
   btnEdit.Click
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ListViewHistoryKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDelphiAIDevDefaultsQuestionsView.ListViewKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if(Key = VK_RETURN)then
     btnEdit.Click
@@ -317,14 +327,15 @@ var
   LFields: TDelphiAIDevDefaultsQuestionsFields;
   LView: TDelphiAIDevDefaultsQuestionsAddEditView;
 begin
-  if(ListViewHistory.Selected = nil)then
+  if(ListView.Selected = nil)then
     Exit;
 
   LFields := TDelphiAIDevDefaultsQuestionsFields.Create;
   try
     Self.FillFieldsWithSelectedItem(LFields);
-    if(LFields.Question.Trim.IsEmpty)then
-      TUtils.ShowMsgErrorAndAbort('Question not found');
+
+    if(LFields.Caption.Trim.IsEmpty)then
+      TUtils.ShowMsgErrorAndAbort('Caption not found');
 
     LView := TDelphiAIDevDefaultsQuestionsAddEditView.Create(nil);
     try
@@ -347,10 +358,10 @@ procedure TDelphiAIDevDefaultsQuestionsView.btnRemoveClick(Sender: TObject);
 var
   LGuid: string;
 begin
-  if(ListViewHistory.Selected = nil)then
+  if(ListView.Selected = nil)then
     Exit;
 
-  LGuid := ListViewHistory.Items[ListViewHistory.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
+  LGuid := ListView.Items[ListView.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
   if(LGuid.Trim.IsEmpty)then
     TUtils.ShowMsgErrorAndAbort('Guid not found');
 

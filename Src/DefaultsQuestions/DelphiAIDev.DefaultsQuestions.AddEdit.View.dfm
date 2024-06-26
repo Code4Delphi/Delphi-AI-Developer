@@ -3,7 +3,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'IA Developer - Defaults questions - [action]'
-  ClientHeight = 350
+  ClientHeight = 389
   ClientWidth = 674
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
   object Bevel2: TBevel
     AlignWithMargins = True
     Left = 0
-    Top = 311
+    Top = 350
     Width = 674
     Height = 1
     Margins.Left = 0
@@ -37,7 +37,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
   end
   object Panel1: TPanel
     Left = 0
-    Top = 315
+    Top = 354
     Width = 674
     Height = 35
     Align = alBottom
@@ -84,17 +84,17 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     Left = 0
     Top = 0
     Width = 674
-    Height = 311
+    Height = 350
     Align = alClient
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 1
     DesignSize = (
       674
-      311)
+      350)
     object Label1: TLabel
       Left = 35
-      Top = 54
+      Top = 102
       Width = 43
       Height = 13
       Caption = 'Question'
@@ -102,7 +102,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 0
-      Top = 307
+      Top = 346
       Width = 674
       Height = 1
       Margins.Left = 0
@@ -115,21 +115,35 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     end
     object Label4: TLabel
       Left = 35
-      Top = 191
+      Top = 239
       Width = 28
       Height = 13
       Caption = 'Order'
     end
     object Label9: TLabel
-      Left = 34
+      Left = 183
       Top = 13
       Width = 62
       Height = 13
       Caption = 'Menu master'
     end
+    object Label2: TLabel
+      Left = 35
+      Top = 12
+      Width = 20
+      Height = 13
+      Caption = 'Kind'
+    end
+    object Label3: TLabel
+      Left = 35
+      Top = 56
+      Width = 37
+      Height = 13
+      Caption = 'Caption'
+    end
     object edtOrder: TEdit
       Left = 35
-      Top = 206
+      Top = 254
       Width = 126
       Height = 21
       MaxLength = 4
@@ -139,7 +153,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     end
     object UpDown1: TUpDown
       Left = 161
-      Top = 206
+      Top = 254
       Width = 17
       Height = 21
       Cursor = crHandPoint
@@ -149,7 +163,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     end
     object ckVisible: TCheckBox
       Left = 35
-      Top = 238
+      Top = 286
       Width = 53
       Height = 17
       Cursor = crHandPoint
@@ -158,7 +172,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     end
     object ckCodeOnly: TCheckBox
       Left = 35
-      Top = 261
+      Top = 309
       Width = 70
       Height = 17
       Cursor = crHandPoint
@@ -166,9 +180,9 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
       TabOrder = 3
     end
     object cBoxMenuMaster: TComboBox
-      Left = 34
+      Left = 183
       Top = 28
-      Width = 597
+      Width = 450
       Height = 21
       Margins.Left = 10
       Margins.Top = 15
@@ -181,11 +195,27 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     end
     object mmQuestion: TMemo
       Left = 34
-      Top = 70
+      Top = 118
       Width = 599
       Height = 116
       ScrollBars = ssVertical
       TabOrder = 5
+    end
+    object cBoxKind: TComboBox
+      Left = 35
+      Top = 28
+      Width = 145
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 6
+      OnChange = cBoxKindChange
+    end
+    object edtCaption: TEdit
+      Left = 35
+      Top = 72
+      Width = 598
+      Height = 21
+      TabOrder = 7
     end
   end
 end
