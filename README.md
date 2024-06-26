@@ -27,7 +27,7 @@ Receive suggestions for creating and improving code directly in the IDE and take
   <a href="mailto:contato@code4delphi.com.br" target="_blank">
     <img src="https://img.shields.io/badge/E--mail-Send-yellowgreen?logo=maildotru&logoColor=yellowgreen">
   </a>
-</p> <br/>
+</p> 
 
 ## 📄 Documentation under construction
 **We will soon publish the complete documentation for the Plugin.** 
