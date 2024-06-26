@@ -218,9 +218,9 @@ begin
     mmQuestion.Lines.Clear;
     mmQuestion.Enabled := False;
 
-    FLastItemIndexMenuMaster := cBoxMenuMaster.ItemIndex;
-    cBoxMenuMaster.ItemIndex := 0;
-    cBoxMenuMaster.Enabled := False;
+    //FLastItemIndexMenuMaster := cBoxMenuMaster.ItemIndex;
+    //cBoxMenuMaster.ItemIndex := 0;
+    //cBoxMenuMaster.Enabled := False;
   end
   else
   begin

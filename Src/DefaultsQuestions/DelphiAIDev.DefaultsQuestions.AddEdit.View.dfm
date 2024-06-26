@@ -48,7 +48,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     Padding.Right = 2
     Padding.Bottom = 2
     ParentBackground = False
-    TabOrder = 0
+    TabOrder = 1
     object btnConfirm: TButton
       AlignWithMargins = True
       Left = 446
@@ -88,7 +88,8 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     Align = alClient
     BevelOuter = bvNone
     ParentBackground = False
-    TabOrder = 1
+    TabOrder = 0
+    ExplicitTop = -2
     DesignSize = (
       674
       350)
@@ -148,7 +149,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
       Height = 21
       MaxLength = 4
       NumbersOnly = True
-      TabOrder = 0
+      TabOrder = 4
       Text = '0'
     end
     object UpDown1: TUpDown
@@ -159,7 +160,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
       Cursor = crHandPoint
       Associate = edtOrder
       Max = 9999
-      TabOrder = 1
+      TabOrder = 5
     end
     object ckVisible: TCheckBox
       Left = 35
@@ -168,7 +169,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
       Height = 17
       Cursor = crHandPoint
       Caption = 'Visible'
-      TabOrder = 2
+      TabOrder = 6
     end
     object ckCodeOnly: TCheckBox
       Left = 35
@@ -177,7 +178,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
       Height = 17
       Cursor = crHandPoint
       Caption = 'Code Only'
-      TabOrder = 3
+      TabOrder = 7
     end
     object cBoxMenuMaster: TComboBox
       Left = 183
@@ -191,7 +192,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
       Style = csDropDownList
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 30
-      TabOrder = 4
+      TabOrder = 1
     end
     object mmQuestion: TMemo
       Left = 34
@@ -199,7 +200,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
       Width = 599
       Height = 116
       ScrollBars = ssVertical
-      TabOrder = 5
+      TabOrder = 3
     end
     object cBoxKind: TComboBox
       Left = 35
@@ -207,7 +208,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
       Width = 145
       Height = 21
       Style = csDropDownList
-      TabOrder = 6
+      TabOrder = 0
       OnChange = cBoxKindChange
     end
     object edtCaption: TEdit
@@ -215,7 +216,7 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
       Top = 72
       Width = 598
       Height = 21
-      TabOrder = 7
+      TabOrder = 2
     end
   end
 end

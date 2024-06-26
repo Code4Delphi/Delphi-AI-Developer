@@ -59,6 +59,9 @@ begin
     var
       LFields: TDelphiAIDevDefaultsQuestionsFields;
     begin
+      if not AFields.Visible then
+        Exit;
+
       if AFields.Caption.Trim.IsEmpty then
         Exit;
 
@@ -215,10 +218,9 @@ begin
 
   LCodeOnly := Copy(LStringClick, 1, pos(LSeparator, LStringClick) - 1);
   LQuestion := Copy(LStringClick, (pos(LSeparator, LStringClick) + LSeparator.Length), LStringClick.Length);
-  TUtils.ShowMsg(LCodeOnly + sLineBreak + LQuestion);
 
   if Assigned(FProcessClickInItem) then
-    FProcessClickInItem(False, LQuestion);
+    FProcessClickInItem(StrToBoolDef(LCodeOnly, False), LQuestion);
 end;
 
 end.
