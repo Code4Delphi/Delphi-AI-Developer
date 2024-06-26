@@ -101,6 +101,7 @@ type
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
+    FPopupMenuQuestions: TDelphiAIDevDefaultsQuestionsPopupMenu;
     FbtnUseCurrentUnitCodeWidth: Integer;
     FbtnCodeOnlyWidth: Integer;
     procedure ReadFromFile;
@@ -120,6 +121,7 @@ type
     procedure ChangeUseCurrentUnitCode;
     procedure ChangeCodeOnly;
     procedure AddItemsPopupMenuQuestion;
+    procedure DoProcessClickInItemDefaultQuestions(ACodeOnly: Boolean; AQuestion: string);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -140,6 +142,12 @@ uses
   DelphiAIDev.Utils.OTA;
 
 {$R *.dfm}
+
+const
+  UseCurrentUnitCode_ImageIndex_OFF = 0;
+  UseCurrentUnitCode_ImageIndex_ON = 1;
+  CodeOnly_ImageIndex_OFF = 2;
+  CodeOnly_ImageIndex_ON = 3;
 
 procedure RegisterSelf;
 begin
@@ -174,6 +182,8 @@ begin
 
   FChat := TDelphiAIDevChat.Create;
   FSettings := FChat.Settings.GetInstance;
+  FPopupMenuQuestions := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
+
   pnWait.Visible := False;
   FbtnUseCurrentUnitCodeWidth := btnUseCurrentUnitCode.Width;
   FbtnCodeOnlyWidth := btnCodeOnly.Width;
@@ -181,6 +191,7 @@ end;
 
 destructor TDelphiAIDevChatView.Destroy;
 begin
+  FPopupMenuQuestions.Free;
   FChat.Free;
   inherited;
 end;
@@ -198,15 +209,21 @@ begin
 end;
 
 procedure TDelphiAIDevChatView.AddItemsPopupMenuQuestion;
-var
- LPopupMenu: TDelphiAIDevDefaultsQuestionsPopupMenu;
 begin
-  LPopupMenu := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
-  try
-    LPopupMenu.CreateMenus(pMenuQuestions);
-  finally
-    LPopupMenu.Free;
-  end;
+  FPopupMenuQuestions
+    .ProcessClickInItem(DoProcessClickInItemDefaultQuestions)
+    .CreateMenus(pMenuQuestions);
+end;
+
+procedure TDelphiAIDevChatView.DoProcessClickInItemDefaultQuestions(
+  ACodeOnly: Boolean; AQuestion: string);
+begin
+  if ACodeOnly then
+    btnCodeOnly.ImageIndex := CodeOnly_ImageIndex_ON
+  else
+    btnCodeOnly.ImageIndex := CodeOnly_ImageIndex_OFF;
+
+  mmQuestion.Lines.Add(AQuestion);
 end;
 
 procedure TDelphiAIDevChatView.ConfScreenOnShow;
@@ -336,10 +353,10 @@ end;
 
 procedure TDelphiAIDevChatView.ChangeUseCurrentUnitCode;
 begin
-  if btnUseCurrentUnitCode.ImageIndex = 0 then
-    btnUseCurrentUnitCode.ImageIndex := 1
+  if btnUseCurrentUnitCode.ImageIndex = UseCurrentUnitCode_ImageIndex_OFF then
+    btnUseCurrentUnitCode.ImageIndex := UseCurrentUnitCode_ImageIndex_ON
   else
-    btnUseCurrentUnitCode.ImageIndex := 0;
+    btnUseCurrentUnitCode.ImageIndex := UseCurrentUnitCode_ImageIndex_OFF;
 end;
 
 procedure TDelphiAIDevChatView.btnCodeOnlyClick(Sender: TObject);
@@ -349,10 +366,10 @@ end;
 
 procedure TDelphiAIDevChatView.ChangeCodeOnly;
 begin
-  if btnCodeOnly.ImageIndex = 2 then
-    btnCodeOnly.ImageIndex := 3
+  if btnCodeOnly.ImageIndex = CodeOnly_ImageIndex_OFF then
+    btnCodeOnly.ImageIndex := CodeOnly_ImageIndex_ON
   else
-    btnCodeOnly.ImageIndex := 2;
+    btnCodeOnly.ImageIndex := CodeOnly_ImageIndex_OFF;
 end;
 
 procedure TDelphiAIDevChatView.btnSendClick(Sender: TObject);
@@ -373,10 +390,10 @@ begin
 
   LQuestion := '';
 
-  if btnUseCurrentUnitCode.ImageIndex = 1 then
+  if btnUseCurrentUnitCode.ImageIndex = UseCurrentUnitCode_ImageIndex_ON then
     LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak;
 
-  if btnCodeOnly.ImageIndex = 3 then
+  if btnCodeOnly.ImageIndex = CodeOnly_ImageIndex_ON then
     LQuestion := LQuestion + 'Faça a seguinte ação sem adicionar comentários: ' + sLineBreak;
 
   LQuestion := LQuestion + mmQuestion.Lines.Text;

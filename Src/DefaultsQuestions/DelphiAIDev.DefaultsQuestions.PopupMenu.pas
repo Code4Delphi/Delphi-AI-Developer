@@ -19,12 +19,14 @@ type
     FPopupMenu: TPopupMenu;
     FList: TObjectList<TDelphiAIDevDefaultsQuestionsFields>;
     FCont: Integer;
+    FProcessClickInItem: TProc<Boolean, string>;
     procedure CreateMenuItemsList;
     function CreateSubMenu(const AMenuItemParent: TMenuItem;
       const AFields: TDelphiAIDevDefaultsQuestionsFields): TMenuItem;
     procedure ItemMenuClick(Sender: TObject);
-    class procedure ClickFromString(const AStringClick: String); static;
+    procedure ClickFromString(const AStringClick: String);
   public
+    function ProcessClickInItem(AProc: TProc<Boolean, string>): TDelphiAIDevDefaultsQuestionsPopupMenu;
     procedure CreateMenus(const APopupMenu: TPopupMenu);
     constructor Create;
     destructor Destroy; override;
@@ -36,6 +38,7 @@ constructor TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
 begin
   FList := TObjectList<TDelphiAIDevDefaultsQuestionsFields>.Create;
   FCont := 0;
+  FProcessClickInItem := nil;
 end;
 
 destructor TDelphiAIDevDefaultsQuestionsPopupMenu.Destroy;
@@ -192,7 +195,13 @@ begin
   Self.ClickFromString(LMenuItem.Hint);
 end;
 
-class procedure TDelphiAIDevDefaultsQuestionsPopupMenu.ClickFromString(const AStringClick: String);
+function TDelphiAIDevDefaultsQuestionsPopupMenu.ProcessClickInItem(AProc: TProc<Boolean, string>): TDelphiAIDevDefaultsQuestionsPopupMenu;
+begin
+  Result := Self;
+  FProcessClickInItem := AProc;
+end;
+
+procedure TDelphiAIDevDefaultsQuestionsPopupMenu.ClickFromString(const AStringClick: String);
 var
   LStringClick: string;
   LSeparator: string;
@@ -206,8 +215,10 @@ begin
 
   LCodeOnly := Copy(LStringClick, 1, pos(LSeparator, LStringClick) - 1);
   LQuestion := Copy(LStringClick, (pos(LSeparator, LStringClick) + LSeparator.Length), LStringClick.Length);
-
   TUtils.ShowMsg(LCodeOnly + sLineBreak + LQuestion);
+
+  if Assigned(FProcessClickInItem) then
+    FProcessClickInItem(False, LQuestion);
 end;
 
 end.
