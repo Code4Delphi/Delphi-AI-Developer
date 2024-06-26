@@ -69,7 +69,8 @@ type
     pnBackConfigurableButtons: TPanel;
     btnUseCurrentUnitCode: TButton;
     btnCodeOnly: TButton;
-    Button1: TButton;
+    btnDefaultsQuestions: TButton;
+    pMenuQuestions: TPopupMenu;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -95,6 +96,7 @@ type
     procedure FormResize(Sender: TObject);
     procedure WordWrap1Click(Sender: TObject);
     procedure btnCodeOnlyClick(Sender: TObject);
+    procedure btnDefaultsQuestionsClick(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -308,6 +310,11 @@ end;
 procedure TDelphiAIDevChatView.btnUseCurrentUnitCodeClick(Sender: TObject);
 begin
   Self.ChangeUseCurrentUnitCode;
+end;
+
+procedure TDelphiAIDevChatView.btnDefaultsQuestionsClick(Sender: TObject);
+begin
+  pMenuQuestions.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
 procedure TDelphiAIDevChatView.ChangeUseCurrentUnitCode;
