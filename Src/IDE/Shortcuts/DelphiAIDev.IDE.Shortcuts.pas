@@ -37,8 +37,8 @@ var
 
 procedure RegisterSelf;
 begin
-  if(Index < 0)and(true)then
-    Index := TUtilsOTA.GetIOTAKeyboardServices.AddKeyboardBinding(TDelphiAIDevIDEShortcuts.New);
+//  if(Index < 0)and(true)then
+//    Index := TUtilsOTA.GetIOTAKeyboardServices.AddKeyboardBinding(TDelphiAIDevIDEShortcuts.New);
 end;
 
 procedure UnRegisterSelf;
