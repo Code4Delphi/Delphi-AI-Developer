@@ -97,6 +97,7 @@ object DelphiAIDevDefaultsQuestionsView: TDelphiAIDevDefaultsQuestionsView
       Caption = 'Remove'
       TabOrder = 3
       OnClick = btnRemoveClick
+      ExplicitTop = 1
     end
   end
   object ListViewHistory: TListView

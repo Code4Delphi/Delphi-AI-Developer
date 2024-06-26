@@ -72,7 +72,7 @@ begin
   Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_QUESTIONS_NAME,
     TConsts.MENU_IDE_DEFAULTS_QUESTIONS_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.DefaultsQuestionsClick,
-    -1
+    TDelphiAIDevIDEImageListMain.GetInstance.ImgQuestion
     );
 
   Self.CreateSubMenu('C4DSeparator50', '-', nil);

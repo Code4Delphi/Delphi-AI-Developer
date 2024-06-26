@@ -6,6 +6,7 @@ uses
   System.SysUtils,
   System.Classes,
   System.JSON,
+  Rest.JSON,
   DelphiAIDev.Utils,
   DelphiAIDev.DefaultsQuestions.Interfaces,
   DelphiAIDev.DefaultsQuestions.Model;
@@ -13,9 +14,12 @@ uses
 type
   TDelphiAIDevDefaultsQuestionsDao = class(TInterfacedObject, IDelphiAIDevDefaultsQuestionsDao)
   private
+    procedure SaveData(const AModel: TDelphiAIDevDefaultsQuestionsModel);
+    procedure EditData(const AModel: TDelphiAIDevDefaultsQuestionsModel);
   protected
     procedure ReadData(AProc: TProc<TDelphiAIDevDefaultsQuestionsModel>);
-    function SaveOrEditData(AModel: TDelphiAIDevDefaultsQuestionsModel): IDelphiAIDevDefaultsQuestionsDao;
+    procedure SaveOrEditData(const AModel: TDelphiAIDevDefaultsQuestionsModel);
+    procedure RemoveData(const AGuid: string);
   public
     class function New: IDelphiAIDevDefaultsQuestionsDao;
     constructor Create;
@@ -64,7 +68,6 @@ begin
           Continue;
 
         LJSONObjItem := LJSONArray.Items[i] as TJSONObject;
-
         LModel.Guid := LJSONObjItem.GetValue<string>('guid');
         LModel.GuidMenuMaster := LJSONObjItem.GetValue<string>('guid_menu_master');
         LModel.Question := LJSONObjItem.GetValue<string>('question');
@@ -81,14 +84,20 @@ begin
   end;
 end;
 
-function TDelphiAIDevDefaultsQuestionsDao.SaveOrEditData(AModel: TDelphiAIDevDefaultsQuestionsModel): IDelphiAIDevDefaultsQuestionsDao;
+procedure TDelphiAIDevDefaultsQuestionsDao.SaveOrEditData(const AModel: TDelphiAIDevDefaultsQuestionsModel);
+begin
+  if AModel.Guid.Trim.IsEmpty then
+    Self.SaveData(AModel)
+  else
+    Self.EditData(AModel);
+end;
+
+procedure TDelphiAIDevDefaultsQuestionsDao.SaveData(const AModel: TDelphiAIDevDefaultsQuestionsModel);
 var
   LStringList: TStringList;
   LJSONArray: TJSONArray;
   LJSONObject: TJSONObject;
 begin
-  Result := Self;
-
   LStringList := TStringList.Create;
   try
     if FileExists(TUtils.GetPathFileJSONDefaultsQuestions) then
@@ -97,15 +106,10 @@ begin
     LJSONArray := TJSONArray.Create;
     try
       if string(LStringList.Text).Trim.StartsWith('[') then
-      begin
         LJSONArray := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(LStringList.Text), 0) as TJSONArray;
-      end;
-
-      if AModel.Guid.Trim.IsEmpty then
-        AModel.Guid := TUtils.GetGuidStr;
 
       LJSONObject := TJSONObject.Create;
-      LJSONObject.AddPair('guid', AModel.Guid);
+      LJSONObject.AddPair('guid', TUtils.GetGuidStr);
       LJSONObject.AddPair('guid_menu_master', AModel.GuidMenuMaster);
       LJSONObject.AddPair('question', AModel.Question);
       LJSONObject.AddPair('order', TJSONNumber.Create(AModel.Order));
@@ -113,7 +117,7 @@ begin
       LJSONObject.AddPair('code_only', TJSONBool.Create(AModel.CodeOnly));
       LJSONArray.AddElement(LJSONObject);
 
-      LStringList.Text := LJSONArray.Format(2)
+      LStringList.Text := LJSONArray.Format(2);
     finally
       LJSONArray.Free;
     end;
@@ -122,32 +126,106 @@ begin
   finally
     LStringList.Free;
   end;
+end;
 
+procedure TDelphiAIDevDefaultsQuestionsDao.EditData(const AModel: TDelphiAIDevDefaultsQuestionsModel);
+var
+  LStringList: TStringList;
+  LJSONArray: TJSONArray;
+  LJSONObjItem: TJSONObject;
+  i: Integer;
+begin
+  LStringList := TStringList.Create;
+  try
+    if FileExists(TUtils.GetPathFileJSONDefaultsQuestions) then
+      LStringList.LoadFromFile(TUtils.GetPathFileJSONDefaultsQuestions);
 
-//  FQuery.CloseClear.ExecSQL('CREATE TABLE IF NOT EXISTS defaults_questions(id INTEGER PRIMARY KEY, '+
-//   'id_parent Integer, question TEXT, order_display Integer, name TEXT)');
-//
-//  FQuery.CloseClear
-//    .Add('CREATE TABLE IF NOT EXISTS defaults_questions(')
-//    .Add('  id INTEGER PRIMARY KEY,')
-//    .Add('  id_parent INTEGER,')
-//    .Add('  question TEXT,')
-//    .Add('  order_display INTEGER,')
-//    .Add('  visible TEXT,')
-//    .Add('  code_only TEXT')
-//    .Add(') ')
-//    .ExecSQL;
-//
-//  FQuery.CloseClear
-//    .Add('insert into defaults_questions(id_parent, question, order_display, visible, code_only)')
-//    .Add('values(:id_parent, :question, :order_display, :visible, :code_only)')
-//    .AddParam('id_parent', AModel.IdParent)
-//    .AddParam('question', AModel.Question)
-//    .AddParam('order_display', AModel.Order)
-//    .AddParam('visible', TUtils.BoolToStrC4D(AModel.Visible))
-//    .AddParam('code_only', TUtils.BoolToStrC4D(AModel.CodeOnly))
-//    .ExecSQL;
+    LJSONArray := TJSONArray.Create;
+    try
+      if string(LStringList.Text).Trim.StartsWith('[') then
+        LJSONArray := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(LStringList.Text), 0) as TJSONArray;
+
+      for i := 0 to Pred(LJSONArray.Count) do
+      begin
+        if not(LJSONArray.Items[i] is TJSONObject) then
+          Continue;
+
+        LJSONObjItem := LJSONArray.Items[i] as TJSONObject;
+
+        if LJSONObjItem.GetValue<string>('guid') = AModel.Guid then
+        begin
+          LJSONObjItem.RemovePair('guid_menu_master').Free;
+          LJSONObjItem.AddPair('guid_menu_master', AModel.GuidMenuMaster);
+
+          LJSONObjItem.RemovePair('question').Free;
+          LJSONObjItem.AddPair('question', AModel.Question);
+
+          LJSONObjItem.RemovePair('order').Free;
+          LJSONObjItem.AddPair('order', TJSONNumber.Create(AModel.Order));
+
+          LJSONObjItem.RemovePair('visible').Free;
+          LJSONObjItem.AddPair('visible', TJSONBool.Create(AModel.Visible));
+
+          LJSONObjItem.RemovePair('code_only').Free;
+          LJSONObjItem.AddPair('code_only', TJSONBool.Create(AModel.CodeOnly));
+          Break;
+        end;
+      end;
+
+      LStringList.Text := LJSONArray.Format(2);
+    finally
+      LJSONArray.Free;
+    end;
+
+    LStringList.SaveToFile(TUtils.GetPathFileJSONDefaultsQuestions);
+  finally
+    LStringList.Free;
+  end;
+end;
+
+procedure TDelphiAIDevDefaultsQuestionsDao.RemoveData(const AGuid: string);
+var
+  LStringList: TStringList;
+  LJSONArray: TJSONArray;
+  LJSONObjItem: TJSONObject;
+  i: Integer;
+begin
+  if AGuid.Trim.IsEmpty then
+    Exit;
+
+  if not FileExists(TUtils.GetPathFileJSONDefaultsQuestions) then
+    Exit;
+
+  LStringList := TStringList.Create;
+  try
+    LStringList.LoadFromFile(TUtils.GetPathFileJSONDefaultsQuestions);
+    if not string(LStringList.Text).Trim.StartsWith('[') then
+      Exit;
+
+    LJSONArray := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(LStringList.Text), 0) as TJSONArray;
+    try
+      for i := 0 to Pred(LJSONArray.Count) do
+      begin
+        if not(LJSONArray.Items[i] is TJSONObject) then
+          Continue;
+
+        LJSONObjItem := LJSONArray.Items[i] as TJSONObject;
+        if LJSONObjItem.GetValue<string>('guid') = AGuid then
+        begin
+          LJSONArray.Remove(i);
+          Break;
+        end;
+      end;
+
+      LStringList.Text := LJSONArray.Format(2);
+    finally
+      LJSONArray.Free;
+    end;
+
+    LStringList.SaveToFile(TUtils.GetPathFileJSONDefaultsQuestions);
+  finally
+    LStringList.Free;
+  end;
 end;
 
 end.
-

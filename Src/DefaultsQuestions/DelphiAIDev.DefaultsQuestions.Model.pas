@@ -14,7 +14,6 @@ type
   public
     constructor Create;
     procedure Clear;
-
     property Guid: string read FGuid write FGuid;
     property GuidMenuMaster: string read FGuidMenuMaster write FGuidMenuMaster;
     property Question: string read FQuestion write FQuestion;

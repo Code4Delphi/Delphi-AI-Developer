@@ -47,6 +47,7 @@ type
     FUtilsListView: IDelphiAIDevUtilsListView;
     FReloadPopupMenuChat: Boolean;
     procedure ReloadData;
+    procedure ReloadDataInternal;
     procedure FillStatusBar(AItem: TListItem);
     procedure FillModelWithSelectedItem(var AModel: TDelphiAIDevDefaultsQuestionsModel);
   public
@@ -164,6 +165,16 @@ begin
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.ReloadData;
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    Self.ReloadDataInternal;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TDelphiAIDevDefaultsQuestionsView.ReloadDataInternal;
 var
   LStrSearch: string;
   LListItem: TListItem;
@@ -351,7 +362,7 @@ begin
 
   Screen.Cursor := crHourGlass;
   try
-    //TC4DWizardOpenExternalModel.New.RemoveGuidInIniFile(LGuid);
+    TDelphiAIDevDefaultsQuestionsDao.New.RemoveData(LGuid);
     Self.ReloadData;
   finally
     FReloadPopupMenuChat := True;

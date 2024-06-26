@@ -12,12 +12,14 @@ type
     FImgIndexC4D_Logo: Integer;
     FImgIndexGear: Integer;
     FImgIndexMessage: Integer;
+    FImgQuestion: Integer;
     constructor Create;
   public
+    class function GetInstance: TDelphiAIDevIDEImageListMain;
     property ImgIndexC4D_Logo: Integer read FImgIndexC4D_Logo;
     property ImgIndexGear: Integer read FImgIndexGear;
     property ImgIndexMessage: Integer read FImgIndexMessage;
-    class function GetInstance: TDelphiAIDevIDEImageListMain;
+    property ImgQuestion: Integer read FImgQuestion;
   end;
 
 implementation
@@ -40,6 +42,7 @@ begin
   FImgIndexC4D_Logo := TUtilsOTA.AddImgIDEResourceName('c4d_logo');
   FImgIndexGear := TUtilsOTA.AddImgIDEResourceName('c4d_gear');
   FImgIndexMessage := TUtilsOTA.AddImgIDEResourceName('c4d_message');
+  FImgQuestion  := TUtilsOTA.AddImgIDEResourceName('c4d_question');
 end;
 
 initialization

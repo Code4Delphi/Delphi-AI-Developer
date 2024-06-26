@@ -196,6 +196,10 @@
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_message</ResourceId>
         </RcItem>
+        <RcItem Include="Img\c4d_question.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_question</ResourceId>
+        </RcItem>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
