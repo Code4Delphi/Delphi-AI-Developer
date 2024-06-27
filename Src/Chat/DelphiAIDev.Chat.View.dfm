@@ -81,6 +81,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       ShowHint = True
       TabOrder = 1
       Zoom = 100
+      ExplicitTop = 18
     end
     object pnBackQuestion: TPanel
       Left = 18
@@ -222,12 +223,13 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
           Margins.Right = 0
           Margins.Bottom = 0
           Align = alRight
-          Caption = 'Questions'
+          Caption = '*Questions*'
           ImageIndex = 4
           Images = ImageList1
           PopupMenu = pMenuQuestions
           TabOrder = 2
           OnClick = btnDefaultsQuestionsClick
+          ExplicitLeft = 126
         end
       end
     end
@@ -749,7 +751,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     object WordWrap1: TMenuItem
       AutoCheck = True
       Caption = 'WordWrap'
-      Checked = True
       OnClick = WordWrap1Click
     end
     object N1: TMenuItem
@@ -762,6 +763,8 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     end
     object Clear1: TMenuItem
       Caption = 'Clear'
+      ShortCut = 16430
+      OnClick = Clear1Click
     end
   end
   object pMenuCurrentAI: TPopupMenu

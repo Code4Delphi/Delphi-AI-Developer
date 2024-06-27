@@ -98,12 +98,14 @@ type
     procedure WordWrap1Click(Sender: TObject);
     procedure btnCodeOnlyClick(Sender: TObject);
     procedure btnDefaultsQuestionsClick(Sender: TObject);
+    procedure Clear1Click(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
     FPopupMenuQuestions: TDelphiAIDevDefaultsQuestionsPopupMenu;
     FbtnUseCurrentUnitCodeWidth: Integer;
     FbtnCodeOnlyWidth: Integer;
+    FbtnDefaultsQuestionsWidth: Integer;
     procedure ReadFromFile;
     procedure WriteToFile;
     procedure InitializeRichEditReturn;
@@ -122,6 +124,7 @@ type
     procedure ChangeCodeOnly;
     procedure AddItemsPopupMenuQuestion;
     procedure DoProcessClickInItemDefaultQuestions(ACodeOnly: Boolean; AQuestion: string);
+    procedure ProcessWordWrap;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -187,6 +190,7 @@ begin
   pnWait.Visible := False;
   FbtnUseCurrentUnitCodeWidth := btnUseCurrentUnitCode.Width;
   FbtnCodeOnlyWidth := btnCodeOnly.Width;
+  FbtnDefaultsQuestionsWidth := btnDefaultsQuestions.Width;
 end;
 
 destructor TDelphiAIDevChatView.Destroy;
@@ -201,10 +205,10 @@ begin
   Self.ConfScreenOnShow;
   Self.InitializeRichEditReturn;
   Self.ReadFromFile;
+  Self.ProcessWordWrap;
   //Self.GetSelectedBlockForQuestion;
 
   Self.AddItemsPopupMenuQuestion;
-
   TUtils.MemoFocusOnTheEnd(mmQuestion);
 end;
 
@@ -278,11 +282,14 @@ begin
 end;
 
 procedure TDelphiAIDevChatView.FormResize(Sender: TObject);
+var
+  LWidth: Integer;
 const
   CAPTION_UseCurrentUnitCode = 'Use current unit code in query';
   CAPTION_CodeOnly = 'Code only';
+  CAPTION_DefaultsQuestions = 'Questions';
 begin
-  if(Self.Width > 530)then
+  if Self.Width > 620 then
   begin
     btnUseCurrentUnitCode.Caption := CAPTION_UseCurrentUnitCode;
     btnUseCurrentUnitCode.Width := FbtnUseCurrentUnitCodeWidth;
@@ -291,16 +298,28 @@ begin
     btnCodeOnly.Caption := CAPTION_CodeOnly;
     btnCodeOnly.Width := FbtnCodeOnlyWidth;
     btnCodeOnly.ImageAlignment := TImageAlignment.iaLeft;
+
+    btnDefaultsQuestions.Caption := CAPTION_DefaultsQuestions;
+    btnDefaultsQuestions.Width := FbtnDefaultsQuestionsWidth;
+    btnDefaultsQuestions.ImageAlignment := TImageAlignment.iaLeft;
   end
   else
   begin
+    LWidth := btnSend.Width;
+    if Self.Width < 405 then
+      LWidth := 24;
+
     btnUseCurrentUnitCode.Caption := '';
-    btnUseCurrentUnitCode.Width := btnSend.Width;
+    btnUseCurrentUnitCode.Width := LWidth;
     btnUseCurrentUnitCode.ImageAlignment := TImageAlignment.iaCenter;
 
     btnCodeOnly.Caption := '';
-    btnCodeOnly.Width := btnSend.Width;
+    btnCodeOnly.Width := LWidth;
     btnCodeOnly.ImageAlignment := TImageAlignment.iaCenter;
+
+    btnDefaultsQuestions.Caption := '';
+    btnDefaultsQuestions.Width := LWidth;
+    btnDefaultsQuestions.ImageAlignment := TImageAlignment.iaCenter;
   end;
 end;
 
@@ -565,6 +584,11 @@ end;
 
 procedure TDelphiAIDevChatView.WordWrap1Click(Sender: TObject);
 begin
+  Self.ProcessWordWrap;
+end;
+
+procedure TDelphiAIDevChatView.ProcessWordWrap;
+begin
   if WordWrap1.Checked then
     mmReturn.ScrollBars := ssVertical
   else
@@ -635,6 +659,11 @@ begin
   LFileName := TUtils.GetFileName('rtf');
   mmReturn.Lines.SaveToFile(LFileName);
   TUtils.ShowV('File saved successfully');
+end;
+
+procedure TDelphiAIDevChatView.Clear1Click(Sender: TObject);
+begin
+  mmReturn.Lines.Clear;
 end;
 
 procedure TDelphiAIDevChatView.ClearContent1Click(Sender: TObject);
