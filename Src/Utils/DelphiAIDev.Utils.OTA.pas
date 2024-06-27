@@ -424,7 +424,7 @@ begin
 end;
 
 class procedure TUtilsOTA.IDEThemingAll(AFormClass: TCustomFormClass; AForm: TForm);
-{$IF CompilerVersion >= 32.0}
+{$IF CompilerVersion >= 32.0} //Tokyo
 var
   i: Integer;
   LIOTAIDEThemingServices250: IOTAIDEThemingServices250;
@@ -467,7 +467,7 @@ class function TUtilsOTA.ActiveThemeIsDark: Boolean;
 const
   THEME_DARK = 'dark';
 begin
-  {$IF CompilerVersion >= 32.0}
+  {$IF CompilerVersion >= 32.0} //Tokyo
     Result := Self.GetIOTAIDEThemingServices.ActiveTheme.ToLower.Equals(THEME_DARK);
   {$ELSE}
     Result := False;
@@ -496,8 +496,7 @@ begin
   end;
 end;
 
-{$IF CompilerVersion >= 32.0}
-
+{$IF CompilerVersion >= 32.0} //Tokyo
 class function TUtilsOTA.GetIOTAIDEThemingServices: IOTAIDEThemingServices;
 begin
   if(not Supports(BorlandIDEServices, IOTAIDEThemingServices, Result))then
@@ -510,7 +509,6 @@ begin
     raise Exception.Create('Interface not supported: IOTAIDEThemingServices250');
 end;
 {$ENDIF}
-
 
 class function TUtilsOTA.GetIOTACompileServices: IOTACompileServices;
 begin

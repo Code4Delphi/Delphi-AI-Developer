@@ -122,7 +122,11 @@ begin
       LJSONObject.AddPair('code_only', TJSONBool.Create(AFields.CodeOnly));
       LJSONArray.AddElement(LJSONObject);
 
-      LStringList.Text := LJSONArray.Format(2);
+      {$IF CompilerVersion <= 32.0} //Tokyo
+        LStringList.Text := LJSONArray.ToJSON;
+      {$ELSE}
+        LStringList.Text := LJSONArray.Format(2);
+      {$ENDIF}
     finally
       LJSONArray.Free;
     end;
@@ -183,7 +187,11 @@ begin
         end;
       end;
 
-      LStringList.Text := LJSONArray.Format(2);
+      {$IF CompilerVersion <= 32.0} //Tokyo
+        LStringList.Text := LJSONArray.ToJSON;
+      {$ELSE}
+        LStringList.Text := LJSONArray.Format(2);
+      {$ENDIF}
     finally
       LJSONArray.Free;
     end;
@@ -228,7 +236,11 @@ begin
         end;
       end;
 
-      LStringList.Text := LJSONArray.Format(2);
+      {$IF CompilerVersion <= 32.0} //Tokyo
+        LStringList.Text := LJSONArray.ToJSON;
+      {$ELSE}
+        LStringList.Text := LJSONArray.Format(2);
+      {$ENDIF}
     finally
       LJSONArray.Free;
     end;
