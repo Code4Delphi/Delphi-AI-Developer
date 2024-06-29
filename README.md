@@ -29,5 +29,28 @@ Receive suggestions for creating and improving code directly in the IDE and take
   </a>
 </p> 
 
+## ⚙️ Installation
+
+1 - Download Delphi AI Developer. You can download the .zip file or clone the project on your PC.
+![image](https://github.com/Code4Delphi/Delphi-AI-Developer/assets/33873267/a32c9333-6d5a-4036-9891-b97778bca90a)
+
+
+2 - In your Delphi, access the menu File > Open and select the file: Package\DelphiAIDeveloper.dpk
+
+![image](https://github.com/Code4Delphi/Delphi-AI-Developer/assets/33873267/775fdf6d-a7a0-44d5-9eb3-7db0e117fe49)
+
+
+3 - Right-click on the project name and select "Install"
+
+![image](https://github.com/Code4Delphi/Delphi-AI-Developer/assets/33873267/03dde077-8f28-4b99-a2a2-9565e862b392)
+
+
+4- The "AI Developer" item will be added to the IDE's MainMenu
+
+![image](https://github.com/Code4Delphi/Delphi-AI-Developer/assets/33873267/1c0ae468-ec44-4095-b299-65e873e79741)
+
+
+<br/>
+
 ## 📄 Documentation under construction
 **We will soon publish the complete documentation for the Plugin.** 
