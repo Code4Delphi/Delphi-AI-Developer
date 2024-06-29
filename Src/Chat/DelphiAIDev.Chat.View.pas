@@ -106,6 +106,7 @@ type
     FbtnUseCurrentUnitCodeWidth: Integer;
     FbtnCodeOnlyWidth: Integer;
     FbtnDefaultsQuestionsWidth: Integer;
+    FQuestionOnShow: string;
     procedure FillMemoReturnWithFile;
     procedure SaveMemoReturnInFile;
     procedure InitializeRichEditReturn;
@@ -129,6 +130,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    property QuestionOnShow: string write FQuestionOnShow;
   end;
 
 var
@@ -187,6 +189,7 @@ begin
   FChat := TDelphiAIDevChat.Create;
   FSettings := FChat.Settings.GetInstance;
   FPopupMenuQuestions := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
+  FQuestionOnShow := '';
 
   Self.ConfScreenOnCreate;
   Self.FillMemoReturnWithFile; ////
@@ -208,12 +211,20 @@ begin
   Self.ProcessWordWrap;
 
   Self.AddItemsPopupMenuQuestion;
+
   TUtils.MemoFocusOnTheEnd(mmQuestion);
 end;
 
 procedure TDelphiAIDevChatView.FormActivate(Sender: TObject);
 begin
   Self.ConfLabelCurrentAI;
+
+  if not FQuestionOnShow.Trim.IsEmpty then
+  begin
+    mmQuestion.Lines.Clear;
+    mmQuestion.Lines.Add(FQuestionOnShow);
+    FQuestionOnShow := '';
+  end;
 end;
 
 procedure TDelphiAIDevChatView.ConfScreenOnCreate;
