@@ -106,8 +106,9 @@ type
     FbtnUseCurrentUnitCodeWidth: Integer;
     FbtnCodeOnlyWidth: Integer;
     FbtnDefaultsQuestionsWidth: Integer;
-    procedure ReadFromFile;
-    procedure WriteToFile;
+    FQuestionOnShow: string;
+    procedure FillMemoReturnWithFile;
+    procedure SaveMemoReturnInFile;
     procedure InitializeRichEditReturn;
     procedure ProcessSend;
     procedure AddResponseSimple(const AString: string);
@@ -125,9 +126,11 @@ type
     procedure AddItemsPopupMenuQuestion;
     procedure DoProcessClickInItemDefaultQuestions(ACodeOnly: Boolean; AQuestion: string);
     procedure ProcessWordWrap;
+    procedure ConfScreenOnCreate;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    property QuestionOnShow: string write FQuestionOnShow;
   end;
 
 var
@@ -186,15 +189,15 @@ begin
   FChat := TDelphiAIDevChat.Create;
   FSettings := FChat.Settings.GetInstance;
   FPopupMenuQuestions := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
+  FQuestionOnShow := '';
 
-  pnWait.Visible := False;
-  FbtnUseCurrentUnitCodeWidth := btnUseCurrentUnitCode.Width;
-  FbtnCodeOnlyWidth := btnCodeOnly.Width;
-  FbtnDefaultsQuestionsWidth := btnDefaultsQuestions.Width;
+  Self.ConfScreenOnCreate;
+  Self.FillMemoReturnWithFile; ////
 end;
 
 destructor TDelphiAIDevChatView.Destroy;
 begin
+  Self.SaveMemoReturnInFile; ////
   FPopupMenuQuestions.Free;
   FChat.Free;
   inherited;
@@ -204,12 +207,48 @@ procedure TDelphiAIDevChatView.FormShow(Sender: TObject);
 begin
   Self.ConfScreenOnShow;
   Self.InitializeRichEditReturn;
-  Self.ReadFromFile;
+  ////Self.FillMemoReturnWithFile;
   Self.ProcessWordWrap;
-  //Self.GetSelectedBlockForQuestion;
 
   Self.AddItemsPopupMenuQuestion;
+
   TUtils.MemoFocusOnTheEnd(mmQuestion);
+end;
+
+procedure TDelphiAIDevChatView.FormActivate(Sender: TObject);
+begin
+  Self.ConfLabelCurrentAI;
+
+  if not FQuestionOnShow.Trim.IsEmpty then
+  begin
+    mmQuestion.Lines.Clear;
+    mmQuestion.Lines.Add(FQuestionOnShow);
+    FQuestionOnShow := '';
+  end;
+end;
+
+procedure TDelphiAIDevChatView.ConfScreenOnCreate;
+begin
+  mmReturn.Lines.Clear;
+
+  pnWait.Visible := False;
+  FbtnUseCurrentUnitCodeWidth := btnUseCurrentUnitCode.Width;
+  FbtnCodeOnlyWidth := btnCodeOnly.Width;
+  FbtnDefaultsQuestionsWidth := btnDefaultsQuestions.Width;
+
+  ShapeCommands.Left := 0;
+  ShapeCommands.Top := 0;
+  ShapeCommands.Width := ShapeCommands.Parent.Width;
+  ShapeCommands.Height := ShapeCommands.Parent.Height;
+end;
+
+procedure TDelphiAIDevChatView.ConfScreenOnShow;
+begin
+  TUtilsOTA.IDEThemingAll(TDelphiAIDevChatView, Self);
+  btnMoreActions.Font.Color := TUtilsOTA.ActiveThemeColorDefault;
+
+  Self.Constraints.MinWidth := 200;
+  Self.Constraints.MinHeight := 300;
 end;
 
 procedure TDelphiAIDevChatView.AddItemsPopupMenuQuestion;
@@ -219,8 +258,7 @@ begin
     .CreateMenus(pMenuQuestions);
 end;
 
-procedure TDelphiAIDevChatView.DoProcessClickInItemDefaultQuestions(
-  ACodeOnly: Boolean; AQuestion: string);
+procedure TDelphiAIDevChatView.DoProcessClickInItemDefaultQuestions(ACodeOnly: Boolean; AQuestion: string);
 begin
   if ACodeOnly then
     btnCodeOnly.ImageIndex := CodeOnly_ImageIndex_ON
@@ -228,25 +266,6 @@ begin
     btnCodeOnly.ImageIndex := CodeOnly_ImageIndex_OFF;
 
   mmQuestion.Lines.Add(AQuestion);
-end;
-
-procedure TDelphiAIDevChatView.ConfScreenOnShow;
-begin
-  TUtilsOTA.IDEThemingAll(TDelphiAIDevChatView, Self);
-  Self.Constraints.MinWidth := 150;
-  Self.Constraints.MinHeight := 150;
-
-  btnMoreActions.Font.Color := TUtilsOTA.ActiveThemeColorDefault;
-
-  ShapeCommands.Left := 0;
-  ShapeCommands.Top := 0;
-  ShapeCommands.Width := ShapeCommands.Parent.Width;
-  ShapeCommands.Height := ShapeCommands.Parent.Height;
-end;
-
-procedure TDelphiAIDevChatView.FormActivate(Sender: TObject);
-begin
-  Self.ConfLabelCurrentAI;
 end;
 
 procedure TDelphiAIDevChatView.mmQuestionChange(Sender: TObject);
@@ -268,7 +287,7 @@ end;
 
 procedure TDelphiAIDevChatView.mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (ssCtrl in Shift)and(Key = 65)then
+  if (ssCtrl in Shift)and(Key = 65) then
   begin
     mmQuestion.SelectAll;
     Key := 0;
@@ -277,7 +296,7 @@ end;
 
 procedure TDelphiAIDevChatView.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Self.WriteToFile;
+  ////Self.SaveMemoReturnInFile;
   Self.WaitingFormOFF;
 end;
 
@@ -323,20 +342,20 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevChatView.ReadFromFile;
+procedure TDelphiAIDevChatView.FillMemoReturnWithFile;
 begin
   if(FileExists(TUtils.GetPathFileChat))then
     mmReturn.Lines.LoadFromFile(TUtils.GetPathFileChat)
 end;
 
+procedure TDelphiAIDevChatView.SaveMemoReturnInFile;
+begin
+  mmReturn.Lines.SaveToFile(TUtils.GetPathFileChat);
+end;
+
 procedure TDelphiAIDevChatView.SelectAll1Click(Sender: TObject);
 begin
   mmReturn.SelectAll;
-end;
-
-procedure TDelphiAIDevChatView.WriteToFile;
-begin
-  mmReturn.Lines.SaveToFile(TUtils.GetPathFileChat);
 end;
 
 procedure TDelphiAIDevChatView.cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
@@ -678,7 +697,7 @@ end;
 
 procedure TDelphiAIDevChatView.InitializeRichEditReturn;
 begin
-  mmReturn.Lines.Clear;
+  //mmReturn.Lines.Clear;
   mmReturn.SelAttributes.Name := 'Courier New';
   mmReturn.SelAttributes.Size := 10;
 

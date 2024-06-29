@@ -81,7 +81,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       ShowHint = True
       TabOrder = 1
       Zoom = 100
-      ExplicitTop = 18
     end
     object pnBackQuestion: TPanel
       Left = 18
@@ -188,7 +187,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
           Margins.Bottom = 0
           Align = alRight
           Caption = '* Use current unit code in query * '
-          ImageIndex = 1
+          ImageIndex = 0
           Images = ImageList1
           TabOrder = 0
           OnClick = btnUseCurrentUnitCodeClick
@@ -229,7 +228,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
           PopupMenu = pMenuQuestions
           TabOrder = 2
           OnClick = btnDefaultsQuestionsClick
-          ExplicitLeft = 126
         end
       end
     end

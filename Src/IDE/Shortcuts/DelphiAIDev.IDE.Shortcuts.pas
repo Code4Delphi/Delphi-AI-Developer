@@ -8,7 +8,8 @@ uses
   Winapi.Windows,
   Vcl.Menus,
   ToolsAPI,
-  DelphiAIDev.Utils.CnWizard;
+  DelphiAIDev.Utils.CnWizard,
+  DelphiAIDev.Chat.View;
 
 type
   TDelphiAIDevIDEShortcuts = class(TNotifierObject, IOTAKeyboardBinding)
@@ -37,13 +38,13 @@ var
 
 procedure RegisterSelf;
 begin
-//  if(Index < 0)and(true)then
+//  if Index < 0 then
 //    Index := TUtilsOTA.GetIOTAKeyboardServices.AddKeyboardBinding(TDelphiAIDevIDEShortcuts.New);
 end;
 
 procedure UnRegisterSelf;
 begin
-  if(Index >= 0)then
+  if Index >= 0 then
   begin
     TUtilsOTA.GetIOTAKeyboardServices.RemoveKeyboardBinding(Index);
     Index := -1;
@@ -81,21 +82,35 @@ begin
   if TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ then
     Exit;
 
+  Exit;
   BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [])], Self.KeyProcBlockReturn, nil);
   BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [ssAlt])], Self.KeyProcBlockReturnAndAlt, nil);
 end;
 
 procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 begin
+  Exit;
+
   TUtils.AddLog(GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
   BindingResult := krNextProc; //krUnhandled;
 end;
 
 procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+var
+  LTextCurrentLineOrBlock: string;
 begin
-  TUtils.AddLog('Enter and Alt' + GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
+  //TUtils.AddLog('Enter and Alt' + GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
+
+  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView);
+  if LTextCurrentLineOrBlock.Trim.IsEmpty then
+    Exit;
+
+  DelphiAIDev.Chat.View.DelphiAIDevChatView.QuestionOnShow := LTextCurrentLineOrBlock;
+  DelphiAIDev.Chat.View.DelphiAIDevChatViewShowDockableForm;
+
   BindingResult := krNextProc; //krUnhandled;
 end;
+
 initialization
 
 finalization
