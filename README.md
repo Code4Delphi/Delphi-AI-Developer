@@ -49,6 +49,11 @@ Receive suggestions for creating and improving code directly in the IDE and take
 
 ![image](https://github.com/Code4Delphi/Delphi-AI-Developer/assets/33873267/1c0ae468-ec44-4095-b299-65e873e79741)
 
+<br/>
+
+## ▶️ Demo Video
+We have also created a video with details on how to download, install and use the plugin. The video is in Portuguese (ptBR), but we are providing subtitles and possibly a video in English.
+* [https://www.youtube.com/watch?v=2NAlUFK2FGs](https://www.youtube.com/watch?v=2NAlUFK2FGs)
 
 <br/>
 
