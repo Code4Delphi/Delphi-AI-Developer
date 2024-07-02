@@ -193,12 +193,12 @@ begin
   FQuestionOnShow := '';
 
   Self.ConfScreenOnCreate;
-  Self.FillMemoReturnWithFile; ////
+  Self.FillMemoReturnWithFile;
 end;
 
 destructor TDelphiAIDevChatView.Destroy;
 begin
-  Self.SaveMemoReturnInFile; ////
+  Self.SaveMemoReturnInFile;
   FPopupMenuQuestions.Free;
   FChat.Free;
   inherited;
@@ -208,11 +208,8 @@ procedure TDelphiAIDevChatView.FormShow(Sender: TObject);
 begin
   Self.ConfScreenOnShow;
   Self.InitializeRichEditReturn;
-  ////Self.FillMemoReturnWithFile;
   Self.ProcessWordWrap;
-
   Self.AddItemsPopupMenuQuestion;
-
   TUtils.MemoFocusOnTheEnd(mmQuestion);
 end;
 
@@ -297,7 +294,6 @@ end;
 
 procedure TDelphiAIDevChatView.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  ////Self.SaveMemoReturnInFile;
   Self.WaitingFormOFF;
 end;
 
@@ -731,7 +727,6 @@ end;
 
 procedure TDelphiAIDevChatView.InitializeRichEditReturn;
 begin
-  //mmReturn.Lines.Clear;
   mmReturn.SelAttributes.Name := 'Courier New';
   mmReturn.SelAttributes.Size := 10;
 

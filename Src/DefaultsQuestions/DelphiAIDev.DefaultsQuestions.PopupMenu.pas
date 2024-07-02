@@ -11,7 +11,8 @@ uses
   DelphiAIDev.Types,
   DelphiAIDev.DefaultsQuestions.Fields,
   DelphiAIDev.DefaultsQuestions.Model,
-  DelphiAIDev.Utils.ABMenuAction;
+  DelphiAIDev.Utils.ABMenuAction,
+  DelphiAIDev.DefaultsQuestions.View;
 
 type
   TDelphiAIDevDefaultsQuestionsPopupMenu = class
@@ -25,6 +26,8 @@ type
       const AFields: TDelphiAIDevDefaultsQuestionsFields): TMenuItem;
     procedure ItemMenuClick(Sender: TObject);
     procedure ClickFromString(const AStringClick: String);
+    procedure CreateItemCustomize;
+    procedure CustomizeClick(Sender: TObject);
   public
     function ProcessClickInItem(AProc: TProc<Boolean, string>): TDelphiAIDevDefaultsQuestionsPopupMenu;
     procedure CreateMenus(const APopupMenu: TPopupMenu);
@@ -51,6 +54,8 @@ procedure TDelphiAIDevDefaultsQuestionsPopupMenu.CreateMenus(const APopupMenu: T
 begin
   FPopupMenu := APopupMenu;
   FPopupMenu.Items.Clear;
+
+  Self.CreateItemCustomize;
 
   FList.Clear;
 
@@ -79,7 +84,6 @@ begin
       LFields.CodeOnly := AFields.CodeOnly;
 
       FList.Add(LFields);
-
     end
   );
 
@@ -172,7 +176,7 @@ begin
   else
     LMenuItem := TMenuItem.Create(FPopupMenu);
 
-  LMenuItem.Name := 'DelphiAIDevItemMenu' + TUtils.IncInt(FCont).ToString;
+  LMenuItem.Name := 'C4DDefaultsQuestionsItemMenu' + TUtils.IncInt(FCont).ToString;
   LMenuItem.Caption := AFields.Caption;
   LMenuItem.OnClick := Self.ItemMenuClick;
   LMenuItem.Hint := AFields.CodeOnly.ToString(TUseBoolStrs.True)
@@ -185,6 +189,24 @@ begin
     FPopupMenu.Items.Add(LMenuItem);
 
   Result := LMenuItem;
+end;
+
+procedure TDelphiAIDevDefaultsQuestionsPopupMenu.CreateItemCustomize;
+var
+  LMenuItem: TMenuItem;
+begin
+  LMenuItem := TMenuItem.Create(FPopupMenu);
+  LMenuItem.Name := 'C4DDefaultsQuestionsCustomize1';
+  LMenuItem.Caption := 'Customize...';
+  LMenuItem.OnClick := Self.CustomizeClick;
+  LMenuItem.Hint := 'Customize Questions';
+  LMenuItem.ImageIndex := -1;
+  FPopupMenu.Items.Add(LMenuItem);
+end;
+
+procedure TDelphiAIDevDefaultsQuestionsPopupMenu.CustomizeClick(Sender: TObject);
+begin
+  DelphiAIDev.DefaultsQuestions.View.DelphiAIDevDefaultsQuestionsViewShow;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsPopupMenu.ItemMenuClick(Sender: TObject);
