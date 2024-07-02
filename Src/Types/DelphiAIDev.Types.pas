@@ -10,6 +10,7 @@ uses
 type
   {$SCOPEDENUMS ON}
   TC4DAIsAvailable = (Gemini, OpenAI);
+  TC4DLanguage = (en, ptBR, es);
   TC4DExtensionsFiles = (None, PAS, DFM, FMX, DPR, DPK, DPROJ, ZIP, BMP, INI, ALL);
   TC4DExtensionsOfFiles = set of TC4DExtensionsFiles;
   TC4DExtensionsCommon = (rtf);
@@ -21,6 +22,12 @@ type
 
   TC4DAIsAvailableHelper = record helper for TC4DAIsAvailable
     function ToString: string;
+    function ToStringWithCreator: string;
+  end;
+
+  TC4DLanguageHelper = record helper for TC4DLanguage
+    function ToString: string;
+    function GetMsgCodeOnly: string;
   end;
 
   TC4DExtensionsFilesHelper = record helper for TC4DExtensionsFiles
@@ -50,8 +57,50 @@ uses
 function TC4DAIsAvailableHelper.ToString: string;
 begin
   case Self of
-    TC4DAIsAvailable.Gemini: Result := 'Gemini';
-    TC4DAIsAvailable.OpenAI: Result := 'ChatGPT';
+    TC4DAIsAvailable.Gemini:
+      Result := 'Gemini';
+    TC4DAIsAvailable.OpenAI:
+      Result := 'ChatGPT';
+  else
+    Result := GetEnumName(TypeInfo(TC4DAIsAvailable), Integer(Self));
+  end;
+end;
+
+function TC4DAIsAvailableHelper.ToStringWithCreator: string;
+begin
+  case Self of
+    TC4DAIsAvailable.Gemini:
+      Result := 'Gemini (Google)';
+    TC4DAIsAvailable.OpenAI:
+      Result := 'ChatGPT (OpenAI)';
+  else
+    Result := GetEnumName(TypeInfo(TC4DAIsAvailable), Integer(Self));
+  end;
+end;
+
+{ TC4DLanguageHelper }
+function TC4DLanguageHelper.ToString: string;
+begin
+  case Self of
+    TC4DLanguage.en:
+      Result := 'English';
+    TC4DLanguage.ptBR:
+      Result := 'Português Brasil (pt-br)';
+    TC4DLanguage.es:
+      Result := 'Español';
+  else
+    Result := GetEnumName(TypeInfo(TC4DLanguage), Integer(Self));
+  end;
+end;
+
+function TC4DLanguageHelper.GetMsgCodeOnly: string;
+begin
+  Result := 'Faça a seguinte ação sem adicionar comentários: ' + sLineBreak;
+  case Self of
+    TC4DLanguage.en:
+      Result := 'Perform the following action without adding comments: ' + sLineBreak;
+    TC4DLanguage.es:
+      Result := 'Realice la siguiente acción sin agregar comentarios.: ' + sLineBreak;
   end;
 end;
 
@@ -105,7 +154,6 @@ begin
 end;
 
 { TC4DQuestionKindHelper }
-
 function TC4DQuestionKindHelper.ToString: string;
 begin
   if(Self = TC4DQuestionKind.ItemMenuNormal)then

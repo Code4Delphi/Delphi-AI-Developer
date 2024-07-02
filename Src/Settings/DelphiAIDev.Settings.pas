@@ -15,6 +15,7 @@ uses
 type
   TDelphiAIDevSettings = class
   private
+    FLanguageQuestions: TC4DLanguage;
     FAIDefault: TC4DAIsAvailable;
     FColorHighlightCodeDelphiUse: Boolean;
     FColorHighlightCodeDelphi: TColor;
@@ -28,6 +29,7 @@ type
     FApiKeyOpenAI: string;
 
     const
+    FIELD_LanguageQuestions =  'LanguageQuestions';
     FIELD_AIDefault = 'AIDefault';
     FIELD_ColorHighlightCodeDelphiUse = 'ColorHighlightCodeDelphiUse';
     FIELD_ColorHighlightCodeDelphi =  'ColorHighlightCodeDelphi';
@@ -45,10 +47,10 @@ type
     procedure SaveData;
     procedure LoadData;
 
+    property LanguageQuestions: TC4DLanguage read FLanguageQuestions write FLanguageQuestions;
     property AIDefault: TC4DAIsAvailable read FAIDefault write FAIDefault;
     property ColorHighlightCodeDelphiUse: Boolean read FColorHighlightCodeDelphiUse write FColorHighlightCodeDelphiUse;
     property ColorHighlightCodeDelphi: TColor read FColorHighlightCodeDelphi write FColorHighlightCodeDelphi;
-
 
     property BaseUrlGemini: string read FBaseUrlGemini write FBaseUrlGemini;
     property ModelGemini: string read FModelGemini write FModelGemini;
@@ -78,6 +80,7 @@ end;
 
 procedure TDelphiAIDevSettings.LoadDefaults;
 begin
+  FLanguageQuestions := TC4DLanguage.ptBR;
   FAIDefault := TC4DAIsAvailable.Gemini;
 
   FColorHighlightCodeDelphiUse := False;
@@ -103,6 +106,7 @@ begin
     if not(LReg.OpenKey(TConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, True))then
       raise Exception.Create('Unable to save settings to Windows registry');
 
+    LReg.WriteInteger(FIELD_LanguageQuestions, Integer(FLanguageQuestions));
     LReg.WriteInteger(FIELD_AIDefault, Integer(FAIDefault));
 
     LReg.WriteBool(FIELD_ColorHighlightCodeDelphiUse, FColorHighlightCodeDelphiUse);
@@ -133,6 +137,9 @@ begin
 
       if not(LReg.OpenKey(TConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, False)) then
         Exit;
+
+      if LReg.ValueExists(FIELD_LanguageQuestions) then
+        FLanguageQuestions := TC4DLanguage(LReg.ReadInteger(FIELD_LanguageQuestions));
 
       if LReg.ValueExists(FIELD_AIDefault) then
         FAIDefault := TC4DAIsAvailable(LReg.ReadInteger(FIELD_AIDefault));
