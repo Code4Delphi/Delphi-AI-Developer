@@ -31,7 +31,6 @@ type
     btnRemove: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
@@ -45,19 +44,14 @@ type
     procedure ListViewColumnClick(Sender: TObject; Column: TListColumn);
   private
     FUtilsListView: IDelphiAIDevUtilsListView;
-    FReloadPopupMenuChat: Boolean;
+    FMadeChanges: Boolean;
     procedure ReloadData;
     procedure ReloadDataInternal;
     procedure FillStatusBar(AItem: TListItem);
     procedure FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDefaultsQuestionsFields);
   public
-
+    property MadeChanges: Boolean read FMadeChanges;
   end;
-
-var
-  DelphiAIDevDefaultsQuestionsView: TDelphiAIDevDefaultsQuestionsView;
-
-procedure DelphiAIDevDefaultsQuestionsViewShow;
 
 implementation
 
@@ -77,16 +71,6 @@ const
   C_INDEX_SUBITEM_GuidMenuMaster = 5;
   C_INDEX_SUBITEM_Question = 6;
 
-procedure DelphiAIDevDefaultsQuestionsViewShow;
-begin
-  DelphiAIDevDefaultsQuestionsView := TDelphiAIDevDefaultsQuestionsView.Create(nil);
-  try
-    DelphiAIDevDefaultsQuestionsView.ShowModal;
-  finally
-    FreeAndNil(DelphiAIDevDefaultsQuestionsView);
-  end;
-end;
-
 procedure TDelphiAIDevDefaultsQuestionsView.FormCreate(Sender: TObject);
 begin
   TUtilsOTA.IDEThemingAll(TDelphiAIDevDefaultsQuestionsView, Self);
@@ -99,7 +83,7 @@ begin
 
   if(ListView.Items.Count > 0)then
     ListView.Items.Item[0].Selected := True;
-  FReloadPopupMenuChat := False;
+  FMadeChanges := False;
   edtSearch.SetFocus;
 
   FUtilsListView
@@ -107,14 +91,6 @@ begin
     .SortStyle(TDelphiAIDevUtilsListViewSortStyle.Numeric)
     .ColumnIndex(C_INDEX_SUBITEM_Order + 1)
     .CustomSort;
-end;
-
-procedure TDelphiAIDevDefaultsQuestionsView.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  if(FReloadPopupMenuChat)then
-  begin
-    //
-  end;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -147,7 +123,6 @@ end;
 procedure TDelphiAIDevDefaultsQuestionsView.btnCloseClick(Sender: TObject);
 begin
   Self.Close;
-  Self.ModalResult := mrCancel;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -312,7 +287,7 @@ begin
       if(LView.ShowModal <> mrOk)then
         Exit;
 
-      FReloadPopupMenuChat := True;
+      FMadeChanges := True;
     finally
       LView.Free;
     end;
@@ -344,7 +319,7 @@ begin
       if(LView.ShowModal <> mrOk)then
         Exit;
 
-      FReloadPopupMenuChat := True;
+      FMadeChanges := True;
     finally
       LView.Free;
     end;
@@ -376,7 +351,7 @@ begin
     TDelphiAIDevDefaultsQuestionsModel.New.RemoveData(LGuid);
     Self.ReloadData;
   finally
-    FReloadPopupMenuChat := True;
+    FMadeChanges := True;
     Screen.Cursor := crDefault;
   end;
 end;

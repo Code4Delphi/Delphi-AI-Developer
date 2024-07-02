@@ -2,7 +2,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
   Left = 0
   Top = 0
   Caption = 'Delphi AI Developer - Settings'
-  ClientHeight = 516
+  ClientHeight = 537
   ClientWidth = 632
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,100 +18,32 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object pnBottom: TPanel
-    Left = 0
-    Top = 481
-    Width = 632
-    Height = 35
-    Align = alBottom
-    BevelEdges = [beLeft, beRight, beBottom]
-    BevelOuter = bvNone
-    Padding.Left = 2
-    Padding.Top = 2
-    Padding.Right = 2
-    Padding.Bottom = 2
-    ParentBackground = False
-    TabOrder = 0
-    object lbRestoreDefaults: TLabel
-      AlignWithMargins = True
-      Left = 18
-      Top = 12
-      Width = 80
-      Height = 18
-      Cursor = crHandPoint
-      Margins.Left = 16
-      Margins.Top = 10
-      Align = alLeft
-      Caption = 'Restore defaults'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      Layout = tlCenter
-      OnClick = lbRestoreDefaultsClick
-      ExplicitHeight = 13
-    end
-    object btnConfirm: TButton
-      AlignWithMargins = True
-      Left = 404
-      Top = 2
-      Width = 110
-      Height = 31
-      Cursor = crHandPoint
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alRight
-      Caption = 'Confirm'
-      TabOrder = 0
-      OnClick = btnConfirmClick
-    end
-    object btnClose: TButton
-      AlignWithMargins = True
-      Left = 517
-      Top = 2
-      Width = 110
-      Height = 31
-      Cursor = crHandPoint
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alRight
-      Caption = 'Close'
-      TabOrder = 1
-      OnClick = btnCloseClick
-    end
-  end
-  object pnlMain: TPanel
+  object pnBackAll: TPanel
     Left = 0
     Top = 0
     Width = 632
-    Height = 481
+    Height = 537
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 1
+    TabOrder = 0
     object pnBody: TPanel
       Left = 0
       Top = 0
       Width = 632
-      Height = 481
+      Height = 502
       Align = alClient
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 0
       object gBoxGemini: TGroupBox
         Left = 0
-        Top = 84
+        Top = 110
         Width = 632
         Height = 163
         Align = alTop
         Caption = ' Gemini (Google) '
         ParentBackground = False
-        TabOrder = 0
+        TabOrder = 1
         object pnGeminiBack: TPanel
           AlignWithMargins = True
           Left = 5
@@ -249,14 +181,14 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Width = 563
             Height = 21
             PasswordChar = '*'
-            TabOrder = 1
+            TabOrder = 2
           end
           object cBoxModelGemini: TComboBox
             Left = 267
             Top = 20
             Width = 333
             Height = 21
-            TabOrder = 2
+            TabOrder = 1
             Items.Strings = (
               'v1/models/gemini-1.5-flash:generateContent'
               'v1beta/models/gemini-pro:generateContent'
@@ -268,49 +200,66 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 0
         Top = 0
         Width = 632
-        Height = 84
+        Height = 110
         Align = alTop
         Caption = ' Preferences '
         ParentBackground = False
-        TabOrder = 1
+        TabOrder = 0
         object Label11: TLabel
-          Left = 17
+          Left = 272
           Top = 23
           Width = 48
           Height = 13
           Caption = 'AI default'
         end
+        object Label4: TLabel
+          Left = 21
+          Top = 23
+          Width = 133
+          Height = 13
+          Caption = 'Language used in questions'
+        end
         object cBoxAIDefault: TComboBox
-          Left = 17
+          Left = 272
           Top = 38
-          Width = 249
+          Width = 333
           Height = 21
           Style = csDropDownList
-          TabOrder = 0
+          TabOrder = 1
           Items.Strings = (
-            'Gemini'
-            'OpenAI (ChatGPT)')
+            '')
         end
         object ColorBoxColorHighlightCodeDelphi: TColorBox
-          Left = 472
-          Top = 38
+          Left = 218
+          Top = 72
           Width = 133
           Height = 22
-          TabOrder = 1
+          TabOrder = 3
         end
         object ckColorHighlightCodeDelphiUse: TCheckBox
-          Left = 272
-          Top = 40
-          Width = 197
+          Left = 21
+          Top = 74
+          Width = 194
           Height = 17
           Caption = 'Color to highlight Delphi/Pascal code'
           TabOrder = 2
           OnClick = ckColorHighlightCodeDelphiUseClick
         end
+        object cBoxLanguageQuestions: TComboBox
+          Left = 21
+          Top = 38
+          Width = 249
+          Height = 21
+          Hint = 'What is the standard language for questions?'
+          Style = csDropDownList
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+        end
       end
       object gBoxOpenAI: TGroupBox
         Left = 0
-        Top = 247
+        Top = 273
         Width = 632
         Height = 163
         Align = alTop
@@ -342,7 +291,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Caption = 'API key'
           end
           object Label2: TLabel
-            Left = 476
+            Left = 478
             Top = 5
             Width = 28
             Height = 13
@@ -436,7 +385,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Width = 563
             Height = 21
             PasswordChar = '*'
-            TabOrder = 1
+            TabOrder = 2
           end
           object cBoxModelOpenAI: TComboBox
             Left = 478
@@ -444,7 +393,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Width = 122
             Height = 21
             Style = csDropDownList
-            TabOrder = 2
+            TabOrder = 1
             Items.Strings = (
               'gpt-3.5-turbo'
               'gpt-3.5-turbo-16k'
@@ -452,6 +401,102 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               'gpt-4-32k')
           end
         end
+      end
+      object gboxData: TGroupBox
+        Left = 0
+        Top = 436
+        Width = 632
+        Height = 58
+        Align = alTop
+        Caption = ' Data '
+        Padding.Left = 2
+        Padding.Top = 5
+        Padding.Bottom = 3
+        TabOrder = 3
+        ExplicitTop = 426
+        ExplicitWidth = 686
+        object btnOpenDataFolder: TButton
+          Left = 4
+          Top = 20
+          Width = 122
+          Height = 33
+          Cursor = crHandPoint
+          Align = alLeft
+          Caption = 'Open Data Folder'
+          TabOrder = 0
+          OnClick = btnOpenDataFolderClick
+        end
+      end
+    end
+    object pnBottom: TPanel
+      Left = 0
+      Top = 502
+      Width = 632
+      Height = 35
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alBottom
+      BevelEdges = [beLeft, beRight, beBottom]
+      BevelOuter = bvNone
+      Padding.Top = 2
+      Padding.Right = 2
+      Padding.Bottom = 2
+      ParentBackground = False
+      TabOrder = 1
+      object lbRestoreDefaults: TLabel
+        AlignWithMargins = True
+        Left = 16
+        Top = 12
+        Width = 80
+        Height = 18
+        Cursor = crHandPoint
+        Margins.Left = 16
+        Margins.Top = 10
+        Align = alLeft
+        Caption = 'Restore defaults'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Layout = tlCenter
+        OnClick = lbRestoreDefaultsClick
+        ExplicitHeight = 13
+      end
+      object btnConfirm: TButton
+        AlignWithMargins = True
+        Left = 404
+        Top = 2
+        Width = 110
+        Height = 31
+        Cursor = crHandPoint
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Bottom = 0
+        Align = alRight
+        Caption = 'Confirm'
+        TabOrder = 0
+        OnClick = btnConfirmClick
+      end
+      object btnClose: TButton
+        AlignWithMargins = True
+        Left = 517
+        Top = 2
+        Width = 110
+        Height = 31
+        Cursor = crHandPoint
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Bottom = 0
+        Align = alRight
+        Caption = 'Close'
+        TabOrder = 1
+        OnClick = btnCloseClick
       end
     end
   end

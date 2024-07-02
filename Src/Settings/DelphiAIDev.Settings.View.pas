@@ -23,7 +23,7 @@ type
     pnBottom: TPanel;
     btnConfirm: TButton;
     btnClose: TButton;
-    pnlMain: TPanel;
+    pnBackAll: TPanel;
     pnBody: TPanel;
     gBoxGemini: TGroupBox;
     pnGeminiBack: TPanel;
@@ -54,6 +54,10 @@ type
     ColorBoxColorHighlightCodeDelphi: TColorBox;
     ckColorHighlightCodeDelphiUse: TCheckBox;
     lbLinkGemini03: TLabel;
+    Label4: TLabel;
+    cBoxLanguageQuestions: TComboBox;
+    gboxData: TGroupBox;
+    btnOpenDataFolder: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -65,12 +69,15 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure lbRestoreDefaultsClick(Sender: TObject);
     procedure ckColorHighlightCodeDelphiUseClick(Sender: TObject);
+    procedure btnOpenDataFolderClick(Sender: TObject);
   private
     FSettings: TDelphiAIDevSettings;
     procedure SaveSettings;
     procedure LoadSettings;
     procedure ConfigScreen;
     procedure ConfigFieldsColorHighlightDelphi;
+    procedure FillcBoxLanguageQuestions;
+    procedure FillcBoxAIDefault;
   public
 
   end;
@@ -90,19 +97,40 @@ procedure TDelphiAIDevSettingsView.FormCreate(Sender: TObject);
 begin
   TUtilsOTA.IDEThemingAll(TDelphiAIDevSettingsView, Self);
   FSettings := TDelphiAIDevSettings.GetInstance;
+
+  Self.FillcBoxLanguageQuestions;
+  Self.FillcBoxAIDefault;
 end;
 
 procedure TDelphiAIDevSettingsView.FormShow(Sender: TObject);
 begin
   FSettings.LoadData;
   Self.ConfigScreen;
-  FSettings.LoadData;
+  //FSettings.LoadData;
   Self.LoadSettings;
 end;
 
 procedure TDelphiAIDevSettingsView.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FSettings.LoadData;
+end;
+
+procedure TDelphiAIDevSettingsView.FillcBoxLanguageQuestions;
+var
+  LItem: TC4DLanguage;
+begin
+  cBoxLanguageQuestions.Items.Clear;
+  for LItem := Low(TC4DLanguage) to High(TC4DLanguage) do
+    cBoxLanguageQuestions.Items.Add(LItem.ToString);
+end;
+
+procedure TDelphiAIDevSettingsView.FillcBoxAIDefault;
+var
+  LItem: TC4DAIsAvailable;
+begin
+  cBoxAIDefault.Items.Clear;
+  for LItem := Low(TC4DAIsAvailable) to High(TC4DAIsAvailable) do
+    cBoxAIDefault.Items.Add(LItem.ToString);
 end;
 
 procedure TDelphiAIDevSettingsView.ConfigScreen;
@@ -187,6 +215,7 @@ end;
 
 procedure TDelphiAIDevSettingsView.LoadSettings;
 begin
+  cBoxLanguageQuestions.ItemIndex := Integer(FSettings.LanguageQuestions);
   cBoxAIDefault.ItemIndex := Integer(FSettings.AIDefault);
 
   ckColorHighlightCodeDelphiUse.Checked := FSettings.ColorHighlightCodeDelphiUse;
@@ -204,6 +233,7 @@ end;
 
 procedure TDelphiAIDevSettingsView.SaveSettings;
 begin
+  FSettings.LanguageQuestions := TC4DLanguage(cBoxLanguageQuestions.ItemIndex);
   FSettings.AIDefault := TC4DAIsAvailable(cBoxAIDefault.ItemIndex);
 
   FSettings.ColorHighlightCodeDelphiUse := ckColorHighlightCodeDelphiUse.Checked;
@@ -218,6 +248,17 @@ begin
   FSettings.ApiKeyOpenAI := edtApiKeyOpenAI.Text;
 
   FSettings.SaveData;
+end;
+
+procedure TDelphiAIDevSettingsView.btnOpenDataFolderClick(Sender: TObject);
+var
+  LPathFolder: string;
+begin
+  LPathFolder := TUtils.GetPathFolderRoot;
+  if(not DirectoryExists(LPathFolder))then
+    TUtils.ShowMsg('Forder not found: ' + LPathFolder);
+
+  TUtils.OpenFolder(LPathFolder);
 end;
 
 end.

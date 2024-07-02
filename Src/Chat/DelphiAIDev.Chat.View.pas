@@ -63,7 +63,6 @@ type
     pMenuMoreActions: TPopupMenu;
     SaveContentToFile1: TMenuItem;
     btnCreateNewUnit: TSpeedButton;
-    ClearContent1: TMenuItem;
     Clear1: TMenuItem;
     N2: TMenuItem;
     WordWrap1: TMenuItem;
@@ -72,6 +71,7 @@ type
     btnCodeOnly: TButton;
     btnDefaultsQuestions: TButton;
     pMenuQuestions: TPopupMenu;
+    btnCleanAll: TSpeedButton;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -92,13 +92,13 @@ type
     procedure btnMoreActionsClick(Sender: TObject);
     procedure SaveContentToFile1Click(Sender: TObject);
     procedure btnCreateNewUnitClick(Sender: TObject);
-    procedure ClearContent1Click(Sender: TObject);
     procedure btnUseCurrentUnitCodeClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure WordWrap1Click(Sender: TObject);
     procedure btnCodeOnlyClick(Sender: TObject);
     procedure btnDefaultsQuestionsClick(Sender: TObject);
     procedure Clear1Click(Sender: TObject);
+    procedure btnCleanAllClick(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -127,6 +127,7 @@ type
     procedure DoProcessClickInItemDefaultQuestions(ACodeOnly: Boolean; AQuestion: string);
     procedure ProcessWordWrap;
     procedure ConfScreenOnCreate;
+    procedure ValidateRegistrationOfSelectedAI;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -192,12 +193,12 @@ begin
   FQuestionOnShow := '';
 
   Self.ConfScreenOnCreate;
-  Self.FillMemoReturnWithFile; ////
+  Self.FillMemoReturnWithFile;
 end;
 
 destructor TDelphiAIDevChatView.Destroy;
 begin
-  Self.SaveMemoReturnInFile; ////
+  Self.SaveMemoReturnInFile;
   FPopupMenuQuestions.Free;
   FChat.Free;
   inherited;
@@ -207,11 +208,8 @@ procedure TDelphiAIDevChatView.FormShow(Sender: TObject);
 begin
   Self.ConfScreenOnShow;
   Self.InitializeRichEditReturn;
-  ////Self.FillMemoReturnWithFile;
   Self.ProcessWordWrap;
-
   Self.AddItemsPopupMenuQuestion;
-
   TUtils.MemoFocusOnTheEnd(mmQuestion);
 end;
 
@@ -296,7 +294,6 @@ end;
 
 procedure TDelphiAIDevChatView.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  ////Self.SaveMemoReturnInFile;
   Self.WaitingFormOFF;
 end;
 
@@ -423,6 +420,8 @@ begin
   if mmQuestion.Lines.Text.Trim.IsEmpty then
     TUtils.ShowMsgAndAbort('No questions have been added', mmQuestion);
 
+  Self.ValidateRegistrationOfSelectedAI;
+
   mmReturn.Lines.Clear;
   Self.WaitingFormON;
 
@@ -432,7 +431,7 @@ begin
     LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak;
 
   if btnCodeOnly.ImageIndex = CodeOnly_ImageIndex_ON then
-    LQuestion := LQuestion + 'Faça a seguinte ação sem adicionar comentários: ' + sLineBreak;
+    LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgCodeOnly;
 
   LQuestion := LQuestion + mmQuestion.Lines.Text;
 
@@ -447,7 +446,7 @@ begin
             TThread.Synchronize(nil,
               procedure
               begin
-                Self.AddResponseSimple('Unable to perform processing.' + sLineBreak + E.Message);
+                Self.AddResponseSimple('Unable to perform processing.' + sLineBreak + TUtils.GetExceptionMessage(E));
                 Abort;
               end);
         end;
@@ -473,6 +472,37 @@ begin
       end;
     end);
   LTask.Start;
+end;
+
+procedure TDelphiAIDevChatView.ValidateRegistrationOfSelectedAI;
+const
+  MSG = '"%s" for IA %s not specified in settings.' + sLineBreak + sLineBreak +
+    'Access menu > AI Developer > Settings';
+begin
+  case FSettings.AIDefault of
+    TC4DAIsAvailable.Gemini:
+    begin
+      if FSettings.BaseUrlGemini.Trim.IsEmpty then
+        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'Gemini']));
+
+      if FSettings.ModelGemini.Trim.IsEmpty then
+        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'Gemini']));
+
+      if FSettings.ApiKeyGemini.Trim.IsEmpty then
+        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'Gemini']));
+    end;
+    TC4DAIsAvailable.OpenAI:
+    begin
+      if FSettings.BaseUrlOpenAI.Trim.IsEmpty then
+        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'ChatGPT']));
+
+      if FSettings.ModelOpenAI.Trim.IsEmpty then
+        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'ChatGPT']));
+
+      if FSettings.ApiKeyOpenAI.Trim.IsEmpty then
+        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'ChatGPT']));
+    end;
+  end;
 end;
 
 procedure TDelphiAIDevChatView.AddResponseSimple(const AString: string);
@@ -685,11 +715,6 @@ begin
   mmReturn.Lines.Clear;
 end;
 
-procedure TDelphiAIDevChatView.ClearContent1Click(Sender: TObject);
-begin
-  mmReturn.Lines.Clear;
-end;
-
 procedure TDelphiAIDevChatView.btnMoreActionsClick(Sender: TObject);
 begin
   pMenuMoreActions.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
@@ -697,7 +722,6 @@ end;
 
 procedure TDelphiAIDevChatView.InitializeRichEditReturn;
 begin
-  //mmReturn.Lines.Clear;
   mmReturn.SelAttributes.Name := 'Courier New';
   mmReturn.SelAttributes.Size := 10;
 
@@ -749,6 +773,12 @@ begin
   FSettings.AIDefault := TC4DAIsAvailable(LTag);
   FSettings.SaveData;
   Self.ConfLabelCurrentAI;
+end;
+
+procedure TDelphiAIDevChatView.btnCleanAllClick(Sender: TObject);
+begin
+  mmQuestion.Lines.Clear;
+  mmReturn.Lines.Clear;
 end;
 
 initialization

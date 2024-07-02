@@ -35,8 +35,15 @@ begin
 end;
 
 class procedure TDelphiAIDevIDEMainMenuClicks.DefaultsQuestionsClick(Sender: TObject);
+var
+  LView: TDelphiAIDevDefaultsQuestionsView;
 begin
-  DelphiAIDev.DefaultsQuestions.View.DelphiAIDevDefaultsQuestionsViewShow;
+  LView := TDelphiAIDevDefaultsQuestionsView.Create(nil);
+  try
+    LView.ShowModal;
+  finally
+    FreeAndNil(LView);
+  end;
 end;
 
 class procedure TDelphiAIDevIDEMainMenuClicks.SettingsClick(Sender: TObject);

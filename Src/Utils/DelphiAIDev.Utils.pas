@@ -27,6 +27,7 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TC4DIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class function GetExceptionMessage(const E: Exception): string;
     class function StrToDefaultsQuestionsKind(Value: string): TC4DQuestionKind;
     class procedure DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
     class function AdjustQuestionToJson(const AValue: string): string;
@@ -135,6 +136,23 @@ uses
   DelphiAIDev.View.Memo,
   DelphiAIDev.View.Dialog,
   DelphiAIDev.WaitingScreen;
+
+//Winapi.WinInet
+//class function TUtils.TestInternetConnection: Boolean;
+//var
+//  LFlags: DWord;
+//begin
+//  Result := InternetGetConnectedState(@LFlags, 0);
+//  if Result then
+//      Result := InternetCheckConnection('http://google.com', 1, 0);
+//end;
+
+class function TUtils.GetExceptionMessage(const E: Exception): string;
+begin
+  Result := E.Message;
+  if Result.Contains('(12007)')then
+    Result := sLineBreak + '* Check Your Internet Connection *' + sLineBreak + sLineBreak + Result;
+end;
 
 class function TUtils.StrToDefaultsQuestionsKind(Value: string): TC4DQuestionKind;
 begin
