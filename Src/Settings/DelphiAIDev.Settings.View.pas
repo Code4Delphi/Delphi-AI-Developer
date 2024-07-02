@@ -56,6 +56,8 @@ type
     lbLinkGemini03: TLabel;
     Label4: TLabel;
     cBoxLanguageQuestions: TComboBox;
+    gboxData: TGroupBox;
+    btnOpenDataFolder: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -67,6 +69,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure lbRestoreDefaultsClick(Sender: TObject);
     procedure ckColorHighlightCodeDelphiUseClick(Sender: TObject);
+    procedure btnOpenDataFolderClick(Sender: TObject);
   private
     FSettings: TDelphiAIDevSettings;
     procedure SaveSettings;
@@ -245,6 +248,17 @@ begin
   FSettings.ApiKeyOpenAI := edtApiKeyOpenAI.Text;
 
   FSettings.SaveData;
+end;
+
+procedure TDelphiAIDevSettingsView.btnOpenDataFolderClick(Sender: TObject);
+var
+  LPathFolder: string;
+begin
+  LPathFolder := TUtils.GetPathFolderRoot;
+  if(not DirectoryExists(LPathFolder))then
+    TUtils.ShowMsg('Forder not found: ' + LPathFolder);
+
+  TUtils.OpenFolder(LPathFolder);
 end;
 
 end.

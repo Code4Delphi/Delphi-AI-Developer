@@ -402,6 +402,31 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           end
         end
       end
+      object gboxData: TGroupBox
+        Left = 0
+        Top = 436
+        Width = 632
+        Height = 58
+        Align = alTop
+        Caption = ' Data '
+        Padding.Left = 2
+        Padding.Top = 5
+        Padding.Bottom = 3
+        TabOrder = 3
+        ExplicitTop = 426
+        ExplicitWidth = 686
+        object btnOpenDataFolder: TButton
+          Left = 4
+          Top = 20
+          Width = 122
+          Height = 33
+          Cursor = crHandPoint
+          Align = alLeft
+          Caption = 'Open Data Folder'
+          TabOrder = 0
+          OnClick = btnOpenDataFolderClick
+        end
+      end
     end
     object pnBottom: TPanel
       Left = 0
