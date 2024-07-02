@@ -51,7 +51,7 @@ begin
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsPopupMenu.CreateMenus(const APopupMenu: TPopupMenu);
-begin
+begin   TUtils.ShowMsg('CreateMenus');
   FPopupMenu := APopupMenu;
   FPopupMenu.Items.Clear;
 
@@ -205,8 +205,18 @@ begin
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsPopupMenu.CustomizeClick(Sender: TObject);
+var
+  LView: TDelphiAIDevDefaultsQuestionsView;
 begin
-  DelphiAIDev.DefaultsQuestions.View.DelphiAIDevDefaultsQuestionsViewShow;
+  LView := TDelphiAIDevDefaultsQuestionsView.Create(nil);
+  try
+    LView.ShowModal;
+
+    if LView.MadeChanges then
+      Self.CreateMenus(FPopupMenu);
+  finally
+    FreeAndNil(LView);
+  end;
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsPopupMenu.ItemMenuClick(Sender: TObject);
