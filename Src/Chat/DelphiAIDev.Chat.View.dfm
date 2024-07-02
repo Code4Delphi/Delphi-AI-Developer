@@ -285,7 +285,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     Left = 936
     Top = 8
     Width = 26
-    Height = 95
+    Height = 115
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -296,12 +296,12 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     TabOrder = 3
     DesignSize = (
       26
-      95)
+      115)
     object ShapeCommands: TShape
       Left = 0
       Top = 0
       Width = 26
-      Height = 95
+      Height = 115
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -315,7 +315,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     object btnCopy: TSpeedButton
       AlignWithMargins = True
       Left = 0
-      Top = 23
+      Top = 46
       Width = 26
       Height = 23
       Cursor = crHandPoint
@@ -354,7 +354,8 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         FFFF00FFFF00FFFF00FFFF00FFB58C8CB58C8CB58C8CB58C8CB58C8CB58C8CB5
         8C8CBD8484FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       OnClick = btnCopyClick
-      ExplicitTop = 24
+      ExplicitLeft = -8
+      ExplicitTop = 55
     end
     object btnInsertAtCursor: TSpeedButton
       AlignWithMargins = True
@@ -389,7 +390,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     object btnMoreActions: TSpeedButton
       AlignWithMargins = True
       Left = 0
-      Top = 69
+      Top = 92
       Width = 26
       Height = 23
       Cursor = crHandPoint
@@ -408,7 +409,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     object btnCreateNewUnit: TSpeedButton
       AlignWithMargins = True
       Left = 0
-      Top = 46
+      Top = 23
       Width = 26
       Height = 23
       Cursor = crHandPoint
@@ -447,7 +448,41 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         84FF00FFFF00FFFF00FFFF00FFFF00FF3184FF3184FF3184FFEFD6C6EFD6C6EF
         D6C6EFD6C6EFD6C6D6BDB5B58473FF00FFFF00FFFF00FFFF00FF}
       OnClick = btnCreateNewUnitClick
-      ExplicitTop = 55
+    end
+    object btnCleanAll: TSpeedButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 69
+      Width = 26
+      Height = 23
+      Cursor = crHandPoint
+      Hint = 'Clean all and start a new chat'
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alTop
+      Flat = True
+      Glyph.Data = {
+        1A020000424D1A020000000000001A0100002800000010000000100000000100
+        08000000000000010000210B0000210B00003900000039000000EA8F3100B66A
+        5000AB735800C07B5800EAA15800FFB65800AB6A6000B67B6000C0846000A16A
+        6A00A1736A00C0846A00A17B7300B68F7B00EAC07B00F4C07B00B68F8400EAC0
+        8400F4C08400F4CA8400B6988F00C0988F00F4CA8F00C0A19800CAA19800B6AB
+        9800F4CA9800F4D49800CAABA100D4ABA100D4B6A100E0B6A100EAB6A100EAC0
+        A100F4CAA100F4D4A100FFD4A100EAC0AB00F4D4AB00E0D4B600F4D4B600F4E0
+        B600E0C0C000E0CAC000F4E0C000E0CACA00F4E0CA00FFE0CA00FFEACA00FFEA
+        D400FFEAE000FFF4E000FFF4EA00FFF4F400FFFFF400FF00FF00FFFFFF003737
+        0909090909090909090909090937373710302926231A16110E0E0E1309373737
+        10302C2826221611110E0E110937373714322E2C2826221A11110E1109373737
+        14332E2C292823221A11110E093737371736322E2E2C2826221A111109373737
+        183834322E2C2928261A1616093737371C383534312E2C292826221A09373737
+        1C38383534322E2C28262323093737371D3838383532312E2C28282209373737
+        1E3838383835323131302719093737371F383838383834342E0D0C0A09373737
+        1F383838383838362A0204000137373725383838383838382B07050337373737
+        1F353434343434342A070B37373737371F212121211F1F211C0637373737}
+      OnClick = btnCleanAllClick
+      ExplicitTop = 92
     end
   end
   object ImageList1: TImageList
@@ -786,10 +821,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     object SaveContentToFile1: TMenuItem
       Caption = 'Save content to file'
       OnClick = SaveContentToFile1Click
-    end
-    object ClearContent1: TMenuItem
-      Caption = 'Clear content'
-      OnClick = ClearContent1Click
     end
   end
   object pMenuQuestions: TPopupMenu

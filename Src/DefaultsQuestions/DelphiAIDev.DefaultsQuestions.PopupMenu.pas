@@ -51,7 +51,7 @@ begin
 end;
 
 procedure TDelphiAIDevDefaultsQuestionsPopupMenu.CreateMenus(const APopupMenu: TPopupMenu);
-begin   TUtils.ShowMsg('CreateMenus');
+begin
   FPopupMenu := APopupMenu;
   FPopupMenu.Items.Clear;
 

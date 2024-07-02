@@ -63,7 +63,6 @@ type
     pMenuMoreActions: TPopupMenu;
     SaveContentToFile1: TMenuItem;
     btnCreateNewUnit: TSpeedButton;
-    ClearContent1: TMenuItem;
     Clear1: TMenuItem;
     N2: TMenuItem;
     WordWrap1: TMenuItem;
@@ -72,6 +71,7 @@ type
     btnCodeOnly: TButton;
     btnDefaultsQuestions: TButton;
     pMenuQuestions: TPopupMenu;
+    btnCleanAll: TSpeedButton;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -92,13 +92,13 @@ type
     procedure btnMoreActionsClick(Sender: TObject);
     procedure SaveContentToFile1Click(Sender: TObject);
     procedure btnCreateNewUnitClick(Sender: TObject);
-    procedure ClearContent1Click(Sender: TObject);
     procedure btnUseCurrentUnitCodeClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure WordWrap1Click(Sender: TObject);
     procedure btnCodeOnlyClick(Sender: TObject);
     procedure btnDefaultsQuestionsClick(Sender: TObject);
     procedure Clear1Click(Sender: TObject);
+    procedure btnCleanAllClick(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -446,7 +446,7 @@ begin
             TThread.Synchronize(nil,
               procedure
               begin
-                Self.AddResponseSimple('Unable to perform processing.' + sLineBreak + E.Message);
+                Self.AddResponseSimple('Unable to perform processing.' + sLineBreak + TUtils.GetExceptionMessage(E));
                 Abort;
               end);
         end;
@@ -715,11 +715,6 @@ begin
   mmReturn.Lines.Clear;
 end;
 
-procedure TDelphiAIDevChatView.ClearContent1Click(Sender: TObject);
-begin
-  mmReturn.Lines.Clear;
-end;
-
 procedure TDelphiAIDevChatView.btnMoreActionsClick(Sender: TObject);
 begin
   pMenuMoreActions.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
@@ -778,6 +773,12 @@ begin
   FSettings.AIDefault := TC4DAIsAvailable(LTag);
   FSettings.SaveData;
   Self.ConfLabelCurrentAI;
+end;
+
+procedure TDelphiAIDevChatView.btnCleanAllClick(Sender: TObject);
+begin
+  mmQuestion.Lines.Clear;
+  mmReturn.Lines.Clear;
 end;
 
 initialization
