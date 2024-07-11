@@ -4,12 +4,13 @@ interface
 
 uses
   Winapi.ShlObj,
-  System.SysUtils,
-  System.TypInfo,
   Winapi.ShellAPI,
   Winapi.Windows,
   Winapi.PsAPI,
+  System.SysUtils,
+  System.StrUtils,
   System.Classes,
+  System.TypInfo,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Graphics,
@@ -17,7 +18,6 @@ uses
   Vcl.ComCtrls,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
-  System.StrUtils,
   DelphiAIDev.Consts,
   DelphiAIDev.Types;
 
@@ -150,18 +150,18 @@ uses
 class function TUtils.GetExceptionMessage(const E: Exception): string;
 begin
   Result := E.Message;
-  if Result.Contains('(12007)')then
+  if Result.Contains('(12007)') then
     Result := sLineBreak + '* Check Your Internet Connection *' + sLineBreak + sLineBreak + Result;
 end;
 
 class function TUtils.StrToDefaultsQuestionsKind(Value: string): TC4DQuestionKind;
 begin
   Result := TC4DQuestionKind.None;
-  if(Value = 'Item menu normal')then
+  if Value = 'Item menu normal' then
     Result := TC4DQuestionKind.ItemMenuNormal
-  else if(Value = 'Menu master only')then
+  else if Value = 'Menu master only' then
     Result := TC4DQuestionKind.MenuMasterOnly
-  else if(Value = 'Separator')then
+  else if Value = 'Separator' then
     Result := TC4DQuestionKind.Separators;
 end;
 
@@ -169,19 +169,11 @@ class procedure TUtils.DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings
 var
   LItem: TC4DQuestionKind;
 begin
-  if(AStrings = nil)then
+  if AStrings = nil then
     Exit;
 
   for LItem := Low(TC4DQuestionKind) to High(TC4DQuestionKind) do
-  begin
-//    if(LItem = TC4DQuestionKind.CMD)then
-//      AStrings.Add(TC4DConsts.STR_CMD_COMMANDS)
-//    else  if(LItem = TC4DQuestionKind.MenuMasterOnly)then
-//      AStrings.Add(TC4DConsts.STR_MENU_MASTER_ONLY)
-//    else
-//      AStrings.Add(GetEnumName(TypeInfo(TC4DQuestionKind), Integer(LItem)));
     AStrings.Add(LItem.ToString);
-  end;
 end;
 
 class function TUtils.AdjustQuestionToJson(const AValue: string): string;
@@ -189,6 +181,8 @@ begin
   Result := AValue
     .Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase])
     .Replace('"', '\"', [rfReplaceAll, rfIgnoreCase]);
+
+  Result := Result.Replace('\\"', '\"', [rfReplaceAll, rfIgnoreCase]);
 end;
 
 class procedure TUtils.AddLog(const AMessage: string);

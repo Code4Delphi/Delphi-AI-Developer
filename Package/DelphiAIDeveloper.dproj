@@ -179,6 +179,7 @@
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ABMenuAction.pas"/>
         <DCCReference Include="..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas"/>
+        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas"/>
         <RcItem Include="Img\c4d_gear.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_gear</ResourceId>

@@ -18,7 +18,6 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function Settings: TDelphiAIDevSettings;
     procedure ProcessSend(const AQuestion: string);
     function Response: TStrings;
   end;
@@ -36,11 +35,6 @@ destructor TDelphiAIDevChat.Destroy;
 begin
   FResponse.Free;
   inherited;
-end;
-
-function TDelphiAIDevChat.Settings: TDelphiAIDevSettings;
-begin
-  Result := FSettings;
 end;
 
 procedure TDelphiAIDevChat.ProcessSend(const AQuestion: string);

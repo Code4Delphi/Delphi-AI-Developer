@@ -29,7 +29,8 @@ uses
   DelphiAIDev.Chat,
   DelphiAIDev.Settings,
   DelphiAIDev.ModuleCreator,
-  DelphiAIDev.DefaultsQuestions.PopupMenu;
+  DelphiAIDev.DefaultsQuestions.PopupMenu,
+  DelphiAIDev.Chat.ProcessResponse;
 
 type
   TDelphiAIDevChatView = class(TDockableForm)
@@ -102,6 +103,7 @@ type
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
+    FProcessResponse: TDelphiAIDevChatProcessResponse;
     FPopupMenuQuestions: TDelphiAIDevDefaultsQuestionsPopupMenu;
     FbtnUseCurrentUnitCodeWidth: Integer;
     FbtnCodeOnlyWidth: Integer;
@@ -112,8 +114,6 @@ type
     procedure InitializeRichEditReturn;
     procedure ProcessSend;
     procedure AddResponseSimple(const AString: string);
-    procedure AddResponseComplete(const AStrings: TStrings);
-    procedure AddResponseLine(const ALineStr: string);
     procedure Last;
     function GetSelectedTextOrAllFromReturn: string;
     function GetSelectedTextOrAllOrAbort: string;
@@ -188,7 +188,8 @@ begin
   SaveStateNecessary := True;
 
   FChat := TDelphiAIDevChat.Create;
-  FSettings := FChat.Settings.GetInstance;
+  FSettings := TDelphiAIDevSettings.GetInstance;
+  FProcessResponse := TDelphiAIDevChatProcessResponse.Create(mmReturn);
   FPopupMenuQuestions := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
   FQuestionOnShow := '';
 
@@ -200,6 +201,7 @@ destructor TDelphiAIDevChatView.Destroy;
 begin
   Self.SaveMemoReturnInFile;
   FPopupMenuQuestions.Free;
+  FProcessResponse.Free;
   FChat.Free;
   inherited;
 end;
@@ -457,7 +459,8 @@ begin
             mmReturn.Lines.BeginUpdate;
             try
               //Optional use of one of the following lines
-              Self.AddResponseComplete(FChat.Response);
+              FProcessResponse.AddResponseComplete(FChat.Response);
+              Self.Last;
               //Self.AddResponseSimple(FChat.Response.Text);
             finally
               mmReturn.Lines.EndUpdate;
@@ -514,115 +517,115 @@ begin
   Self.Last;
 end;
 
-//Add line-by-line response to color where Delphi code is
-procedure TDelphiAIDevChatView.AddResponseComplete(const AStrings: TStrings);
-var
-  LLineNum: Integer;
-  LLineStr: string;
-  FCodeStarted: Boolean;
-begin
-  mmReturn.Lines.Clear;
-  mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
-  mmReturn.SelAttributes.Style := [];
-
-  FCodeStarted := False;
-  for LLineNum := 0 to Pred(AStrings.Count) do
-  begin
-    LLineStr := AStrings[LLineNum].TrimRight;
-
-    if not FCodeStarted then
-    begin
-      if TUtils.CodeIdMarkBeginCode(LLineStr) then
-      begin
-        FCodeStarted := True;
-        Continue;
-      end;
-    end;
-
-    if LLineStr.Trim = TConsts.MARK_END then
-    begin
-      FCodeStarted := False;
-      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
-      Continue;
-    end;
-
-    if FCodeStarted then
-    begin
-      if (FSettings.ColorHighlightCodeDelphiUse) and (FSettings.ColorHighlightCodeDelphi <> clNone) then
-        mmReturn.SelAttributes.Color := FSettings.ColorHighlightCodeDelphi
-      else
-        mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeForCode;
-    end
-    else
-      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
-
-    //Optional use of one of the following lines
-    //mmReturn.Lines.Add(LLineStr);
-    Self.AddResponseLine(LLineStr); //.Replace(TConsts.MARK_BEGIN_PASCAL2, '', [rfReplaceAll, rfIgnoreCase])
-  end;
-  Self.Last;
-end;
-
-//Bold in words between Backtick
-procedure TDelphiAIDevChatView.AddResponseLine(const ALineStr: string);
-const
-  BACKTICK = '`';
-var
-  i: Integer;
-  LCurrentLetter: Char;
-  LNextLetter: Char;
-  LLineStarted: Boolean;
-  LCodeStarted: Boolean;
-begin
-  if not ALineStr.Contains(BACKTICK) then
-  begin
-    mmReturn.Lines.Add(IFThen(ALineStr.IsEmpty, ' ', ALineStr));
-    Exit;
-  end;
-
-  LLineStarted := False;
-  LCodeStarted := False;
-  for i := 0 to ALineStr.Length do
-  begin
-    LCurrentLetter := ALineStr[i];
-    LNextLetter := ALineStr[Succ(i)];
-
-    if not LCodeStarted then
-    begin
-      if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
-      begin
-        LCodeStarted := True;
-        Continue;
-      end;
-    end;
-
-    if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
-    begin
-      LCodeStarted := False;
-      mmReturn.SelAttributes.Style := [];
-      Continue;
-    end;
-
-    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-    if LCodeStarted then
-      mmReturn.SelAttributes.Style := [fsBold]
-    else
-      mmReturn.SelAttributes.Style := [];
-
-    if LLineStarted then
-      mmReturn.SelText := LCurrentLetter
-    else
-    begin
-      mmReturn.Lines.Add('');
-      mmReturn.SelText := LCurrentLetter;
-
-      LLineStarted := True;
-    end;
-    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-  end;
-  mmReturn.SelText := ' ';
-  SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-end;
+////Add line-by-line response to color where Delphi code is
+//procedure TDelphiAIDevChatView.AddResponseComplete(const AStrings: TStrings);
+//var
+//  LLineNum: Integer;
+//  LLineStr: string;
+//  LCodeStarted: Boolean;
+//begin
+//  mmReturn.Lines.Clear;
+//  mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
+//  mmReturn.SelAttributes.Style := [];
+//
+//  LCodeStarted := False;
+//  for LLineNum := 0 to Pred(AStrings.Count) do
+//  begin
+//    LLineStr := AStrings[LLineNum].TrimRight;
+//
+//    if not LCodeStarted then
+//    begin
+//      if TUtils.CodeIdMarkBeginCode(LLineStr) then
+//      begin
+//        LCodeStarted := True;
+//        Continue;
+//      end;
+//    end;
+//
+//    if LLineStr.Trim = TConsts.MARK_END then
+//    begin
+//      LCodeStarted := False;
+//      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
+//      Continue;
+//    end;
+//
+//    if LCodeStarted then
+//    begin
+//      if (FSettings.ColorHighlightCodeDelphiUse) and (FSettings.ColorHighlightCodeDelphi <> clNone) then
+//        mmReturn.SelAttributes.Color := FSettings.ColorHighlightCodeDelphi
+//      else
+//        mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeForCode;
+//    end
+//    else
+//      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
+//
+//    //Optional use of one of the following lines
+//    //mmReturn.Lines.Add(LLineStr);
+//    Self.AddResponseLine(LLineStr); //.Replace(TConsts.MARK_BEGIN_PASCAL2, '', [rfReplaceAll, rfIgnoreCase])
+//  end;
+//  Self.Last;
+//end;
+//
+////Bold in words between Backtick
+//procedure TDelphiAIDevChatView.AddResponseLine(const ALineStr: string);
+//const
+//  BACKTICK = '`';
+//var
+//  i: Integer;
+//  LCurrentLetter: Char;
+//  LNextLetter: Char;
+//  LLineStarted: Boolean;
+//  LCodeStarted: Boolean;
+//begin
+//  if not ALineStr.Contains(BACKTICK) then
+//  begin
+//    mmReturn.Lines.Add(IFThen(ALineStr.IsEmpty, ' ', ALineStr));
+//    Exit;
+//  end;
+//
+//  LLineStarted := False;
+//  LCodeStarted := False;
+//  for i := 0 to ALineStr.Length do
+//  begin
+//    LCurrentLetter := ALineStr[i];
+//    LNextLetter := ALineStr[Succ(i)];
+//
+//    if not LCodeStarted then
+//    begin
+//      if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
+//      begin
+//        LCodeStarted := True;
+//        Continue;
+//      end;
+//    end;
+//
+//    if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
+//    begin
+//      LCodeStarted := False;
+//      mmReturn.SelAttributes.Style := [];
+//      Continue;
+//    end;
+//
+//    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+//    if LCodeStarted then
+//      mmReturn.SelAttributes.Style := [fsBold]
+//    else
+//      mmReturn.SelAttributes.Style := [];
+//
+//    if LLineStarted then
+//      mmReturn.SelText := LCurrentLetter
+//    else
+//    begin
+//      mmReturn.Lines.Add('');
+//      mmReturn.SelText := LCurrentLetter;
+//
+//      LLineStarted := True;
+//    end;
+//    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+//  end;
+//  mmReturn.SelText := ' ';
+//  SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+//end;
 
 procedure TDelphiAIDevChatView.WaitingFormON;
 begin

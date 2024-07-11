@@ -72,6 +72,7 @@ contains
   DelphiAIDev.DefaultsQuestions.AddEdit.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas' {DelphiAIDevDefaultsQuestionsAddEditView},
   DelphiAIDev.DefaultsQuestions.PopupMenu in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas',
   DelphiAIDev.Utils.ABMenuAction in '..\Src\Utils\DelphiAIDev.Utils.ABMenuAction.pas',
-  DelphiAIDev.IDE.Splash in '..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas';
+  DelphiAIDev.IDE.Splash in '..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas',
+  DelphiAIDev.Chat.ProcessResponse in '..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas';
 
 end.
