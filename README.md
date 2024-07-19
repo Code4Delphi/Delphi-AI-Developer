@@ -59,3 +59,17 @@ We have also created a video with details on how to download, install and use th
 
 ## 📄 Documentation under construction
 **We will soon publish the complete documentation for the Plugin.** 
+
+# 💬 Contributions / Ideas / Bug Fixes
+To submit a pull request, follow these steps:
+
+1. Fork the project
+2. Create a new branch (`git checkout -b minha-nova-funcionalidade`)
+3. Make your changes
+4. Make the commit (`git commit -am 'Functionality or adjustment message'`)
+5. Push the branch (`git push origin Message about functionality or adjustment`)
+6. Open a pull request
+
+
+## ⚠️ License
+`Delphi AI Developer` is free and open-source wizard licensed under the [MIT License](https://github.com/Code4Delphi/Delphi-AI-Developer/blob/master/LICENSE).  
