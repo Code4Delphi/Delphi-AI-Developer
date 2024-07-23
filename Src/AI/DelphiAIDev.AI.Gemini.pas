@@ -42,13 +42,12 @@ var
   LApiUrl: string;
   LQuestion: string;
   LResponse: IResponse;
-  LJsonValue: TJSONVALUE;
-  LJsonArray: TJsonArray;
-  LPartsArray: TJsonArray;
-  LJsonObj: TJsonObject;
-  LPartsObj: TJsonObject;
-  LJsonText: string;
-  i, j: Integer;
+  LJsonValueAll: TJSONVALUE;
+  LJsonArrayCandidates: TJsonArray;
+  LJsonArrayParts: TJsonArray;
+  LJsonObjContent: TJsonObject;
+  LJsonObjParts: TJsonObject;
+  LItemCandidates, LItemParts: Integer;
 begin
   Result := '';
   LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + '?key=' + FSettings.ApiKeyGemini;
@@ -61,28 +60,26 @@ begin
     .Post;
 
   if LResponse.StatusCode <> 200 then
-  begin
-    Result := 'Question cannot be answered' + sLineBreak +
-      'Return: ' + LResponse.Content;
-    Exit;
-  end;
+    Exit('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
 
-  LJsonValue := TJsonObject.ParseJSONValue(LResponse.Content);
-  if LJsonValue is TJsonObject then
+  LJsonValueAll := TJsonObject.ParseJSONValue(LResponse.Content);
+  if not(LJsonValueAll is TJSONObject) then
+    Exit('The question cannot be answered, return object not found.' + sLineBreak +
+      'Return: ' + LResponse.Content);
+
+  LJsonArrayCandidates := (LJsonValueAll as TJsonObject).GetValue<TJsonArray>('candidates');
+  for LItemCandidates := 0 to Pred(LJsonArrayCandidates.Count) do
   begin
-    LJsonArray := (LJsonValue as TJsonObject).GetValue<TJsonArray>('candidates');
-    for i := 0 to Pred(LJsonArray.Count) do
+    LJsonObjContent := LJsonArrayCandidates.Items[LItemCandidates].GetValue<TJsonObject>('content');
+    LJsonArrayParts := LJsonObjContent.GetValue<TJsonArray>('parts');
+    for LItemParts := 0 to Pred(LJsonArrayParts.Count) do
     begin
-      LJsonObj := LJsonArray.Items[i].GetValue<TJsonObject>('content');
-      LPartsArray := LJsonObj.GetValue<TJsonArray>('parts');
-      for j := 0 to Pred(LPartsArray.Count) do
-      begin
-        LPartsObj := LPartsArray.Items[j] as TJsonObject;
-        LJsonText := LPartsObj.GetValue<string>('text');
-        Result := LJsonText.Trim;
-      end;
+      LJsonObjParts := LJsonArrayParts.Items[LItemParts] as TJsonObject;
+      Result := Result + LJsonObjParts.GetValue<string>('text').Trim + sLineBreak;
     end;
   end;
+
+  Result := Result.Trim;
 end;
 
 end.

@@ -802,8 +802,8 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
   end
   object pMenuCurrentAI: TPopupMenu
     OnPopup = pMenuCurrentAIPopup
-    Left = 26
-    Top = 575
+    Left = 50
+    Top = 583
     object Gemini1: TMenuItem
       Caption = 'Gemini'
       OnClick = Gemini1Click
@@ -811,6 +811,11 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     object ChatGPT1: TMenuItem
       Tag = 1
       Caption = 'ChatGPT'
+      OnClick = Gemini1Click
+    end
+    object Groq1: TMenuItem
+      Tag = 2
+      Caption = 'Groq'
       OnClick = Gemini1Click
     end
   end

@@ -8,7 +8,8 @@ uses
   DelphiAIDev.Types,
   DelphiAIDev.Settings,
   DelphiAIDev.AI.Gemini,
-  DelphiAIDev.AI.ChatGPT;
+  DelphiAIDev.AI.ChatGPT,
+  DelphiAIDev.AI.Groq;
 
 type
   TDelphiAIDevChat = class
@@ -46,6 +47,8 @@ begin
       FResponse.Text := TDelphiAIDevAIGemini.New(FSettings).GetResponse(AQuestion);
     TC4DAIsAvailable.OpenAI:
       FResponse.Text := TDelphiAIDevAIChatGPT.New(FSettings).GetResponse(AQuestion);
+    TC4DAIsAvailable.Groq:
+      FResponse.Text := TDelphiAIDevAIGroq.New(FSettings).GetResponse(AQuestion);
   else
     FResponse.Add('Default AI not reported in Delphi AI Developer settings');
   end;

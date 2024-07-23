@@ -73,6 +73,7 @@ type
     btnDefaultsQuestions: TButton;
     pMenuQuestions: TPopupMenu;
     btnCleanAll: TSpeedButton;
+    Groq1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -770,7 +771,7 @@ var
 begin
   //*SEVERAL
   LTag := TMenuItem(Sender).Tag;
-  if not(LTag in [0, 1])then
+  if not(LTag in [0, 1, 2])then
     Exit;
 
   FSettings.AIDefault := TC4DAIsAvailable(LTag);
