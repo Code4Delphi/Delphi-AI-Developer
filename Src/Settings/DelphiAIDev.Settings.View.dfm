@@ -413,8 +413,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Padding.Top = 5
         Padding.Bottom = 3
         TabOrder = 3
-        ExplicitTop = 426
-        ExplicitWidth = 686
         object btnOpenDataFolder: TButton
           Left = 4
           Top = 20

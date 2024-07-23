@@ -745,11 +745,14 @@ procedure TDelphiAIDevChatView.pMenuCurrentAIPopup(Sender: TObject);
 begin
   Gemini1.Checked := False;
   ChatGPT1.Checked := False;
+  Groq1.Checked := False;
   case FSettings.AIDefault of
     TC4DAIsAvailable.Gemini:
       Gemini1.Checked := True;
     TC4DAIsAvailable.OpenAI:
       ChatGPT1.Checked := True;
+    TC4DAIsAvailable.Groq:
+      Groq1.Checked := True;
   end;
 end;
 
