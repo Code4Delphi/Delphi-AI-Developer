@@ -8,7 +8,8 @@ uses
   DelphiAIDev.Types,
   DelphiAIDev.Settings,
   DelphiAIDev.AI.Gemini,
-  DelphiAIDev.AI.ChatGPT;
+  DelphiAIDev.AI.ChatGPT,
+  DelphiAIDev.AI.Groq;
 
 type
   TDelphiAIDevChat = class
@@ -18,7 +19,6 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function Settings: TDelphiAIDevSettings;
     procedure ProcessSend(const AQuestion: string);
     function Response: TStrings;
   end;
@@ -38,11 +38,6 @@ begin
   inherited;
 end;
 
-function TDelphiAIDevChat.Settings: TDelphiAIDevSettings;
-begin
-  Result := FSettings;
-end;
-
 procedure TDelphiAIDevChat.ProcessSend(const AQuestion: string);
 begin
   FResponse.Clear;
@@ -52,6 +47,8 @@ begin
       FResponse.Text := TDelphiAIDevAIGemini.New(FSettings).GetResponse(AQuestion);
     TC4DAIsAvailable.OpenAI:
       FResponse.Text := TDelphiAIDevAIChatGPT.New(FSettings).GetResponse(AQuestion);
+    TC4DAIsAvailable.Groq:
+      FResponse.Text := TDelphiAIDevAIGroq.New(FSettings).GetResponse(AQuestion);
   else
     FResponse.Add('Default AI not reported in Delphi AI Developer settings');
   end;

@@ -146,7 +146,7 @@
         <DCCReference Include="..\Src\View\DelphiAIDev.View.About.pas">
             <Form>DelphiAIDevViewAbout</Form>
         </DCCReference>
-        <DCCReference Include="..\Src\Test\Test.pas"/>
+        <DCCReference Include="..\Src\Test\DelphiAIDev.Test.pas"/>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.View.pas">
             <Form>DelphiAIDevSettingsView</Form>
             <FormType>dfm</FormType>
@@ -179,6 +179,8 @@
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ABMenuAction.pas"/>
         <DCCReference Include="..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas"/>
+        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Groq.pas"/>
         <RcItem Include="Img\c4d_gear.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_gear</ResourceId>

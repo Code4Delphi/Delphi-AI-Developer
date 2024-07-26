@@ -5,7 +5,7 @@ interface
 type
   TConsts = class
   public const
-    SEMANTIC_VERSION = '1.7.0';
+    SEMANTIC_VERSION = '1.8.0';
     SEMANTIC_VERSION_LB = 'Version: ' + SEMANTIC_VERSION;
     WIN_CONTROL_FOCU_NIL = nil;
     DELPHI_AI_DEVELOPER_DPROJ = 'DelphiAIDeveloper.dproj';
@@ -25,7 +25,7 @@ type
     BASE_URL_GEMINI_DEFAULT = 'https://generativelanguage.googleapis.com/';
     MODEL_GEMINI_DEFAULT = 'v1/models/gemini-1.5-flash:generateContent';
     BASE_URL_OPEN_AI = 'https://api.openai.com/v1/chat/completions/';
-    API_AI_TIMEOUT_DEFAULT = 20;
+    BASE_URL_GROQ = 'https://api.groq.com/openai/v1/chat/completions';
 
     //NAMES FILES .INI
     FILE_INI_GENERAL_SETTINGS = 'delphi-ai-developer.ini';

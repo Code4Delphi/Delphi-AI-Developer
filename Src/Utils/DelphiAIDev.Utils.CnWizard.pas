@@ -145,7 +145,7 @@ begin
 //    if not (IsEditControl(Screen.ActiveControl))then
 //      Exit;
 
-  if not(Assigned(AEditView)) then
+  if not Assigned(AEditView) then
     Exit;
 
   if AEditView.Block.IsValid then

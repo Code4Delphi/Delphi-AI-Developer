@@ -58,6 +58,18 @@ type
     cBoxLanguageQuestions: TComboBox;
     gboxData: TGroupBox;
     btnOpenDataFolder: TButton;
+    gBoxGroq: TGroupBox;
+    pnGroqBack: TPanel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    lbLinkGroq01: TLabel;
+    btnApiKeyGroqView: TSpeedButton;
+    lbLinkGroq02: TLabel;
+    edtBaseUrlGroq: TEdit;
+    edtApiKeyGroq: TEdit;
+    cBoxModelGroq: TComboBox;
+    lbLinkGroq03: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -70,6 +82,7 @@ type
     procedure lbRestoreDefaultsClick(Sender: TObject);
     procedure ckColorHighlightCodeDelphiUseClick(Sender: TObject);
     procedure btnOpenDataFolderClick(Sender: TObject);
+    procedure btnApiKeyGroqViewClick(Sender: TObject);
   private
     FSettings: TDelphiAIDevSettings;
     procedure SaveSettings;
@@ -143,6 +156,9 @@ begin
   lbLinkGemini03.Font.Color := LColor;
   lbLinkGpt01.Font.Color := LColor;
   lbLinkGpt02.Font.Color := LColor;
+  lbLinkGroq01.Font.Color := LColor;
+  lbLinkGroq02.Font.Color := LColor;
+  lbLinkGroq03.Font.Color := LColor;
   lbRestoreDefaults.Font.Color := LColor;
 end;
 
@@ -156,6 +172,11 @@ begin
   TUtils.TogglePasswordChar(edtApiKeyOpenAI);
 end;
 
+procedure TDelphiAIDevSettingsView.btnApiKeyGroqViewClick(Sender: TObject);
+begin
+  TUtils.TogglePasswordChar(edtApiKeyGroq);
+end;
+
 procedure TDelphiAIDevSettingsView.btnCloseClick(Sender: TObject);
 begin
   Self.Close;
@@ -164,12 +185,12 @@ end;
 
 procedure TDelphiAIDevSettingsView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  case(Key)of
+  case Key of
     VK_F4:
-      if(ssAlt in Shift)then
+      if ssAlt in Shift then
         Key := 0;
     VK_ESCAPE:
-      if(Shift = [])then
+      if Shift = [] then
         btnClose.Click;
   end;
 end;
@@ -184,14 +205,17 @@ procedure TDelphiAIDevSettingsView.lbRestoreDefaultsClick(Sender: TObject);
 var
   LApiKeyGemini: string;
   LApiKeyOpenAI: string;
+  LApiKeyGroq: string;
 begin
   LApiKeyGemini := FSettings.ApiKeyGemini;
   LApiKeyOpenAI := FSettings.ApiKeyOpenAI;
+  LApiKeyGroq := FSettings.ApiKeyGroq;
 
   FSettings.LoadDefaults;
 
   FSettings.ApiKeyGemini := LApiKeyGemini;
   FSettings.ApiKeyOpenAI := LApiKeyOpenAI;
+  FSettings.ApiKeyGroq := LApiKeyGroq;
 
   Self.LoadSettings;
 end;
@@ -229,6 +253,10 @@ begin
   edtBaseUrlOpenAI.Text := FSettings.BaseUrlOpenAI;
   cBoxModelOpenAI.ItemIndex := cBoxModelOpenAI.Items.IndexOf(FSettings.ModelOpenAI);
   edtApiKeyOpenAI.Text := FSettings.ApiKeyOpenAI;
+
+  edtBaseUrlGroq.Text := FSettings.BaseUrlGroq;
+  cBoxModelGroq.ItemIndex := cBoxModelGroq.Items.IndexOf(FSettings.ModelGroq);
+  edtApiKeyGroq.Text := FSettings.ApiKeyGroq;
 end;
 
 procedure TDelphiAIDevSettingsView.SaveSettings;
@@ -246,6 +274,10 @@ begin
   FSettings.BaseUrlOpenAI := edtBaseUrlOpenAI.Text;
   FSettings.ModelOpenAI := cBoxModelOpenAI.Text;
   FSettings.ApiKeyOpenAI := edtApiKeyOpenAI.Text;
+
+  FSettings.BaseUrlGroq := edtBaseUrlGroq.Text;
+  FSettings.ModelGroq := cBoxModelGroq.Text;
+  FSettings.ApiKeyGroq := edtApiKeyGroq.Text;
 
   FSettings.SaveData;
 end;

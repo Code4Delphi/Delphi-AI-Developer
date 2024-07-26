@@ -14,6 +14,20 @@ uses
 
 type
   TDelphiAIDevSettings = class
+  private const
+    FIELD_LanguageQuestions =  'LanguageQuestions';
+    FIELD_AIDefault = 'AIDefault';
+    FIELD_ColorHighlightCodeDelphiUse = 'ColorHighlightCodeDelphiUse';
+    FIELD_ColorHighlightCodeDelphi =  'ColorHighlightCodeDelphi';
+    FIELD_BaseUrlGemini = 'BaseUrlGemini';
+    FIELD_ModelGemini = 'ModelGemini';
+    FIELD_ApiKeyGemini = 'ApiKeyGemini';
+    FIELD_BaseUrlOpenAI = 'BaseUrlOpenAI';
+    FIELD_ModelOpenAI = 'ModelOpenAI';
+    FIELD_ApiKeyOpenAI = 'ApiKeyOpenAI';
+    FIELD_BaseUrlGroq = 'BaseUrlGroq';
+    FIELD_ModelGroq = 'ModelGroq';
+    FIELD_ApiKeyGroq = 'ApiKeyGroq';
   private
     FLanguageQuestions: TC4DLanguage;
     FAIDefault: TC4DAIsAvailable;
@@ -28,18 +42,9 @@ type
     FModelOpenAI: string;
     FApiKeyOpenAI: string;
 
-    const
-    FIELD_LanguageQuestions =  'LanguageQuestions';
-    FIELD_AIDefault = 'AIDefault';
-    FIELD_ColorHighlightCodeDelphiUse = 'ColorHighlightCodeDelphiUse';
-    FIELD_ColorHighlightCodeDelphi =  'ColorHighlightCodeDelphi';
-    FIELD_BaseUrlGemini = 'BaseUrlGemini';
-    FIELD_ModelGemini = 'ModelGemini';
-    FIELD_ApiKeyGemini = 'ApiKeyGemini';
-    FIELD_BaseUrlOpenAI = 'BaseUrlOpenAI';
-    FIELD_ModelOpenAI = 'ModelOpenAI';
-    FIELD_ApiKeyOpenAI = 'ApiKeyOpenAI';
-
+    FBaseUrlGroq: string;
+    FModelGroq: string;
+    FApiKeyGroq: string;
     constructor Create;
   public
     class function GetInstance: TDelphiAIDevSettings;
@@ -59,6 +64,10 @@ type
     property BaseUrlOpenAI: string read FBaseUrlOpenAI write FBaseUrlOpenAI;
     property ModelOpenAI: string read FModelOpenAI write FModelOpenAI;
     property ApiKeyOpenAI: string read FApiKeyOpenAI write FApiKeyOpenAI;
+
+    property BaseUrlGroq: string read FBaseUrlGroq write FBaseUrlGroq;
+    property ModelGroq: string read FModelGroq write FModelGroq;
+    property ApiKeyGroq: string read FApiKeyGroq write FApiKeyGroq;
   end;
 
 implementation
@@ -81,7 +90,7 @@ end;
 procedure TDelphiAIDevSettings.LoadDefaults;
 begin
   FLanguageQuestions := TC4DLanguage.ptBR;
-  FAIDefault := TC4DAIsAvailable.Gemini;
+  FAIDefault := TC4DAIsAvailable.Groq;
 
   FColorHighlightCodeDelphiUse := False;
   FColorHighlightCodeDelphi := clNone;
@@ -93,6 +102,10 @@ begin
   FBaseUrlOpenAI := TConsts.BASE_URL_OPEN_AI;
   FModelOpenAI := 'gpt-3.5-turbo';
   FApiKeyOpenAI := '';
+
+  FBaseUrlGroq := TConsts.BASE_URL_GROQ;
+  FModelGroq := 'llama3-8b-8192';
+  FApiKeyGroq := '';
 end;
 
 procedure TDelphiAIDevSettings.SaveData;
@@ -119,6 +132,10 @@ begin
     LReg.WriteString(FIELD_BaseUrlOpenAI, FBaseUrlOpenAI);
     LReg.WriteString(FIELD_ModelOpenAI, FModelOpenAI);
     LReg.WriteString(FIELD_ApiKeyOpenAI, FApiKeyOpenAI);
+
+    LReg.WriteString(FIELD_BaseUrlGroq, FBaseUrlGroq);
+    LReg.WriteString(FIELD_ModelGroq, FModelGroq);
+    LReg.WriteString(FIELD_ApiKeyGroq, FApiKeyGroq);
   finally
     LReg.Free;
   end;
@@ -171,6 +188,16 @@ begin
 
       if LReg.ValueExists(FIELD_ApiKeyOpenAI) then
         fApiKeyOpenAI := LReg.ReadString(FIELD_ApiKeyOpenAI);
+
+      //GROQ
+      if LReg.ValueExists(FIELD_BaseUrlGroq) then
+        fBaseUrlGroq := LReg.ReadString(FIELD_BaseUrlGroq);
+
+      if LReg.ValueExists(FIELD_ModelGroq) then
+        fModelGroq := LReg.ReadString(FIELD_ModelGroq);
+
+      if LReg.ValueExists(FIELD_ApiKeyGroq) then
+        fApiKeyGroq := LReg.ReadString(FIELD_ApiKeyGroq);
     except
       Self.LoadDefaults;
     end;

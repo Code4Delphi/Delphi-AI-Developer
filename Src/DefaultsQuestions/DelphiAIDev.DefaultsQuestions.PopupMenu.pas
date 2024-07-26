@@ -28,6 +28,7 @@ type
     procedure ClickFromString(const AStringClick: String);
     procedure CreateItemCustomize;
     procedure CustomizeClick(Sender: TObject);
+    procedure AddSeparator;
   public
     function ProcessClickInItem(AProc: TProc<Boolean, string>): TDelphiAIDevDefaultsQuestionsPopupMenu;
     procedure CreateMenus(const APopupMenu: TPopupMenu);
@@ -120,6 +121,9 @@ var
 begin
   if FList.Count <= 0 then
     Exit;
+
+  //SEPARATOR AFTER ITEM CUSTOMIZE
+  Self.AddSeparator;
 
   LListOrder := TList<Integer>.Create;
   try
@@ -253,6 +257,19 @@ begin
 
   if Assigned(FProcessClickInItem) then
     FProcessClickInItem(StrToBoolDef(LCodeOnly, False), LQuestion);
+end;
+
+procedure TDelphiAIDevDefaultsQuestionsPopupMenu.AddSeparator;
+var
+  LMenuItem: TMenuItem;
+begin
+  LMenuItem := TMenuItem.Create(FPopupMenu);
+  LMenuItem.Name := 'C4DDefaultsQuestionsSeparator' + TUtils.IncInt(FCont).ToString;
+  LMenuItem.Caption := '-';
+  LMenuItem.OnClick := nil;
+  LMenuItem.Hint := '';
+  LMenuItem.ImageIndex := -1;
+  FPopupMenu.Items.Add(LMenuItem);
 end;
 
 end.

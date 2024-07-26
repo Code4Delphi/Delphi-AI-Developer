@@ -39,23 +39,21 @@ end;
 
 function TDelphiAIDevAIChatGPT.GetResponse(const AQuestion: string): string;
 var
-  LApiUrl: string;
   LQuestion: string;
   LResponse: IResponse;
-  LReturnValue: TJSONValue;
-  LChoicesValue: TJSONValue;
-  LChoicesArray: TJSONArray;
-  LChoicesObj: TJSONObject;
-  LMessageValue: TJSONValue;
-  LMessageObj: TJSONObject;
-  I: Integer;
+  LJsonValueAll: TJSONValue;
+  LJsonValueChoices: TJSONValue;
+  LJsonArrayChoices: TJSONArray;
+  LJsonObjChoices: TJSONObject;
+  LJsonValueMessage: TJSONValue;
+  LJsonObjMessage: TJSONObject;
+  LItemChoices: Integer;
 begin
   Result := '';
-  LApiUrl := FSettings.BaseUrlOpenAI;
   LQuestion := TUtils.AdjustQuestionToJson(AQuestion); //AQuestion.Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase]);
 
   LResponse := TRequest.New
-    .BaseURL(LApiUrl)
+    .BaseURL(FSettings.BaseUrlOpenAI)
     .ContentType('application/json')
     .Accept('application/json')
     .Token('Bearer ' + FSettings.ApiKeyOpenAI)
@@ -65,37 +63,33 @@ begin
   if LResponse.StatusCode <> 200 then
     Exit('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
 
-  //TJSONValue COMPLETE
-  LReturnValue := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(LResponse.Content), 0);
-  if not(LReturnValue is TJSONObject) then
+  LJsonValueAll := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(LResponse.Content), 0);
+  if not(LJsonValueAll is TJSONObject) then
     Exit('The question cannot be answered, return object not found.' + sLineBreak +
       'Return: ' + LResponse.Content);
 
-  //GET CHOICES LIKE TJSONValue
-  LChoicesValue := TJSONObject(LReturnValue).GetValue('choices');
-
-  if not(LChoicesValue is TJSONArray) then
+  LJsonValueChoices := TJSONObject(LJsonValueAll).GetValue('choices');
+  if not(LJsonValueChoices is TJSONArray) then
     Exit('The question cannot be answered, choices not found.' + sLineBreak +
       'Return: ' + LResponse.Content);
 
-  //CAST CHOICES LIKE TJSONArray
-  LChoicesArray := LChoicesValue as TJSONArray;
-  for I := 0 to Pred(LChoicesArray.Count) do
+  LJsonArrayChoices := LJsonValueChoices as TJSONArray;
+  for LItemChoices := 0 to Pred(LJsonArrayChoices.Count) do
   begin
-    if not(LChoicesArray.Items[I] is TJSONObject) then
+    if not(LJsonArrayChoices.Items[LItemChoices] is TJSONObject) then
       Continue;
 
     //CAST ITEM CHOICES LIKE TJSONObject
-    LChoicesObj := LChoicesArray.Items[I] as TJSONObject;
+    LJsonObjChoices := LJsonArrayChoices.Items[LItemChoices] as TJSONObject;
 
     //GET MESSAGE LIKE TJSONValue
-    LMessageValue := LChoicesObj.GetValue('message');
-    if not(LMessageValue is TJSONObject) then
+    LJsonValueMessage := LJsonObjChoices.GetValue('message');
+    if not(LJsonValueMessage is TJSONObject) then
       Continue;
 
     //GET MESSAGE LIKE TJSONObject
-    LMessageObj := LMessageValue as TJSONObject;
-    Result := Result + TJSONString(LMessageObj.GetValue('content')).Value + sLineBreak;
+    LJsonObjMessage := LJsonValueMessage as TJSONObject;
+    Result := Result + TJSONString(LJsonObjMessage.GetValue('content')).Value.Trim + sLineBreak;
   end;
 
   Result := Result.Trim;

@@ -9,7 +9,7 @@ uses
 
 type
   {$SCOPEDENUMS ON}
-  TC4DAIsAvailable = (Gemini, OpenAI);
+  TC4DAIsAvailable = (Gemini, OpenAI, Groq);
   TC4DLanguage = (en, ptBR, es);
   TC4DExtensionsFiles = (None, PAS, DFM, FMX, DPR, DPK, DPROJ, ZIP, BMP, INI, ALL);
   TC4DExtensionsOfFiles = set of TC4DExtensionsFiles;
@@ -27,6 +27,7 @@ type
 
   TC4DLanguageHelper = record helper for TC4DLanguage
     function ToString: string;
+    function GetLanguageDefinition: string;
     function GetMsgCodeOnly: string;
   end;
 
@@ -93,14 +94,25 @@ begin
   end;
 end;
 
-function TC4DLanguageHelper.GetMsgCodeOnly: string;
+function TC4DLanguageHelper.GetLanguageDefinition: string;
 begin
-  Result := 'Faça a seguinte ação sem adicionar comentários: ' + sLineBreak;
+  Result := 'Responda em português.' + sLineBreak;
   case Self of
     TC4DLanguage.en:
-      Result := 'Perform the following action without adding comments: ' + sLineBreak;
+      Result := 'Answer in English.' + sLineBreak;
     TC4DLanguage.es:
-      Result := 'Realice la siguiente acción sin agregar comentarios.: ' + sLineBreak;
+      Result := 'Answer in Spanish.' + sLineBreak;
+  end;
+end;
+
+function TC4DLanguageHelper.GetMsgCodeOnly: string;
+begin
+  Result := 'Faça a seguinte ação sem adicionar comentários:' + sLineBreak;
+  case Self of
+    TC4DLanguage.en:
+      Result := 'Perform the following action without adding comments:' + sLineBreak;
+    TC4DLanguage.es:
+      Result := 'Realice la siguiente acción sin agregar comentarios:' + sLineBreak;
   end;
 end;
 

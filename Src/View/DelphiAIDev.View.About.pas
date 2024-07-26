@@ -59,7 +59,6 @@ implementation
 
 {$R *.dfm}
 
-
 procedure TDelphiAIDevViewAbout.FormCreate(Sender: TObject);
 begin
   TUtilsOTA.IDEThemingAll(TDelphiAIDevViewAbout, Self);
@@ -67,7 +66,7 @@ end;
 
 procedure TDelphiAIDevViewAbout.FormShow(Sender: TObject);
 begin
-  Self.Caption := TConsts.MENU_IDE_ABOUT_CAPTION + TConsts.SEMANTIC_VERSION;
+  Self.Caption := TConsts.MENU_IDE_ABOUT_CAPTION + ' ' + TConsts.SEMANTIC_VERSION;
 
   mmMensagem.Lines.Clear;
   mmMensagem.Lines.Add(TConsts.ABOUT_COPY_RIGHT);
@@ -78,12 +77,12 @@ end;
 
 procedure TDelphiAIDevViewAbout.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  case(Key)of
+  case Key of
     VK_F4:
-      if(ssAlt in Shift)then
+      if ssAlt in Shift then
         Key := 0;
     VK_ESCAPE:
-      if(Shift = [])then
+      if Shift = [] then
         btnOK.Click;
   end;
 end;

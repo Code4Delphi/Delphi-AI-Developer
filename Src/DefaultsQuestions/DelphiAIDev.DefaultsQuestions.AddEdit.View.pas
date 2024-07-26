@@ -240,12 +240,12 @@ end;
 
 procedure TDelphiAIDevDefaultsQuestionsAddEditView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  case(Key)of
+  case Key of
     VK_F4:
-    if(ssAlt in Shift)then
+    if ssAlt in Shift then
       Key := 0;
     VK_ESCAPE:
-    if(Shift = [])then
+    if Shift = [] then
       btnClose.Click;
   end;
 end;
