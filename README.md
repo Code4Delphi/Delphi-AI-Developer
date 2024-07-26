@@ -1,5 +1,5 @@
 # Delphi AI Developer (Copilot)
-Inspired by GitHub Copilot, Delphi AI Developer is a plugin that adds AI interaction capabilities to the Delphi IDE, using both the OpenAI API and the Gemini API, as well as offering offline AI support.
+Inspired by GitHub Copilot, Delphi AI Developer is a plugin that adds Artificial intelligence (AI) interaction capabilities to the Delphi IDE, using both the OpenAI API, Gemini API and Groq API, as well as offering offline AI support.
 
 With Delphi AI Developer, you will have assistance in generating and refactoring code, facilitating and accelerating development.
 
