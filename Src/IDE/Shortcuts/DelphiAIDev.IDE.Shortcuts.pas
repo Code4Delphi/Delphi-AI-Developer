@@ -14,7 +14,7 @@ uses
 type
   TDelphiAIDevIDEShortcuts = class(TNotifierObject, IOTAKeyboardBinding)
   private
-    procedure KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+    //procedure KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     procedure KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
   protected
     function GetBindingType: TBindingType;
@@ -38,8 +38,8 @@ var
 
 procedure RegisterSelf;
 begin
-//  if Index < 0 then
-//    Index := TUtilsOTA.GetIOTAKeyboardServices.AddKeyboardBinding(TDelphiAIDevIDEShortcuts.New);
+  if Index < 0 then
+    Index := TUtilsOTA.GetIOTAKeyboardServices.AddKeyboardBinding(TDelphiAIDevIDEShortcuts.New);
 end;
 
 procedure UnRegisterSelf;
@@ -79,36 +79,41 @@ end;
 
 procedure TDelphiAIDevIDEShortcuts.BindKeyboard(const BindingServices: IOTAKeyBindingServices);
 begin
-  if TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ then
-    Exit;
+//  if TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ then
+//    Exit;
 
-  Exit;
-  BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [])], Self.KeyProcBlockReturn, nil);
+  //BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [])], Self.KeyProcBlockReturn, nil);
   BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [ssAlt])], Self.KeyProcBlockReturnAndAlt, nil);
 end;
 
-procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
-begin
-  Exit;
-
-  TUtils.AddLog(GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
-  BindingResult := krNextProc; //krUnhandled;
-end;
+//procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+//begin
+//  if KeyCode <> Shortcut(VK_RETURN, []) then
+//    Exit;
+//
+//  TUtils.AddLog(GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
+//  BindingResult := TKeyBindingResult.krNextProc; //krUnhandled;
+//end;
 
 procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 var
   LTextCurrentLineOrBlock: string;
 begin
-  //TUtils.AddLog('Enter and Alt' + GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
+  if KeyCode <> Shortcut(VK_RETURN, [ssAlt]) then
+    Exit;
 
-  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView);
+  //LTextCurrentLineOrBlock := Context.EditBuffer.EditBlock.Text;
+  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView).Trim;
   if LTextCurrentLineOrBlock.Trim.IsEmpty then
     Exit;
+
+  if copy(LTextCurrentLineOrBlock, 1, 2) = '//' then
+    LTextCurrentLineOrBlock := copy(LTextCurrentLineOrBlock, 3, LTextCurrentLineOrBlock.Length);
 
   DelphiAIDev.Chat.View.DelphiAIDevChatView.QuestionOnShow := LTextCurrentLineOrBlock;
   DelphiAIDev.Chat.View.DelphiAIDevChatViewShowDockableForm;
 
-  BindingResult := krNextProc; //krUnhandled;
+  BindingResult := TKeyBindingResult.krUnhandled; //krNextProc;
 end;
 
 initialization

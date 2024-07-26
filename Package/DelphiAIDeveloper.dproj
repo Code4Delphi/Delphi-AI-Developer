@@ -146,7 +146,7 @@
         <DCCReference Include="..\Src\View\DelphiAIDev.View.About.pas">
             <Form>DelphiAIDevViewAbout</Form>
         </DCCReference>
-        <DCCReference Include="..\Src\Test\Test.pas"/>
+        <DCCReference Include="..\Src\Test\DelphiAIDev.Test.pas"/>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.View.pas">
             <Form>DelphiAIDevSettingsView</Form>
             <FormType>dfm</FormType>

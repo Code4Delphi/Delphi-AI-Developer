@@ -49,7 +49,7 @@ contains
   DelphiAIDev.MainMenu in '..\Src\MainMenu\DelphiAIDev.MainMenu.pas',
   DelphiAIDev.MainMenu.Clicks in '..\Src\MainMenu\DelphiAIDev.MainMenu.Clicks.pas',
   DelphiAIDev.View.About in '..\Src\View\DelphiAIDev.View.About.pas' {DelphiAIDevViewAbout},
-  Test in '..\Src\Test\Test.pas',
+  DelphiAIDev.Test in '..\Src\Test\DelphiAIDev.Test.pas',
   DelphiAIDev.Settings.View in '..\Src\Settings\DelphiAIDev.Settings.View.pas' {DelphiAIDevSettingsView},
   DelphiAIDev.Settings in '..\Src\Settings\DelphiAIDev.Settings.pas',
   DelphiAIDev.Chat in '..\Src\Chat\DelphiAIDev.Chat.pas',

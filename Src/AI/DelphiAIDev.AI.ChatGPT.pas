@@ -39,7 +39,6 @@ end;
 
 function TDelphiAIDevAIChatGPT.GetResponse(const AQuestion: string): string;
 var
-  LApiUrl: string;
   LQuestion: string;
   LResponse: IResponse;
   LJsonValueAll: TJSONValue;
@@ -51,11 +50,10 @@ var
   LItemChoices: Integer;
 begin
   Result := '';
-  LApiUrl := FSettings.BaseUrlOpenAI;
   LQuestion := TUtils.AdjustQuestionToJson(AQuestion); //AQuestion.Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase]);
 
   LResponse := TRequest.New
-    .BaseURL(LApiUrl)
+    .BaseURL(FSettings.BaseUrlOpenAI)
     .ContentType('application/json')
     .Accept('application/json')
     .Token('Bearer ' + FSettings.ApiKeyOpenAI)

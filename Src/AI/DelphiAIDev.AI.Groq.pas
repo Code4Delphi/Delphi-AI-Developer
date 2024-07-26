@@ -39,7 +39,6 @@ end;
 
 function TDelphiAIDevAIGroq.GetResponse(const AQuestion: string): string;
 var
-  LApiUrl: string;
   LQuestion: string;
   LResponse: IResponse;
   LJsonValueAll: TJSONVALUE;
@@ -49,18 +48,14 @@ var
   LItemChoices: Integer;
 begin
   Result := '';
-  //LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + '?key=' + FSettings.ApiKeyGemini;
-  LApiUrl := 'https://api.groq.com/openai/v1/chat/completions';
   LQuestion := TUtils.AdjustQuestionToJson(AQuestion);
 
   LResponse := TRequest.New
-    .BaseURL(LApiUrl)
+    .BaseURL(FSettings.BaseUrlGroq)
     .ContentType('application/json')
     .Accept('application/json')
-    //.Token('Bearer ' + FSettings.ApiKeyOpenAI)
-    .Token('Bearer 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')
-    //.AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOpenAI, LQuestion]))
-    .AddBody(Format(API_JSON_BODY_BASE, [LQuestion, 'Llama3-8b-8192']))
+    .Token('Bearer ' + FSettings.ApiKeyGroq)
+    .AddBody(Format(API_JSON_BODY_BASE, [LQuestion, FSettings.ModelGroq]))
     .Post;
 
   if LResponse.StatusCode <> 200 then
