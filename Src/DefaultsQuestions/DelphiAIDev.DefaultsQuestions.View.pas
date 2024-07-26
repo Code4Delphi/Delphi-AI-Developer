@@ -95,18 +95,18 @@ end;
 
 procedure TDelphiAIDevDefaultsQuestionsView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  case(Key)of
+  case Key of
     VK_F4:
-    if(ssAlt in Shift)then
+    if ssAlt in Shift then
       Key := 0;
     VK_ESCAPE:
-    if(Shift = [])then
+    if Shift = [] then
       btnClose.Click;
     VK_DOWN, VK_UP:
     begin
       if(ListView <> ActiveControl)then
       begin
-        case(Key)of
+        case Key of
           VK_DOWN:
           if(ListView.ItemIndex < Pred(ListView.Items.Count))then
             ListView.ItemIndex := ListView.ItemIndex + 1;

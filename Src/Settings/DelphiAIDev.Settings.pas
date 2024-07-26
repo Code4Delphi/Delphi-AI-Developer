@@ -90,7 +90,7 @@ end;
 procedure TDelphiAIDevSettings.LoadDefaults;
 begin
   FLanguageQuestions := TC4DLanguage.ptBR;
-  FAIDefault := TC4DAIsAvailable.Gemini;
+  FAIDefault := TC4DAIsAvailable.Groq;
 
   FColorHighlightCodeDelphiUse := False;
   FColorHighlightCodeDelphi := clNone;

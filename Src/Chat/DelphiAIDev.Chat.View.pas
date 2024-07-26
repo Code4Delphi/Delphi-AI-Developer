@@ -428,7 +428,7 @@ begin
   mmReturn.Lines.Clear;
   Self.WaitingFormON;
 
-  LQuestion := '';
+  LQuestion := FSettings.LanguageQuestions.GetLanguageDefinition;
 
   if btnUseCurrentUnitCode.ImageIndex = UseCurrentUnitCode_ImageIndex_ON then
     LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak;
@@ -765,7 +765,12 @@ begin
       lbCurrentAI.Hint := FSettings.ModelGemini;
     TC4DAIsAvailable.OpenAI:
       lbCurrentAI.Hint := FSettings.ModelOpenAI;
+    TC4DAIsAvailable.Groq:
+      lbCurrentAI.Hint := FSettings.ModelGroq;
   end;
+
+  lbCurrentAI.Repaint;
+  Self.Repaint;
 end;
 
 procedure TDelphiAIDevChatView.Gemini1Click(Sender: TObject);
