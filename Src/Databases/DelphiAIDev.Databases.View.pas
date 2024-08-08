@@ -48,7 +48,7 @@ type
     procedure ReloadData;
     procedure ReloadDataInternal;
     procedure FillStatusBar(AItem: TListItem);
-    procedure FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDefaultsQuestionsFields);
+    procedure FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDatabasesFields);
   public
     property MadeChanges: Boolean read FMadeChanges;
   end;
@@ -164,8 +164,8 @@ begin
 
   ListView.Clear;
 
-  TDelphiAIDevDefaultsQuestionsModel.New.ReadData(
-    procedure(AFields: TDelphiAIDevDefaultsQuestionsFields)
+  TDelphiAIDevDatabasesModel.New.ReadData(
+    procedure(AFields: TDelphiAIDevDatabasesFields)
     begin
       if AFields.Caption.Trim.IsEmpty then
         Exit;
@@ -207,7 +207,7 @@ begin
   Self.FillStatusBar(Item);
 end;
 
-procedure TDelphiAIDevDatabasesView.FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDefaultsQuestionsFields);
+procedure TDelphiAIDevDatabasesView.FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDatabasesFields);
 var
   LListItem: TListItem;
 begin
@@ -219,7 +219,7 @@ begin
   AFields.Guid := LListItem.SubItems[C_INDEX_SUBITEM_Guid];
   AFields.GuidMenuMaster := LListItem.SubItems[C_INDEX_SUBITEM_GuidMenuMaster];
   AFields.Caption := LListItem.Caption;
-  AFields.Kind := TUtils.StrToDefaultsQuestionsKind(LListItem.SubItems[C_INDEX_SUBITEM_Kind]);
+  AFields.Kind := TUtils.StrToDatabasesKind(LListItem.SubItems[C_INDEX_SUBITEM_Kind]);
   AFields.Order := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Order], 0);
   AFields.Visible := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_Visible]);
   AFields.CodeOnly := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_CodeOnly]);
@@ -273,13 +273,13 @@ end;
 
 procedure TDelphiAIDevDatabasesView.btnAddClick(Sender: TObject);
 var
-  LFields: TDelphiAIDevDefaultsQuestionsFields;
-  LView: TDelphiAIDevDefaultsQuestionsAddEditView;
+  LFields: TDelphiAIDevDatabasesFields;
+  LView: TDelphiAIDevDatabasesAddEditView;
 begin
-  LFields := TDelphiAIDevDefaultsQuestionsFields.Create;
+  LFields := TDelphiAIDevDatabasesFields.Create;
   try
     //LFields.Guid := '';
-    LView := TDelphiAIDevDefaultsQuestionsAddEditView.Create(nil);
+    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
     try
       LView.Caption := string(LView.Caption).Replace('[action]', 'Adding', [rfReplaceAll, rfIgnoreCase]);
       LView.Fields := LFields;
@@ -299,20 +299,20 @@ end;
 
 procedure TDelphiAIDevDatabasesView.btnEditClick(Sender: TObject);
 var
-  LFields: TDelphiAIDevDefaultsQuestionsFields;
-  LView: TDelphiAIDevDefaultsQuestionsAddEditView;
+  LFields: TDelphiAIDevDatabasesFields;
+  LView: TDelphiAIDevDatabasesAddEditView;
 begin
   if(ListView.Selected = nil)then
     Exit;
 
-  LFields := TDelphiAIDevDefaultsQuestionsFields.Create;
+  LFields := TDelphiAIDevDatabasesFields.Create;
   try
     Self.FillFieldsWithSelectedItem(LFields);
 
     if(LFields.Caption.Trim.IsEmpty)then
       TUtils.ShowMsgErrorAndAbort('Caption not found');
 
-    LView := TDelphiAIDevDefaultsQuestionsAddEditView.Create(nil);
+    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
     try
       LView.Caption := string(LView.Caption).Replace('[action]', 'Editing', [rfReplaceAll, rfIgnoreCase]);
       LView.Fields := LFields;
@@ -348,7 +348,7 @@ begin
 
   Screen.Cursor := crHourGlass;
   try
-    TDelphiAIDevDefaultsQuestionsModel.New.RemoveData(LGuid);
+    TDelphiAIDevDatabasesModel.New.RemoveData(LGuid);
     Self.ReloadData;
   finally
     FMadeChanges := True;
