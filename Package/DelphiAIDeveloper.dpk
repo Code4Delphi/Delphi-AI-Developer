@@ -74,6 +74,8 @@ contains
   DelphiAIDev.Utils.ABMenuAction in '..\Src\Utils\DelphiAIDev.Utils.ABMenuAction.pas',
   DelphiAIDev.IDE.Splash in '..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas',
   DelphiAIDev.Chat.ProcessResponse in '..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas',
-  DelphiAIDev.AI.Groq in '..\Src\AI\DelphiAIDev.AI.Groq.pas';
+  DelphiAIDev.AI.Groq in '..\Src\AI\DelphiAIDev.AI.Groq.pas',
+  DelphiAIDev.PopupMenuProjects in '..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.pas',
+  DelphiAIDev.PopupMenuProjects.Item in '..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.Item.pas';
 
 end.

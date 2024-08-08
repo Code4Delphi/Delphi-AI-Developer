@@ -13,6 +13,7 @@ type
     FImgIndexGear: Integer;
     FImgIndexMessage: Integer;
     FImgQuestion: Integer;
+    FImgDatabase: Integer;
     constructor Create;
   public
     class function GetInstance: TDelphiAIDevIDEImageListMain;
@@ -20,6 +21,7 @@ type
     property ImgIndexGear: Integer read FImgIndexGear;
     property ImgIndexMessage: Integer read FImgIndexMessage;
     property ImgQuestion: Integer read FImgQuestion;
+    property ImgDatabase: Integer read FImgDatabase;
   end;
 
 implementation
@@ -43,6 +45,7 @@ begin
   FImgIndexGear := TUtilsOTA.AddImgIDEResourceName('c4d_gear');
   FImgIndexMessage := TUtilsOTA.AddImgIDEResourceName('c4d_message');
   FImgQuestion  := TUtilsOTA.AddImgIDEResourceName('c4d_question');
+  FImgDatabase  := TUtilsOTA.AddImgIDEResourceName('c4d_database');
 end;
 
 initialization

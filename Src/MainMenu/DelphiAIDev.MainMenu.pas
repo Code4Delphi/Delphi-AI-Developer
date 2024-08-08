@@ -67,7 +67,7 @@ begin
     Self.GetShortCutStrChat
     );
 
-  Self.CreateSubMenu('C4DSeparator40', '-', nil);
+  Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '10', '-', nil);
 
   Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_QUESTIONS_NAME,
     TConsts.MENU_IDE_DEFAULTS_QUESTIONS_CAPTION,
@@ -75,7 +75,15 @@ begin
     TDelphiAIDevIDEImageListMain.GetInstance.ImgQuestion
     );
 
-  Self.CreateSubMenu('C4DSeparator50', '-', nil);
+  Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '20', '-', nil);
+
+  Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_DATABASES_NAME,
+    TConsts.MENU_IDE_DEFAULTS_DATABASES_Caption,
+    TDelphiAIDevIDEMainMenuClicks.DatabasesClick,
+    TDelphiAIDevIDEImageListMain.GetInstance.ImgDatabase
+    );
+
+  Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '30', '-', nil);
 
   Self.CreateSubMenu(TConsts.MENU_IDE_SETTINGS_NAME,
     TConsts.MENU_IDE_SETTINGS_CAPTION,
@@ -84,7 +92,7 @@ begin
     );
 
 
-  Self.CreateSubMenu('C4DSeparator90', '-', nil);
+  Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '40', '-', nil);
   Self.CreateSubMenu(TConsts.MENU_IDE_ABOUT_NAME,
     TConsts.MENU_IDE_ABOUT_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.AboutClick,

@@ -181,6 +181,8 @@
         <DCCReference Include="..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas"/>
         <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Groq.pas"/>
+        <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.pas"/>
+        <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.Item.pas"/>
         <RcItem Include="Img\c4d_gear.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_gear</ResourceId>
@@ -204,6 +206,10 @@
         <RcItem Include="Img\c4d_question.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_question</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_database.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_database</ResourceId>
         </RcItem>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

@@ -10,10 +10,10 @@ uses
 
 type
   TDelphiAIDevIDEMainMenuClicks = class
-  private
   public
     class procedure ChatClick(Sender: TObject);
     class procedure DefaultsQuestionsClick(Sender: TObject);
+    class procedure DatabasesClick(Sender: TObject);
     class procedure SettingsClick(Sender: TObject);
     class procedure AboutClick(Sender: TObject);
   end;
@@ -35,6 +35,18 @@ begin
 end;
 
 class procedure TDelphiAIDevIDEMainMenuClicks.DefaultsQuestionsClick(Sender: TObject);
+var
+  LView: TDelphiAIDevDefaultsQuestionsView;
+begin
+  LView := TDelphiAIDevDefaultsQuestionsView.Create(nil);
+  try
+    LView.ShowModal;
+  finally
+    FreeAndNil(LView);
+  end;
+end;
+
+class procedure TDelphiAIDevIDEMainMenuClicks.DatabasesClick(Sender: TObject);
 var
   LView: TDelphiAIDevDefaultsQuestionsView;
 begin
