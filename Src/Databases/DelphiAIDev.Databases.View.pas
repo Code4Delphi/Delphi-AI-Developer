@@ -1,4 +1,4 @@
-unit DelphiAIDev.DefaultsQuestions.View;
+unit DelphiAIDev.Databases.View;
 
 interface
 
@@ -13,12 +13,12 @@ uses
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
   DelphiAIDev.Utils.ListView,
-  DelphiAIDev.DefaultsQuestions.Model,
-  DelphiAIDev.DefaultsQuestions.Fields,
-  DelphiAIDev.DefaultsQuestions.AddEdit.View;
+  DelphiAIDev.Databases.Model,
+  DelphiAIDev.Databases.Fields;
+  //DelphiAIDev.Databases.AddEdit.View;
 
 type
-  TDelphiAIDevDefaultsQuestionsView = class(TForm)
+  TDelphiAIDevDatabasesView = class(TForm)
     Panel1: TPanel;
     btnEdit: TButton;
     btnClose: TButton;
@@ -63,25 +63,25 @@ uses
 {$R *.dfm}
 
 const
-  C_INDEX_SUBITEM_Kind = 0;
-  C_INDEX_SUBITEM_Order = 1;
-  C_INDEX_SUBITEM_Visible = 2;
-  C_INDEX_SUBITEM_CodeOnly = 3;
-  C_INDEX_SUBITEM_Guid = 4;
-  C_INDEX_SUBITEM_GuidMenuMaster = 5;
-  C_INDEX_SUBITEM_Question = 6;
+  C_INDEX_SUBITEM_DriverId = 0;
+  C_INDEX_SUBITEM_Host = 1;
+  C_INDEX_SUBITEM_User = 2;
+  C_INDEX_SUBITEM_Port = 3;
+  C_INDEX_SUBITEM_DatabaseName = 4;
+  C_INDEX_SUBITEM_Password = 5;
+  C_INDEX_SUBITEM_Guid = 6;
 
-procedure TDelphiAIDevDefaultsQuestionsView.FormCreate(Sender: TObject);
+procedure TDelphiAIDevDatabasesView.FormCreate(Sender: TObject);
 begin
-  TUtilsOTA.IDEThemingAll(TDelphiAIDevDefaultsQuestionsView, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiAIDevDatabasesView, Self);
   FUtilsListView := TDelphiAIDevUtilsListView.New(ListView);
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.FormShow(Sender: TObject);
+procedure TDelphiAIDevDatabasesView.FormShow(Sender: TObject);
 begin
   Self.ReloadData;
 
-  if(ListView.Items.Count > 0)then
+  if ListView.Items.Count > 0 then
     ListView.Items.Item[0].Selected := True;
   FMadeChanges := False;
   edtSearch.SetFocus;
@@ -89,30 +89,30 @@ begin
   FUtilsListView
     .InvertOrder(False)
     .SortStyle(TDelphiAIDevUtilsListViewSortStyle.Numeric)
-    .ColumnIndex(C_INDEX_SUBITEM_Order + 1)
+    .ColumnIndex(C_INDEX_SUBITEM_DatabaseName + 1)
     .CustomSort;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDelphiAIDevDatabasesView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   case Key of
     VK_F4:
-    if ssAlt in Shift then
-      Key := 0;
+      if ssAlt in Shift then
+        Key := 0;
     VK_ESCAPE:
-    if Shift = [] then
-      btnClose.Click;
+      if Shift = [] then
+        btnClose.Click;
     VK_DOWN, VK_UP:
     begin
-      if(ListView <> ActiveControl)then
+      if ListView <> ActiveControl then
       begin
         case Key of
           VK_DOWN:
-          if ListView.ItemIndex < Pred(ListView.Items.Count) then
-            ListView.ItemIndex := ListView.ItemIndex + 1;
+            if ListView.ItemIndex < Pred(ListView.Items.Count) then
+              ListView.ItemIndex := ListView.ItemIndex + 1;
           VK_UP:
-          if(ListView.ItemIndex > 0)then
-            ListView.ItemIndex := ListView.ItemIndex - 1;
+            if ListView.ItemIndex > 0 then
+              ListView.ItemIndex := ListView.ItemIndex - 1;
         end;
         Key := 0;
       end;
@@ -120,18 +120,18 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.btnCloseClick(Sender: TObject);
+procedure TDelphiAIDevDatabasesView.btnCloseClick(Sender: TObject);
 begin
   Self.Close;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDelphiAIDevDatabasesView.edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_RETURN then
     Self.ReloadData;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.btnSearchClick(Sender: TObject);
+procedure TDelphiAIDevDatabasesView.btnSearchClick(Sender: TObject);
 begin
   Screen.Cursor := crHourGlass;
   try
@@ -141,7 +141,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ReloadData;
+procedure TDelphiAIDevDatabasesView.ReloadData;
 begin
   Screen.Cursor := crHourGlass;
   try
@@ -151,7 +151,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ReloadDataInternal;
+procedure TDelphiAIDevDatabasesView.ReloadDataInternal;
 var
   LStrSearch: string;
   LListItem: TListItem;
@@ -202,12 +202,12 @@ begin
   Self.FillStatusBar(ListView.Selected);
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ListViewSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
+procedure TDelphiAIDevDatabasesView.ListViewSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
 begin
   Self.FillStatusBar(Item);
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDefaultsQuestionsFields);
+procedure TDelphiAIDevDatabasesView.FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDefaultsQuestionsFields);
 var
   LListItem: TListItem;
 begin
@@ -226,7 +226,7 @@ begin
   AFields.Question := LListItem.SubItems[C_INDEX_SUBITEM_Question];
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.FillStatusBar(AItem: TListItem);
+procedure TDelphiAIDevDatabasesView.FillStatusBar(AItem: TListItem);
 var
   LIndex: Integer;
   LQuestion: string;
@@ -243,7 +243,7 @@ begin
   StatusBar1.Panels[1].Text := LQuestion;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ListViewColumnClick(Sender: TObject; Column: TListColumn);
+procedure TDelphiAIDevDatabasesView.ListViewColumnClick(Sender: TObject; Column: TListColumn);
 var
   LSortStyle: TDelphiAIDevUtilsListViewSortStyle;
 begin
@@ -260,18 +260,18 @@ begin
     .CustomSort;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ListViewDblClick(Sender: TObject);
+procedure TDelphiAIDevDatabasesView.ListViewDblClick(Sender: TObject);
 begin
   btnEdit.Click
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.ListViewKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDelphiAIDevDatabasesView.ListViewKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_RETURN then
     btnEdit.Click
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.btnAddClick(Sender: TObject);
+procedure TDelphiAIDevDatabasesView.btnAddClick(Sender: TObject);
 var
   LFields: TDelphiAIDevDefaultsQuestionsFields;
   LView: TDelphiAIDevDefaultsQuestionsAddEditView;
@@ -297,7 +297,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.btnEditClick(Sender: TObject);
+procedure TDelphiAIDevDatabasesView.btnEditClick(Sender: TObject);
 var
   LFields: TDelphiAIDevDefaultsQuestionsFields;
   LView: TDelphiAIDevDefaultsQuestionsAddEditView;
@@ -329,7 +329,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDefaultsQuestionsView.btnRemoveClick(Sender: TObject);
+procedure TDelphiAIDevDatabasesView.btnRemoveClick(Sender: TObject);
 var
   LGuid: string;
 begin

@@ -163,8 +163,8 @@
         <DCCReference Include="..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas"/>
         <DCCReference Include="..\Src\IDE\Shortcuts\DelphiAIDev.IDE.Shortcuts.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas"/>
-        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas">
-            <Form>DelphiAIDevDefaultsQuestionsView</Form>
+        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.View.pas">
+            <Form>DelphiAIDevDatabasesView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ListView.pas"/>
@@ -183,6 +183,13 @@
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Groq.pas"/>
         <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.pas"/>
         <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.Item.pas"/>
+        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas">
+            <Form>DelphiAIDevDefaultsQuestionsView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.Model.pas"/>
+        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.Interfaces.pas"/>
+        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.Fields.pas"/>
         <RcItem Include="Img\c4d_gear.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_gear</ResourceId>

@@ -79,6 +79,7 @@ type
     //class function GetPathFileIniGeneralSettings: string;
     class function GetPathFileChat: string;
     class function GetPathFileJSONDefaultsQuestions: string;
+    class function GetPathFileJSONDatabases: string;
     class function CreateIfNecessaryAndGetPathFolderTemp: string;
     class function GetGuidStr: string;
     class function GuidToFileName(const AGuid: string; const AExtension: string): string;
@@ -748,6 +749,11 @@ end;
 class function TUtils.GetPathFileJSONDefaultsQuestions: string;
 begin
   Result := Self.GetPathFolderRoot + TConsts.FILE_JSON_DEFAULTS_QUESTIONS;
+end;
+
+class function TUtils.GetPathFileJSONDatabases: string;
+begin
+  Result := Self.GetPathFolderRoot + TConsts.FILE_JSON_DATABASES;
 end;
 
 class function TUtils.CreateIfNecessaryAndGetPathFolderTemp: string;
