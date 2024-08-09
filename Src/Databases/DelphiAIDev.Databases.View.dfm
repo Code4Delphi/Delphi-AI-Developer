@@ -132,6 +132,11 @@ object DelphiAIDevDatabasesView: TDelphiAIDevDatabasesView
         Width = 200
       end
       item
+        Alignment = taCenter
+        Caption = 'Visible'
+        Width = 45
+      end
+      item
         Caption = 'Password'
         MaxWidth = 1
         Width = 1
@@ -156,7 +161,6 @@ object DelphiAIDevDatabasesView: TDelphiAIDevDatabasesView
     OnDblClick = ListViewDblClick
     OnKeyDown = ListViewKeyDown
     OnSelectItem = ListViewSelectItem
-    ExplicitTop = 49
   end
   object pnTop: TPanel
     Left = 0

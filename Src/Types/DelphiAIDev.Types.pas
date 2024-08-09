@@ -52,6 +52,10 @@ type
     function ToString: string;
   end;
 
+  TC4DDriverIDHelper = record helper for TC4DDriverID
+    function ToString: string;
+  end;
+
 implementation
 
 uses
@@ -171,14 +175,21 @@ end;
 { TC4DQuestionKindHelper }
 function TC4DQuestionKindHelper.ToString: string;
 begin
-  if(Self = TC4DQuestionKind.ItemMenuNormal)then
+  if Self = TC4DQuestionKind.ItemMenuNormal then
     Exit('Item menu normal')
-  else if(Self = TC4DQuestionKind.MenuMasterOnly)then
+  else if Self = TC4DQuestionKind.MenuMasterOnly then
     Exit('Menu master only')
-  else if(Self = TC4DQuestionKind.Separators)then
+  else if Self = TC4DQuestionKind.Separators then
     Exit('Separator')
   else
     Result := GetEnumName(TypeInfo(TC4DQuestionKind), Integer(Self));
+end;
+
+{ TC4DDriverIDHelper }
+
+function TC4DDriverIDHelper.ToString: string;
+begin
+  Result := GetEnumName(TypeInfo(TC4DDriverID), Integer(Self));
 end;
 
 end.

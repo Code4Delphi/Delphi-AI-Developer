@@ -29,6 +29,7 @@ type
   public
     class function GetExceptionMessage(const E: Exception): string;
     class function StrToDefaultsQuestionsKind(Value: string): TC4DQuestionKind;
+    class function StrToDriverID(Value: string): TC4DDriverID;
     class procedure DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
     class function AdjustQuestionToJson(const AValue: string): string;
     class procedure AddLog(const AMessage: string);
@@ -165,6 +166,14 @@ begin
   else if Value = 'Separator' then
     Result := TC4DQuestionKind.Separators;
 end;
+
+class function TUtils.StrToDriverID(Value: string): TC4DDriverID;
+begin
+  Result := TC4DDriverID.MySQL;
+  if Value = 'Firebird' then
+    Result := TC4DDriverID.Firebird
+end;
+
 
 class procedure TUtils.DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
 var

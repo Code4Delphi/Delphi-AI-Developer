@@ -68,8 +68,9 @@ const
   C_INDEX_SUBITEM_User = 2;
   C_INDEX_SUBITEM_Port = 3;
   C_INDEX_SUBITEM_DatabaseName = 4;
-  C_INDEX_SUBITEM_Password = 5;
-  C_INDEX_SUBITEM_Guid = 6;
+  C_INDEX_SUBITEM_Visible = 5;
+  C_INDEX_SUBITEM_Password = 6;
+  C_INDEX_SUBITEM_Guid = 7;
 
 procedure TDelphiAIDevDatabasesView.FormCreate(Sender: TObject);
 begin
@@ -88,7 +89,7 @@ begin
 
   FUtilsListView
     .InvertOrder(False)
-    .SortStyle(TDelphiAIDevUtilsListViewSortStyle.Numeric)
+    .SortStyle(TDelphiAIDevUtilsListViewSortStyle.AlphaNum)
     .ColumnIndex(C_INDEX_SUBITEM_DatabaseName + 1)
     .CustomSort;
 end;
@@ -167,27 +168,29 @@ begin
   TDelphiAIDevDatabasesModel.New.ReadData(
     procedure(AFields: TDelphiAIDevDatabasesFields)
     begin
-      if AFields.Caption.Trim.IsEmpty then
+      if AFields.Description.Trim.IsEmpty then
         Exit;
 
-      if (AFields.Kind = TC4DQuestionKind.ItemMenuNormal) and (AFields.Question.Trim.IsEmpty) then
-        Exit;
+      //if (AFields.Kind = TC4DQuestionKind.ItemMenuNormal) and (AFields.Question.Trim.IsEmpty) then
+      //  Exit;
 
       if(LStrSearch.Trim.IsEmpty)
-        or(AFields.Caption.ToLower.Contains(LStrSearch))
-        or(AFields.Question.ToLower.Contains(LStrSearch))
+        or(AFields.Description.ToLower.Contains(LStrSearch))
+        or(AFields.Host.ToLower.Contains(LStrSearch))
+        or(AFields.DatabaseName.ToLower.Contains(LStrSearch))
       then
       begin
         LListItem := ListView.Items.Add;
-        LListItem.Caption := AFields.Caption;
+        LListItem.Caption := AFields.Description;
         LListItem.ImageIndex := -1;
-        LListItem.SubItems.Add(AFields.Kind.Tostring);
-        LListItem.SubItems.Add(AFields.Order.Tostring);
+        LListItem.SubItems.Add(AFields.DriverID.ToString);
+        LListItem.SubItems.Add(AFields.Host);
+        LListItem.SubItems.Add(AFields.User);
+        LListItem.SubItems.Add(AFields.Port.ToString);
+        LListItem.SubItems.Add(AFields.DatabaseName);
         LListItem.SubItems.Add(TUtils.BoolToStrC4D(AFields.Visible));
-        LListItem.SubItems.Add(TUtils.BoolToStrC4D(AFields.CodeOnly));
+        LListItem.SubItems.Add(AFields.Password);
         LListItem.SubItems.Add(AFields.Guid);
-        LListItem.SubItems.Add(AFields.GuidMenuMaster);
-        LListItem.SubItems.Add(AFields.Question);
       end;
     end
   );
@@ -212,18 +215,19 @@ var
   LListItem: TListItem;
 begin
   AFields.Clear;
-  if(ListView.Selected = nil)then
+  if ListView.Selected = nil then
     Exit;
 
   LListItem := ListView.Items[ListView.Selected.Index];
-  AFields.Guid := LListItem.SubItems[C_INDEX_SUBITEM_Guid];
-  AFields.GuidMenuMaster := LListItem.SubItems[C_INDEX_SUBITEM_GuidMenuMaster];
-  AFields.Caption := LListItem.Caption;
-  AFields.Kind := TUtils.StrToDatabasesKind(LListItem.SubItems[C_INDEX_SUBITEM_Kind]);
-  AFields.Order := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Order], 0);
+  AFields.Description := LListItem.Caption;
+  AFields.DriverID := TUtils.StrToDriverID(LListItem.SubItems[C_INDEX_SUBITEM_DriverId]);
+  AFields.Host := LListItem.SubItems[C_INDEX_SUBITEM_Host];
+  AFields.User := LListItem.SubItems[C_INDEX_SUBITEM_User];
+  AFields.Port := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Port], 0);
+  AFields.DatabaseName := LListItem.SubItems[C_INDEX_SUBITEM_DatabaseName];
   AFields.Visible := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_Visible]);
-  AFields.CodeOnly := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_CodeOnly]);
-  AFields.Question := LListItem.SubItems[C_INDEX_SUBITEM_Question];
+  AFields.Password := LListItem.SubItems[C_INDEX_SUBITEM_Password];
+  AFields.Guid := LListItem.SubItems[C_INDEX_SUBITEM_Guid];
 end;
 
 procedure TDelphiAIDevDatabasesView.FillStatusBar(AItem: TListItem);
@@ -233,10 +237,10 @@ var
 begin
   LIndex := -1;
   LQuestion := '';
-  if(AItem <> nil)then
+  if AItem <> nil then
   begin
     LIndex := AItem.Index;
-    LQuestion := ListView.Items[LIndex].SubItems[C_INDEX_SUBITEM_Question];
+    LQuestion := ListView.Items[LIndex].SubItems[C_INDEX_SUBITEM_DatabaseName];
   end;
 
   StatusBar1.Panels[0].Text := Format('%d of %d', [LIndex + 1, ListView.Items.Count]);
@@ -248,9 +252,9 @@ var
   LSortStyle: TDelphiAIDevUtilsListViewSortStyle;
 begin
   LSortStyle := TDelphiAIDevUtilsListViewSortStyle.AlphaNum;
-  case(Column.Index)of
-    C_INDEX_SUBITEM_Order + 1:
-    LSortStyle := TDelphiAIDevUtilsListViewSortStyle.Numeric;
+  case Column.Index of
+    C_INDEX_SUBITEM_Port + 1:
+      LSortStyle := TDelphiAIDevUtilsListViewSortStyle.Numeric;
   end;
 
   FUtilsListView
@@ -274,76 +278,76 @@ end;
 procedure TDelphiAIDevDatabasesView.btnAddClick(Sender: TObject);
 var
   LFields: TDelphiAIDevDatabasesFields;
-  LView: TDelphiAIDevDatabasesAddEditView;
+  //LView: TDelphiAIDevDatabasesAddEditView;
 begin
-  LFields := TDelphiAIDevDatabasesFields.Create;
-  try
-    //LFields.Guid := '';
-    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
-    try
-      LView.Caption := string(LView.Caption).Replace('[action]', 'Adding', [rfReplaceAll, rfIgnoreCase]);
-      LView.Fields := LFields;
-
-      if(LView.ShowModal <> mrOk)then
-        Exit;
-
-      FMadeChanges := True;
-    finally
-      LView.Free;
-    end;
-    Self.ReloadData;
-  finally
-    LFields.Free;
-  end;
+//  LFields := TDelphiAIDevDatabasesFields.Create;
+//  try
+//    //LFields.Guid := '';
+//    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
+//    try
+//      LView.Caption := string(LView.Caption).Replace('[action]', 'Adding', [rfReplaceAll, rfIgnoreCase]);
+//      LView.Fields := LFields;
+//
+//      if LView.ShowModal <> mrOk then
+//        Exit;
+//
+//      FMadeChanges := True;
+//    finally
+//      LView.Free;
+//    end;
+//    Self.ReloadData;
+//  finally
+//    LFields.Free;
+//  end;
 end;
 
 procedure TDelphiAIDevDatabasesView.btnEditClick(Sender: TObject);
 var
   LFields: TDelphiAIDevDatabasesFields;
-  LView: TDelphiAIDevDatabasesAddEditView;
+  //LView: TDelphiAIDevDatabasesAddEditView;
 begin
-  if(ListView.Selected = nil)then
+  if ListView.Selected = nil then
     Exit;
 
-  LFields := TDelphiAIDevDatabasesFields.Create;
-  try
-    Self.FillFieldsWithSelectedItem(LFields);
-
-    if(LFields.Caption.Trim.IsEmpty)then
-      TUtils.ShowMsgErrorAndAbort('Caption not found');
-
-    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
-    try
-      LView.Caption := string(LView.Caption).Replace('[action]', 'Editing', [rfReplaceAll, rfIgnoreCase]);
-      LView.Fields := LFields;
-      if(LView.ShowModal <> mrOk)then
-        Exit;
-
-      FMadeChanges := True;
-    finally
-      LView.Free;
-    end;
-    Self.ReloadData;
-  finally
-    LFields.Free;
-  end;
+//  LFields := TDelphiAIDevDatabasesFields.Create;
+//  try
+//    Self.FillFieldsWithSelectedItem(LFields);
+//
+//    if LFields.Caption.Trim.IsEmpty then
+//      TUtils.ShowMsgErrorAndAbort('Caption not found');
+//
+//    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
+//    try
+//      LView.Caption := string(LView.Caption).Replace('[action]', 'Editing', [rfReplaceAll, rfIgnoreCase]);
+//      LView.Fields := LFields;
+//      if LView.ShowModal <> mrOk then
+//        Exit;
+//
+//      FMadeChanges := True;
+//    finally
+//      LView.Free;
+//    end;
+//    Self.ReloadData;
+//  finally
+//    LFields.Free;
+//  end;
 end;
 
 procedure TDelphiAIDevDatabasesView.btnRemoveClick(Sender: TObject);
 var
   LGuid: string;
 begin
-  if(ListView.Selected = nil)then
+  if ListView.Selected = nil then
     Exit;
 
   LGuid := ListView.Items[ListView.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
-  if(LGuid.Trim.IsEmpty)then
+  if LGuid.Trim.IsEmpty then
     TUtils.ShowMsgErrorAndAbort('Guid not found');
 
 //  if(TC4DWizardOpenExternalModel.New.ExistGuidInIniFile(LId))then
 //    TUtils.ShowMsgAndAbort('This registration cannot be deleted, as it is linked to other registration(s)');
 
-  if(not TUtils.ShowQuestion2('Confirm remove?'))then
+  if not TUtils.ShowQuestion2('Confirm remove?') then
     Exit;
 
   Screen.Cursor := crHourGlass;

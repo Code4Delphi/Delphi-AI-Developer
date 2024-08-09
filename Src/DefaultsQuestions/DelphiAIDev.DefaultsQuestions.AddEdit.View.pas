@@ -94,7 +94,7 @@ begin
   cBoxKind.ItemIndex := cBoxKind.Items.IndexOf(FFields.Kind.ToString);
   edtCaption.Text := FFields.Caption;
   mmQuestion.Lines.Text := FFields.Question;
-  edtOrder.Text := FFields.Order.Tostring;
+  edtOrder.Text := FFields.Order.ToString;
   ckVisible.Checked := FFields.Visible;
   ckCodeOnly.Checked := FFields.CodeOnly;
 

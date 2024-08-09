@@ -81,7 +81,7 @@ procedure TDelphiAIDevDefaultsQuestionsView.FormShow(Sender: TObject);
 begin
   Self.ReloadData;
 
-  if(ListView.Items.Count > 0)then
+  if ListView.Items.Count > 0 then
     ListView.Items.Item[0].Selected := True;
   FMadeChanges := False;
   edtSearch.SetFocus;
@@ -111,7 +111,7 @@ begin
           if ListView.ItemIndex < Pred(ListView.Items.Count) then
             ListView.ItemIndex := ListView.ItemIndex + 1;
           VK_UP:
-          if(ListView.ItemIndex > 0)then
+          if ListView.ItemIndex > 0 then
             ListView.ItemIndex := ListView.ItemIndex - 1;
         end;
         Key := 0;
@@ -212,7 +212,7 @@ var
   LListItem: TListItem;
 begin
   AFields.Clear;
-  if(ListView.Selected = nil)then
+  if ListView.Selected = nil then
     Exit;
 
   LListItem := ListView.Items[ListView.Selected.Index];
@@ -233,7 +233,7 @@ var
 begin
   LIndex := -1;
   LQuestion := '';
-  if(AItem <> nil)then
+  if AItem <> nil then
   begin
     LIndex := AItem.Index;
     LQuestion := ListView.Items[LIndex].SubItems[C_INDEX_SUBITEM_Question];
@@ -248,7 +248,7 @@ var
   LSortStyle: TDelphiAIDevUtilsListViewSortStyle;
 begin
   LSortStyle := TDelphiAIDevUtilsListViewSortStyle.AlphaNum;
-  case(Column.Index)of
+  case Column.Index of
     C_INDEX_SUBITEM_Order + 1:
     LSortStyle := TDelphiAIDevUtilsListViewSortStyle.Numeric;
   end;
@@ -284,7 +284,7 @@ begin
       LView.Caption := string(LView.Caption).Replace('[action]', 'Adding', [rfReplaceAll, rfIgnoreCase]);
       LView.Fields := LFields;
 
-      if(LView.ShowModal <> mrOk)then
+      if LView.ShowModal <> mrOk then
         Exit;
 
       FMadeChanges := True;
@@ -302,21 +302,21 @@ var
   LFields: TDelphiAIDevDefaultsQuestionsFields;
   LView: TDelphiAIDevDefaultsQuestionsAddEditView;
 begin
-  if(ListView.Selected = nil)then
+  if ListView.Selected = nil then
     Exit;
 
   LFields := TDelphiAIDevDefaultsQuestionsFields.Create;
   try
     Self.FillFieldsWithSelectedItem(LFields);
 
-    if(LFields.Caption.Trim.IsEmpty)then
+    if LFields.Caption.Trim.IsEmpty then
       TUtils.ShowMsgErrorAndAbort('Caption not found');
 
     LView := TDelphiAIDevDefaultsQuestionsAddEditView.Create(nil);
     try
       LView.Caption := string(LView.Caption).Replace('[action]', 'Editing', [rfReplaceAll, rfIgnoreCase]);
       LView.Fields := LFields;
-      if(LView.ShowModal <> mrOk)then
+      if LView.ShowModal <> mrOk then
         Exit;
 
       FMadeChanges := True;
@@ -333,7 +333,7 @@ procedure TDelphiAIDevDefaultsQuestionsView.btnRemoveClick(Sender: TObject);
 var
   LGuid: string;
 begin
-  if(ListView.Selected = nil)then
+  if ListView.Selected = nil then
     Exit;
 
   LGuid := ListView.Items[ListView.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
@@ -343,7 +343,7 @@ begin
 //  if(TC4DWizardOpenExternalModel.New.ExistGuidInIniFile(LId))then
 //    TUtils.ShowMsgAndAbort('This registration cannot be deleted, as it is linked to other registration(s)');
 
-  if(not TUtils.ShowQuestion2('Confirm remove?'))then
+  if not TUtils.ShowQuestion2('Confirm remove?') then
     Exit;
 
   Screen.Cursor := crHourGlass;
