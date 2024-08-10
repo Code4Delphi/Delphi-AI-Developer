@@ -89,7 +89,6 @@ object DelphiAIDevDefaultsQuestionsAddEditView: TDelphiAIDevDefaultsQuestionsAdd
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = -2
     DesignSize = (
       674
       350)

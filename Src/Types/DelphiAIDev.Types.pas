@@ -20,7 +20,7 @@ type
   TC4DButtons = (OK, OK_Cancel);
   TC4DBtnFocu = (OK, Cancel);
   TC4DQuestionKind = (None, ItemMenuNormal, MenuMasterOnly, Separators);
-  TC4DDriverID = (MySQL, Firebird);
+  TC4DDriverID = (None, MySQL, Firebird);
   {$SCOPEDENUMS OFF}
 
   TC4DAIsAvailableHelper = record helper for TC4DAIsAvailable

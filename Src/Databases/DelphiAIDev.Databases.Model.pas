@@ -10,7 +10,8 @@ uses
   DelphiAIDev.Utils,
   DelphiAIDev.Types,
   DelphiAIDev.Databases.Interfaces,
-  DelphiAIDev.Databases.Fields;
+  DelphiAIDev.Databases.Fields,
+  DelphiAIDev.Utils.Crypt;
 
 type
   TDelphiAIDevDatabasesModel = class(TInterfacedObject, IDelphiAIDevDatabasesModel)
@@ -85,7 +86,7 @@ begin
         LFields.Description := LJSONObjItem.GetValue<string>(DESCRIPTION);
         LFields.Host := LJSONObjItem.GetValue<string>(HOST);
         LFields.User := LJSONObjItem.GetValue<string>(USER);
-        LFields.Password := LJSONObjItem.GetValue<string>(PASSWORD);
+        LFields.Password := TUtilsCrypt.Decrypt(LJSONObjItem.GetValue<string>(PASSWORD));
         LFields.Port := LJSONObjItem.GetValue<Integer>(PORT);
         LFields.DatabaseName := LJSONObjItem.GetValue<string>(DATABASE_NAME);
         LFields.Visible := LJSONObjItem.GetValue<Boolean>(VISIBLE);
@@ -129,7 +130,7 @@ begin
       LJSONObject.AddPair(DESCRIPTION, AFields.Description);
       LJSONObject.AddPair(HOST, AFields.Host);
       LJSONObject.AddPair(USER, AFields.User);
-      LJSONObject.AddPair(PASSWORD, AFields.Password);
+      LJSONObject.AddPair(PASSWORD, TUtilsCrypt.Encrypt(AFields.Password));
       LJSONObject.AddPair(PORT, TJSONNumber.Create(AFields.Port));
       LJSONObject.AddPair(DATABASE_NAME, AFields.DatabaseName);
       LJSONObject.AddPair(VISIBLE, TJSONBool.Create(AFields.Visible));
@@ -189,7 +190,7 @@ begin
           LJSONObjItem.AddPair(USER, AFields.User);
 
           LJSONObjItem.RemovePair(PASSWORD).Free;
-          LJSONObjItem.AddPair(PASSWORD, AFields.Password);
+          LJSONObjItem.AddPair(PASSWORD, TUtilsCrypt.Encrypt(AFields.Password));
 
           LJSONObjItem.RemovePair(PORT).Free;
           LJSONObjItem.AddPair(PORT, TJSONNumber.Create(AFields.Port));

@@ -14,8 +14,8 @@ uses
   Vcl.ComCtrls,
   DelphiAIDev.Utils.ListView,
   DelphiAIDev.Databases.Model,
-  DelphiAIDev.Databases.Fields;
-  //DelphiAIDev.Databases.AddEdit.View;
+  DelphiAIDev.Databases.Fields,
+  DelphiAIDev.Databases.AddEdit.View;
 
 type
   TDelphiAIDevDatabasesView = class(TForm)
@@ -233,18 +233,18 @@ end;
 procedure TDelphiAIDevDatabasesView.FillStatusBar(AItem: TListItem);
 var
   LIndex: Integer;
-  LQuestion: string;
+  LDatabaseName: string;
 begin
   LIndex := -1;
-  LQuestion := '';
+  LDatabaseName := '';
   if AItem <> nil then
   begin
     LIndex := AItem.Index;
-    LQuestion := ListView.Items[LIndex].SubItems[C_INDEX_SUBITEM_DatabaseName];
+    LDatabaseName := ListView.Items[LIndex].SubItems[C_INDEX_SUBITEM_DatabaseName];
   end;
 
   StatusBar1.Panels[0].Text := Format('%d of %d', [LIndex + 1, ListView.Items.Count]);
-  StatusBar1.Panels[1].Text := LQuestion;
+  StatusBar1.Panels[1].Text := LDatabaseName;
 end;
 
 procedure TDelphiAIDevDatabasesView.ListViewColumnClick(Sender: TObject; Column: TListColumn);
@@ -278,59 +278,58 @@ end;
 procedure TDelphiAIDevDatabasesView.btnAddClick(Sender: TObject);
 var
   LFields: TDelphiAIDevDatabasesFields;
-  //LView: TDelphiAIDevDatabasesAddEditView;
+  LView: TDelphiAIDevDatabasesAddEditView;
 begin
-//  LFields := TDelphiAIDevDatabasesFields.Create;
-//  try
-//    //LFields.Guid := '';
-//    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
-//    try
-//      LView.Caption := string(LView.Caption).Replace('[action]', 'Adding', [rfReplaceAll, rfIgnoreCase]);
-//      LView.Fields := LFields;
-//
-//      if LView.ShowModal <> mrOk then
-//        Exit;
-//
-//      FMadeChanges := True;
-//    finally
-//      LView.Free;
-//    end;
-//    Self.ReloadData;
-//  finally
-//    LFields.Free;
-//  end;
+  LFields := TDelphiAIDevDatabasesFields.Create;
+  try
+    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
+    try
+      LView.Caption := string(LView.Caption).Replace('[action]', 'Adding', [rfReplaceAll, rfIgnoreCase]);
+      LView.Fields := LFields;
+
+      if LView.ShowModal <> mrOk then
+        Exit;
+
+      FMadeChanges := True;
+    finally
+      LView.Free;
+    end;
+    Self.ReloadData;
+  finally
+    LFields.Free;
+  end;
 end;
 
 procedure TDelphiAIDevDatabasesView.btnEditClick(Sender: TObject);
 var
   LFields: TDelphiAIDevDatabasesFields;
-  //LView: TDelphiAIDevDatabasesAddEditView;
+  LView: TDelphiAIDevDatabasesAddEditView;
 begin
   if ListView.Selected = nil then
     Exit;
 
-//  LFields := TDelphiAIDevDatabasesFields.Create;
-//  try
-//    Self.FillFieldsWithSelectedItem(LFields);
-//
-//    if LFields.Caption.Trim.IsEmpty then
-//      TUtils.ShowMsgErrorAndAbort('Caption not found');
-//
-//    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
-//    try
-//      LView.Caption := string(LView.Caption).Replace('[action]', 'Editing', [rfReplaceAll, rfIgnoreCase]);
-//      LView.Fields := LFields;
-//      if LView.ShowModal <> mrOk then
-//        Exit;
-//
-//      FMadeChanges := True;
-//    finally
-//      LView.Free;
-//    end;
-//    Self.ReloadData;
-//  finally
-//    LFields.Free;
-//  end;
+  LFields := TDelphiAIDevDatabasesFields.Create;
+  try
+    Self.FillFieldsWithSelectedItem(LFields);
+
+    if LFields.Description.Trim.IsEmpty then
+      TUtils.ShowMsgErrorAndAbort('Caption not found');
+
+    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
+    try
+      LView.Caption := string(LView.Caption).Replace('[action]', 'Editing', [rfReplaceAll, rfIgnoreCase]);
+      LView.Fields := LFields;
+      if LView.ShowModal <> mrOk then
+        Exit;
+
+      FMadeChanges := True;
+    finally
+      LView.Free;
+    end;
+    Self.ReloadData;
+  finally
+    LFields.Free;
+  end;
 end;
 
 procedure TDelphiAIDevDatabasesView.btnRemoveClick(Sender: TObject);

@@ -69,7 +69,7 @@ contains
   DelphiAIDev.DefaultsQuestions.Fields in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Fields.pas',
   DelphiAIDev.DefaultsQuestions.Interfaces in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Interfaces.pas',
   DelphiAIDev.DefaultsQuestions.Model in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas',
-  DelphiAIDev.DefaultsQuestions.AddEdit.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas' {DelphiAIDevDefaultsQuestionsAddEditView},
+  DelphiAIDev.Databases.AddEdit.View in '..\Src\Databases\DelphiAIDev.Databases.AddEdit.View.pas' {DelphiAIDevDatabasesAddEditView},
   DelphiAIDev.DefaultsQuestions.PopupMenu in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas',
   DelphiAIDev.Utils.ABMenuAction in '..\Src\Utils\DelphiAIDev.Utils.ABMenuAction.pas',
   DelphiAIDev.IDE.Splash in '..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas',
@@ -80,6 +80,8 @@ contains
   DelphiAIDev.DefaultsQuestions.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas' {DelphiAIDevDefaultsQuestionsView},
   DelphiAIDev.Databases.Model in '..\Src\Databases\DelphiAIDev.Databases.Model.pas',
   DelphiAIDev.Databases.Interfaces in '..\Src\Databases\DelphiAIDev.Databases.Interfaces.pas',
-  DelphiAIDev.Databases.Fields in '..\Src\Databases\DelphiAIDev.Databases.Fields.pas';
+  DelphiAIDev.Databases.Fields in '..\Src\Databases\DelphiAIDev.Databases.Fields.pas',
+  DelphiAIDev.DefaultsQuestions.AddEdit.View in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas' {DelphiAIDevDefaultsQuestionsAddEditView},
+  DelphiAIDev.Utils.Crypt in '..\Src\Utils\DelphiAIDev.Utils.Crypt.pas';
 
 end.

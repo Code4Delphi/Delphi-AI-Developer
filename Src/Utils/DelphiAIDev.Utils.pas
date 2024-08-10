@@ -30,6 +30,7 @@ type
     class function GetExceptionMessage(const E: Exception): string;
     class function StrToDefaultsQuestionsKind(Value: string): TC4DQuestionKind;
     class function StrToDriverID(Value: string): TC4DDriverID;
+    class procedure DriverIDFillItemsTStrings(AStrings: TStrings);
     class procedure DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
     class function AdjustQuestionToJson(const AValue: string): string;
     class procedure AddLog(const AMessage: string);
@@ -139,16 +140,6 @@ uses
   DelphiAIDev.View.Dialog,
   DelphiAIDev.WaitingScreen;
 
-//Winapi.WinInet
-//class function TUtils.TestInternetConnection: Boolean;
-//var
-//  LFlags: DWord;
-//begin
-//  Result := InternetGetConnectedState(@LFlags, 0);
-//  if Result then
-//      Result := InternetCheckConnection('http://google.com', 1, 0);
-//end;
-
 class function TUtils.GetExceptionMessage(const E: Exception): string;
 begin
   Result := E.Message;
@@ -167,14 +158,6 @@ begin
     Result := TC4DQuestionKind.Separators;
 end;
 
-class function TUtils.StrToDriverID(Value: string): TC4DDriverID;
-begin
-  Result := TC4DDriverID.MySQL;
-  if Value = 'Firebird' then
-    Result := TC4DDriverID.Firebird
-end;
-
-
 class procedure TUtils.DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
 var
   LItem: TC4DQuestionKind;
@@ -183,6 +166,26 @@ begin
     Exit;
 
   for LItem := Low(TC4DQuestionKind) to High(TC4DQuestionKind) do
+    AStrings.Add(LItem.ToString);
+end;
+
+class function TUtils.StrToDriverID(Value: string): TC4DDriverID;
+begin
+  Result := TC4DDriverID.None;
+  if Value = TC4DDriverID.MySQL.ToString then
+    Result := TC4DDriverID.MySQL
+  else if Value = TC4DDriverID.Firebird.ToString then
+    Result := TC4DDriverID.Firebird
+end;
+
+class procedure TUtils.DriverIDFillItemsTStrings(AStrings: TStrings);
+var
+  LItem: TC4DDriverID;
+begin
+  if AStrings = nil then
+    Exit;
+
+  for LItem := Low(TC4DDriverID) to High(TC4DDriverID) do
     AStrings.Add(LItem.ToString);
 end;
 

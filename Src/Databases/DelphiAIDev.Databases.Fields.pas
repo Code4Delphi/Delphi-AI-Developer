@@ -17,6 +17,7 @@ type
     FPort: Integer;
     FDatabaseName: string;
     FVisible: Boolean;
+    FVendorLib: string;
   public
     constructor Create;
     procedure Clear;
@@ -30,6 +31,7 @@ type
     property Port: Integer read FPort write FPort;
     property DatabaseName: string read FDatabaseName write FDatabaseName;
     property Visible: Boolean read FVisible write FVisible;
+    property VendorLib: string read FVendorLib write FVendorLib;
   end;
 
 implementation
@@ -42,7 +44,7 @@ end;
 procedure TDelphiAIDevDatabasesFields.Clear;
 begin
   FGuid := '';
-  FDriverID := TC4DDriverID.MySQL;
+  FDriverID := TC4DDriverID.None;
   FDescription := '';
   FHost := '';
   FUser := '';
@@ -50,6 +52,7 @@ begin
   FPort := 0;
   FDatabaseName := '';
   FVisible := True;
+  FVendorLib := '';
 end;
 
 end.

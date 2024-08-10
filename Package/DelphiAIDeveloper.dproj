@@ -67,7 +67,7 @@
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <SanitizedProjectName>DelphiAIDeveloper</SanitizedProjectName>
-        <DCC_UnitSearchPath>modules\.dcp;modules\.dcu;modules;modules\restrequest4delphi\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>modules\.dcp;modules\.dcu;modules;modules\bcrypt\src;modules\restrequest4delphi\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1046</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
@@ -172,8 +172,8 @@
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Fields.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Interfaces.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas"/>
-        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas">
-            <Form>DelphiAIDevDefaultsQuestionsAddEditView</Form>
+        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.AddEdit.View.pas">
+            <Form>DelphiAIDevDatabasesAddEditView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas"/>
@@ -190,6 +190,11 @@
         <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.Model.pas"/>
         <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.Interfaces.pas"/>
         <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.Fields.pas"/>
+        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas">
+            <Form>DelphiAIDevDefaultsQuestionsAddEditView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.Crypt.pas"/>
         <RcItem Include="Img\c4d_gear.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_gear</ResourceId>

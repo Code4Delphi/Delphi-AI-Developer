@@ -145,6 +145,11 @@ object DelphiAIDevDatabasesView: TDelphiAIDevDatabasesView
         Caption = 'Guid'
         MaxWidth = 1
         Width = 1
+      end
+      item
+        Caption = 'VendorLib'
+        MaxWidth = 1
+        Width = 1
       end>
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
