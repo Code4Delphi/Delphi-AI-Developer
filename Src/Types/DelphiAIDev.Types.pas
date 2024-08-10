@@ -54,6 +54,7 @@ type
 
   TC4DDriverIDHelper = record helper for TC4DDriverID
     function ToString: string;
+    function ToStringID: string;
   end;
 
 implementation
@@ -189,6 +190,14 @@ end;
 
 function TC4DDriverIDHelper.ToString: string;
 begin
+  Result := GetEnumName(TypeInfo(TC4DDriverID), Integer(Self));
+end;
+
+function TC4DDriverIDHelper.ToStringID: string;
+begin
+  if Self = TC4DDriverID.Firebird then
+    Exit('FB');
+
   Result := GetEnumName(TypeInfo(TC4DDriverID), Integer(Self));
 end;
 

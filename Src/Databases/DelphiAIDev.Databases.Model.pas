@@ -16,11 +16,11 @@ uses
 type
   TDelphiAIDevDatabasesModel = class(TInterfacedObject, IDelphiAIDevDatabasesModel)
   private
-    procedure SaveData(const AFields: TDelphiAIDevDatabasesFields);
-    procedure EditData(const AFields: TDelphiAIDevDatabasesFields);
+    procedure SaveData(AFields: TDelphiAIDevDatabasesFields);
+    procedure EditData(AFields: TDelphiAIDevDatabasesFields);
   protected
     procedure ReadData(AProc: TProc<TDelphiAIDevDatabasesFields>);
-    procedure SaveOrEditData(const AFields: TDelphiAIDevDatabasesFields);
+    procedure SaveOrEditData(AFields: TDelphiAIDevDatabasesFields);
     procedure RemoveData(const AGuid: string);
   public
     class function New: IDelphiAIDevDatabasesModel;
@@ -100,7 +100,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesModel.SaveOrEditData(const AFields: TDelphiAIDevDatabasesFields);
+procedure TDelphiAIDevDatabasesModel.SaveOrEditData(AFields: TDelphiAIDevDatabasesFields);
 begin
   if AFields.Guid.Trim.IsEmpty then
     Self.SaveData(AFields)
@@ -108,7 +108,7 @@ begin
     Self.EditData(AFields);
 end;
 
-procedure TDelphiAIDevDatabasesModel.SaveData(const AFields: TDelphiAIDevDatabasesFields);
+procedure TDelphiAIDevDatabasesModel.SaveData(AFields: TDelphiAIDevDatabasesFields);
 var
   LStringList: TStringList;
   LJSONArray: TJSONArray;
@@ -130,6 +130,7 @@ begin
       LJSONObject.AddPair(DESCRIPTION, AFields.Description);
       LJSONObject.AddPair(HOST, AFields.Host);
       LJSONObject.AddPair(USER, AFields.User);
+      //TUtils.ShowMsg(TUtilsCrypt.Encrypt(AFields.Password));
       LJSONObject.AddPair(PASSWORD, TUtilsCrypt.Encrypt(AFields.Password));
       LJSONObject.AddPair(PORT, TJSONNumber.Create(AFields.Port));
       LJSONObject.AddPair(DATABASE_NAME, AFields.DatabaseName);
@@ -151,7 +152,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesModel.EditData(const AFields: TDelphiAIDevDatabasesFields);
+procedure TDelphiAIDevDatabasesModel.EditData(AFields: TDelphiAIDevDatabasesFields);
 var
   LStringList: TStringList;
   LJSONArray: TJSONArray;

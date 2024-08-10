@@ -16,7 +16,7 @@ implementation
 
 const
   SEQUENCE01 = '1234567890ABCDEFGHIJLMNOPQRSTUVXZWYKabcdefghijlmnopqrstuvxzwyk';
-  SEQUENCE02 = '2wqVR03ILHNYMvu6qip9EmsJKb4yl7tvQ1FdPZgOc8nXTzjokxBDSU5fhAGW';
+  SEQUENCE02 = '1MTPkSXCgvRb23eQ0JzarhAE64FD95BpsYKqom7wVtUuHxiZdWcflLIjGnO8yN';
 
 class function TUtilsCrypt.Encrypt(Value: string): string;
 var

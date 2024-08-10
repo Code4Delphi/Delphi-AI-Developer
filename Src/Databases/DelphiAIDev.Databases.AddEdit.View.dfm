@@ -3,8 +3,8 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'IA Developer - Databases - [action]'
-  ClientHeight = 307
-  ClientWidth = 657
+  ClientHeight = 303
+  ClientWidth = 665
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,8 +22,8 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
   object Bevel2: TBevel
     AlignWithMargins = True
     Left = 0
-    Top = 268
-    Width = 657
+    Top = 264
+    Width = 665
     Height = 1
     Margins.Left = 0
     Margins.Top = 0
@@ -36,8 +36,8 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
   end
   object Panel1: TPanel
     Left = 0
-    Top = 272
-    Width = 657
+    Top = 268
+    Width = 665
     Height = 35
     Align = alBottom
     BevelEdges = [beLeft, beRight, beBottom]
@@ -48,10 +48,9 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
     Padding.Bottom = 2
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 282
     object btnConfirm: TButton
       AlignWithMargins = True
-      Left = 429
+      Left = 437
       Top = 2
       Width = 110
       Height = 31
@@ -66,7 +65,7 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
     end
     object btnClose: TButton
       AlignWithMargins = True
-      Left = 542
+      Left = 550
       Top = 2
       Width = 110
       Height = 31
@@ -93,24 +92,22 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
       Caption = 'Test Connection'
       TabOrder = 2
       OnClick = btnTestConnectionClick
-      ExplicitLeft = 429
     end
   end
   object Panel9: TPanel
     Left = 0
     Top = 0
-    Width = 657
-    Height = 268
+    Width = 665
+    Height = 264
     Align = alClient
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitHeight = 279
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 0
-      Top = 264
-      Width = 657
+      Top = 260
+      Width = 665
       Height = 1
       Margins.Left = 0
       Margins.Top = 0
@@ -121,7 +118,7 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
       ExplicitWidth = 676
     end
     object Label2: TLabel
-      Left = 31
+      Left = 234
       Top = 25
       Width = 43
       Height = 13
@@ -129,56 +126,56 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
     end
     object Label3: TLabel
       Left = 31
-      Top = 71
+      Top = 25
       Width = 53
       Height = 13
       Caption = 'Description'
     end
     object Label1: TLabel
-      Left = 234
-      Top = 71
+      Left = 437
+      Top = 25
       Width = 22
       Height = 13
       Caption = 'Host'
     end
     object Label5: TLabel
-      Left = 437
-      Top = 71
+      Left = 31
+      Top = 69
       Width = 22
       Height = 13
       Caption = 'User'
     end
     object Label6: TLabel
-      Left = 31
-      Top = 120
+      Left = 234
+      Top = 69
       Width = 46
       Height = 13
       Caption = 'Password'
     end
     object Label7: TLabel
-      Left = 234
-      Top = 120
+      Left = 437
+      Top = 69
       Width = 20
       Height = 13
       Caption = 'Port'
     end
     object Label4: TLabel
-      Left = 437
-      Top = 120
+      Left = 31
+      Top = 119
       Width = 46
       Height = 13
       Caption = 'Database'
     end
     object Label8: TLabel
       Left = 31
-      Top = 168
+      Top = 164
       Width = 47
       Height = 13
       Caption = 'VendorLib'
     end
     object lbAddLocalDatabase: TLabel
-      Left = 262
-      Top = 71
+      Left = 465
+      Top = 25
       Width = 99
       Height = 13
       Cursor = crHandPoint
@@ -186,60 +183,60 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
       OnClick = lbAddLocalDatabaseClick
     end
     object cBoxDriverID: TComboBox
-      Left = 31
+      Left = 234
       Top = 41
       Width = 200
       Height = 21
       Style = csDropDownList
-      TabOrder = 0
+      TabOrder = 1
     end
     object edtDescription: TEdit
       Left = 31
-      Top = 87
+      Top = 41
       Width = 200
       Height = 21
-      TabOrder = 1
+      TabOrder = 0
     end
     object edtHost: TEdit
-      Left = 234
-      Top = 87
+      Left = 437
+      Top = 41
       Width = 200
       Height = 21
       TabOrder = 2
     end
     object edtUser: TEdit
-      Left = 437
-      Top = 87
+      Left = 31
+      Top = 85
       Width = 200
       Height = 21
       TabOrder = 3
     end
     object edtPassword: TEdit
-      Left = 31
-      Top = 136
+      Left = 234
+      Top = 85
       Width = 164
       Height = 21
       PasswordChar = '*'
       TabOrder = 4
     end
     object edtPort: TEdit
-      Left = 234
-      Top = 136
+      Left = 437
+      Top = 85
       Width = 200
       Height = 21
       NumbersOnly = True
       TabOrder = 5
     end
     object edtDatabase: TEdit
-      Left = 437
-      Top = 136
-      Width = 200
+      Left = 31
+      Top = 135
+      Width = 606
       Height = 21
       TabOrder = 6
     end
     object edtVendorLib: TEdit
       Left = 31
-      Top = 184
+      Top = 180
       Width = 606
       Height = 21
       PasswordChar = '*'
@@ -247,7 +244,7 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
     end
     object ckVisible: TCheckBox
       Left = 31
-      Top = 216
+      Top = 212
       Width = 53
       Height = 17
       Cursor = crHandPoint
@@ -255,8 +252,8 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
       TabOrder = 8
     end
     object Button1: TButton
-      Left = 197
-      Top = 135
+      Left = 400
+      Top = 84
       Width = 34
       Height = 23
       Cursor = crHandPoint

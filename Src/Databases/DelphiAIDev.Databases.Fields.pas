@@ -21,7 +21,6 @@ type
   public
     constructor Create;
     procedure Clear;
-
     property Guid: string read FGuid write FGuid;
     property DriverID: TC4DDriverID read FDriverID write FDriverID;
     property Description: string read FDescription write FDescription;

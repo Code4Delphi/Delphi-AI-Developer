@@ -13,7 +13,8 @@ uses
   Vcl.Menus,
   Vcl.ComCtrls,
   DelphiAIDev.Types,
-  DelphiAIDev.Databases.Fields;
+  DelphiAIDev.Databases.Fields,
+  C4D.Conn;
 
 type
   TDelphiAIDevDatabasesAddEditView = class(TForm)
@@ -55,6 +56,7 @@ type
     FFields: TDelphiAIDevDatabasesFields;
     procedure FillcBoxDriverID;
     procedure FillScreenFields;
+    procedure ValidateFillingFields;
   public
     property Fields: TDelphiAIDevDatabasesFields read FFields write FFields;
   end;
@@ -114,23 +116,7 @@ end;
 
 procedure TDelphiAIDevDatabasesAddEditView.btnConfirmClick(Sender: TObject);
 begin
-  if cBoxDriverID.ItemIndex < 0 then
-    TUtils.ShowMsgAndAbort('No informed Driver ID', cBoxDriverID);
-
-  if TUtils.StrToDriverID(cBoxDriverID.Text) = TC4DDriverID.None then
-    TUtils.ShowMsgAndAbort('Select a DriverID', cBoxDriverID);
-
-  if Trim(edtDescription.Text).IsEmpty then
-    TUtils.ShowMsgAndAbort('No informed Description', edtDescription);
-
-  if Trim(edtHost.Text).IsEmpty then
-    TUtils.ShowMsgAndAbort('No informed Host', edtHost);
-
-  if Trim(edtUser.Text).IsEmpty then
-    TUtils.ShowMsgAndAbort('No informed User', edtUser);
-
-  if Trim(edtDatabase.Text).IsEmpty then
-    TUtils.ShowMsgAndAbort('No informed Database', edtDatabase);
+  Self.ValidateFillingFields;
 
   FFields.DriverID := TUtils.StrToDriverID(cBoxDriverID.Text);
   FFields.Description := edtDescription.Text;
@@ -146,6 +132,27 @@ begin
 
   Self.Close;
   Self.ModalResult := mrOK;
+end;
+
+procedure TDelphiAIDevDatabasesAddEditView.ValidateFillingFields;
+begin
+  if Trim(edtDescription.Text).IsEmpty then
+    TUtils.ShowMsgAndAbort('No informed Description', edtDescription);
+
+  if cBoxDriverID.ItemIndex < 0 then
+    TUtils.ShowMsgAndAbort('No informed Driver ID', cBoxDriverID);
+
+  if TUtils.StrToDriverID(cBoxDriverID.Text) = TC4DDriverID.None then
+    TUtils.ShowMsgAndAbort('Select a DriverID', cBoxDriverID);
+
+  if Trim(edtHost.Text).IsEmpty then
+    TUtils.ShowMsgAndAbort('No informed Host', edtHost);
+
+  if Trim(edtUser.Text).IsEmpty then
+    TUtils.ShowMsgAndAbort('No informed User', edtUser);
+
+  if Trim(edtDatabase.Text).IsEmpty then
+    TUtils.ShowMsgAndAbort('No informed Database', edtDatabase);
 end;
 
 procedure TDelphiAIDevDatabasesAddEditView.Button1Click(Sender: TObject);
@@ -169,8 +176,48 @@ begin
 end;
 
 procedure TDelphiAIDevDatabasesAddEditView.btnTestConnectionClick(Sender: TObject);
+var
+  LConn: IC4DConn;
 begin
-  //
+  Screen.Cursor := crHourGlass;
+  try
+    LConn := TC4DConn.New;
+    LConn.Configs
+      .DriverID(TUtils.StrToDriverID(cBoxDriverID.Text))
+      .Host(edtHost.Text)
+      .UserName(edtUser.Text)
+      .Password(edtPassword.Text)
+      .Port(StrToIntDef(edtPort.Text, 0))
+      .Database(edtDatabase.Text)
+      .VendorLib(edtVendorLib.Text);
+
+    try
+      if LConn.Connection.TestConnection then
+        TUtils.ShowV('Connection Successful');
+    except
+      on E: exception do
+        TUtils.ShowError(E.Message);
+    end;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+
+  //Self.ValidateFillingFields;
+
+//  Screen.Cursor := crHourGlass;
+//  try
+//    C4DConn.Configs
+//      .Host(edtHost.Text)
+//      .UserName(edtUser.Text)
+//      .Password(edtPassword.Text)
+//      .Port(StrToIntDef(edtPort.Text, 0))
+//      .Database(edtDatabase.Text)
+//      .VendorLib(edtVendorLib.Text);
+//
+//    C4DConn.Connection.TestConnection;
+//  finally
+//    Screen.Cursor := crDefault;
+//  end;
 end;
 
 end.
