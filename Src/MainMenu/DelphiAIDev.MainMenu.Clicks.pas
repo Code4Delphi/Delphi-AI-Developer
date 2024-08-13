@@ -13,7 +13,8 @@ type
   public
     class procedure ChatClick(Sender: TObject);
     class procedure DefaultsQuestionsClick(Sender: TObject);
-    class procedure DatabasesClick(Sender: TObject);
+    class procedure DatabasesAddClick(Sender: TObject);
+    class procedure DatabasesChatClick(Sender: TObject);
     class procedure SettingsClick(Sender: TObject);
     class procedure AboutClick(Sender: TObject);
   end;
@@ -26,6 +27,7 @@ uses
   DelphiAIDev.Chat.View,
   DelphiAIDev.DefaultsQuestions.View,
   DelphiAIDev.DB.Registers.View,
+  DelphiAIDev.DB.Chat.View,
   DelphiAIDev.Settings.View,
   DelphiAIDev.View.About;
 
@@ -47,7 +49,7 @@ begin
   end;
 end;
 
-class procedure TDelphiAIDevIDEMainMenuClicks.DatabasesClick(Sender: TObject);
+class procedure TDelphiAIDevIDEMainMenuClicks.DatabasesAddClick(Sender: TObject);
 var
   LView: TDelphiAIDevDBRegistersView;
 begin
@@ -57,6 +59,11 @@ begin
   finally
     FreeAndNil(LView);
   end;
+end;
+
+class procedure TDelphiAIDevIDEMainMenuClicks.DatabasesChatClick(Sender: TObject);
+begin
+  DelphiAIDev.DB.Chat.View.DelphiAIDevDBChatViewShowDockableForm;
 end;
 
 class procedure TDelphiAIDevIDEMainMenuClicks.SettingsClick(Sender: TObject);

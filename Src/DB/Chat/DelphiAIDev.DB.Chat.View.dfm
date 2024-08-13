@@ -1,8 +1,8 @@
-object DelphiAIDevChatView: TDelphiAIDevChatView
+object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu, biMaximize]
-  Caption = 'AI Chat'
+  Caption = 'AI DB Chat'
   ClientHeight = 661
   ClientWidth = 975
   Color = clBtnFace
@@ -42,7 +42,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     TabOrder = 0
     object Splitter1: TSplitter
       Left = 18
-      Top = 518
+      Top = 190
       Width = 938
       Height = 3
       Cursor = crVSplit
@@ -51,12 +51,22 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       ExplicitTop = 2
       ExplicitWidth = 528
     end
+    object Splitter2: TSplitter
+      Left = 18
+      Top = 333
+      Width = 938
+      Height = 3
+      Cursor = crVSplit
+      Align = alBottom
+      ExplicitLeft = 12
+      ExplicitTop = 340
+    end
     object mmReturn: TRichEdit
       AlignWithMargins = True
       Left = 18
       Top = 15
       Width = 938
-      Height = 500
+      Height = 172
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -84,7 +94,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     end
     object pnBackQuestion: TPanel
       Left = 18
-      Top = 521
+      Top = 193
       Width = 938
       Height = 113
       Margins.Left = 0
@@ -121,7 +131,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     end
     object pnBackStatusBar: TPanel
       Left = 18
-      Top = 634
+      Top = 306
       Width = 938
       Height = 27
       Margins.Left = 0
@@ -138,7 +148,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Left = 0
         Top = 3
         Width = 56
-        Height = 13
+        Height = 22
         Cursor = crHandPoint
         Hint = 'AI being used'
         Margins.Left = 0
@@ -149,6 +159,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Caption = 'lbCurrentAI'
         PopupMenu = pMenuCurrentAI
         OnClick = lbCurrentAIClick
+        ExplicitHeight = 13
       end
       object btnSend: TButton
         AlignWithMargins = True
@@ -164,6 +175,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Caption = 'Send'
         TabOrder = 0
         OnClick = btnSendClick
+        ExplicitTop = 2
       end
       object pnBackConfigurableButtons: TPanel
         Left = 395
@@ -228,6 +240,44 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
           TabOrder = 2
           OnClick = btnDefaultsQuestionsClick
         end
+      end
+    end
+    object pnGridBack: TPanel
+      Left = 18
+      Top = 336
+      Width = 938
+      Height = 325
+      Align = alBottom
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 3
+      object DBGrid1: TDBGrid
+        Left = 0
+        Top = 0
+        Width = 938
+        Height = 304
+        Align = alClient
+        DataSource = DataSource1
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+      end
+      object Panel9: TPanel
+        Left = 0
+        Top = 304
+        Width = 938
+        Height = 21
+        Align = alBottom
+        BevelOuter = bvNone
+        Padding.Left = 3
+        Padding.Top = 3
+        Padding.Right = 3
+        Padding.Bottom = 3
+        ParentBackground = False
+        TabOrder = 1
       end
     end
   end
@@ -830,5 +880,9 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
   object pMenuQuestions: TPopupMenu
     Left = 522
     Top = 563
+  end
+  object DataSource1: TDataSource
+    Left = 170
+    Top = 464
   end
 end

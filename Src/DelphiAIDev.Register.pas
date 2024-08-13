@@ -6,7 +6,8 @@ uses
   DelphiAIDev.Chat.View,
   DelphiAIDev.MainMenu.Register,
   DelphiAIDev.IDE.Shortcuts,
-  DelphiAIDev.PopupMenuProjects;
+  DelphiAIDev.PopupMenuProjects,
+  DelphiAIDev.DB.Chat.View;
 
 procedure Register;
 
@@ -18,6 +19,7 @@ begin
   DelphiAIDev.MainMenu.Register.RegisterSelf;
   DelphiAIDev.IDE.Shortcuts.RefreshRegister;
   DelphiAIDev.PopupMenuProjects.RegisterSelf;
+  DelphiAIDev.DB.Chat.View.RegisterSelf;
 end;
 
 end.

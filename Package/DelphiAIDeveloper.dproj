@@ -129,9 +129,6 @@
         <DCCReference Include="FireDACMySQLDriver.dcp"/>
         <DCCReference Include="FireDACIBDriver.dcp"/>
         <DCCReference Include="..\Src\DelphiAIDev.Register.pas"/>
-        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
-            <Form>DelphiAIDevChatView</Form>
-        </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.OTA.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.pas"/>
         <DCCReference Include="..\Src\Types\DelphiAIDev.Types.pas"/>
@@ -155,10 +152,13 @@
         <DCCReference Include="..\Src\Test\DelphiAIDev.Test.pas"/>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.View.pas">
             <Form>DelphiAIDevSettingsView</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.pas"/>
         <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.pas"/>
+        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
+            <Form>DelphiAIDevChatView</Form>
+        </DCCReference>
+        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Gemini.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.ChatGPT.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Interfaces.pas"/>
@@ -171,7 +171,6 @@
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas"/>
         <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.View.pas">
             <Form>DelphiAIDevDBRegistersView</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ListView.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.GetIniPositionStr.pas"/>
@@ -180,25 +179,21 @@
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas"/>
         <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.AddEdit.View.pas">
             <Form>DelphiAIDevDBRegistersAddEditView</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ABMenuAction.pas"/>
         <DCCReference Include="..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas"/>
-        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Groq.pas"/>
         <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.pas"/>
         <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.Item.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas">
             <Form>DelphiAIDevDefaultsQuestionsView</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.Model.pas"/>
         <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.Interfaces.pas"/>
         <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.Fields.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas">
             <Form>DelphiAIDevDefaultsQuestionsAddEditView</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.Crypt.pas"/>
         <DCCReference Include="..\Src\Conn\C4D.Conn.Types.pas"/>
@@ -208,21 +203,24 @@
         <DCCReference Include="..\Src\Conn\C4D.Conn.Interfaces.pas"/>
         <DCCReference Include="..\Src\Conn\C4D.Conn.pas"/>
         <DCCReference Include="..\Src\Conn\C4D.Conn.Utils.pas"/>
-        <RcItem Include="Img\c4d_gear.bmp">
-            <ResourceType>BITMAP</ResourceType>
-            <ResourceId>c4d_gear</ResourceId>
-        </RcItem>
+        <DCCReference Include="..\Src\DB\Chat\DelphiAIDev.DB.Chat.View.pas">
+            <Form>DelphiAIDevDBChatView</Form>
+        </DCCReference>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>
         </RcItem>
-        <RcItem Include="Img\c4d_logo_24x24.bmp">
+        <RcItem Include="Img\c4d_database.bmp">
             <ResourceType>BITMAP</ResourceType>
-            <ResourceId>c4d_logo_24x24</ResourceId>
+            <ResourceId>c4d_database</ResourceId>
         </RcItem>
-        <RcItem Include="Img\c4d_logo_48x48.bmp">
+        <RcItem Include="Img\c4d_database_add.bmp">
             <ResourceType>BITMAP</ResourceType>
-            <ResourceId>c4d_logo_48x48</ResourceId>
+            <ResourceId>c4d_database_add</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_gear.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_gear</ResourceId>
         </RcItem>
         <RcItem Include="Img\c4d_message.bmp">
             <ResourceType>BITMAP</ResourceType>
@@ -232,9 +230,13 @@
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_question</ResourceId>
         </RcItem>
-        <RcItem Include="Img\c4d_database.bmp">
+        <RcItem Include="Img\c4d_logo_24x24.bmp">
             <ResourceType>BITMAP</ResourceType>
-            <ResourceId>c4d_database</ResourceId>
+            <ResourceId>c4d_logo_24x24</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_database_execute.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_database_execute</ResourceId>
         </RcItem>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

@@ -42,7 +42,6 @@ requires
 
 contains
   DelphiAIDev.Register in '..\Src\DelphiAIDev.Register.pas',
-  DelphiAIDev.Chat.View in '..\Src\Chat\DelphiAIDev.Chat.View.pas' {DelphiAIDevChatView},
   DelphiAIDev.Utils.OTA in '..\Src\Utils\DelphiAIDev.Utils.OTA.pas',
   DelphiAIDev.Utils in '..\Src\Utils\DelphiAIDev.Utils.pas',
   DelphiAIDev.Types in '..\Src\Types\DelphiAIDev.Types.pas',
@@ -59,6 +58,8 @@ contains
   DelphiAIDev.Settings.View in '..\Src\Settings\DelphiAIDev.Settings.View.pas' {DelphiAIDevSettingsView},
   DelphiAIDev.Settings in '..\Src\Settings\DelphiAIDev.Settings.pas',
   DelphiAIDev.Chat in '..\Src\Chat\DelphiAIDev.Chat.pas',
+  DelphiAIDev.Chat.View in '..\Src\Chat\DelphiAIDev.Chat.View.pas' {DelphiAIDevChatView},
+  DelphiAIDev.Chat.ProcessResponse in '..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas',
   DelphiAIDev.AI.Gemini in '..\Src\AI\DelphiAIDev.AI.Gemini.pas',
   DelphiAIDev.AI.ChatGPT in '..\Src\AI\DelphiAIDev.AI.ChatGPT.pas',
   DelphiAIDev.AI.Interfaces in '..\Src\AI\DelphiAIDev.AI.Interfaces.pas',
@@ -79,7 +80,6 @@ contains
   DelphiAIDev.DefaultsQuestions.PopupMenu in '..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas',
   DelphiAIDev.Utils.ABMenuAction in '..\Src\Utils\DelphiAIDev.Utils.ABMenuAction.pas',
   DelphiAIDev.IDE.Splash in '..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas',
-  DelphiAIDev.Chat.ProcessResponse in '..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas',
   DelphiAIDev.AI.Groq in '..\Src\AI\DelphiAIDev.AI.Groq.pas',
   DelphiAIDev.PopupMenuProjects in '..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.pas',
   DelphiAIDev.PopupMenuProjects.Item in '..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.Item.pas',
@@ -95,6 +95,7 @@ contains
   C4D.Conn.Firedac.Query in '..\Src\Conn\C4D.Conn.Firedac.Query.pas',
   C4D.Conn.Interfaces in '..\Src\Conn\C4D.Conn.Interfaces.pas',
   C4D.Conn in '..\Src\Conn\C4D.Conn.pas',
-  C4D.Conn.Utils in '..\Src\Conn\C4D.Conn.Utils.pas';
+  C4D.Conn.Utils in '..\Src\Conn\C4D.Conn.Utils.pas',
+  DelphiAIDev.DB.Chat.View in '..\Src\DB\Chat\DelphiAIDev.DB.Chat.View.pas' {DelphiAIDevDBChatView};
 
 end.
