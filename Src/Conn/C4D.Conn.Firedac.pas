@@ -114,6 +114,9 @@ end;
 
 procedure TC4DConnFiredac.ConfigDrivers;
 begin
+  FMySQLDriverLink.VendorLib := '';
+  FFBDriverLink.VendorLib := '';
+
   case FC4DConnConfigs.DriverID of
     TC4DDriverID.MySQL:
       FMySQLDriverLink.VendorLib := FC4DConnConfigs.VendorLib;

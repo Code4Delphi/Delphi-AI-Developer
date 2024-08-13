@@ -156,7 +156,6 @@ begin
       LJSONObject.AddPair(DESCRIPTION, AFields.Description);
       LJSONObject.AddPair(HOST, AFields.Host);
       LJSONObject.AddPair(USER, AFields.User);
-      //TUtils.ShowMsg(TUtilsCrypt.Encrypt(AFields.Password));
       LJSONObject.AddPair(PASSWORD, TUtilsCrypt.Encrypt(AFields.Password));
       LJSONObject.AddPair(PORT, TJSONNumber.Create(AFields.Port));
       LJSONObject.AddPair(DATABASE_NAME, AFields.DatabaseName);

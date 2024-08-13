@@ -103,6 +103,7 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
+    ExplicitTop = -2
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 0
@@ -169,9 +170,9 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
     object Label8: TLabel
       Left = 31
       Top = 164
-      Width = 47
+      Width = 68
       Height = 13
-      Caption = 'VendorLib'
+      Caption = 'VendorLib (dll)'
     end
     object lbAddLocalDatabase: TLabel
       Left = 465
@@ -230,16 +231,9 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
     object edtDatabase: TEdit
       Left = 31
       Top = 135
-      Width = 606
-      Height = 21
-      TabOrder = 6
-    end
-    object edtVendorLib: TEdit
-      Left = 31
-      Top = 180
       Width = 581
       Height = 21
-      TabOrder = 7
+      TabOrder = 6
     end
     object ckVisible: TCheckBox
       Left = 31
@@ -250,7 +244,7 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
       Caption = 'Visible'
       TabOrder = 8
     end
-    object Button1: TButton
+    object edtPasswordView: TButton
       Left = 400
       Top = 84
       Width = 34
@@ -258,9 +252,10 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
       Cursor = crHandPoint
       Caption = 'View'
       TabOrder = 9
-      OnClick = Button1Click
+      TabStop = False
+      OnClick = edtPasswordViewClick
     end
-    object Button2: TButton
+    object btnVendorLibSearch: TButton
       Left = 613
       Top = 179
       Width = 24
@@ -268,7 +263,26 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
       Cursor = crHandPoint
       Caption = '...'
       TabOrder = 10
-      OnClick = Button1Click
+      TabStop = False
+      OnClick = btnVendorLibSearchClick
+    end
+    object edtVendorLib: TEdit
+      Left = 31
+      Top = 180
+      Width = 581
+      Height = 21
+      TabOrder = 7
+    end
+    object btnDatabaseSearch: TButton
+      Left = 613
+      Top = 134
+      Width = 24
+      Height = 23
+      Cursor = crHandPoint
+      Caption = '...'
+      TabOrder = 11
+      TabStop = False
+      OnClick = btnDatabaseSearchClick
     end
   end
 end

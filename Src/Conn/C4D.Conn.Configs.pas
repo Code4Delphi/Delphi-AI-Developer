@@ -12,7 +12,6 @@ type
   TC4DConnConfigs = class
   private
     FComponentConnection: TComponentConnection;
-    FConnectionSingleton: Boolean;
     FDriverID: TC4DDriverID;
     FHost: string;
     FUserName: string;
@@ -20,13 +19,11 @@ type
     FDatabase: string;
     FPort: Integer;
     FVendorLib: string;
+    procedure Clear;
   public
     constructor Create;
     destructor Destroy; override;
     function ComponentConnection: TComponentConnection;
-    function ConnectionSingleton: Boolean;
-    function ConnectionSingletonON: TC4DConnConfigs;
-    function ConnectionSingletonOFF: TC4DConnConfigs;
     function DriverID: TC4DDriverID; overload;
     function DriverID(Value: TC4DDriverID): TC4DConnConfigs; overload;
     function Host: string; overload;
@@ -48,7 +45,7 @@ implementation
 
 constructor TC4DConnConfigs.Create;
 begin
-  FConnectionSingleton := True;
+  Self.Clear;
 
   {$IFDEF C4D_ZEOS}
     FComponentConnection := TComponentConnection.Zeos;
@@ -62,29 +59,23 @@ begin
   inherited;
 end;
 
+procedure TC4DConnConfigs.Clear;
+begin
+  FDriverID := TC4DDriverID.None;;
+  FHost := '';
+  FUserName := '';
+  FPassword := '';
+  FDatabase := '';
+  FPort := 0;
+  FVendorLib := '';
+end;
+
 function TC4DConnConfigs.ComponentConnection: TComponentConnection;
 begin
   if FComponentConnection = TComponentConnection.Empty then
     raise Exception.Create('Component for connection to the bank not informed');
 
   Result := FComponentConnection;
-end;
-
-function TC4DConnConfigs.ConnectionSingleton: Boolean;
-begin
-  Result := FConnectionSingleton;
-end;
-
-function TC4DConnConfigs.ConnectionSingletonON: TC4DConnConfigs;
-begin
-  Result := Self;
-  FConnectionSingleton := True;
-end;
-
-function TC4DConnConfigs.ConnectionSingletonOFF: TC4DConnConfigs;
-begin
-  Result := Self;
-  FConnectionSingleton := False;
 end;
 
 function TC4DConnConfigs.DriverID: TC4DDriverID;

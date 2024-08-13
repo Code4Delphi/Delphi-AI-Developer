@@ -39,8 +39,8 @@ type
 
 //function C4DConn: IC4DConn;
 
-var
-  Instance: IC4DConn;
+//var
+//  Instance: IC4DConn;
 
 implementation
 
@@ -64,13 +64,13 @@ begin
   inherited;
 end;
 
-function C4DConn: IC4DConn;
-begin
-  if not Assigned(Instance) then
-    Instance := TC4DConn.New;
-
-  Result := Instance;
-end;
+//function C4DConn: IC4DConn;
+//begin
+//  if not Assigned(Instance) then
+//    Instance := TC4DConn.New;
+//
+//  Result := Instance;
+//end;
 
 function TC4DConn.Configs: TC4DConnConfigs;
 begin
@@ -86,26 +86,14 @@ end;
 function TC4DConn.Connection: IC4DConnection;
 begin
   {$IFDEF C4D_ZEOS}
-    if FC4DConnConfigs.ConnectionSingleton then
-    begin
-      if not Assigned(FC4DConnInstance) then
-        FC4DConnInstance := TC4DConnZeos.New(FC4DConnConfigs);
-
-      Result := FC4DConnInstance;
-    end
-    else
-      Result := TC4DConnZeos.New(FC4DConnConfigs);
+    if not Assigned(FC4DConnInstance) then
+      FC4DConnInstance := TC4DConnZeos.New(FC4DConnConfigs);
   {$ELSE}
-    if FC4DConnConfigs.ConnectionSingleton then
-    begin
-      if not Assigned(FC4DConnInstance) then
-        FC4DConnInstance := TC4DConnFiredac.New(FC4DConnConfigs);
-
-      Result := FC4DConnInstance;
-    end
-    else
-      Result := TC4DConnFiredac.New(FC4DConnConfigs);
+    if not Assigned(FC4DConnInstance) then
+      FC4DConnInstance := TC4DConnFiredac.New(FC4DConnConfigs);
   {$ENDIF}
+
+  Result := FC4DConnInstance;
 end;
 
 function TC4DConn.Query: IC4DConnQuery;

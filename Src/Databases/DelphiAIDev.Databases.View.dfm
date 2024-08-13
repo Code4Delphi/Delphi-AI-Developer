@@ -141,12 +141,12 @@ object DelphiAIDevDatabasesView: TDelphiAIDevDatabasesView
         Width = 1
       end
       item
-        Caption = 'Guid'
+        Caption = 'VendorLib'
         MaxWidth = 1
         Width = 1
       end
       item
-        Caption = 'VendorLib'
+        Caption = 'Guid'
         MaxWidth = 1
         Width = 1
       end>

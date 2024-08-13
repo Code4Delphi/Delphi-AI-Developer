@@ -39,20 +39,23 @@ type
     Label4: TLabel;
     edtDatabase: TEdit;
     Label8: TLabel;
-    edtVendorLib: TEdit;
     ckVisible: TCheckBox;
     lbAddLocalDatabase: TLabel;
-    Button1: TButton;
+    edtPasswordView: TButton;
     btnTestConnection: TButton;
-    Button2: TButton;
+    btnVendorLibSearch: TButton;
+    edtVendorLib: TEdit;
+    btnDatabaseSearch: TButton;
     procedure btnCloseClick(Sender: TObject);
     procedure btnConfirmClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure lbAddLocalDatabaseClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure edtPasswordViewClick(Sender: TObject);
     procedure btnTestConnectionClick(Sender: TObject);
+    procedure btnVendorLibSearchClick(Sender: TObject);
+    procedure btnDatabaseSearchClick(Sender: TObject);
   private
     FFields: TDelphiAIDevDatabasesFields;
     procedure FillcBoxDriverID;
@@ -72,12 +75,6 @@ uses
 
 {$R *.dfm}
 
-procedure TDelphiAIDevDatabasesAddEditView.FillcBoxDriverID;
-begin
-  cBoxDriverID.Items.Clear;
-  TUtils.DriverIDFillItemsTStrings(cBoxDriverID.Items);
-end;
-
 procedure TDelphiAIDevDatabasesAddEditView.FormCreate(Sender: TObject);
 begin
   Self.ModalResult := mrCancel;
@@ -90,6 +87,13 @@ begin
   Self.FillScreenFields;
   edtDescription.SetFocus
 end;
+
+procedure TDelphiAIDevDatabasesAddEditView.FillcBoxDriverID;
+begin
+  cBoxDriverID.Items.Clear;
+  TUtils.DriverIDFillItemsTStrings(cBoxDriverID.Items);
+end;
+
 
 procedure TDelphiAIDevDatabasesAddEditView.lbAddLocalDatabaseClick(Sender: TObject);
 begin
@@ -156,7 +160,7 @@ begin
     TUtils.ShowMsgAndAbort('No informed Database', edtDatabase);
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.Button1Click(Sender: TObject);
+procedure TDelphiAIDevDatabasesAddEditView.edtPasswordViewClick(Sender: TObject);
 begin
   if edtPassword.PasswordChar = '*' then
     edtPassword.PasswordChar := #0
@@ -202,23 +206,16 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
+end;
 
-  //Self.ValidateFillingFields;
+procedure TDelphiAIDevDatabasesAddEditView.btnDatabaseSearchClick(Sender: TObject);
+begin
+  edtDatabase.Text := TUtils.SelectFile(edtDatabase.Text);
+end;
 
-//  Screen.Cursor := crHourGlass;
-//  try
-//    C4DConn.Configs
-//      .Host(edtHost.Text)
-//      .UserName(edtUser.Text)
-//      .Password(edtPassword.Text)
-//      .Port(StrToIntDef(edtPort.Text, 0))
-//      .Database(edtDatabase.Text)
-//      .VendorLib(edtVendorLib.Text);
-//
-//    C4DConn.Connection.TestConnection;
-//  finally
-//    Screen.Cursor := crDefault;
-//  end;
+procedure TDelphiAIDevDatabasesAddEditView.btnVendorLibSearchClick(Sender: TObject);
+begin
+  edtVendorLib.Text := TUtils.SelectFile(edtVendorLib.Text);
 end;
 
 end.

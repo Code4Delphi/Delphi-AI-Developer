@@ -70,7 +70,8 @@ const
   C_INDEX_SUBITEM_DatabaseName = 4;
   C_INDEX_SUBITEM_Visible = 5;
   C_INDEX_SUBITEM_Password = 6;
-  C_INDEX_SUBITEM_Guid = 7;
+  C_INDEX_SUBITEM_VendorLib = 7;
+  C_INDEX_SUBITEM_Guid = 8;
 
 procedure TDelphiAIDevDatabasesView.FormCreate(Sender: TObject);
 begin
@@ -190,6 +191,7 @@ begin
         LListItem.SubItems.Add(AFields.DatabaseName);
         LListItem.SubItems.Add(TUtils.BoolToStrC4D(AFields.Visible));
         LListItem.SubItems.Add(AFields.Password);
+        LListItem.SubItems.Add(AFields.VendorLib);
         LListItem.SubItems.Add(AFields.Guid);
       end;
     end
@@ -227,6 +229,7 @@ begin
   AFields.DatabaseName := LListItem.SubItems[C_INDEX_SUBITEM_DatabaseName];
   AFields.Visible := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_Visible]);
   AFields.Password := LListItem.SubItems[C_INDEX_SUBITEM_Password];
+  AFields.VendorLib := LListItem.SubItems[C_INDEX_SUBITEM_VendorLib];
   AFields.Guid := LListItem.SubItems[C_INDEX_SUBITEM_Guid];
 end;
 
