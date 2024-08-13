@@ -38,6 +38,7 @@ const
   PASSWORD = 'password';
   PORT = 'port';
   DATABASE_NAME = 'database_name';
+  VENDOR_LIB = 'vendor_lib';
   VISIBLE = 'visible';
 
 class function TDelphiAIDevDatabasesModel.New: IDelphiAIDevDatabasesModel;
@@ -89,7 +90,12 @@ begin
         LFields.Password := TUtilsCrypt.Decrypt(LJSONObjItem.GetValue<string>(PASSWORD));
         LFields.Port := LJSONObjItem.GetValue<Integer>(PORT);
         LFields.DatabaseName := LJSONObjItem.GetValue<string>(DATABASE_NAME);
-        LFields.Visible := LJSONObjItem.GetValue<Boolean>(VISIBLE);
+
+        if LJSONObjItem.GetValue(VENDOR_LIB) <> nil then
+          LFields.VendorLib := LJSONObjItem.GetValue<string>(VENDOR_LIB);
+
+        if LJSONObjItem.GetValue(VISIBLE) <> nil then
+          LFields.Visible := LJSONObjItem.GetValue<Boolean>(VISIBLE);
         AProc(LFields);
       end;
     finally
@@ -134,6 +140,7 @@ begin
       LJSONObject.AddPair(PASSWORD, TUtilsCrypt.Encrypt(AFields.Password));
       LJSONObject.AddPair(PORT, TJSONNumber.Create(AFields.Port));
       LJSONObject.AddPair(DATABASE_NAME, AFields.DatabaseName);
+      LJSONObject.AddPair(VENDOR_LIB, AFields.VendorLib);
       LJSONObject.AddPair(VISIBLE, TJSONBool.Create(AFields.Visible));
       LJSONArray.AddElement(LJSONObject);
 
@@ -198,6 +205,9 @@ begin
 
           LJSONObjItem.RemovePair(DATABASE_NAME).Free;
           LJSONObjItem.AddPair(DATABASE_NAME, AFields.DatabaseName);
+
+          LJSONObjItem.RemovePair(VENDOR_LIB).Free;
+          LJSONObjItem.AddPair(VENDOR_LIB, AFields.VendorLib);
 
           LJSONObjItem.RemovePair(VISIBLE).Free;
           LJSONObjItem.AddPair(VISIBLE, TJSONBool.Create(AFields.Visible));

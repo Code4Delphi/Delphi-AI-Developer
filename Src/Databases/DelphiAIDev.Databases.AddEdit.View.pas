@@ -44,6 +44,7 @@ type
     lbAddLocalDatabase: TLabel;
     Button1: TButton;
     btnTestConnection: TButton;
+    Button2: TButton;
     procedure btnCloseClick(Sender: TObject);
     procedure btnConfirmClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

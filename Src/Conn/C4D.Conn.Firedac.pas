@@ -22,6 +22,10 @@ uses
   Firedac.Comp.Client,
   Firedac.DApt,
   Firedac.Comp.UI,
+  //FIREBIRD
+  FireDAC.Phys.IBBase,
+  FireDAC.Phys.FB,
+  //MySQL
   Firedac.Phys.MySQLDef,
   Firedac.Phys.MySQL,
   C4D.Conn.Interfaces,
@@ -34,7 +38,10 @@ type
     [weak]
     FC4DConnConfigs: TC4DConnConfigs;
     FConnection: TFDConnection;
+    FMySQLDriverLink: TFDPhysMySQLDriverLink;
+    FFBDriverLink: TFDPhysFBDriverLink;
     function TestFieldsComponentConnection: IC4DConnection;
+    procedure ConfigDrivers;
   protected
     function Component: TComponent;
     function Open: IC4DConnection;
@@ -63,11 +70,18 @@ begin
   FC4DConnConfigs := AC4DConnConfigs;
   FConnection := TFDConnection.Create(nil);
   FConnection.LoginPrompt := False;
+
+  FMySQLDriverLink := TFDPhysMySQLDriverLink.Create(nil);
+  FFBDriverLink := TFDPhysFBDriverLink.Create(nil);
+
   Self.LoadConnectionConfig;
 end;
 
 destructor TC4DConnFiredac.Destroy;
 begin
+  FFBDriverLink.Free;
+  FMySQLDriverLink.Free;
+
   FConnection.Close;
   FreeAndNil(FConnection);
 
@@ -86,14 +100,26 @@ begin
   FConnection.Params.Add('Server=' + FC4DConnConfigs.Host);
   if FC4DConnConfigs.Port > 0 then
     FConnection.Params.Add('Port=' + FC4DConnConfigs.Port.ToString);
+
+//  FConnection.TXOptions.AutoStart := True;
+//  FConnection.TXOptions.AutoStop := True;
+//  FConnection.TXOptions.AutoCommit := True;
+//  FConnection.TxOptions.StopOptions := [xoIfAutoStarted, xoFinishRetaining];
+//  FConnection.UpdateOptions.AutoCommitUpdates := True;
+//  FConnection.UpdateOptions.RefreshMode := rmAll;
+
+  Self.ConfigDrivers;
 end;
 
-{FConnection.TXOptions.AutoStart  := True;
- FConnection.TXOptions.AutoStop   := True;
- FConnection.TXOptions.AutoCommit := True;
- FConnection.TxOptions.StopOptions := [xoIfAutoStarted, xoFinishRetaining];
- FConnection.UpdateOptions.AutoCommitUpdates := True;
- FConnection.UpdateOptions.RefreshMode       := rmAll;  }
+procedure TC4DConnFiredac.ConfigDrivers;
+begin
+  case FC4DConnConfigs.DriverID of
+    TC4DDriverID.MySQL:
+      FMySQLDriverLink.VendorLib := FC4DConnConfigs.VendorLib;
+    TC4DDriverID.Firebird:
+      FFBDriverLink.VendorLib := FC4DConnConfigs.VendorLib;
+  end;
+end;
 
 function TC4DConnFiredac.Component: TComponent;
 begin

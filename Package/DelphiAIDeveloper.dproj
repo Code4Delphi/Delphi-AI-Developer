@@ -127,6 +127,7 @@
         <DCCReference Include="FireDACCommonDriver.dcp"/>
         <DCCReference Include="FireDACCommon.dcp"/>
         <DCCReference Include="FireDACMySQLDriver.dcp"/>
+        <DCCReference Include="FireDACIBDriver.dcp"/>
         <DCCReference Include="..\Src\DelphiAIDev.Register.pas"/>
         <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
             <Form>DelphiAIDevChatView</Form>

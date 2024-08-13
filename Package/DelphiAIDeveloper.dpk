@@ -37,7 +37,8 @@ requires
   FireDAC,
   FireDACCommonDriver,
   FireDACCommon,
-  FireDACMySQLDriver;
+  FireDACMySQLDriver,
+  FireDACIBDriver;
 
 contains
   DelphiAIDev.Register in '..\Src\DelphiAIDev.Register.pas',

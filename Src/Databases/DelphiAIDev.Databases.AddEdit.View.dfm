@@ -237,9 +237,8 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
     object edtVendorLib: TEdit
       Left = 31
       Top = 180
-      Width = 606
+      Width = 581
       Height = 21
-      PasswordChar = '*'
       TabOrder = 7
     end
     object ckVisible: TCheckBox
@@ -259,6 +258,16 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
       Cursor = crHandPoint
       Caption = 'View'
       TabOrder = 9
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 613
+      Top = 179
+      Width = 24
+      Height = 23
+      Cursor = crHandPoint
+      Caption = '...'
+      TabOrder = 10
       OnClick = Button1Click
     end
   end
