@@ -144,6 +144,7 @@ type
     procedure ConfScreenOnCreate;
     procedure ValidateRegistrationOfSelectedAI;
     procedure ReloadDatabases;
+    procedure ClearcBoxDatabases;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -430,12 +431,13 @@ procedure TDelphiAIDevDBChatView.btnSendClick(Sender: TObject);
 begin
   //Self.ProcessSend;
 
-
 end;
 
 procedure TDelphiAIDevDBChatView.ReloadDatabases;
-begin   TUtils.ShowMsg('ReloadDatabases');
-  cBoxDatabases.Items.Clear;
+begin
+  TUtils.ShowMsg('ReloadDatabases');
+
+  Self.ClearcBoxDatabases;
 
   TDelphiAIDevDBRegistersModel.New.ReadData(
     procedure(AFields: TDelphiAIDevDBRegistersFields)
@@ -447,8 +449,33 @@ begin   TUtils.ShowMsg('ReloadDatabases');
       begin
         cBoxDatabases.Items.AddObject(AFields.Description, AFields);
       end;
-    end
+    end,
+    TAutoFreeField.No
   );
+
+  cBoxDatabases.ItemIndex := 0;
+end;
+
+procedure TDelphiAIDevDBChatView.ClearcBoxDatabases;
+var
+  i: Integer;
+  LObj: TObject;
+begin
+  TUtils.ShowMsg('ClearcBoxDatabases INI');
+
+  for i := 0 to Pred(cBoxDatabases.Items.Count) do
+  begin
+    if not Assigned(cBoxDatabases.Items.Objects[i]) then
+      Continue;
+
+    LObj := cBoxDatabases.Items.Objects[i];
+
+    if LObj is TDelphiAIDevDBRegistersFields then
+      TDelphiAIDevDBRegistersFields(LObj).Free;
+  end;
+
+  TUtils.ShowMsg('ClearcBoxDatabases fim');
+  cBoxDatabases.Items.Clear;
 end;
 
 procedure TDelphiAIDevDBChatView.Button1Click(Sender: TObject);

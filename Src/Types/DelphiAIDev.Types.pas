@@ -21,6 +21,7 @@ type
   TC4DBtnFocu = (OK, Cancel);
   TC4DQuestionKind = (None, ItemMenuNormal, MenuMasterOnly, Separators);
   TC4DDriverID = (None, MySQL, Firebird);
+  TAutoFreeField = (Yes, No);
   {$SCOPEDENUMS OFF}
 
   TC4DAIsAvailableHelper = record helper for TC4DAIsAvailable

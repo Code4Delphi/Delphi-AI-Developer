@@ -294,8 +294,8 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
           Width = 187
           Height = 21
           Align = alLeft
+          Style = csDropDownList
           TabOrder = 1
-          Text = 'cBoxDatabases'
         end
       end
     end

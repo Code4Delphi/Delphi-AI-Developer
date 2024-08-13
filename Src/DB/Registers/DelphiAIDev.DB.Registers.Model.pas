@@ -19,7 +19,7 @@ type
     procedure SaveData(AFields: TDelphiAIDevDBRegistersFields);
     procedure EditData(AFields: TDelphiAIDevDBRegistersFields);
   protected
-    procedure ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>);
+    procedure ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>; const AAutoFreeField: TAutoFreeField = TAutoFreeField.Yes);
     procedure SaveOrEditData(AFields: TDelphiAIDevDBRegistersFields);
     procedure RemoveData(const AGuid: string);
   public
@@ -51,7 +51,7 @@ begin
   //
 end;
 
-procedure TDelphiAIDevDBRegistersModel.ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>);
+procedure TDelphiAIDevDBRegistersModel.ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>; const AAutoFreeField: TAutoFreeField = TAutoFreeField.Yes);
 var
  LStringList: TStringList;
  LJSONObjItem: TJSONObject;
@@ -122,7 +122,8 @@ begin
       LJSONArray.Free;
     end;
   finally
-    LFields.Free;
+    if AAutoFreeField = TAutoFreeField.Yes then
+      LFields.Free;
   end;
 end;
 
