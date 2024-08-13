@@ -94,7 +94,6 @@ begin
   TUtils.DriverIDFillItemsTStrings(cBoxDriverID.Items);
 end;
 
-
 procedure TDelphiAIDevDatabasesAddEditView.lbAddLocalDatabaseClick(Sender: TObject);
 begin
   edtHost.Text := 'localhost';
