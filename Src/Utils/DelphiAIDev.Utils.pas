@@ -11,6 +11,10 @@ uses
   System.StrUtils,
   System.Classes,
   System.TypInfo,
+
+  System.JSON,
+  System.Generics.Collections,
+
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Graphics,
@@ -27,6 +31,7 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TC4DIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class procedure TryGetValueJson<T>(const AJSONObject: TJSONObject; const AKey: string; AResult: T);
     class function GetExceptionMessage(const E: Exception): string;
     class function StrToDefaultsQuestionsKind(Value: string): TC4DQuestionKind;
     class function StrToDriverID(Value: string): TC4DDriverID;
@@ -139,6 +144,12 @@ uses
   DelphiAIDev.View.Memo,
   DelphiAIDev.View.Dialog,
   DelphiAIDev.WaitingScreen;
+
+class procedure TUtils.TryGetValueJson<T>(const AJSONObject: TJSONObject; const AKey: string; AResult: T);
+begin
+  if AJSONObject.GetValue(AKey) <> nil then
+    AResult := AJSONObject.GetValue<T>(AKey);
+end;
 
 class function TUtils.GetExceptionMessage(const E: Exception): string;
 begin

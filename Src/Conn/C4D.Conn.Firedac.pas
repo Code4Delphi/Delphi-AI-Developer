@@ -30,7 +30,8 @@ uses
   Firedac.Phys.MySQL,
   C4D.Conn.Interfaces,
   C4D.Conn.Configs,
-  DelphiAIDev.Types;
+  DelphiAIDev.Types,
+  DelphiAIDev.Utils;
 
 type
   TC4DConnFiredac = class(TInterfacedObject, IC4DConnection)
@@ -50,7 +51,6 @@ type
     function Commit: IC4DConnection;
     function Rollback: IC4DConnection;
     function TestConnection: Boolean;
-    function TestConnectionOnly: Boolean;
     function LoadConnectionConfig: IC4DConnection;
   public
     class function New(AC4DConnConfigs: TC4DConnConfigs): IC4DConnection;
@@ -79,6 +79,7 @@ end;
 
 destructor TC4DConnFiredac.Destroy;
 begin
+  TUtils.ShowMsg('TC4DConnFiredac.Destroy');
   FFBDriverLink.Free;
   FMySQLDriverLink.Free;
 
@@ -161,6 +162,7 @@ begin
   Self.TestFieldsComponentConnection;
   try
     LConnectedOld := FConnection.Connected;
+    FConnection.Close; //
     FConnection.Open;
     Result := FConnection.Connected;
 
@@ -169,22 +171,6 @@ begin
   except
     on E: exception do
       raise exception.Create('Unsuccessful Connection! ' + sLineBreak + E.Message);
-  end;
-end;
-
-function TC4DConnFiredac.TestConnectionOnly: Boolean;
-var
-  LConnectedOld: Boolean;
-begin
-  Result := False;
-  try
-    LConnectedOld := FConnection.Connected;
-    FConnection.Open;
-    Result := FConnection.Connected;
-
-    if FConnection.Connected <> LConnectedOld then
-      FConnection.Connected := LConnectedOld;
-  except
   end;
 end;
 

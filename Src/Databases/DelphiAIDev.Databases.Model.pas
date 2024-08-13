@@ -82,20 +82,40 @@ begin
           Continue;
 
         LJSONObjItem := LJSONArray.Items[i] as TJSONObject;
+
+        if LJSONObjItem.GetValue(GUID) = nil then
+          Continue;
+
+        LFields.Clear;
         LFields.Guid := LJSONObjItem.GetValue<string>(GUID);
-        LFields.DriverID := TC4DDriverID(LJSONObjItem.GetValue<Integer>(DRIVER_ID));
-        LFields.Description := LJSONObjItem.GetValue<string>(DESCRIPTION);
-        LFields.Host := LJSONObjItem.GetValue<string>(HOST);
-        LFields.User := LJSONObjItem.GetValue<string>(USER);
-        LFields.Password := TUtilsCrypt.Decrypt(LJSONObjItem.GetValue<string>(PASSWORD));
-        LFields.Port := LJSONObjItem.GetValue<Integer>(PORT);
-        LFields.DatabaseName := LJSONObjItem.GetValue<string>(DATABASE_NAME);
+
+        if LJSONObjItem.GetValue(DRIVER_ID) <> nil then
+          LFields.DriverID := TC4DDriverID(LJSONObjItem.GetValue<Integer>(DRIVER_ID));
+
+        if LJSONObjItem.GetValue(DESCRIPTION) <> nil then
+          LFields.Description := LJSONObjItem.GetValue<string>(DESCRIPTION);
+
+        if LJSONObjItem.GetValue(HOST) <> nil then
+          LFields.Host := LJSONObjItem.GetValue<string>(HOST);
+
+        if LJSONObjItem.GetValue(USER) <> nil then
+          LFields.User := LJSONObjItem.GetValue<string>(USER);
+
+        if LJSONObjItem.GetValue(PASSWORD) <> nil then
+          LFields.Password := TUtilsCrypt.Decrypt(LJSONObjItem.GetValue<string>(PASSWORD));
+
+        if LJSONObjItem.GetValue(PORT) <> nil then
+          LFields.Port := LJSONObjItem.GetValue<Integer>(PORT);
+
+        if LJSONObjItem.GetValue(DATABASE_NAME) <> nil then
+          LFields.DatabaseName := LJSONObjItem.GetValue<string>(DATABASE_NAME);
 
         if LJSONObjItem.GetValue(VENDOR_LIB) <> nil then
           LFields.VendorLib := LJSONObjItem.GetValue<string>(VENDOR_LIB);
 
         if LJSONObjItem.GetValue(VISIBLE) <> nil then
           LFields.Visible := LJSONObjItem.GetValue<Boolean>(VISIBLE);
+
         AProc(LFields);
       end;
     finally

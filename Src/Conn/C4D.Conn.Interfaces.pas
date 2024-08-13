@@ -18,7 +18,6 @@ type
     function Rollback: IC4DConnection;
 
     function TestConnection: Boolean;
-    function TestConnectionOnly: Boolean;
     function LoadConnectionConfig: IC4DConnection;
   end;
 

@@ -118,7 +118,6 @@ object DelphiAIDevDatabasesView: TDelphiAIDevDatabasesView
         Width = 100
       end
       item
-        Alignment = taCenter
         Caption = 'User'
         Width = 90
       end
