@@ -30,7 +30,13 @@ uses
   DelphiAIDev.Settings,
   DelphiAIDev.ModuleCreator,
   DelphiAIDev.DefaultsQuestions.PopupMenu,
-  DelphiAIDev.Chat.ProcessResponse, Data.DB, Vcl.Grids, Vcl.DBGrids;
+  DelphiAIDev.Chat.ProcessResponse,
+  Data.DB,
+  Vcl.Grids,
+  Vcl.DBGrids,
+  DelphiAIDev.DB.Registers.Model,
+  DelphiAIDev.DB.Registers.Fields,
+  C4D.Conn;
 
 type
   TDelphiAIDevDBChatView = class(TDockableForm)
@@ -79,6 +85,8 @@ type
     Panel9: TPanel;
     Splitter2: TSplitter;
     DataSource1: TDataSource;
+    Button1: TButton;
+    cBoxDatabases: TComboBox;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -106,6 +114,7 @@ type
     procedure btnDefaultsQuestionsClick(Sender: TObject);
     procedure Clear1Click(Sender: TObject);
     procedure btnCleanAllClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -134,6 +143,7 @@ type
     procedure ProcessWordWrap;
     procedure ConfScreenOnCreate;
     procedure ValidateRegistrationOfSelectedAI;
+    procedure ReloadDatabases;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -219,6 +229,7 @@ begin
   Self.ProcessWordWrap;
   Self.AddItemsPopupMenuQuestion;
   TUtils.MemoFocusOnTheEnd(mmQuestion);
+  Self.ReloadDatabases;
 end;
 
 procedure TDelphiAIDevDBChatView.FormActivate(Sender: TObject);
@@ -420,6 +431,29 @@ begin
   //Self.ProcessSend;
 
 
+end;
+
+procedure TDelphiAIDevDBChatView.ReloadDatabases;
+begin   TUtils.ShowMsg('ReloadDatabases');
+  cBoxDatabases.Items.Clear;
+
+  TDelphiAIDevDBRegistersModel.New.ReadData(
+    procedure(AFields: TDelphiAIDevDBRegistersFields)
+    begin
+      if AFields.Description.Trim.IsEmpty then
+        Exit;
+
+      if AFields.Visible then
+      begin
+        cBoxDatabases.Items.AddObject(AFields.Description, AFields);
+      end;
+    end
+  );
+end;
+
+procedure TDelphiAIDevDBChatView.Button1Click(Sender: TObject);
+begin
+  TUtils.ShowMsg(TDelphiAIDevDBRegistersFields(cBoxDatabases.Items.Objects[cBoxDatabases.ItemIndex]).Description);
 end;
 
 procedure TDelphiAIDevDBChatView.ProcessSend;

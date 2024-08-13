@@ -175,7 +175,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Caption = 'Send'
         TabOrder = 0
         OnClick = btnSendClick
-        ExplicitTop = 2
       end
       object pnBackConfigurableButtons: TPanel
         Left = 395
@@ -255,7 +254,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Left = 0
         Top = 0
         Width = 938
-        Height = 304
+        Height = 291
         Align = alClient
         DataSource = DataSource1
         TabOrder = 0
@@ -267,9 +266,9 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       end
       object Panel9: TPanel
         Left = 0
-        Top = 304
+        Top = 291
         Width = 938
-        Height = 21
+        Height = 34
         Align = alBottom
         BevelOuter = bvNone
         Padding.Left = 3
@@ -278,6 +277,26 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Padding.Bottom = 3
         ParentBackground = False
         TabOrder = 1
+        object Button1: TButton
+          Left = 196
+          Top = 3
+          Width = 75
+          Height = 28
+          Align = alLeft
+          Caption = 'Button1'
+          TabOrder = 0
+          OnClick = Button1Click
+        end
+        object cBoxDatabases: TComboBox
+          AlignWithMargins = True
+          Left = 6
+          Top = 6
+          Width = 187
+          Height = 21
+          Align = alLeft
+          TabOrder = 1
+          Text = 'cBoxDatabases'
+        end
       end
     end
   end
@@ -851,8 +870,8 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
   end
   object pMenuCurrentAI: TPopupMenu
     OnPopup = pMenuCurrentAIPopup
-    Left = 50
-    Top = 583
+    Left = 26
+    Top = 263
     object Gemini1: TMenuItem
       Caption = 'Gemini'
       OnClick = Gemini1Click
@@ -878,8 +897,8 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     end
   end
   object pMenuQuestions: TPopupMenu
-    Left = 522
-    Top = 563
+    Left = 530
+    Top = 531
   end
   object DataSource1: TDataSource
     Left = 170
