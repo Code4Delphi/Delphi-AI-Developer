@@ -169,8 +169,8 @@
         <DCCReference Include="..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas"/>
         <DCCReference Include="..\Src\IDE\Shortcuts\DelphiAIDev.IDE.Shortcuts.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas"/>
-        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.View.pas">
-            <Form>DelphiAIDevDatabasesView</Form>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.View.pas">
+            <Form>DelphiAIDevDBRegistersView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ListView.pas"/>
@@ -178,8 +178,8 @@
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Fields.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Interfaces.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas"/>
-        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.AddEdit.View.pas">
-            <Form>DelphiAIDevDatabasesAddEditView</Form>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.AddEdit.View.pas">
+            <Form>DelphiAIDevDBRegistersAddEditView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas"/>
@@ -193,9 +193,9 @@
             <Form>DelphiAIDevDefaultsQuestionsView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.Model.pas"/>
-        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.Interfaces.pas"/>
-        <DCCReference Include="..\Src\Databases\DelphiAIDev.Databases.Fields.pas"/>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.Model.pas"/>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.Interfaces.pas"/>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.Fields.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas">
             <Form>DelphiAIDevDefaultsQuestionsAddEditView</Form>
             <FormType>dfm</FormType>

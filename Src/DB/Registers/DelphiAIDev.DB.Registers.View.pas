@@ -1,4 +1,4 @@
-unit DelphiAIDev.Databases.View;
+unit DelphiAIDev.DB.Registers.View;
 
 interface
 
@@ -13,12 +13,12 @@ uses
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
   DelphiAIDev.Utils.ListView,
-  DelphiAIDev.Databases.Model,
-  DelphiAIDev.Databases.Fields,
-  DelphiAIDev.Databases.AddEdit.View;
+  DelphiAIDev.DB.Registers.Model,
+  DelphiAIDev.DB.Registers.Fields,
+  DelphiAIDev.DB.Registers.AddEdit.View;
 
 type
-  TDelphiAIDevDatabasesView = class(TForm)
+  TDelphiAIDevDBRegistersView = class(TForm)
     Panel1: TPanel;
     btnEdit: TButton;
     btnClose: TButton;
@@ -48,7 +48,7 @@ type
     procedure ReloadData;
     procedure ReloadDataInternal;
     procedure FillStatusBar(AItem: TListItem);
-    procedure FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDatabasesFields);
+    procedure FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDBRegistersFields);
   public
     property MadeChanges: Boolean read FMadeChanges;
   end;
@@ -73,13 +73,13 @@ const
   C_INDEX_SUBITEM_VendorLib = 7;
   C_INDEX_SUBITEM_Guid = 8;
 
-procedure TDelphiAIDevDatabasesView.FormCreate(Sender: TObject);
+procedure TDelphiAIDevDBRegistersView.FormCreate(Sender: TObject);
 begin
-  TUtilsOTA.IDEThemingAll(TDelphiAIDevDatabasesView, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiAIDevDBRegistersView, Self);
   FUtilsListView := TDelphiAIDevUtilsListView.New(ListView);
 end;
 
-procedure TDelphiAIDevDatabasesView.FormShow(Sender: TObject);
+procedure TDelphiAIDevDBRegistersView.FormShow(Sender: TObject);
 begin
   Self.ReloadData;
 
@@ -95,7 +95,7 @@ begin
     .CustomSort;
 end;
 
-procedure TDelphiAIDevDatabasesView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDelphiAIDevDBRegistersView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   case Key of
     VK_F4:
@@ -122,18 +122,18 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesView.btnCloseClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersView.btnCloseClick(Sender: TObject);
 begin
   Self.Close;
 end;
 
-procedure TDelphiAIDevDatabasesView.edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDelphiAIDevDBRegistersView.edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_RETURN then
     Self.ReloadData;
 end;
 
-procedure TDelphiAIDevDatabasesView.btnSearchClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersView.btnSearchClick(Sender: TObject);
 begin
   Screen.Cursor := crHourGlass;
   try
@@ -143,7 +143,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesView.ReloadData;
+procedure TDelphiAIDevDBRegistersView.ReloadData;
 begin
   Screen.Cursor := crHourGlass;
   try
@@ -153,7 +153,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesView.ReloadDataInternal;
+procedure TDelphiAIDevDBRegistersView.ReloadDataInternal;
 var
   LStrSearch: string;
   LListItem: TListItem;
@@ -166,8 +166,8 @@ begin
 
   ListView.Clear;
 
-  TDelphiAIDevDatabasesModel.New.ReadData(
-    procedure(AFields: TDelphiAIDevDatabasesFields)
+  TDelphiAIDevDBRegistersModel.New.ReadData(
+    procedure(AFields: TDelphiAIDevDBRegistersFields)
     begin
       if AFields.Description.Trim.IsEmpty then
         Exit;
@@ -207,12 +207,12 @@ begin
   Self.FillStatusBar(ListView.Selected);
 end;
 
-procedure TDelphiAIDevDatabasesView.ListViewSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
+procedure TDelphiAIDevDBRegistersView.ListViewSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
 begin
   Self.FillStatusBar(Item);
 end;
 
-procedure TDelphiAIDevDatabasesView.FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDatabasesFields);
+procedure TDelphiAIDevDBRegistersView.FillFieldsWithSelectedItem(var AFields: TDelphiAIDevDBRegistersFields);
 var
   LListItem: TListItem;
 begin
@@ -233,7 +233,7 @@ begin
   AFields.Guid := LListItem.SubItems[C_INDEX_SUBITEM_Guid];
 end;
 
-procedure TDelphiAIDevDatabasesView.FillStatusBar(AItem: TListItem);
+procedure TDelphiAIDevDBRegistersView.FillStatusBar(AItem: TListItem);
 var
   LIndex: Integer;
   LDatabaseName: string;
@@ -250,7 +250,7 @@ begin
   StatusBar1.Panels[1].Text := LDatabaseName;
 end;
 
-procedure TDelphiAIDevDatabasesView.ListViewColumnClick(Sender: TObject; Column: TListColumn);
+procedure TDelphiAIDevDBRegistersView.ListViewColumnClick(Sender: TObject; Column: TListColumn);
 var
   LSortStyle: TDelphiAIDevUtilsListViewSortStyle;
 begin
@@ -267,25 +267,25 @@ begin
     .CustomSort;
 end;
 
-procedure TDelphiAIDevDatabasesView.ListViewDblClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersView.ListViewDblClick(Sender: TObject);
 begin
   btnEdit.Click
 end;
 
-procedure TDelphiAIDevDatabasesView.ListViewKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDelphiAIDevDBRegistersView.ListViewKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_RETURN then
     btnEdit.Click
 end;
 
-procedure TDelphiAIDevDatabasesView.btnAddClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersView.btnAddClick(Sender: TObject);
 var
-  LFields: TDelphiAIDevDatabasesFields;
-  LView: TDelphiAIDevDatabasesAddEditView;
+  LFields: TDelphiAIDevDBRegistersFields;
+  LView: TDelphiAIDevDBRegistersAddEditView;
 begin
-  LFields := TDelphiAIDevDatabasesFields.Create;
+  LFields := TDelphiAIDevDBRegistersFields.Create;
   try
-    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
+    LView := TDelphiAIDevDBRegistersAddEditView.Create(nil);
     try
       LView.Caption := string(LView.Caption).Replace('[action]', 'Adding', [rfReplaceAll, rfIgnoreCase]);
       LView.Fields := LFields;
@@ -303,22 +303,22 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesView.btnEditClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersView.btnEditClick(Sender: TObject);
 var
-  LFields: TDelphiAIDevDatabasesFields;
-  LView: TDelphiAIDevDatabasesAddEditView;
+  LFields: TDelphiAIDevDBRegistersFields;
+  LView: TDelphiAIDevDBRegistersAddEditView;
 begin
   if ListView.Selected = nil then
     Exit;
 
-  LFields := TDelphiAIDevDatabasesFields.Create;
+  LFields := TDelphiAIDevDBRegistersFields.Create;
   try
     Self.FillFieldsWithSelectedItem(LFields);
 
     if LFields.Description.Trim.IsEmpty then
       TUtils.ShowMsgErrorAndAbort('Caption not found');
 
-    LView := TDelphiAIDevDatabasesAddEditView.Create(nil);
+    LView := TDelphiAIDevDBRegistersAddEditView.Create(nil);
     try
       LView.Caption := string(LView.Caption).Replace('[action]', 'Editing', [rfReplaceAll, rfIgnoreCase]);
       LView.Fields := LFields;
@@ -335,7 +335,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesView.btnRemoveClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersView.btnRemoveClick(Sender: TObject);
 var
   LGuid: string;
 begin
@@ -354,7 +354,7 @@ begin
 
   Screen.Cursor := crHourGlass;
   try
-    TDelphiAIDevDatabasesModel.New.RemoveData(LGuid);
+    TDelphiAIDevDBRegistersModel.New.RemoveData(LGuid);
     Self.ReloadData;
   finally
     FMadeChanges := True;

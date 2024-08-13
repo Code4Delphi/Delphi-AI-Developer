@@ -1,4 +1,4 @@
-unit DelphiAIDev.Databases.Model;
+unit DelphiAIDev.DB.Registers.Model;
 
 interface
 
@@ -9,18 +9,18 @@ uses
   Rest.JSON,
   DelphiAIDev.Utils,
   DelphiAIDev.Types,
-  DelphiAIDev.Databases.Interfaces,
-  DelphiAIDev.Databases.Fields,
+  DelphiAIDev.DB.Registers.Interfaces,
+  DelphiAIDev.DB.Registers.Fields,
   DelphiAIDev.Utils.Crypt;
 
 type
-  TDelphiAIDevDatabasesModel = class(TInterfacedObject, IDelphiAIDevDatabasesModel)
+  TDelphiAIDevDBRegistersModel = class(TInterfacedObject, IDelphiAIDevDatabasesModel)
   private
-    procedure SaveData(AFields: TDelphiAIDevDatabasesFields);
-    procedure EditData(AFields: TDelphiAIDevDatabasesFields);
+    procedure SaveData(AFields: TDelphiAIDevDBRegistersFields);
+    procedure EditData(AFields: TDelphiAIDevDBRegistersFields);
   protected
-    procedure ReadData(AProc: TProc<TDelphiAIDevDatabasesFields>);
-    procedure SaveOrEditData(AFields: TDelphiAIDevDatabasesFields);
+    procedure ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>);
+    procedure SaveOrEditData(AFields: TDelphiAIDevDBRegistersFields);
     procedure RemoveData(const AGuid: string);
   public
     class function New: IDelphiAIDevDatabasesModel;
@@ -41,25 +41,25 @@ const
   VENDOR_LIB = 'vendor_lib';
   VISIBLE = 'visible';
 
-class function TDelphiAIDevDatabasesModel.New: IDelphiAIDevDatabasesModel;
+class function TDelphiAIDevDBRegistersModel.New: IDelphiAIDevDatabasesModel;
 begin
   Result := Self.Create;
 end;
 
-constructor TDelphiAIDevDatabasesModel.Create;
+constructor TDelphiAIDevDBRegistersModel.Create;
 begin
   //
 end;
 
-procedure TDelphiAIDevDatabasesModel.ReadData(AProc: TProc<TDelphiAIDevDatabasesFields>);
+procedure TDelphiAIDevDBRegistersModel.ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>);
 var
  LStringList: TStringList;
  LJSONObjItem: TJSONObject;
  LJSONArray: TJsonArray;
  i: Integer;
- LFields: TDelphiAIDevDatabasesFields;
+ LFields: TDelphiAIDevDBRegistersFields;
 begin
-  LFields := TDelphiAIDevDatabasesFields.Create;
+  LFields := TDelphiAIDevDBRegistersFields.Create;
   try
     if not FileExists(TUtils.GetPathFileJSONDatabases) then
     begin
@@ -126,7 +126,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesModel.SaveOrEditData(AFields: TDelphiAIDevDatabasesFields);
+procedure TDelphiAIDevDBRegistersModel.SaveOrEditData(AFields: TDelphiAIDevDBRegistersFields);
 begin
   if AFields.Guid.Trim.IsEmpty then
     Self.SaveData(AFields)
@@ -134,7 +134,7 @@ begin
     Self.EditData(AFields);
 end;
 
-procedure TDelphiAIDevDatabasesModel.SaveData(AFields: TDelphiAIDevDatabasesFields);
+procedure TDelphiAIDevDBRegistersModel.SaveData(AFields: TDelphiAIDevDBRegistersFields);
 var
   LStringList: TStringList;
   LJSONArray: TJSONArray;
@@ -178,7 +178,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesModel.EditData(AFields: TDelphiAIDevDatabasesFields);
+procedure TDelphiAIDevDBRegistersModel.EditData(AFields: TDelphiAIDevDBRegistersFields);
 var
   LStringList: TStringList;
   LJSONArray: TJSONArray;
@@ -250,7 +250,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesModel.RemoveData(const AGuid: string);
+procedure TDelphiAIDevDBRegistersModel.RemoveData(const AGuid: string);
 var
   LStringList: TStringList;
   LJSONArray: TJSONArray;

@@ -1,4 +1,4 @@
-object DelphiAIDevDatabasesView: TDelphiAIDevDatabasesView
+object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]

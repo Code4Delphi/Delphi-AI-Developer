@@ -25,7 +25,7 @@ uses
   DelphiAIDev.Utils.OTA,
   DelphiAIDev.Chat.View,
   DelphiAIDev.DefaultsQuestions.View,
-  DelphiAIDev.Databases.View,
+  DelphiAIDev.DB.Registers.View,
   DelphiAIDev.Settings.View,
   DelphiAIDev.View.About;
 
@@ -49,9 +49,9 @@ end;
 
 class procedure TDelphiAIDevIDEMainMenuClicks.DatabasesClick(Sender: TObject);
 var
-  LView: TDelphiAIDevDatabasesView;
+  LView: TDelphiAIDevDBRegistersView;
 begin
-  LView := TDelphiAIDevDatabasesView.Create(nil);
+  LView := TDelphiAIDevDBRegistersView.Create(nil);
   try
     LView.ShowModal;
   finally

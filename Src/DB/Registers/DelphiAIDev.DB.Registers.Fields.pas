@@ -1,4 +1,4 @@
-unit DelphiAIDev.Databases.Fields;
+unit DelphiAIDev.DB.Registers.Fields;
 
 interface
 
@@ -6,7 +6,7 @@ uses
   DelphiAIDev.Types;
 
 type
-  TDelphiAIDevDatabasesFields = class
+  TDelphiAIDevDBRegistersFields = class
   private
     FGuid: string;
     FDriverID: TC4DDriverID;
@@ -35,12 +35,12 @@ type
 
 implementation
 
-constructor TDelphiAIDevDatabasesFields.Create;
+constructor TDelphiAIDevDBRegistersFields.Create;
 begin
   Self.Clear;
 end;
 
-procedure TDelphiAIDevDatabasesFields.Clear;
+procedure TDelphiAIDevDBRegistersFields.Clear;
 begin
   FGuid := '';
   FDriverID := TC4DDriverID.None;

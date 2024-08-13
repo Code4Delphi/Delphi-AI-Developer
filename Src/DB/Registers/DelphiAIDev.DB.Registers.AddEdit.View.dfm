@@ -1,4 +1,4 @@
-object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
+object DelphiAIDevDBRegistersAddEditView: TDelphiAIDevDBRegistersAddEditView
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
@@ -103,7 +103,6 @@ object DelphiAIDevDatabasesAddEditView: TDelphiAIDevDatabasesAddEditView
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = -2
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 0

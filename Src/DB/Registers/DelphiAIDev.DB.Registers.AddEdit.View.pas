@@ -1,4 +1,4 @@
-unit DelphiAIDev.Databases.AddEdit.View;
+unit DelphiAIDev.DB.Registers.AddEdit.View;
 
 interface
 
@@ -13,11 +13,11 @@ uses
   Vcl.Menus,
   Vcl.ComCtrls,
   DelphiAIDev.Types,
-  DelphiAIDev.Databases.Fields,
+  DelphiAIDev.DB.Registers.Fields,
   C4D.Conn;
 
 type
-  TDelphiAIDevDatabasesAddEditView = class(TForm)
+  TDelphiAIDevDBRegistersAddEditView = class(TForm)
     Panel1: TPanel;
     btnConfirm: TButton;
     btnClose: TButton;
@@ -57,12 +57,12 @@ type
     procedure btnVendorLibSearchClick(Sender: TObject);
     procedure btnDatabaseSearchClick(Sender: TObject);
   private
-    FFields: TDelphiAIDevDatabasesFields;
+    FFields: TDelphiAIDevDBRegistersFields;
     procedure FillcBoxDriverID;
     procedure FillScreenFields;
     procedure ValidateFillingFields;
   public
-    property Fields: TDelphiAIDevDatabasesFields read FFields write FFields;
+    property Fields: TDelphiAIDevDBRegistersFields read FFields write FFields;
   end;
 
 implementation
@@ -71,35 +71,35 @@ uses
   DelphiAIDev.Consts,
   DelphiAIDev.Utils,
   DelphiAIDev.Utils.OTA,
-  DelphiAIDev.DataBases.Model;
+  DelphiAIDev.DB.Registers.Model;
 
 {$R *.dfm}
 
-procedure TDelphiAIDevDatabasesAddEditView.FormCreate(Sender: TObject);
+procedure TDelphiAIDevDBRegistersAddEditView.FormCreate(Sender: TObject);
 begin
   Self.ModalResult := mrCancel;
-  TUtilsOTA.IDEThemingAll(TDelphiAIDevDatabasesAddEditView, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiAIDevDBRegistersAddEditView, Self);
   Self.FillcBoxDriverID;
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.FormShow(Sender: TObject);
+procedure TDelphiAIDevDBRegistersAddEditView.FormShow(Sender: TObject);
 begin
   Self.FillScreenFields;
   edtDescription.SetFocus
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.FillcBoxDriverID;
+procedure TDelphiAIDevDBRegistersAddEditView.FillcBoxDriverID;
 begin
   cBoxDriverID.Items.Clear;
   TUtils.DriverIDFillItemsTStrings(cBoxDriverID.Items);
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.lbAddLocalDatabaseClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersAddEditView.lbAddLocalDatabaseClick(Sender: TObject);
 begin
   edtHost.Text := 'localhost';
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.FillScreenFields;
+procedure TDelphiAIDevDBRegistersAddEditView.FillScreenFields;
 begin
   cBoxDriverID.ItemIndex := cBoxDriverID.Items.IndexOf(FFields.DriverID.ToString);
   edtDescription.Text := FFields.Description;
@@ -112,13 +112,13 @@ begin
   ckVisible.Checked := FFields.Visible;
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.btnCloseClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersAddEditView.btnCloseClick(Sender: TObject);
 begin
   Self.Close;
   Self.ModalResult := mrCancel;
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.btnConfirmClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersAddEditView.btnConfirmClick(Sender: TObject);
 begin
   Self.ValidateFillingFields;
 
@@ -132,13 +132,13 @@ begin
   FFields.VendorLib := edtVendorLib.Text;
   FFields.Visible := ckVisible.Checked;
 
-  TDelphiAIDevDatabasesModel.New.SaveOrEditData(FFields);
+  TDelphiAIDevDBRegistersModel.New.SaveOrEditData(FFields);
 
   Self.Close;
   Self.ModalResult := mrOK;
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.ValidateFillingFields;
+procedure TDelphiAIDevDBRegistersAddEditView.ValidateFillingFields;
 begin
   if Trim(edtDescription.Text).IsEmpty then
     TUtils.ShowMsgAndAbort('No informed Description', edtDescription);
@@ -159,7 +159,7 @@ begin
     TUtils.ShowMsgAndAbort('No informed Database', edtDatabase);
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.edtPasswordViewClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersAddEditView.edtPasswordViewClick(Sender: TObject);
 begin
   if edtPassword.PasswordChar = '*' then
     edtPassword.PasswordChar := #0
@@ -167,7 +167,7 @@ begin
     edtPassword.PasswordChar := '*';
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDelphiAIDevDBRegistersAddEditView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   case Key of
     VK_F4:
@@ -179,7 +179,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.btnTestConnectionClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersAddEditView.btnTestConnectionClick(Sender: TObject);
 var
   LConn: IC4DConn;
 begin
@@ -207,12 +207,12 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.btnDatabaseSearchClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersAddEditView.btnDatabaseSearchClick(Sender: TObject);
 begin
   edtDatabase.Text := TUtils.SelectFile(edtDatabase.Text);
 end;
 
-procedure TDelphiAIDevDatabasesAddEditView.btnVendorLibSearchClick(Sender: TObject);
+procedure TDelphiAIDevDBRegistersAddEditView.btnVendorLibSearchClick(Sender: TObject);
 begin
   edtVendorLib.Text := TUtils.SelectFile(edtVendorLib.Text);
 end;
