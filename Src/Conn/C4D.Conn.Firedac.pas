@@ -161,6 +161,7 @@ var
 begin
   Self.TestFieldsComponentConnection;
   try
+    Self.LoadConnectionConfig;
     LConnectedOld := FConnection.Connected;
     FConnection.Close; //
     FConnection.Open;
