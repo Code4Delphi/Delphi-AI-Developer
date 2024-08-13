@@ -412,7 +412,7 @@ begin
         for LContFile := 0 to Pred(LIOTAProjectCurrent.GetModuleCount) do
         begin
           LFilePath := LIOTAProjectCurrent.GetModule(LContFile).FileName;
-          if(LFilePath.Trim.IsEmpty)then
+          if LFilePath.Trim.IsEmpty then
             Continue;
 
           if(ExtractFileName(LFilePath) = ANameFileWithExtension)then
@@ -700,7 +700,7 @@ var
 begin
   Result := nil;
   LIOTAModuleServices := Self.GetIOTAModuleServices;
-  if(LIOTAModuleServices <> nil)then
+  if LIOTAModuleServices <> nil then
     Result := LIOTAModuleServices.CurrentModule;
 end;
 
@@ -710,7 +710,7 @@ var
 begin
   Result := '';
   LIOTAModule := Self.GetCurrentModule;
-  if(Assigned(LIOTAModule))then
+  if Assigned(LIOTAModule) then
     Result := LIOTAModule.FileName.Trim;
 end;
 
@@ -720,7 +720,7 @@ var
 begin
   Result := nil;
   LIOTAModuleServices := Self.GetIOTAModuleServices;
-  if(LIOTAModuleServices <> nil)then
+  if LIOTAModuleServices <> nil then
     Result := LIOTAModuleServices.FindModule(AFileName);
 end;
 
@@ -897,7 +897,7 @@ begin
         for LContFile := 0 to Pred(LIOTAProjectCurrent.GetModuleCount) do
         begin
           LFilePath := LIOTAProjectCurrent.GetModule(LContFile).FileName;
-          if(LFilePath.Trim.IsEmpty)then
+          if LFilePath.Trim.IsEmpty then
             Continue;
 
           if(not AC4DExtensions.ContainsStr(ExtractFileExt(LFilePath)))then

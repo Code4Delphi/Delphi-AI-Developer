@@ -159,10 +159,10 @@ const
 
 procedure RegisterSelf;
 begin
-  if(not Assigned(DelphiAIDevChatView))then
+  if not Assigned(DelphiAIDevChatView) then
     DelphiAIDevChatView := TDelphiAIDevChatView.Create(nil);
 
-  if(@RegisterFieldAddress <> nil)then
+  if @RegisterFieldAddress <> nil then
     RegisterFieldAddress(DelphiAIDevChatView.Name, @DelphiAIDevChatView);
 
   RegisterDesktopFormClass(TDelphiAIDevChatView, DelphiAIDevChatView.Name, DelphiAIDevChatView.Name);
@@ -170,7 +170,7 @@ end;
 
 procedure Unregister;
 begin
-  if(@UnRegisterFieldAddress <> nil)then
+  if @UnRegisterFieldAddress <> nil then
     UnRegisterFieldAddress(@DelphiAIDevChatView);
   FreeAndNil(DelphiAIDevChatView);
 end;
@@ -344,7 +344,7 @@ end;
 
 procedure TDelphiAIDevChatView.FillMemoReturnWithFile;
 begin
-  if(FileExists(TUtils.GetPathFileChat))then
+  if FileExists(TUtils.GetPathFileChat) then
     mmReturn.Lines.LoadFromFile(TUtils.GetPathFileChat)
 end;
 
