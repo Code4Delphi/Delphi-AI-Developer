@@ -46,6 +46,7 @@ type
     btnVendorLibSearch: TButton;
     edtVendorLib: TEdit;
     btnDatabaseSearch: TButton;
+    btnGenerateDatabaseReference: TButton;
     procedure btnCloseClick(Sender: TObject);
     procedure btnConfirmClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -56,6 +57,7 @@ type
     procedure btnTestConnectionClick(Sender: TObject);
     procedure btnVendorLibSearchClick(Sender: TObject);
     procedure btnDatabaseSearchClick(Sender: TObject);
+    procedure btnGenerateDatabaseReferenceClick(Sender: TObject);
   private
     FFields: TDelphiAIDevDBRegistersFields;
     procedure FillcBoxDriverID;
@@ -215,6 +217,28 @@ end;
 procedure TDelphiAIDevDBRegistersAddEditView.btnVendorLibSearchClick(Sender: TObject);
 begin
   edtVendorLib.Text := TUtils.SelectFile(edtVendorLib.Text);
+end;
+
+procedure TDelphiAIDevDBRegistersAddEditView.btnGenerateDatabaseReferenceClick(Sender: TObject);
+var
+  LConn: IC4DConn;
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    LConn := TC4DConn.New;
+    LConn.Configs
+      .DriverID(TUtils.StrToDriverID(cBoxDriverID.Text))
+      .Host(edtHost.Text)
+      .UserName(edtUser.Text)
+      .Password(edtPassword.Text)
+      .Port(StrToIntDef(edtPort.Text, 0))
+      .Database(edtDatabase.Text)
+      .VendorLib(edtVendorLib.Text);
+
+
+  finally
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 end.
