@@ -18,7 +18,9 @@ type
   private
     procedure SaveData(AFields: TDelphiAIDevDBRegistersFields);
     procedure EditData(AFields: TDelphiAIDevDBRegistersFields);
+    procedure FillField(const AJSONObjItem: TJSONObject; var AField: TDelphiAIDevDBRegistersFields);
   protected
+    function ReadGuid(const AGuid: string): TDelphiAIDevDBRegistersFields;
     procedure ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>; const AAutoFreeField: TAutoFreeField = TAutoFreeField.Yes);
     procedure SaveOrEditData(AFields: TDelphiAIDevDBRegistersFields);
     procedure RemoveData(const AGuid: string);
@@ -49,6 +51,81 @@ end;
 constructor TDelphiAIDevDBRegistersModel.Create;
 begin
   //
+end;
+
+function TDelphiAIDevDBRegistersModel.ReadGuid(const AGuid: string): TDelphiAIDevDBRegistersFields;
+var
+ LStringList: TStringList;
+ LJSONObjItem: TJSONObject;
+ LJSONArray: TJsonArray;
+ i: Integer;
+begin
+  Result := TDelphiAIDevDBRegistersFields.Create;
+
+  if not FileExists(TUtils.GetPathFileJSONDatabases) then
+    Exit;
+
+  LStringList := TStringList.Create;
+  try
+    LStringList.LoadFromFile(TUtils.GetPathFileJSONDatabases);
+    LJSONArray := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(LStringList.Text), 0) as TJSONArray;
+  finally
+    LStringList.Free;
+  end;
+
+  try
+    for i := 0 to Pred(LJSONArray.Count) do
+    begin
+      if not(LJSONArray.Items[i] is TJSONObject) then
+        Continue;
+
+      LJSONObjItem := LJSONArray.Items[i] as TJSONObject;
+
+      if LJSONObjItem.GetValue(GUID) = nil then
+        Continue;
+
+      if LJSONObjItem.GetValue<string>(GUID) <> AGuid then
+        Continue;
+
+      Self.FillField(LJSONObjItem, Result);
+      Break;
+    end;
+  finally
+    LJSONArray.Free;
+  end;
+end;
+
+procedure TDelphiAIDevDBRegistersModel.FillField(const AJSONObjItem: TJSONObject; var AField: TDelphiAIDevDBRegistersFields);
+begin
+  AField.Clear;
+  AField.Guid := AJSONObjItem.GetValue<string>(GUID);
+
+  if AJSONObjItem.GetValue(DRIVER_ID) <> nil then
+    AField.DriverID := TC4DDriverID(AJSONObjItem.GetValue<Integer>(DRIVER_ID));
+
+  if AJSONObjItem.GetValue(DESCRIPTION) <> nil then
+    AField.Description := AJSONObjItem.GetValue<string>(DESCRIPTION);
+
+  if AJSONObjItem.GetValue(HOST) <> nil then
+    AField.Host := AJSONObjItem.GetValue<string>(HOST);
+
+  if AJSONObjItem.GetValue(USER) <> nil then
+    AField.User := AJSONObjItem.GetValue<string>(USER);
+
+  if AJSONObjItem.GetValue(PASSWORD) <> nil then
+    AField.Password := TUtilsCrypt.Decrypt(AJSONObjItem.GetValue<string>(PASSWORD));
+
+  if AJSONObjItem.GetValue(PORT) <> nil then
+    AField.Port := AJSONObjItem.GetValue<Integer>(PORT);
+
+  if AJSONObjItem.GetValue(DATABASE_NAME) <> nil then
+    AField.DatabaseName := AJSONObjItem.GetValue<string>(DATABASE_NAME);
+
+  if AJSONObjItem.GetValue(VENDOR_LIB) <> nil then
+    AField.VendorLib := AJSONObjItem.GetValue<string>(VENDOR_LIB);
+
+  if AJSONObjItem.GetValue(VISIBLE) <> nil then
+    AField.Visible := AJSONObjItem.GetValue<Boolean>(VISIBLE);
 end;
 
 procedure TDelphiAIDevDBRegistersModel.ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>; const AAutoFreeField: TAutoFreeField = TAutoFreeField.Yes);
@@ -86,35 +163,37 @@ begin
         if LJSONObjItem.GetValue(GUID) = nil then
           Continue;
 
-        LFields.Clear;
-        LFields.Guid := LJSONObjItem.GetValue<string>(GUID);
+        Self.FillField(LJSONObjItem, LFields);
 
-        if LJSONObjItem.GetValue(DRIVER_ID) <> nil then
-          LFields.DriverID := TC4DDriverID(LJSONObjItem.GetValue<Integer>(DRIVER_ID));
-
-        if LJSONObjItem.GetValue(DESCRIPTION) <> nil then
-          LFields.Description := LJSONObjItem.GetValue<string>(DESCRIPTION);
-
-        if LJSONObjItem.GetValue(HOST) <> nil then
-          LFields.Host := LJSONObjItem.GetValue<string>(HOST);
-
-        if LJSONObjItem.GetValue(USER) <> nil then
-          LFields.User := LJSONObjItem.GetValue<string>(USER);
-
-        if LJSONObjItem.GetValue(PASSWORD) <> nil then
-          LFields.Password := TUtilsCrypt.Decrypt(LJSONObjItem.GetValue<string>(PASSWORD));
-
-        if LJSONObjItem.GetValue(PORT) <> nil then
-          LFields.Port := LJSONObjItem.GetValue<Integer>(PORT);
-
-        if LJSONObjItem.GetValue(DATABASE_NAME) <> nil then
-          LFields.DatabaseName := LJSONObjItem.GetValue<string>(DATABASE_NAME);
-
-        if LJSONObjItem.GetValue(VENDOR_LIB) <> nil then
-          LFields.VendorLib := LJSONObjItem.GetValue<string>(VENDOR_LIB);
-
-        if LJSONObjItem.GetValue(VISIBLE) <> nil then
-          LFields.Visible := LJSONObjItem.GetValue<Boolean>(VISIBLE);
+//        LFields.Clear;
+//        LFields.Guid := LJSONObjItem.GetValue<string>(GUID);
+//
+//        if LJSONObjItem.GetValue(DRIVER_ID) <> nil then
+//          LFields.DriverID := TC4DDriverID(LJSONObjItem.GetValue<Integer>(DRIVER_ID));
+//
+//        if LJSONObjItem.GetValue(DESCRIPTION) <> nil then
+//          LFields.Description := LJSONObjItem.GetValue<string>(DESCRIPTION);
+//
+//        if LJSONObjItem.GetValue(HOST) <> nil then
+//          LFields.Host := LJSONObjItem.GetValue<string>(HOST);
+//
+//        if LJSONObjItem.GetValue(USER) <> nil then
+//          LFields.User := LJSONObjItem.GetValue<string>(USER);
+//
+//        if LJSONObjItem.GetValue(PASSWORD) <> nil then
+//          LFields.Password := TUtilsCrypt.Decrypt(LJSONObjItem.GetValue<string>(PASSWORD));
+//
+//        if LJSONObjItem.GetValue(PORT) <> nil then
+//          LFields.Port := LJSONObjItem.GetValue<Integer>(PORT);
+//
+//        if LJSONObjItem.GetValue(DATABASE_NAME) <> nil then
+//          LFields.DatabaseName := LJSONObjItem.GetValue<string>(DATABASE_NAME);
+//
+//        if LJSONObjItem.GetValue(VENDOR_LIB) <> nil then
+//          LFields.VendorLib := LJSONObjItem.GetValue<string>(VENDOR_LIB);
+//
+//        if LJSONObjItem.GetValue(VISIBLE) <> nil then
+//          LFields.Visible := LJSONObjItem.GetValue<Boolean>(VISIBLE);
 
         AProc(LFields);
       end;

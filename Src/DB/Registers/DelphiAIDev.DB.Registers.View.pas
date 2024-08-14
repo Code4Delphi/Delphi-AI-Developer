@@ -12,10 +12,12 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
+  C4D.Conn,
   DelphiAIDev.Utils.ListView,
   DelphiAIDev.DB.Registers.Model,
   DelphiAIDev.DB.Registers.Fields,
-  DelphiAIDev.DB.Registers.AddEdit.View;
+  DelphiAIDev.DB.Registers.AddEdit.View,
+  DelphiAIDev.MetaInfo;
 
 type
   TDelphiAIDevDBRegistersView = class(TForm)
@@ -29,6 +31,7 @@ type
     StatusBar1: TStatusBar;
     btnAdd: TButton;
     btnRemove: TButton;
+    btnGenerateDatabaseReference: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -42,6 +45,7 @@ type
     procedure btnRemoveClick(Sender: TObject);
     procedure edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure ListViewColumnClick(Sender: TObject; Column: TListColumn);
+    procedure btnGenerateDatabaseReferenceClick(Sender: TObject);
   private
     FUtilsListView: IDelphiAIDevUtilsListView;
     FMadeChanges: Boolean;
@@ -358,6 +362,36 @@ begin
     Self.ReloadData;
   finally
     FMadeChanges := True;
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TDelphiAIDevDBRegistersView.btnGenerateDatabaseReferenceClick(Sender: TObject);
+var
+  LConn: IC4DConn;
+  LMetaInfo: TDelphiAIDevMetaInfo;
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    LConn := TC4DConn.New;
+    LConn.Configs
+      .DriverID(TUtils.StrToDriverID(cBoxDriverID.Text))
+      .Host(edtHost.Text)
+      .UserName(edtUser.Text)
+      .Password(edtPassword.Text)
+      .Port(StrToIntDef(edtPort.Text, 0))
+      .Database(edtDatabase.Text)
+      .VendorLib(edtVendorLib.Text);
+
+    LConn.Connection.Open;
+
+    LMetaInfo := TDelphiAIDevMetaInfo.Create(LConn);
+    try
+      LMetaInfo.Process
+    finally
+      LMetaInfo.Free;
+    end;
+  finally
     Screen.Cursor := crDefault;
   end;
 end;

@@ -93,22 +93,6 @@ object DelphiAIDevDBRegistersAddEditView: TDelphiAIDevDBRegistersAddEditView
       TabOrder = 2
       OnClick = btnTestConnectionClick
     end
-    object btnGenerateDatabaseReference: TButton
-      AlignWithMargins = True
-      Left = 115
-      Top = 2
-      Width = 165
-      Height = 31
-      Cursor = crHandPoint
-      Margins.Left = 0
-      Margins.Top = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      Caption = 'Generate database reference'
-      TabOrder = 3
-      OnClick = btnGenerateDatabaseReferenceClick
-      ExplicitTop = 0
-    end
   end
   object Panel9: TPanel
     Left = 0

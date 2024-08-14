@@ -97,6 +97,21 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
       TabOrder = 3
       OnClick = btnRemoveClick
     end
+    object btnGenerateDatabaseReference: TButton
+      AlignWithMargins = True
+      Left = 368
+      Top = 2
+      Width = 165
+      Height = 31
+      Cursor = crHandPoint
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Caption = 'Generate database reference'
+      TabOrder = 4
+      OnClick = btnGenerateDatabaseReferenceClick
+    end
   end
   object ListView: TListView
     Left = 0
