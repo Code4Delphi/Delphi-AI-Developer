@@ -206,6 +206,7 @@
         <DCCReference Include="..\Src\DB\Chat\DelphiAIDev.DB.Chat.View.pas">
             <Form>DelphiAIDevDBChatView</Form>
         </DCCReference>
+        <DCCReference Include="..\Src\MetaInfo\DelphiAIDev.MetaInfo.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>

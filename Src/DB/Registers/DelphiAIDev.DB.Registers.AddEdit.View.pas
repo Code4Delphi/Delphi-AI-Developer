@@ -14,7 +14,8 @@ uses
   Vcl.ComCtrls,
   DelphiAIDev.Types,
   DelphiAIDev.DB.Registers.Fields,
-  C4D.Conn;
+  C4D.Conn,
+  DelphiAIDev.MetaInfo;
 
 type
   TDelphiAIDevDBRegistersAddEditView = class(TForm)
@@ -222,6 +223,7 @@ end;
 procedure TDelphiAIDevDBRegistersAddEditView.btnGenerateDatabaseReferenceClick(Sender: TObject);
 var
   LConn: IC4DConn;
+  LMetaInfo: TDelphiAIDevMetaInfo;
 begin
   Screen.Cursor := crHourGlass;
   try
@@ -235,7 +237,14 @@ begin
       .Database(edtDatabase.Text)
       .VendorLib(edtVendorLib.Text);
 
+    LConn.Connection.Open;
 
+    LMetaInfo := TDelphiAIDevMetaInfo.Create(LConn);
+    try
+      LMetaInfo.Process
+    finally
+      LMetaInfo.Free;
+    end;
   finally
     Screen.Cursor := crDefault;
   end;

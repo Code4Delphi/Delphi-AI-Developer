@@ -48,7 +48,6 @@ object DelphiAIDevDBRegistersAddEditView: TDelphiAIDevDBRegistersAddEditView
     Padding.Bottom = 2
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 267
     object btnConfirm: TButton
       AlignWithMargins = True
       Left = 437
@@ -93,8 +92,6 @@ object DelphiAIDevDBRegistersAddEditView: TDelphiAIDevDBRegistersAddEditView
       Caption = 'Test Connection'
       TabOrder = 2
       OnClick = btnTestConnectionClick
-      ExplicitLeft = 0
-      ExplicitTop = 0
     end
     object btnGenerateDatabaseReference: TButton
       AlignWithMargins = True
@@ -110,6 +107,7 @@ object DelphiAIDevDBRegistersAddEditView: TDelphiAIDevDBRegistersAddEditView
       Caption = 'Generate database reference'
       TabOrder = 3
       OnClick = btnGenerateDatabaseReferenceClick
+      ExplicitTop = 0
     end
   end
   object Panel9: TPanel
