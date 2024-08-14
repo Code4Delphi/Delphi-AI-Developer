@@ -88,6 +88,7 @@ type
     class function GetPathFileJSONDefaultsQuestions: string;
     class function GetPathFileJSONDatabases: string;
     class function CreateIfNecessaryAndGetPathFolderTemp: string;
+    class function GetPathFolderMetaInfo: string;
     class function GetGuidStr: string;
     class function GuidToFileName(const AGuid: string; const AExtension: string): string;
     class function GetNamespace(AText: string): string;
@@ -782,7 +783,14 @@ end;
 class function TUtils.CreateIfNecessaryAndGetPathFolderTemp: string;
 begin
   Result := Self.GetPathFolderRoot + TConsts.NAME_FOLDER_TEMP;
-  if(not DirectoryExists(Result))then
+  if not DirectoryExists(Result) then
+    ForceDirectories(Result);
+end;
+
+class function TUtils.GetPathFolderMetaInfo: string;
+begin
+  Result := IncludeTrailingPathDelimiter(Self.GetPathFolderRoot + TConsts.NAME_FOLDER_MetaInfo);
+  if not DirectoryExists(Result) then
     ForceDirectories(Result);
 end;
 

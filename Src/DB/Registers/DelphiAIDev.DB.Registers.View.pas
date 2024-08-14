@@ -320,7 +320,7 @@ begin
     Self.FillFieldsWithSelectedItem(LFields);
 
     if LFields.Description.Trim.IsEmpty then
-      TUtils.ShowMsgErrorAndAbort('Caption not found');
+      TUtils.ShowMsgErrorAndAbort('Description not found');
 
     LView := TDelphiAIDevDBRegistersAddEditView.Create(nil);
     try
@@ -368,30 +368,28 @@ end;
 
 procedure TDelphiAIDevDBRegistersView.btnGenerateDatabaseReferenceClick(Sender: TObject);
 var
-  LConn: IC4DConn;
+  LFields: TDelphiAIDevDBRegistersFields;
   LMetaInfo: TDelphiAIDevMetaInfo;
 begin
+  if ListView.Selected = nil then
+    Exit;
+
   Screen.Cursor := crHourGlass;
+  LFields := TDelphiAIDevDBRegistersFields.Create;
   try
-    LConn := TC4DConn.New;
-    LConn.Configs
-      .DriverID(TUtils.StrToDriverID(cBoxDriverID.Text))
-      .Host(edtHost.Text)
-      .UserName(edtUser.Text)
-      .Password(edtPassword.Text)
-      .Port(StrToIntDef(edtPort.Text, 0))
-      .Database(edtDatabase.Text)
-      .VendorLib(edtVendorLib.Text);
+    Self.FillFieldsWithSelectedItem(LFields);
 
-    LConn.Connection.Open;
+    if LFields.Description.Trim.IsEmpty then
+      TUtils.ShowMsgErrorAndAbort('Description not found');
 
-    LMetaInfo := TDelphiAIDevMetaInfo.Create(LConn);
+    LMetaInfo := TDelphiAIDevMetaInfo.Create(LFields);
     try
-      LMetaInfo.Process
+      LMetaInfo.Process;
     finally
       LMetaInfo.Free;
     end;
   finally
+    LFields.Free;
     Screen.Cursor := crDefault;
   end;
 end;

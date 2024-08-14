@@ -12,6 +12,7 @@ type
     DELPHI_AI_DEVELOPER_BPL = 'DelphiAIDeveloper.bpl';
     C4D_PROJECT_GROUP1 = 'ProjectGroup1.groupproj';
     NAME_FOLDER_TEMP = 'Temp';
+    NAME_FOLDER_MetaInfo = 'MetaInfo';
     GITHUB_Code4Delphi = 'https://github.com/Code4Delphi';
     GITHUB_PROJECT = 'https://github.com/Code4Delphi/Delphi-AI-Developer';
 
