@@ -32,7 +32,7 @@ type
     FMetaInfoFields: TFDMetaInfoQuery;
     FAddFieldSize: Boolean;
     procedure ConfigConn;
-    procedure SaveJsonInFolder(const AJSONArrayTables: TJSONArray);
+    procedure SaveJsonInFolder(const AJSONObject: TJSONObject);
     procedure SaveGenerationDataToField;
   public
     constructor Create(const AField: TDelphiAIDevDBRegistersFields);
@@ -93,10 +93,11 @@ const
   KEY_COLUMNS = 'columns';
 {$ENDIF}
 var
+  LJSONObjAll: TJSONObject;
   LJSONArrayTables: TJSONArray;
-  LJSONObjectTable: TJSONObject;
+  LJSONObjTable: TJSONObject;
   LJSONArrayColumns: TJSONArray;
-  LJSONObjectColumn: TJSONObject;
+  LJSONObjColumn: TJSONObject;
 begin
   FC4DConn.Connection.Open;
 
@@ -104,8 +105,12 @@ begin
   if FMetaInfoTables.IsEmpty then
     TUtils.ShowMsgAndAbort('No tables could be found in the current connection');
 
-  LJSONArrayTables := TJSONArray.Create;
+  LJSONObjAll := TJSONObject.Create;
   try
+    LJSONObjAll.AddPair('Instructions', 'Teste');
+
+    LJSONArrayTables := TJSONArray.Create;
+
     FMetaInfoTables.First;
     while not FMetaInfoTables.Eof do
     begin
@@ -117,30 +122,31 @@ begin
       FMetaInfoFields.First;
       while not FMetaInfoFields.Eof do
       begin
-        LJSONObjectColumn := TJSONObject.Create;
-        LJSONObjectColumn.AddPair(KEY_NAME, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_NAME').AsString));
-        LJSONObjectColumn.AddPair(KEY_TYPE, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_TYPENAME').AsString));
+        LJSONObjColumn := TJSONObject.Create;
+        LJSONObjColumn.AddPair(KEY_NAME, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_NAME').AsString));
+        LJSONObjColumn.AddPair(KEY_TYPE, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_TYPENAME').AsString));
         if FAddFieldSize then
-          LJSONObjectColumn.AddPair(KEY_LENGTH, TJSONNumber.Create(FMetaInfoFields.FieldByName('COLUMN_LENGTH').AsInteger));
+          LJSONObjColumn.AddPair(KEY_LENGTH, TJSONNumber.Create(FMetaInfoFields.FieldByName('COLUMN_LENGTH').AsInteger));
 
-        LJSONArrayColumns.AddElement(LJSONObjectColumn);
+        LJSONArrayColumns.AddElement(LJSONObjColumn);
         FMetaInfoFields.Next;
       end;
 
-      LJSONObjectTable := TJSONObject.Create;
-      LJSONObjectTable.AddPair(KEY_NAME, TJSONString.Create(FMetaInfoTables.FieldByName('TABLE_NAME').AsString));
-      LJSONObjectTable.AddPair(KEY_COLUMNS, LJSONArrayColumns);
-      LJSONArrayTables.AddElement(LJSONObjectTable);
+      LJSONObjTable := TJSONObject.Create;
+      LJSONObjTable.AddPair(KEY_NAME, TJSONString.Create(FMetaInfoTables.FieldByName('TABLE_NAME').AsString));
+      LJSONObjTable.AddPair(KEY_COLUMNS, LJSONArrayColumns);
+      LJSONArrayTables.AddElement(LJSONObjTable);
 
       FMetaInfoTables.Next;
     end;
 
-    TUtils.ShowMsg('Terminou', LJSONArrayTables.Format);
-    Self.SaveJsonInFolder(LJSONArrayTables);
-
+    LJSONObjAll.AddPair('tables', LJSONArrayTables);
+    Self.SaveJsonInFolder(LJSONObjAll);
     Self.SaveGenerationDataToField;
+
+    TUtils.ShowMsg('Terminou', LJSONObjAll.Format);
   finally
-    LJSONArrayTables.Free;
+    LJSONObjAll.Free;
   end;
 end;
 
@@ -150,19 +156,19 @@ begin
   TDelphiAIDevDBRegistersModel.New.SaveOrEditData(FField);
 end;
 
-procedure TDelphiAIDevMetaInfo.SaveJsonInFolder(const AJSONArrayTables: TJSONArray);
+procedure TDelphiAIDevMetaInfo.SaveJsonInFolder(const AJSONObject: TJSONObject);
 var
   LStringList: TStringList;
 begin
   LStringList := TStringList.Create;
   try
 //    {$IF CompilerVersion <= 32.0} //Tokyo
-//      LStringList.Text := AJSONArrayTables.ToJSON;
+//      LStringList.Text := AJSONObject.ToJSON;
 //    {$ELSE}
-//      LStringList.Text := AJSONArrayTables.Format(2);
+//      LStringList.Text := AJSONObject.Format(2);
 //    {$ENDIF}
 
-    LStringList.Text := AJSONArrayTables.ToString;
+    LStringList.Text := AJSONObject.ToString;
     LStringList.SaveToFile(TUtils.GetPathFolderMetaInfo + FField.Guid + '.json');
   finally
     LStringList.Free;
