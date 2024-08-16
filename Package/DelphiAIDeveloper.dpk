@@ -97,6 +97,7 @@ contains
   C4D.Conn in '..\Src\Conn\C4D.Conn.pas',
   C4D.Conn.Utils in '..\Src\Conn\C4D.Conn.Utils.pas',
   DelphiAIDev.DB.Chat.View in '..\Src\DB\Chat\DelphiAIDev.DB.Chat.View.pas' {DelphiAIDevDBChatView},
-  DelphiAIDev.MetaInfo in '..\Src\MetaInfo\DelphiAIDev.MetaInfo.pas';
+  DelphiAIDev.MetaInfo in '..\Src\MetaInfo\DelphiAIDev.MetaInfo.pas',
+  DelphiAIDev.DB.References.View in '..\Src\DB\References\DelphiAIDev.DB.References.View.pas' {DelphiAIDevDBReferencesView};
 
 end.

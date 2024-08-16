@@ -348,6 +348,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       item
         Width = 50
       end>
+    ExplicitLeft = 959
   end
   object pnCommands: TPanel
     Left = 936

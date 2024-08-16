@@ -17,7 +17,7 @@ uses
   DelphiAIDev.DB.Registers.Model,
   DelphiAIDev.DB.Registers.Fields,
   DelphiAIDev.DB.Registers.AddEdit.View,
-  DelphiAIDev.MetaInfo;
+  DelphiAIDev.DB.References.View;
 
 type
   TDelphiAIDevDBRegistersView = class(TForm)
@@ -73,9 +73,10 @@ const
   C_INDEX_SUBITEM_Port = 3;
   C_INDEX_SUBITEM_DatabaseName = 4;
   C_INDEX_SUBITEM_Visible = 5;
-  C_INDEX_SUBITEM_Password = 6;
-  C_INDEX_SUBITEM_VendorLib = 7;
-  C_INDEX_SUBITEM_Guid = 8;
+  C_INDEX_SUBITEM_LastReferences = 6;
+  C_INDEX_SUBITEM_Password = 7;
+  C_INDEX_SUBITEM_VendorLib = 8;
+  C_INDEX_SUBITEM_Guid = 9;
 
 procedure TDelphiAIDevDBRegistersView.FormCreate(Sender: TObject);
 begin
@@ -194,6 +195,7 @@ begin
         LListItem.SubItems.Add(AFields.Port.ToString);
         LListItem.SubItems.Add(AFields.DatabaseName);
         LListItem.SubItems.Add(TUtils.BoolToStrC4D(AFields.Visible));
+        LListItem.SubItems.Add(TUtils.DateTimeToStrEmpty(AFields.LastReferences));
         LListItem.SubItems.Add(AFields.Password);
         LListItem.SubItems.Add(AFields.VendorLib);
         LListItem.SubItems.Add(AFields.Guid);
@@ -232,6 +234,7 @@ begin
   AFields.Port := StrToIntDef(LListItem.SubItems[C_INDEX_SUBITEM_Port], 0);
   AFields.DatabaseName := LListItem.SubItems[C_INDEX_SUBITEM_DatabaseName];
   AFields.Visible := TUtils.StrToBoolC4D(LListItem.SubItems[C_INDEX_SUBITEM_Visible]);
+  AFields.LastReferences := StrToDateTimeDef(LListItem.SubItems[C_INDEX_SUBITEM_LastReferences], 0);
   AFields.Password := LListItem.SubItems[C_INDEX_SUBITEM_Password];
   AFields.VendorLib := LListItem.SubItems[C_INDEX_SUBITEM_VendorLib];
   AFields.Guid := LListItem.SubItems[C_INDEX_SUBITEM_Guid];
@@ -368,13 +371,12 @@ end;
 
 procedure TDelphiAIDevDBRegistersView.btnGenerateDatabaseReferenceClick(Sender: TObject);
 var
+  LView: TDelphiAIDevDBReferencesView;
   LFields: TDelphiAIDevDBRegistersFields;
-  LMetaInfo: TDelphiAIDevMetaInfo;
 begin
   if ListView.Selected = nil then
     Exit;
 
-  Screen.Cursor := crHourGlass;
   LFields := TDelphiAIDevDBRegistersFields.Create;
   try
     Self.FillFieldsWithSelectedItem(LFields);
@@ -382,15 +384,15 @@ begin
     if LFields.Description.Trim.IsEmpty then
       TUtils.ShowMsgErrorAndAbort('Description not found');
 
-    LMetaInfo := TDelphiAIDevMetaInfo.Create(LFields);
+    LView := TDelphiAIDevDBReferencesView.Create(nil);
     try
-      LMetaInfo.Process;
+      LView.Fields := LFields;
+      LView.ShowModal;
     finally
-      LMetaInfo.Free;
+      LView.Free;
     end;
   finally
     LFields.Free;
-    Screen.Cursor := crDefault;
   end;
 end;
 

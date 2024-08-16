@@ -42,6 +42,7 @@ const
   DATABASE_NAME = 'database_name';
   VENDOR_LIB = 'vendor_lib';
   VISIBLE = 'visible';
+  LAST_REFERENCE = 'last_reference';
 
 class function TDelphiAIDevDBRegistersModel.New: IDelphiAIDevDatabasesModel;
 begin
@@ -126,6 +127,9 @@ begin
 
   if AJSONObjItem.GetValue(VISIBLE) <> nil then
     AField.Visible := AJSONObjItem.GetValue<Boolean>(VISIBLE);
+
+  if AJSONObjItem.GetValue(LAST_REFERENCE) <> nil then
+    AField.LastReferences := StrToDateTimeDef(AJSONObjItem.GetValue<string>(LAST_REFERENCE), 0);
 end;
 
 procedure TDelphiAIDevDBRegistersModel.ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>; const AAutoFreeField: TAutoFreeField = TAutoFreeField.Yes);
@@ -164,36 +168,6 @@ begin
           Continue;
 
         Self.FillField(LJSONObjItem, LFields);
-
-//        LFields.Clear;
-//        LFields.Guid := LJSONObjItem.GetValue<string>(GUID);
-//
-//        if LJSONObjItem.GetValue(DRIVER_ID) <> nil then
-//          LFields.DriverID := TC4DDriverID(LJSONObjItem.GetValue<Integer>(DRIVER_ID));
-//
-//        if LJSONObjItem.GetValue(DESCRIPTION) <> nil then
-//          LFields.Description := LJSONObjItem.GetValue<string>(DESCRIPTION);
-//
-//        if LJSONObjItem.GetValue(HOST) <> nil then
-//          LFields.Host := LJSONObjItem.GetValue<string>(HOST);
-//
-//        if LJSONObjItem.GetValue(USER) <> nil then
-//          LFields.User := LJSONObjItem.GetValue<string>(USER);
-//
-//        if LJSONObjItem.GetValue(PASSWORD) <> nil then
-//          LFields.Password := TUtilsCrypt.Decrypt(LJSONObjItem.GetValue<string>(PASSWORD));
-//
-//        if LJSONObjItem.GetValue(PORT) <> nil then
-//          LFields.Port := LJSONObjItem.GetValue<Integer>(PORT);
-//
-//        if LJSONObjItem.GetValue(DATABASE_NAME) <> nil then
-//          LFields.DatabaseName := LJSONObjItem.GetValue<string>(DATABASE_NAME);
-//
-//        if LJSONObjItem.GetValue(VENDOR_LIB) <> nil then
-//          LFields.VendorLib := LJSONObjItem.GetValue<string>(VENDOR_LIB);
-//
-//        if LJSONObjItem.GetValue(VISIBLE) <> nil then
-//          LFields.Visible := LJSONObjItem.GetValue<Boolean>(VISIBLE);
 
         AProc(LFields);
       end;
@@ -241,6 +215,7 @@ begin
       LJSONObject.AddPair(DATABASE_NAME, AFields.DatabaseName);
       LJSONObject.AddPair(VENDOR_LIB, AFields.VendorLib);
       LJSONObject.AddPair(VISIBLE, TJSONBool.Create(AFields.Visible));
+      LJSONObject.AddPair(LAST_REFERENCE, TJSONString.Create(TUtils.DateTimeToStrEmpty(AFields.LastReferences)));
       LJSONArray.AddElement(LJSONObject);
 
       {$IF CompilerVersion <= 32.0} //Tokyo
@@ -310,6 +285,9 @@ begin
 
           LJSONObjItem.RemovePair(VISIBLE).Free;
           LJSONObjItem.AddPair(VISIBLE, TJSONBool.Create(AFields.Visible));
+
+          LJSONObjItem.RemovePair(LAST_REFERENCE).Free;
+          LJSONObjItem.AddPair(LAST_REFERENCE, TJSONString.Create(TUtils.DateTimeToStrEmpty(AFields.LastReferences)));
 
           Break;
         end;

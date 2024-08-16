@@ -20,7 +20,8 @@ uses
   FireDAC.Comp.Client,
   C4D.Conn,
   DelphiAIDev.Utils,
-  DelphiAIDev.DB.Registers.Fields;
+  DelphiAIDev.DB.Registers.Fields,
+  DelphiAIDev.DB.Registers.Model;
 
 type
   TDelphiAIDevMetaInfo = class
@@ -29,12 +30,16 @@ type
     FC4DConn: IC4DConn;
     FMetaInfoTables: TFDMetaInfoQuery;
     FMetaInfoFields: TFDMetaInfoQuery;
+    FAddFieldSize: Boolean;
     procedure ConfigConn;
     procedure SaveJsonInFolder(const AJSONArrayTables: TJSONArray);
+    procedure SaveGenerationDataToField;
   public
     constructor Create(const AField: TDelphiAIDevDBRegistersFields);
     destructor Destroy; override;
     procedure Process;
+
+    property AddFieldSize: Boolean read FAddFieldSize write FAddFieldSize;
   end;
 
 implementation
@@ -115,7 +120,7 @@ begin
         LJSONObjectColumn := TJSONObject.Create;
         LJSONObjectColumn.AddPair(KEY_NAME, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_NAME').AsString));
         LJSONObjectColumn.AddPair(KEY_TYPE, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_TYPENAME').AsString));
-        if KEY_LENGTH <> 'L' then
+        if FAddFieldSize then
           LJSONObjectColumn.AddPair(KEY_LENGTH, TJSONNumber.Create(FMetaInfoFields.FieldByName('COLUMN_LENGTH').AsInteger));
 
         LJSONArrayColumns.AddElement(LJSONObjectColumn);
@@ -132,9 +137,17 @@ begin
 
     TUtils.ShowMsg('Terminou', LJSONArrayTables.Format);
     Self.SaveJsonInFolder(LJSONArrayTables);
+
+    Self.SaveGenerationDataToField;
   finally
     LJSONArrayTables.Free;
   end;
+end;
+
+procedure TDelphiAIDevMetaInfo.SaveGenerationDataToField;
+begin
+  FField.LastReferences := Now;
+  TDelphiAIDevDBRegistersModel.New.SaveOrEditData(FField);
 end;
 
 procedure TDelphiAIDevMetaInfo.SaveJsonInFolder(const AJSONArrayTables: TJSONArray);
@@ -150,7 +163,6 @@ begin
 //    {$ENDIF}
 
     LStringList.Text := AJSONArrayTables.ToString;
-
     LStringList.SaveToFile(TUtils.GetPathFolderMetaInfo + FField.Guid + '.json');
   finally
     LStringList.Free;

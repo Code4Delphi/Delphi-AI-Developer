@@ -18,6 +18,7 @@ type
     FDatabaseName: string;
     FVisible: Boolean;
     FVendorLib: string;
+    FLastReferences: TDateTime;
   public
     constructor Create;
     procedure Clear;
@@ -31,6 +32,7 @@ type
     property DatabaseName: string read FDatabaseName write FDatabaseName;
     property Visible: Boolean read FVisible write FVisible;
     property VendorLib: string read FVendorLib write FVendorLib;
+    property LastReferences: TDateTime read FLastReferences write FLastReferences;
   end;
 
 implementation
@@ -52,6 +54,7 @@ begin
   FDatabaseName := '';
   FVisible := True;
   FVendorLib := '';
+  FLastReferences := 0;
 end;
 
 end.

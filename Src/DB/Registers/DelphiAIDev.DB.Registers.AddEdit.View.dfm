@@ -62,6 +62,7 @@ object DelphiAIDevDBRegistersAddEditView: TDelphiAIDevDBRegistersAddEditView
       Caption = 'Confirm'
       TabOrder = 0
       OnClick = btnConfirmClick
+      ExplicitTop = 0
     end
     object btnClose: TButton
       AlignWithMargins = True

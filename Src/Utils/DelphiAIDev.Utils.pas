@@ -665,7 +665,7 @@ end;
 class function TUtils.DateTimeToStrEmpty(AValue: TDateTime): string;
 begin
   Result := '';
-  if(AValue > 0)then
+  if AValue > 0 then
     Result := DateTimeToStr(AValue);
 end;
 

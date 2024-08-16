@@ -85,7 +85,7 @@ end;
 procedure TDelphiAIDevDBRegistersAddEditView.FormShow(Sender: TObject);
 begin
   Self.FillScreenFields;
-  edtDescription.SetFocus
+  edtDescription.SetFocus;
 end;
 
 procedure TDelphiAIDevDBRegistersAddEditView.FillcBoxDriverID;

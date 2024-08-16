@@ -4,7 +4,7 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
   BorderIcons = [biSystemMenu]
   Caption = 'IA Developer - Database registration'
   ClientHeight = 561
-  ClientWidth = 884
+  ClientWidth = 1032
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
   object Panel1: TPanel
     Left = 0
     Top = 507
-    Width = 884
+    Width = 1032
     Height = 35
     Align = alBottom
     BevelEdges = [beLeft, beRight, beBottom]
@@ -51,7 +51,7 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
     end
     object btnClose: TButton
       AlignWithMargins = True
-      Left = 770
+      Left = 918
       Top = 2
       Width = 110
       Height = 31
@@ -116,7 +116,7 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
   object ListView: TListView
     Left = 0
     Top = 50
-    Width = 884
+    Width = 1032
     Height = 457
     Align = alClient
     Columns = <
@@ -149,6 +149,10 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
         Alignment = taCenter
         Caption = 'Visible'
         Width = 45
+      end
+      item
+        Caption = 'Last generation of reference'
+        Width = 180
       end
       item
         Caption = 'Password'
@@ -184,7 +188,7 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
   object pnTop: TPanel
     Left = 0
     Top = 0
-    Width = 884
+    Width = 1032
     Height = 50
     Margins.Left = 0
     Margins.Top = 0
@@ -195,7 +199,7 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
     TabOrder = 2
     object btnSearch: TButton
       AlignWithMargins = True
-      Left = 799
+      Left = 947
       Top = 14
       Width = 75
       Height = 27
@@ -213,7 +217,7 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
       AlignWithMargins = True
       Left = 10
       Top = 15
-      Width = 787
+      Width = 935
       Height = 25
       Margins.Left = 10
       Margins.Top = 15
@@ -228,7 +232,7 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
   object StatusBar1: TStatusBar
     Left = 0
     Top = 542
-    Width = 884
+    Width = 1032
     Height = 19
     Panels = <
       item
