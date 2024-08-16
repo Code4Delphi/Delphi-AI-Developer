@@ -74,6 +74,19 @@ begin
 end;
 
 procedure TDelphiAIDevMetaInfo.Process;
+const
+{.$DEFINE C4D_SHORT_KEY}
+{$IFDEF C4D_SHORT_KEY}
+  KEY_NAME = 'N';
+  KEY_TYPE = 'T';
+  KEY_LENGTH = 'L';
+  KEY_COLUMNS = 'c';
+{$ELSE}
+  KEY_NAME = 'name';
+  KEY_TYPE = 'type';
+  KEY_LENGTH = 'length';
+  KEY_COLUMNS = 'columns';
+{$ENDIF}
 var
   LJSONArrayTables: TJSONArray;
   LJSONObjectTable: TJSONObject;
@@ -100,17 +113,18 @@ begin
       while not FMetaInfoFields.Eof do
       begin
         LJSONObjectColumn := TJSONObject.Create;
-        LJSONObjectColumn.AddPair('name', TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_NAME').AsString));
-        LJSONObjectColumn.AddPair('type', TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_TYPENAME').AsString));
-        LJSONObjectColumn.AddPair('length', TJSONNumber.Create(FMetaInfoFields.FieldByName('COLUMN_LENGTH').AsInteger));
+        LJSONObjectColumn.AddPair(KEY_NAME, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_NAME').AsString));
+        LJSONObjectColumn.AddPair(KEY_TYPE, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_TYPENAME').AsString));
+        if KEY_LENGTH <> 'L' then
+          LJSONObjectColumn.AddPair(KEY_LENGTH, TJSONNumber.Create(FMetaInfoFields.FieldByName('COLUMN_LENGTH').AsInteger));
 
         LJSONArrayColumns.AddElement(LJSONObjectColumn);
         FMetaInfoFields.Next;
       end;
 
       LJSONObjectTable := TJSONObject.Create;
-      LJSONObjectTable.AddPair('name', TJSONString.Create(FMetaInfoTables.FieldByName('TABLE_NAME').AsString));
-      LJSONObjectTable.AddPair('columns', LJSONArrayColumns);
+      LJSONObjectTable.AddPair(KEY_NAME, TJSONString.Create(FMetaInfoTables.FieldByName('TABLE_NAME').AsString));
+      LJSONObjectTable.AddPair(KEY_COLUMNS, LJSONArrayColumns);
       LJSONArrayTables.AddElement(LJSONObjectTable);
 
       FMetaInfoTables.Next;
