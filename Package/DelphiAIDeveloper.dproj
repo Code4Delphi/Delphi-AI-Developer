@@ -211,6 +211,7 @@
             <Form>DelphiAIDevDBReferencesView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.DBGrids.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>

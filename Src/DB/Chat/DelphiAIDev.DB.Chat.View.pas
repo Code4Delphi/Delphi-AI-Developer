@@ -36,7 +36,8 @@ uses
   Vcl.DBGrids,
   DelphiAIDev.DB.Registers.Model,
   DelphiAIDev.DB.Registers.Fields,
-  C4D.Conn;
+  C4D.Conn,
+  DelphiAIDev.Utils.DBGrids;
 
 type
   TDelphiAIDevDBChatView = class(TDockableForm)
@@ -89,6 +90,7 @@ type
     cBoxDatabases: TComboBox;
     Label1: TLabel;
     lbLastGeneration: TLabel;
+    Panel1: TPanel;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -118,6 +120,8 @@ type
     procedure btnCleanAllClick(Sender: TObject);
     procedure btnTestSQLClick(Sender: TObject);
     procedure cBoxDatabasesClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -225,6 +229,12 @@ begin
   Self.FillMemoReturnWithFile;
 end;
 
+procedure TDelphiAIDevDBChatView.DBGrid1DrawColumnCell(Sender: TObject;
+ const Rect: TRect; DataCol: Integer; Column: TColumn;  State: TGridDrawState);
+begin
+  TUtilsDBGrids.DrawColumnCell(TDBGrid(Sender), Rect, DataCol, Column, Vcl.Grids.TGridDrawState(State));
+end;
+
 destructor TDelphiAIDevDBChatView.Destroy;
 begin
   Self.SaveMemoReturnInFile;
@@ -254,6 +264,16 @@ begin
     mmQuestion.Lines.Add(FQuestionOnShow);
     FQuestionOnShow := '';
   end;
+end;
+
+procedure TDelphiAIDevDBChatView.FormCreate(Sender: TObject);
+begin
+  TUtilsDBGrids.ConfDBGrid(DBGrid1);
+end;
+
+procedure TDelphiAIDevDBChatView.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Self.WaitingFormOFF;
 end;
 
 procedure TDelphiAIDevDBChatView.ConfScreenOnCreate;
@@ -321,11 +341,6 @@ begin
     mmQuestion.SelectAll;
     Key := 0;
   end;
-end;
-
-procedure TDelphiAIDevDBChatView.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  Self.WaitingFormOFF;
 end;
 
 procedure TDelphiAIDevDBChatView.FormResize(Sender: TObject);
@@ -805,7 +820,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     LField := Self.GetFieldDBSelected;
-         TUtils.ShowMsg(LField.User);
+
     FConn.Configs
       .DriverID(LField.DriverID)
       .Host(LField.Host)

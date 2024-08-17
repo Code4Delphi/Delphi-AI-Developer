@@ -17,6 +17,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
   ShowHint = True
   OnActivate = FormActivate
   OnClose = FormClose
+  OnCreate = FormCreate
   OnResize = FormResize
   OnShow = FormShow
   DesignSize = (
@@ -257,12 +258,14 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Height = 291
         Align = alClient
         DataSource = DataSource1
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        OnDrawColumnCell = DBGrid1DrawColumnCell
       end
       object Panel9: TPanel
         Left = 0
@@ -317,6 +320,16 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
           Style = csDropDownList
           TabOrder = 1
           OnClick = cBoxDatabasesClick
+        end
+        object Panel1: TPanel
+          Left = 656
+          Top = 0
+          Width = 81
+          Height = 33
+          Caption = 'Panel1'
+          Color = 5460819
+          ParentBackground = False
+          TabOrder = 2
         end
       end
     end
