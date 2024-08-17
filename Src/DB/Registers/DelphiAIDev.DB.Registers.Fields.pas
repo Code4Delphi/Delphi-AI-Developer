@@ -22,6 +22,7 @@ type
   public
     constructor Create;
     procedure Clear;
+    procedure GetDataFromOtherObject(const AOtherObj: TDelphiAIDevDBRegistersFields);
     property Guid: string read FGuid write FGuid;
     property DriverID: TC4DDriverID read FDriverID write FDriverID;
     property Description: string read FDescription write FDescription;
@@ -55,6 +56,21 @@ begin
   FVisible := True;
   FVendorLib := '';
   FLastReferences := 0;
+end;
+
+procedure TDelphiAIDevDBRegistersFields.GetDataFromOtherObject(const AOtherObj: TDelphiAIDevDBRegistersFields);
+begin
+  FGuid := AOtherObj.Guid;
+  FDriverID := AOtherObj.DriverID;
+  FDescription := AOtherObj.Description;
+  FHost := AOtherObj.Host;
+  FUser := AOtherObj.User;
+  FPassword := AOtherObj.Password;
+  FPort := AOtherObj.Port;
+  FDatabaseName := AOtherObj.DatabaseName;
+  FVisible := AOtherObj.Visible;
+  FVendorLib := AOtherObj.VendorLib;
+  FLastReferences := AOtherObj.LastReferences;
 end;
 
 end.

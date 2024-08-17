@@ -3,8 +3,6 @@ unit DelphiAIDev.DB.Chat.View;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
   System.SysUtils,
   System.StrUtils,
   System.Variants,
@@ -23,6 +21,8 @@ uses
   Vcl.ComCtrls,
   Vcl.Menus,
   Vcl.Buttons,
+  Winapi.Windows,
+  Winapi.Messages,
   Clipbrd,
   DelphiAIDev.Types,
   DelphiAIDev.Consts,
@@ -85,8 +85,10 @@ type
     Panel9: TPanel;
     Splitter2: TSplitter;
     DataSource1: TDataSource;
-    Button1: TButton;
+    btnTestSQL: TButton;
     cBoxDatabases: TComboBox;
+    Label1: TLabel;
+    lbLastGeneration: TLabel;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -114,7 +116,8 @@ type
     procedure btnDefaultsQuestionsClick(Sender: TObject);
     procedure Clear1Click(Sender: TObject);
     procedure btnCleanAllClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure btnTestSQLClick(Sender: TObject);
+    procedure cBoxDatabasesClick(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -124,6 +127,8 @@ type
     FbtnCodeOnlyWidth: Integer;
     FbtnDefaultsQuestionsWidth: Integer;
     FQuestionOnShow: string;
+    FConn: IC4DConn;
+    FQuery: IC4DConnQuery;
     procedure FillMemoReturnWithFile;
     procedure SaveMemoReturnInFile;
     procedure InitializeRichEditReturn;
@@ -145,6 +150,9 @@ type
     procedure ValidateRegistrationOfSelectedAI;
     procedure ReloadDatabases;
     procedure ClearcBoxDatabases;
+    procedure FillDateLastReferences;
+    function GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
+    function GetJsonDatabase: string;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -209,6 +217,9 @@ begin
   FProcessResponse := TDelphiAIDevChatProcessResponse.Create(mmReturn);
   FPopupMenuQuestions := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
   FQuestionOnShow := '';
+
+  FConn := TC4DConn.New;
+  FQuery := FConn.Query.DataSource(DataSource1);
 
   Self.ConfScreenOnCreate;
   Self.FillMemoReturnWithFile;
@@ -305,7 +316,7 @@ end;
 
 procedure TDelphiAIDevDBChatView.mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (ssCtrl in Shift)and(Key = 65) then
+  if (ssCtrl in Shift) and (Key = 65) then
   begin
     mmQuestion.SelectAll;
     Key := 0;
@@ -361,13 +372,13 @@ end;
 
 procedure TDelphiAIDevDBChatView.FillMemoReturnWithFile;
 begin
-  if FileExists(TUtils.GetPathFileChat) then
-    mmReturn.Lines.LoadFromFile(TUtils.GetPathFileChat)
+  if FileExists(TUtils.GetPathFileChatDB) then
+    mmReturn.Lines.LoadFromFile(TUtils.GetPathFileChatDB)
 end;
 
 procedure TDelphiAIDevDBChatView.SaveMemoReturnInFile;
 begin
-  mmReturn.Lines.SaveToFile(TUtils.GetPathFileChat);
+  mmReturn.Lines.SaveToFile(TUtils.GetPathFileChatDB);
 end;
 
 procedure TDelphiAIDevDBChatView.SelectAll1Click(Sender: TObject);
@@ -377,7 +388,7 @@ end;
 
 procedure TDelphiAIDevDBChatView.cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
 begin
-  if not(CharInSet(Key, ['0'..'9', #8]))then
+  if not CharInSet(Key, ['0'..'9', #8]) then
     Key := #0;
 end;
 
@@ -427,33 +438,30 @@ begin
     btnCodeOnly.ImageIndex := CodeOnly_ImageIndex_OFF;
 end;
 
-procedure TDelphiAIDevDBChatView.btnSendClick(Sender: TObject);
-begin
-  //Self.ProcessSend;
-
-end;
-
 procedure TDelphiAIDevDBChatView.ReloadDatabases;
+var
+  LField: TDelphiAIDevDBRegistersFields;
 begin
-  TUtils.ShowMsg('ReloadDatabases');
-
   Self.ClearcBoxDatabases;
 
   TDelphiAIDevDBRegistersModel.New.ReadData(
     procedure(AFields: TDelphiAIDevDBRegistersFields)
     begin
-      if AFields.Description.Trim.IsEmpty then
+      if (not AFields.Visible) or (AFields.Description.Trim.IsEmpty) then
         Exit;
 
       if AFields.Visible then
       begin
-        cBoxDatabases.Items.AddObject(AFields.Description, AFields);
+        LField := TDelphiAIDevDBRegistersFields.Create;
+        LField.GetDataFromOtherObject(AFields);
+        cBoxDatabases.Items.AddObject(LField.Description, LField);
       end;
     end,
-    TAutoFreeField.No
+    TAutoFreeField.Yes
   );
 
   cBoxDatabases.ItemIndex := 0;
+  Self.FillDateLastReferences;
 end;
 
 procedure TDelphiAIDevDBChatView.ClearcBoxDatabases;
@@ -461,8 +469,6 @@ var
   i: Integer;
   LObj: TObject;
 begin
-  TUtils.ShowMsg('ClearcBoxDatabases INI');
-
   for i := 0 to Pred(cBoxDatabases.Items.Count) do
   begin
     if not Assigned(cBoxDatabases.Items.Objects[i]) then
@@ -474,76 +480,7 @@ begin
       TDelphiAIDevDBRegistersFields(LObj).Free;
   end;
 
-  TUtils.ShowMsg('ClearcBoxDatabases fim');
   cBoxDatabases.Items.Clear;
-end;
-
-procedure TDelphiAIDevDBChatView.Button1Click(Sender: TObject);
-begin
-  TUtils.ShowMsg(TDelphiAIDevDBRegistersFields(cBoxDatabases.Items.Objects[cBoxDatabases.ItemIndex]).Description);
-end;
-
-procedure TDelphiAIDevDBChatView.ProcessSend;
-var
-  LTask: ITask;
-  LQuestion: string;
-begin
-  if mmQuestion.Lines.Text.Trim.IsEmpty then
-    TUtils.ShowMsgAndAbort('No questions have been added', mmQuestion);
-
-  Self.ValidateRegistrationOfSelectedAI;
-
-  mmReturn.Lines.Clear;
-  Self.WaitingFormON;
-
-  LQuestion := FSettings.LanguageQuestions.GetLanguageDefinition;
-
-  if btnUseCurrentUnitCode.ImageIndex = UseCurrentUnitCode_ImageIndex_ON then
-    LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak;
-
-  if btnCodeOnly.ImageIndex = CodeOnly_ImageIndex_ON then
-    LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgCodeOnly;
-
-  LQuestion := LQuestion + mmQuestion.Lines.Text;
-
-  LTask := TTask.Create(
-    procedure
-    begin
-      try
-        try
-          FChat.ProcessSend(LQuestion);
-        except
-          on E: Exception do
-            TThread.Synchronize(nil,
-              procedure
-              begin
-                Self.AddResponseSimple('Unable to perform processing.' + sLineBreak + TUtils.GetExceptionMessage(E));
-                Abort;
-              end);
-        end;
-
-        TThread.Synchronize(nil,
-          procedure
-          begin
-            mmReturn.Lines.BeginUpdate;
-            try
-              //Optional use of one of the following lines
-              FProcessResponse.AddResponseComplete(FChat.Response);
-              Self.Last;
-              //Self.AddResponseSimple(FChat.Response.Text);
-            finally
-              mmReturn.Lines.EndUpdate;
-            end;
-          end);
-      finally
-        TThread.Synchronize(nil,
-          procedure
-          begin
-            Self.WaitingFormOFF;
-          end);
-      end;
-    end);
-  LTask.Start;
 end;
 
 procedure TDelphiAIDevDBChatView.ValidateRegistrationOfSelectedAI;
@@ -585,116 +522,6 @@ begin
   mmReturn.Lines.Add(AString);
   Self.Last;
 end;
-
-////Add line-by-line response to color where Delphi code is
-//procedure TDelphiAIDevDBChatView.AddResponseComplete(const AStrings: TStrings);
-//var
-//  LLineNum: Integer;
-//  LLineStr: string;
-//  LCodeStarted: Boolean;
-//begin
-//  mmReturn.Lines.Clear;
-//  mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
-//  mmReturn.SelAttributes.Style := [];
-//
-//  LCodeStarted := False;
-//  for LLineNum := 0 to Pred(AStrings.Count) do
-//  begin
-//    LLineStr := AStrings[LLineNum].TrimRight;
-//
-//    if not LCodeStarted then
-//    begin
-//      if TUtils.CodeIdMarkBeginCode(LLineStr) then
-//      begin
-//        LCodeStarted := True;
-//        Continue;
-//      end;
-//    end;
-//
-//    if LLineStr.Trim = TConsts.MARK_END then
-//    begin
-//      LCodeStarted := False;
-//      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
-//      Continue;
-//    end;
-//
-//    if LCodeStarted then
-//    begin
-//      if (FSettings.ColorHighlightCodeDelphiUse) and (FSettings.ColorHighlightCodeDelphi <> clNone) then
-//        mmReturn.SelAttributes.Color := FSettings.ColorHighlightCodeDelphi
-//      else
-//        mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeForCode;
-//    end
-//    else
-//      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
-//
-//    //Optional use of one of the following lines
-//    //mmReturn.Lines.Add(LLineStr);
-//    Self.AddResponseLine(LLineStr); //.Replace(TConsts.MARK_BEGIN_PASCAL2, '', [rfReplaceAll, rfIgnoreCase])
-//  end;
-//  Self.Last;
-//end;
-//
-////Bold in words between Backtick
-//procedure TDelphiAIDevDBChatView.AddResponseLine(const ALineStr: string);
-//const
-//  BACKTICK = '`';
-//var
-//  i: Integer;
-//  LCurrentLetter: Char;
-//  LNextLetter: Char;
-//  LLineStarted: Boolean;
-//  LCodeStarted: Boolean;
-//begin
-//  if not ALineStr.Contains(BACKTICK) then
-//  begin
-//    mmReturn.Lines.Add(IFThen(ALineStr.IsEmpty, ' ', ALineStr));
-//    Exit;
-//  end;
-//
-//  LLineStarted := False;
-//  LCodeStarted := False;
-//  for i := 0 to ALineStr.Length do
-//  begin
-//    LCurrentLetter := ALineStr[i];
-//    LNextLetter := ALineStr[Succ(i)];
-//
-//    if not LCodeStarted then
-//    begin
-//      if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
-//      begin
-//        LCodeStarted := True;
-//        Continue;
-//      end;
-//    end;
-//
-//    if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
-//    begin
-//      LCodeStarted := False;
-//      mmReturn.SelAttributes.Style := [];
-//      Continue;
-//    end;
-//
-//    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-//    if LCodeStarted then
-//      mmReturn.SelAttributes.Style := [fsBold]
-//    else
-//      mmReturn.SelAttributes.Style := [];
-//
-//    if LLineStarted then
-//      mmReturn.SelText := LCurrentLetter
-//    else
-//    begin
-//      mmReturn.Lines.Add('');
-//      mmReturn.SelText := LCurrentLetter;
-//
-//      LLineStarted := True;
-//    end;
-//    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-//  end;
-//  mmReturn.SelText := ' ';
-//  SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-//end;
 
 procedure TDelphiAIDevDBChatView.WaitingFormON;
 begin
@@ -859,6 +686,147 @@ procedure TDelphiAIDevDBChatView.btnCleanAllClick(Sender: TObject);
 begin
   mmQuestion.Lines.Clear;
   mmReturn.Lines.Clear;
+end;
+
+procedure TDelphiAIDevDBChatView.cBoxDatabasesClick(Sender: TObject);
+begin
+  Self.FillDateLastReferences;
+end;
+
+procedure TDelphiAIDevDBChatView.FillDateLastReferences;
+begin
+  lbLastGeneration.Caption := '';
+
+  if cBoxDatabases.Items.Count < 0 then
+    Exit;
+
+  lbLastGeneration.Caption := TUtils.DateTimeToStrEmpty(Self.GetFieldDBSelected.LastReferences);
+end;
+
+function TDelphiAIDevDBChatView.GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
+begin
+  Result := TDelphiAIDevDBRegistersFields(cBoxDatabases.Items.Objects[cBoxDatabases.ItemIndex]);
+end;
+
+procedure TDelphiAIDevDBChatView.btnSendClick(Sender: TObject);
+begin
+  Self.ProcessSend;
+end;
+
+procedure TDelphiAIDevDBChatView.ProcessSend;
+var
+  LTask: ITask;
+  LQuestion: string;
+begin
+  if mmQuestion.Lines.Text.Trim.IsEmpty then
+    TUtils.ShowMsgAndAbort('No questions have been added', mmQuestion);
+
+  Self.ValidateRegistrationOfSelectedAI;
+
+  mmReturn.Lines.Clear;
+  Self.WaitingFormON;
+
+  LQuestion := FSettings.LanguageQuestions.GetLanguageDefinition;
+
+  if btnUseCurrentUnitCode.ImageIndex = UseCurrentUnitCode_ImageIndex_ON then
+    LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak;
+
+  if btnCodeOnly.ImageIndex = CodeOnly_ImageIndex_ON then
+    LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgCodeOnly + sLineBreak;
+
+  LQuestion := LQuestion + 'O seguinte JSON se refere a estrutura de um banco de dados: ';
+  LQuestion := LQuestion + Self.GetJsonDatabase + sLineBreak;
+  LQuestion := LQuestion + 'Com base no JSON que foi informado, responda a seguinte pergunta: ';
+  LQuestion := LQuestion + mmQuestion.Lines.Text;
+
+  LTask := TTask.Create(
+    procedure
+    begin
+      try
+        try
+          FChat.ProcessSend(LQuestion);
+        except
+          on E: Exception do
+            TThread.Synchronize(nil,
+              procedure
+              begin
+                Self.AddResponseSimple('Unable to perform processing.' + sLineBreak + TUtils.GetExceptionMessage(E));
+                Abort;
+              end);
+        end;
+
+        TThread.Synchronize(nil,
+          procedure
+          begin
+            mmReturn.Lines.BeginUpdate;
+            try
+              //Optional use of one of the following lines
+              FProcessResponse.AddResponseComplete(FChat.Response);
+              Self.Last;
+              //Self.AddResponseSimple(FChat.Response.Text);
+            finally
+              mmReturn.Lines.EndUpdate;
+            end;
+          end);
+      finally
+        TThread.Synchronize(nil,
+          procedure
+          begin
+            Self.WaitingFormOFF;
+          end);
+      end;
+    end);
+  LTask.Start;
+end;
+
+function TDelphiAIDevDBChatView.GetJsonDatabase: string;
+var
+  LFileName: string;
+  LStringList: TStringList;
+begin
+  LFileName := TUtils.GetPathFolderMetaInfo + Self.GetFieldDBSelected.Guid + '.json';
+
+  if not FileExists(LFileName) then
+    TUtils.ShowMsgAndAbort('File with database structure not found', LFileName);
+
+  LStringList := TStringList.Create;
+  try
+    LStringList.LoadFromFile(LFileName);
+    Result := LStringList.Text;
+  finally
+    LStringList.Free;
+  end;
+end;
+
+procedure TDelphiAIDevDBChatView.btnTestSQLClick(Sender: TObject);
+var
+  LField: TDelphiAIDevDBRegistersFields;
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    LField := Self.GetFieldDBSelected;
+         TUtils.ShowMsg(LField.User);
+    FConn.Configs
+      .DriverID(LField.DriverID)
+      .Host(LField.Host)
+      .UserName(LField.User)
+      .Password(LField.Password)
+      .Port(LField.Port)
+      .Database(LField.DatabaseName)
+      .VendorLib(LField.VendorLib);
+
+    try
+      if not FConn.Connection.TestConnection then
+        TUtils.ShowMsgAndAbort('Connection refused');
+    except
+      on E: exception do
+        TUtils.ShowMsgErrorAndAbort(E.Message);
+    end;
+
+    FQuery.CloseClear.Add(mmReturn.Lines.Text).Open;
+  finally
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 initialization

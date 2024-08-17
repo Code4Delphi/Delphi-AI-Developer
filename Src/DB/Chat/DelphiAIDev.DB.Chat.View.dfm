@@ -277,15 +277,35 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Padding.Bottom = 3
         ParentBackground = False
         TabOrder = 1
-        object Button1: TButton
+        object Label1: TLabel
           Left = 196
+          Top = 3
+          Width = 85
+          Height = 28
+          Align = alLeft
+          Caption = ' Last generation: '
+          Layout = tlCenter
+          ExplicitHeight = 13
+        end
+        object lbLastGeneration: TLabel
+          Left = 281
+          Top = 3
+          Width = 120
+          Height = 28
+          Align = alLeft
+          AutoSize = False
+          Caption = 'lbLastGeneration'
+          Layout = tlCenter
+        end
+        object btnTestSQL: TButton
+          Left = 401
           Top = 3
           Width = 75
           Height = 28
           Align = alLeft
-          Caption = 'Button1'
+          Caption = 'Test SQL'
           TabOrder = 0
-          OnClick = Button1Click
+          OnClick = btnTestSQLClick
         end
         object cBoxDatabases: TComboBox
           AlignWithMargins = True
@@ -296,6 +316,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
           Align = alLeft
           Style = csDropDownList
           TabOrder = 1
+          OnClick = cBoxDatabasesClick
         end
       end
     end
@@ -348,7 +369,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       item
         Width = 50
       end>
-    ExplicitLeft = 959
   end
   object pnCommands: TPanel
     Left = 936
@@ -556,7 +576,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
   end
   object ImageList1: TImageList
     Left = 96
-    Top = 240
+    Top = 208
     Bitmap = {
       494C010105003000040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
@@ -830,8 +850,8 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       000000000000}
   end
   object pMenuMemoReturn: TPopupMenu
-    Left = 96
-    Top = 296
+    Left = 120
+    Top = 248
     object Cut1: TMenuItem
       Caption = 'Cut'
       ShortCut = 16472
@@ -872,7 +892,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
   object pMenuCurrentAI: TPopupMenu
     OnPopup = pMenuCurrentAIPopup
     Left = 26
-    Top = 263
+    Top = 231
     object Gemini1: TMenuItem
       Caption = 'Gemini'
       OnClick = Gemini1Click

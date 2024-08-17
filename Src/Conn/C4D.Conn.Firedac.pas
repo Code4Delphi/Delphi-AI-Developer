@@ -184,16 +184,16 @@ begin
   Result := Self;
 
   LEmptyFields := '';
-  if FC4DConnConfigs.Database.Trim.IsEmpty then
+  if FC4DConnConfigs.Host.Trim.IsEmpty then
     LEmptyFields := LEmptyFields + 'Host. ';
 
-  if FConnection.Params.UserName.Trim.IsEmpty then
+  if FC4DConnConfigs.UserName.Trim.IsEmpty then
     LEmptyFields := LEmptyFields + 'UserName. ';
 
-  if FConnection.Params.Password.Trim.IsEmpty then
+  if FC4DConnConfigs.Password.Trim.IsEmpty then
     LEmptyFields := LEmptyFields + 'Password. ';
 
-  if Trim(FConnection.Params.Database).IsEmpty then
+  if FC4DConnConfigs.Database.Trim.IsEmpty then
     LEmptyFields := LEmptyFields + 'Database.';
 
   if not LEmptyFields.Trim.IsEmpty then

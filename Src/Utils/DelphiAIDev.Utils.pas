@@ -85,6 +85,7 @@ type
     class function GetPathFolderRoot: string;
     //class function GetPathFileIniGeneralSettings: string;
     class function GetPathFileChat: string;
+    class function GetPathFileChatDB: string;
     class function GetPathFileJSONDefaultsQuestions: string;
     class function GetPathFileJSONDatabases: string;
     class function CreateIfNecessaryAndGetPathFolderTemp: string;
@@ -768,6 +769,11 @@ end;
 class function TUtils.GetPathFileChat: string;
 begin
   Result := Self.GetPathFolderRoot + TConsts.FILE_RTF_CHAT;
+end;
+
+class function TUtils.GetPathFileChatDB: string;
+begin
+  Result := Self.GetPathFolderRoot + TConsts.FILE_RTF_CHAT_DB;
 end;
 
 class function TUtils.GetPathFileJSONDefaultsQuestions: string;

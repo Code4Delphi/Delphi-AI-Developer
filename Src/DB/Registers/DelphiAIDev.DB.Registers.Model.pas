@@ -96,7 +96,8 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDBRegistersModel.FillField(const AJSONObjItem: TJSONObject; var AField: TDelphiAIDevDBRegistersFields);
+procedure TDelphiAIDevDBRegistersModel.FillField(const AJSONObjItem: TJSONObject;
+  var AField: TDelphiAIDevDBRegistersFields);
 begin
   AField.Clear;
   AField.Guid := AJSONObjItem.GetValue<string>(GUID);
@@ -132,7 +133,8 @@ begin
     AField.LastReferences := StrToDateTimeDef(AJSONObjItem.GetValue<string>(LAST_REFERENCE), 0);
 end;
 
-procedure TDelphiAIDevDBRegistersModel.ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>; const AAutoFreeField: TAutoFreeField = TAutoFreeField.Yes);
+procedure TDelphiAIDevDBRegistersModel.ReadData(AProc: TProc<TDelphiAIDevDBRegistersFields>;
+  const AAutoFreeField: TAutoFreeField = TAutoFreeField.Yes);
 var
  LStringList: TStringList;
  LJSONObjItem: TJSONObject;

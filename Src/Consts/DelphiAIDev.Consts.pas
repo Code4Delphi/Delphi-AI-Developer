@@ -34,6 +34,7 @@ type
 
     //NAMES FILES .rtf
     FILE_RTF_CHAT = 'chat.rtf';
+    FILE_RTF_CHAT_DB = 'chat_db.rtf';
 
     //NAMES FILE JSON
     FILE_JSON_DEFAULTS_QUESTIONS = 'delphi_ai_developer_questions.json';
