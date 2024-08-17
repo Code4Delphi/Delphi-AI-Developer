@@ -107,7 +107,8 @@ begin
 
   LJSONObjAll := TJSONObject.Create;
   try
-    LJSONObjAll.AddPair('Instructions', 'Teste');
+    //LJSONObjAll.AddPair('Instructions', 'Teste');
+    LJSONObjAll.AddPair('database_name', FField.DatabaseName);
 
     LJSONArrayTables := TJSONArray.Create;
 
@@ -144,7 +145,7 @@ begin
     Self.SaveJsonInFolder(LJSONObjAll);
     Self.SaveGenerationDataToField;
 
-    TUtils.ShowMsg('Terminou', LJSONObjAll.Format);
+    TUtils.ShowV('Terminou', LJSONObjAll.Format);
   finally
     LJSONObjAll.Free;
   end;
