@@ -212,6 +212,7 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
       Caption = 'Search'
       TabOrder = 0
       OnClick = btnSearchClick
+      ExplicitTop = 11
     end
     object edtSearch: TEdit
       AlignWithMargins = True

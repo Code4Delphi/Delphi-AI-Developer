@@ -20,6 +20,7 @@ uses
   FireDAC.Comp.Client,
   C4D.Conn,
   DelphiAIDev.Utils,
+  DelphiAIDev.Types,
   DelphiAIDev.DB.Registers.Fields,
   DelphiAIDev.DB.Registers.Model;
 
@@ -30,22 +31,46 @@ type
     FC4DConn: IC4DConn;
     FMetaInfoTables: TFDMetaInfoQuery;
     FMetaInfoFields: TFDMetaInfoQuery;
-    FAddFieldSize: Boolean;
+    FAddFieldLength: Boolean;
+    FCompressData: Boolean;
+
+    FKeyName: string;
+    FKeyTYPE: string;
+    FKeyLength: string;
+    FKeyColumns: string;
+
     procedure ConfigConn;
     procedure SaveJsonInFolder(const AJSONObject: TJSONObject);
     procedure SaveGenerationDataToField;
+    function GetInstructionsNamesKeysCompress: string;
+    procedure ProcessNamesKeys;
   public
     constructor Create(const AField: TDelphiAIDevDBRegistersFields);
     destructor Destroy; override;
     procedure Process;
 
-    property AddFieldSize: Boolean read FAddFieldSize write FAddFieldSize;
+    property AddFieldLength: Boolean read FAddFieldLength write FAddFieldLength;
+    property CompressData: Boolean read FCompressData write FCompressData;
   end;
 
 implementation
 
+const
+  KEY_NAME = 'name';
+  KEY_TYPE = 'type';
+  KEY_LENGTH = 'length';
+  KEY_COLUMNS = 'columns';
+
+  KEY_NAME_SHORT = 'n';
+  KEY_TYPE_SHORT = 't';
+  KEY_LENGTH_SHORT = 'l';
+  KEY_COLUMNS_SHORT = 'c';
+
 constructor TDelphiAIDevMetaInfo.Create(const AField: TDelphiAIDevDBRegistersFields);
 begin
+  FAddFieldLength := False;
+  FCompressData := False;
+
   FField := AField;
   FC4DConn := TC4DConn.New;
   Self.ConfigConn;
@@ -78,20 +103,32 @@ begin
     .VendorLib(FField.VendorLib);
 end;
 
+procedure TDelphiAIDevMetaInfo.ProcessNamesKeys;
+begin
+  FKeyName := KEY_NAME;
+  FKeyTYPE := KEY_TYPE;
+  FKeyLength := KEY_LENGTH;
+  FKeyColumns := KEY_COLUMNS;
+
+  if FCompressData then
+  begin
+    FKeyName := KEY_NAME_SHORT;
+    FKeyTYPE := KEY_TYPE_SHORT;
+    FKeyLength := KEY_LENGTH_SHORT;
+    FKeyColumns := KEY_COLUMNS_SHORT;
+  end;
+end;
+
+function TDelphiAIDevMetaInfo.GetInstructionsNamesKeysCompress: string;
+begin
+  Result := 'Some JSON keys have been abbreviated, here is the legend for the abbreviations: ' +
+    Format('%s = %s; ', [KEY_NAME_SHORT, KEY_NAME]) +
+    Format('%s = %s; ', [KEY_TYPE_SHORT, KEY_TYPE]) +
+    Format('%s = %s; ', [KEY_LENGTH_SHORT, KEY_LENGTH]) +
+    Format('%s = %s. ', [KEY_COLUMNS_SHORT, KEY_COLUMNS]);
+end;
+
 procedure TDelphiAIDevMetaInfo.Process;
-const
-{.$DEFINE C4D_SHORT_KEY}
-{$IFDEF C4D_SHORT_KEY}
-  KEY_NAME = 'N';
-  KEY_TYPE = 'T';
-  KEY_LENGTH = 'L';
-  KEY_COLUMNS = 'c';
-{$ELSE}
-  KEY_NAME = 'name';
-  KEY_TYPE = 'type';
-  KEY_LENGTH = 'length';
-  KEY_COLUMNS = 'columns';
-{$ENDIF}
 var
   LJSONObjAll: TJSONObject;
   LJSONArrayTables: TJSONArray;
@@ -99,6 +136,7 @@ var
   LJSONArrayColumns: TJSONArray;
   LJSONObjColumn: TJSONObject;
 begin
+  Self.ProcessNamesKeys;
   FC4DConn.Connection.Open;
 
   FMetaInfoTables.Open;
@@ -107,8 +145,11 @@ begin
 
   LJSONObjAll := TJSONObject.Create;
   try
-    //LJSONObjAll.AddPair('Instructions', 'Teste');
-    LJSONObjAll.AddPair('database_name', FField.DatabaseName);
+    if FCompressData then
+     LJSONObjAll.AddPair('instructions', Self.GetInstructionsNamesKeysCompress);
+
+    LJSONObjAll.AddPair('SGBD (database)', FField.DriverID.ToString);
+    LJSONObjAll.AddPair('database name', FField.DatabaseName);
 
     LJSONArrayTables := TJSONArray.Create;
 
@@ -124,18 +165,18 @@ begin
       while not FMetaInfoFields.Eof do
       begin
         LJSONObjColumn := TJSONObject.Create;
-        LJSONObjColumn.AddPair(KEY_NAME, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_NAME').AsString));
-        LJSONObjColumn.AddPair(KEY_TYPE, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_TYPENAME').AsString));
-        if FAddFieldSize then
-          LJSONObjColumn.AddPair(KEY_LENGTH, TJSONNumber.Create(FMetaInfoFields.FieldByName('COLUMN_LENGTH').AsInteger));
+        LJSONObjColumn.AddPair(FKeyName, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_NAME').AsString));
+        LJSONObjColumn.AddPair(FKeyType, TJSONString.Create(FMetaInfoFields.FieldByName('COLUMN_TYPENAME').AsString));
+        if FAddFieldLength then
+          LJSONObjColumn.AddPair(FKeyLength, TJSONNumber.Create(FMetaInfoFields.FieldByName('COLUMN_LENGTH').AsInteger));
 
         LJSONArrayColumns.AddElement(LJSONObjColumn);
         FMetaInfoFields.Next;
       end;
 
       LJSONObjTable := TJSONObject.Create;
-      LJSONObjTable.AddPair(KEY_NAME, TJSONString.Create(FMetaInfoTables.FieldByName('TABLE_NAME').AsString));
-      LJSONObjTable.AddPair(KEY_COLUMNS, LJSONArrayColumns);
+      LJSONObjTable.AddPair(FKeyName, TJSONString.Create(FMetaInfoTables.FieldByName('TABLE_NAME').AsString));
+      LJSONObjTable.AddPair(FKeyColumns, LJSONArrayColumns);
       LJSONArrayTables.AddElement(LJSONObjTable);
 
       FMetaInfoTables.Next;
@@ -145,7 +186,7 @@ begin
     Self.SaveJsonInFolder(LJSONObjAll);
     Self.SaveGenerationDataToField;
 
-    TUtils.ShowV('Terminou', LJSONObjAll.Format);
+    TUtils.ShowV('Process completed');
   finally
     LJSONObjAll.Free;
   end;
@@ -168,7 +209,6 @@ begin
 //    {$ELSE}
 //      LStringList.Text := AJSONObject.Format(2);
 //    {$ENDIF}
-
     LStringList.Text := AJSONObject.ToString;
     LStringList.SaveToFile(TUtils.GetPathFolderMetaInfo + FField.Guid + '.json');
   finally

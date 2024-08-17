@@ -79,7 +79,6 @@ end;
 
 destructor TC4DConnFiredac.Destroy;
 begin
-  TUtils.ShowMsg('TC4DConnFiredac.Destroy');
   FFBDriverLink.Free;
   FMySQLDriverLink.Free;
 

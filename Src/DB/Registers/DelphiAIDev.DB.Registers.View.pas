@@ -94,7 +94,7 @@ begin
   edtSearch.SetFocus;
 
   FUtilsListView
-    .InvertOrder(False)
+    .InvertOrder(True)
     .SortStyle(TDelphiAIDevUtilsListViewSortStyle.AlphaNum)
     .ColumnIndex(C_INDEX_SUBITEM_DatabaseName + 1)
     .CustomSort;
@@ -140,12 +140,7 @@ end;
 
 procedure TDelphiAIDevDBRegistersView.btnSearchClick(Sender: TObject);
 begin
-  Screen.Cursor := crHourGlass;
-  try
-    Self.ReloadData;
-  finally
-    Screen.Cursor := crDefault;
-  end;
+  Self.ReloadData;
 end;
 
 procedure TDelphiAIDevDBRegistersView.ReloadData;
@@ -207,7 +202,7 @@ begin
     .InvertOrder(False)
     .CustomSort;
 
-  if(not LGuid.Trim.IsEmpty)then
+  if not LGuid.Trim.IsEmpty then
     TUtils.FindListVewItem(ListView, C_INDEX_SUBITEM_Guid, LGuid);
 
   Self.FillStatusBar(ListView.Selected);
@@ -387,7 +382,8 @@ begin
     LView := TDelphiAIDevDBReferencesView.Create(nil);
     try
       LView.Fields := LFields;
-      LView.ShowModal;
+      if LView.ShowModal = mrOk then
+        Self.ReloadData;
     finally
       LView.Free;
     end;

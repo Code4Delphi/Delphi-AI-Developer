@@ -4,7 +4,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
   BorderIcons = [biSystemMenu]
   Caption = 'IA Developer - Databases References'
   ClientHeight = 161
-  ClientWidth = 396
+  ClientWidth = 295
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
     AlignWithMargins = True
     Left = 0
     Top = 122
-    Width = 396
+    Width = 295
     Height = 1
     Margins.Left = 0
     Margins.Top = 0
@@ -36,7 +36,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
   object Panel1: TPanel
     Left = 0
     Top = 126
-    Width = 396
+    Width = 295
     Height = 35
     Align = alBottom
     BevelEdges = [beLeft, beRight, beBottom]
@@ -49,7 +49,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
     TabOrder = 0
     object btnGenerate: TButton
       AlignWithMargins = True
-      Left = 168
+      Left = 67
       Top = 2
       Width = 110
       Height = 31
@@ -64,7 +64,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
     end
     object btnClose: TButton
       AlignWithMargins = True
-      Left = 281
+      Left = 180
       Top = 2
       Width = 110
       Height = 31
@@ -81,7 +81,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
   object Panel9: TPanel
     Left = 0
     Top = 0
-    Width = 396
+    Width = 295
     Height = 122
     Align = alClient
     BevelOuter = bvNone
@@ -91,7 +91,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
       AlignWithMargins = True
       Left = 0
       Top = 118
-      Width = 396
+      Width = 295
       Height = 1
       Margins.Left = 0
       Margins.Top = 0
@@ -102,26 +102,34 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
       ExplicitWidth = 676
     end
     object Label1: TLabel
-      Left = 24
+      Left = 37
       Top = 22
       Width = 79
       Height = 13
       Caption = 'Last generation:'
     end
     object lbLastGeneration: TLabel
-      Left = 109
+      Left = 122
       Top = 22
       Width = 81
       Height = 13
       Caption = 'lbLastGeneration'
     end
     object ckAddFieldSize: TCheckBox
-      Left = 24
+      Left = 37
       Top = 53
-      Width = 85
+      Width = 99
       Height = 17
-      Caption = 'Add field size'
+      Caption = 'Add Field Length'
       TabOrder = 0
+    end
+    object ckCompressData: TCheckBox
+      Left = 37
+      Top = 78
+      Width = 93
+      Height = 17
+      Caption = 'Compress Data'
+      TabOrder = 1
     end
   end
 end

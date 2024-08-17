@@ -29,6 +29,7 @@ type
     Label1: TLabel;
     lbLastGeneration: TLabel;
     ckAddFieldSize: TCheckBox;
+    ckCompressData: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
@@ -75,7 +76,8 @@ begin
   try
     LMetaInfo := TDelphiAIDevMetaInfo.Create(FFields);
     try
-      LMetaInfo.AddFieldSize := ckAddFieldSize.Checked;
+      LMetaInfo.AddFieldLength := ckAddFieldSize.Checked;
+      LMetaInfo.CompressData := ckCompressData.Checked;
       LMetaInfo.Process;
     finally
       LMetaInfo.Free;
