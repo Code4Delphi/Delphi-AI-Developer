@@ -91,6 +91,13 @@ type
     Label1: TLabel;
     lbLastGeneration: TLabel;
     Panel1: TPanel;
+    pMenuGrid: TPopupMenu;
+    CopyCurrentColumn1: TMenuItem;
+    CopyCurrentLine1: TMenuItem;
+    CopyAllGridData: TMenuItem;
+    N3: TMenuItem;
+    SaveAllGridDataAsCSV: TMenuItem;
+    SaveAllGridDataAsTXT: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -122,6 +129,11 @@ type
     procedure cBoxDatabasesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure CopyCurrentColumn1Click(Sender: TObject);
+    procedure CopyCurrentLine1Click(Sender: TObject);
+    procedure CopyAllGridDataClick(Sender: TObject);
+    procedure SaveAllGridDataAsCSVClick(Sender: TObject);
+    procedure SaveAllGridDataAsTXTClick(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -842,6 +854,33 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
+end;
+
+procedure TDelphiAIDevDBChatView.CopyCurrentColumn1Click(Sender: TObject);
+begin
+  TUtilsDBGrids.DBGridToClipboardCurrentColumn(DBGrid1);
+end;
+
+procedure TDelphiAIDevDBChatView.CopyCurrentLine1Click(Sender: TObject);
+begin
+  TUtilsDBGrids.DBGridToClipboardCurrentLine(DBGrid1);
+end;
+
+procedure TDelphiAIDevDBChatView.CopyAllGridDataClick(Sender: TObject);
+begin
+  TUtilsDBGrids.DBGridToClipboardAll(DBGrid1);
+end;
+
+procedure TDelphiAIDevDBChatView.SaveAllGridDataAsCSVClick(Sender: TObject);
+begin
+  TUtilsDBGrids.DBGridToCSV(DBGrid1);
+  TUtils.ShowV('File saved successfully');
+end;
+
+procedure TDelphiAIDevDBChatView.SaveAllGridDataAsTXTClick(Sender: TObject);
+begin
+  TUtilsDBGrids.DBGridToTxt(DBGrid1);
+  TUtils.ShowV('File saved successfully');
 end;
 
 initialization

@@ -11,10 +11,8 @@ uses
   System.StrUtils,
   System.Classes,
   System.TypInfo,
-
   System.JSON,
   System.Generics.Collections,
-
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Graphics,
@@ -236,7 +234,6 @@ begin
 end;
 
 class function TUtils.GetFileName(const AExtension: string): string;
-
 var
   LFileName: string;
   LSaveDialog: TSaveDialog;

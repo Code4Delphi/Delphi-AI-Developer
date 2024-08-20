@@ -3,11 +3,17 @@ unit DelphiAIDev.Utils.DBGrids;
 interface
 
 uses
+  System.SysUtils,
   System.Types,
+  System.Classes,
+  Data.DB,
   Vcl.DBGrids,
   Vcl.Grids,
   Vcl.Graphics,
-  DelphiAIDev.Utils.Ota;
+  Vcl.Clipbrd,
+  DelphiAIDev.Utils,
+  DelphiAIDev.Utils.Ota,
+  DelphiAIDev.Types;
 
 type
   TUtilsDBGrids = class
@@ -17,13 +23,136 @@ type
     class procedure DrawColumnCellDark(const ADBGrid: TDBGrid; const ARect: TRect; const ADataCol: Integer; const AColumn: TColumn;
       const AState: TGridDrawState);
   public
-    class procedure ConfDBGrid(const ADBGrid: TDBGrid);
+    class procedure DBGridToClipboardCurrentColumn(const ADBGrid: TDBGrid);
+    class procedure DBGridToClipboardCurrentLine(ADBGrid: TDBGrid; ACopyTitle: Boolean = True);
+    class procedure DBGridToClipboardAll(ADBGrid: TDBGrid; ACopyTitle: Boolean = True);
+    class procedure DBGridToCSV(ADBGrid: TDBGrid; ACopyTitle: Boolean = True);
+    class procedure DBGridToTxt(ADBGrid: TDBGrid; ACopyTitle: Boolean = True);
+    class procedure DBGridToFile(ADBGrid: TDBGrid; const AExtension: string;
+      const ASeparator: string; ACopyTitle: Boolean = True);
+    class function DBGridToString(ADBGrid: TDBGrid; const AExtension: string;
+      ACopyTitle: Boolean = True): string;
 
+    class procedure ConfDBGrid(const ADBGrid: TDBGrid);
     class procedure DrawColumnCell(const ADBGrid: TDBGrid; const ARect: TRect; const ADataCol: Integer; const AColumn: TColumn;
       const AState: TGridDrawState);
   end;
 
 implementation
+
+class procedure TUtilsDBGrids.DBGridToClipboardCurrentColumn(const ADBGrid: TDBGrid);
+var
+  LText: string;
+begin
+  if ADBGrid.DataSource.DataSet.IsEmpty then
+    Exit;
+
+  if ADBGrid.SelectedIndex < 0 then
+    Exit;
+
+  LText := ADBGrid.Columns[ADBGrid.SelectedIndex].Field.AsString;
+  ClipBoard.Clear;
+  ClipBoard.SetTextBuf(PWideChar(LText));
+end;
+
+class procedure TUtilsDBGrids.DBGridToClipboardCurrentLine(ADBGrid: TDBGrid; ACopyTitle: Boolean = True);
+var
+  LText: string;
+  LContCol: Integer;
+begin
+  if ADBGrid.DataSource.DataSet.IsEmpty then
+    Exit;
+
+  LText := '';
+  if ACopyTitle then
+  begin
+    LText := ADBGrid.Columns[0].Title.Caption;
+    for LContCol := 1 to Pred(ADBGrid.Columns.Count) do
+      LText := format('%s|%s', [LText, ADBGrid.Columns[LContCol].Title.Caption]);
+
+    LText := LText + sLineBreak;
+  end;
+
+  LText := LText + ADBGrid.Columns[0].Field.AsString;
+  for LContCol := 1 to Pred(ADBGrid.Columns.Count) do
+    LText := format('%s|%s', [LText, ADBGrid.Columns[LContCol].Field.AsString]);
+
+  LText := LText + sLineBreak;
+  ClipBoard.Clear;
+  ClipBoard.SetTextBuf(PWideChar(LText));
+end;
+
+class procedure TUtilsDBGrids.DBGridToClipboardAll(ADBGrid: TDBGrid; ACopyTitle: Boolean = True);
+var
+  LText: string;
+begin
+  LText := Self.DBGridToString(ADBGrid, ';', ACopyTitle);
+  ClipBoard.Clear;
+  ClipBoard.SetTextBuf(PWideChar(LText));
+end;
+
+class procedure TUtilsDBGrids.DBGridToCSV(ADBGrid: TDBGrid; ACopyTitle: Boolean = True);
+begin
+  Self.DBGridToFile(ADBGrid, TC4DExtensionsCommon.csv.ToString, ';', ACopyTitle);
+end;
+
+class procedure TUtilsDBGrids.DBGridToTxt(ADBGrid: TDBGrid; ACopyTitle: Boolean = True);
+begin
+  Self.DBGridToFile(ADBGrid, TC4DExtensionsCommon.txt.ToString, '|', ACopyTitle);
+end;
+
+class procedure TUtilsDBGrids.DBGridToFile(ADBGrid: TDBGrid; const AExtension: string;
+  const ASeparator: string; ACopyTitle: Boolean = True);
+var
+  LStrings: TStringList;
+  LFileName: string;
+begin
+  LFileName := TUtils.GetFileName(AExtension);
+
+  LStrings := TStringList.Create;
+  try
+    LStrings.Text := Self.DBGridToString(ADBGrid, ASeparator, ACopyTitle);
+    LStrings.SaveToFile(LFileName);
+  finally
+    LStrings.Free;
+  end;
+end;
+
+class function TUtilsDBGrids.DBGridToString(ADBGrid: TDBGrid; const AExtension: string;
+  ACopyTitle: Boolean = True): string;
+var
+  LContCol: Integer;
+  LBookMarkCurrent: TBookMark;
+begin
+  Result := '';
+  if ACopyTitle then
+  begin
+    Result := ADBGrid.Columns[0].Title.Caption;
+    for LContCol := 1 to Pred(ADBGrid.Columns.Count) do
+      Result := format('%s%s%s', [Result, AExtension, ADBGrid.Columns[LContCol].Title.Caption]);
+
+    Result := Result + sLineBreak;
+  end;
+
+  LBookMarkCurrent := ADBGrid.DataSource.DataSet.GetBookmark;
+  ADBGrid.DataSource.DataSet.DisableControls;
+  try
+    ADBGrid.DataSource.DataSet.First;
+    while not ADBGrid.DataSource.DataSet.Eof do
+    begin
+      Result := Result + ADBGrid.Columns[0].Field.AsString;
+      for LContCol := 1 to Pred(ADBGrid.Columns.Count) do
+        Result := format('%s%s%s', [Result, AExtension, ADBGrid.Columns[LContCol].Field.AsString]);
+      Result := Result + sLineBreak;
+      ADBGrid.DataSource.DataSet.Next;
+    end;
+
+    ADBGrid.DataSource.DataSet.GotoBookMark(LBookMarkCurrent);
+    ADBGrid.DataSource.DataSet.FreeBookMark(LBookMarkCurrent);
+  finally
+    ADBGrid.DataSource.DataSet.EnableControls;
+  end;
+end;
 
 class procedure TUtilsDBGrids.DrawColumnCell(const ADBGrid: TDBGrid; const ARect: TRect;
   const ADataCol: Integer; const AColumn: TColumn; const AState: TGridDrawState);

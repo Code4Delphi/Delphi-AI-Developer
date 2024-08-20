@@ -260,6 +260,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         BorderStyle = bsNone
         DataSource = DataSource1
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        PopupMenu = pMenuGrid
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -938,5 +939,33 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
   object DataSource1: TDataSource
     Left = 170
     Top = 464
+  end
+  object pMenuGrid: TPopupMenu
+    Left = 794
+    Top = 472
+    object CopyCurrentColumn1: TMenuItem
+      Caption = 'Copy current column'
+      ShortCut = 16451
+      OnClick = CopyCurrentColumn1Click
+    end
+    object CopyCurrentLine1: TMenuItem
+      Caption = 'Copy current line'
+      OnClick = CopyCurrentLine1Click
+    end
+    object CopyAllGridData: TMenuItem
+      Caption = 'Copy all grid data'
+      OnClick = CopyAllGridDataClick
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object SaveAllGridDataAsCSV: TMenuItem
+      Caption = 'Save all grid data as CSV'
+      OnClick = SaveAllGridDataAsCSVClick
+    end
+    object SaveAllGridDataAsTXT: TMenuItem
+      Caption = 'Save all grid data as TXT'
+      OnClick = SaveAllGridDataAsTXTClick
+    end
   end
 end

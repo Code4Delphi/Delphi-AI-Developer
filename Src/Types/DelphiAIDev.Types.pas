@@ -15,7 +15,7 @@ type
   TC4DLanguage = (en, ptBR, es);
   TC4DExtensionsFiles = (None, PAS, DFM, FMX, DPR, DPK, DPROJ, ZIP, BMP, INI, ALL);
   TC4DExtensionsOfFiles = set of TC4DExtensionsFiles;
-  TC4DExtensionsCommon = (rtf);
+  TC4DExtensionsCommon = (rtf, csv, txt);
   TC4DIcon = (Information, Question, Warning, Error, Success);
   TC4DButtons = (OK, OK_Cancel);
   TC4DBtnFocu = (OK, Cancel);
@@ -166,7 +166,7 @@ end;
 { TC4DExtensionsCommonHelper }
 function TC4DExtensionsCommonHelper.ToString: string;
 begin
-  Result := GetEnumName(TypeInfo(TC4DExtensionsFiles), Integer(Self)).ToLower;
+  Result := GetEnumName(TypeInfo(TC4DExtensionsCommon), Integer(Self)).ToLower;
 end;
 
 function TC4DExtensionsCommonHelper.ToStringWithPoint: string;
