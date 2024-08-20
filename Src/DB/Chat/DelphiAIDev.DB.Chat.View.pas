@@ -134,6 +134,7 @@ type
     procedure CopyAllGridDataClick(Sender: TObject);
     procedure SaveAllGridDataAsCSVClick(Sender: TObject);
     procedure SaveAllGridDataAsTXTClick(Sender: TObject);
+    procedure DBGrid1TitleClick(Column: TColumn);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -881,6 +882,25 @@ procedure TDelphiAIDevDBChatView.SaveAllGridDataAsTXTClick(Sender: TObject);
 begin
   TUtilsDBGrids.DBGridToTxt(DBGrid1);
   TUtils.ShowV('File saved successfully');
+end;
+
+procedure TDelphiAIDevDBChatView.DBGrid1TitleClick(Column: TColumn);
+var
+  LCampo: string;
+  LOrdem: string;
+begin
+  if DataSource1.DataSet.IsEmpty then
+    Exit;
+
+  LCampo := Column.FieldName.Trim;
+  if (LCampo.IsEmpty) or (Column.Field.FieldKind = fkCalculated) then
+    Exit;
+
+  LOrdem := LCampo + ':D';
+  if FQuery.IndexFieldNames.Contains(':D') then
+    LOrdem := LCampo;
+
+  FQuery.IndexFieldNames(LOrdem);
 end;
 
 initialization

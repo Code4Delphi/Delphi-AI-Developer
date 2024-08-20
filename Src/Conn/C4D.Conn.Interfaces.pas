@@ -61,6 +61,8 @@ type
     function RecNo: Integer;
     function RecordCount: Integer;
     function RecordCountStr(ANumZerosLeft: Integer = 6): string;
+    function IndexFieldNames: string; overload;
+    function IndexFieldNames(Value: string): IC4DConnQuery; overload;
 
     //AName = PARA MYSQL E ZEOS NOME DA TABELA
     //AName = PARA MYSQL E FIREDAC NOME DO CAMPO

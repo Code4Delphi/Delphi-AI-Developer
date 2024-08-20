@@ -268,6 +268,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
         OnDrawColumnCell = DBGrid1DrawColumnCell
+        OnTitleClick = DBGrid1TitleClick
       end
       object Panel9: TPanel
         Left = 0
