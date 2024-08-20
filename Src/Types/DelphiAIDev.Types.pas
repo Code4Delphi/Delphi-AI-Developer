@@ -139,12 +139,12 @@ begin
       Result := 'El siguiente JSON hace referencia a la estructura SQL de una base de datos ';
   end;
 
-  Result := Result + ASGBDName + ': ' + sLineBreak;
+  Result := Result + ASGBDName + ' ' + sLineBreak;
 end;
 
 function TC4DLanguageHelper.GetMsgJSONInformedAnswerQuestion: string;
 begin
-  Result := 'Com base na estrutura que foi informada, responda a seguinte pergunta e retorne o comando SQL correspondente:';
+  Result := 'Com base nesta estrutura responda a seguinte pergunta e retorne o comando SQL correspondente:';
   case Self of
     TC4DLanguage.en:
       Result := 'Based on the structure that was provided, answer the following question and return the corresponding SQL command:';
