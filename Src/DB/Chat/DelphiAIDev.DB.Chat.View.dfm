@@ -257,6 +257,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Width = 938
         Height = 291
         Align = alClient
+        BorderStyle = bsNone
         DataSource = DataSource1
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 0

@@ -230,7 +230,7 @@ begin
 end;
 
 procedure TDelphiAIDevDBChatView.DBGrid1DrawColumnCell(Sender: TObject;
- const Rect: TRect; DataCol: Integer; Column: TColumn;  State: TGridDrawState);
+  const Rect: TRect; DataCol: Integer; Column: TColumn;  State: TGridDrawState);
 begin
   TUtilsDBGrids.DrawColumnCell(TDBGrid(Sender), Rect, DataCol, Column, Vcl.Grids.TGridDrawState(State));
 end;
