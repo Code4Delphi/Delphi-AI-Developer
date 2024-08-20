@@ -291,7 +291,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Caption = 'API key'
           end
           object Label2: TLabel
-            Left = 478
+            Left = 374
             Top = 5
             Width = 28
             Height = 13
@@ -375,7 +375,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           object edtBaseUrlOpenAI: TEdit
             Left = 16
             Top = 21
-            Width = 460
+            Width = 356
             Height = 21
             TabOrder = 0
           end
@@ -388,17 +388,17 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             TabOrder = 2
           end
           object cBoxModelOpenAI: TComboBox
-            Left = 478
+            Left = 374
             Top = 21
-            Width = 122
+            Width = 226
             Height = 21
-            Style = csDropDownList
             TabOrder = 1
             Items.Strings = (
               'gpt-3.5-turbo'
               'gpt-3.5-turbo-16k'
               'gpt-4'
-              'gpt-4-32k')
+              'gpt-4o-2024-05-13'
+              'gpt-4o-2024-08-06')
           end
         end
       end
@@ -459,7 +459,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Caption = 'API key'
           end
           object Label10: TLabel
-            Left = 478
+            Left = 374
             Top = 5
             Width = 28
             Height = 13
@@ -561,7 +561,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           object edtBaseUrlGroq: TEdit
             Left = 16
             Top = 21
-            Width = 460
+            Width = 356
             Height = 21
             TabOrder = 0
           end
@@ -574,9 +574,9 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             TabOrder = 2
           end
           object cBoxModelGroq: TComboBox
-            Left = 478
+            Left = 374
             Top = 21
-            Width = 122
+            Width = 226
             Height = 21
             Style = csDropDownList
             TabOrder = 1

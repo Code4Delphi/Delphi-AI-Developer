@@ -52,7 +52,7 @@ type
     pMenuCurrentAI: TPopupMenu;
     Gemini1: TMenuItem;
     ChatGPT1: TMenuItem;
-    pnBackStatusBar: TPanel;
+    pnBackButtons: TPanel;
     lbCurrentAI: TLabel;
     StatusBar1: TStatusBar;
     pnCommands: TPanel;

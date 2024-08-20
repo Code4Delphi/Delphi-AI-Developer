@@ -59,7 +59,7 @@ type
     pMenuCurrentAI: TPopupMenu;
     Gemini1: TMenuItem;
     ChatGPT1: TMenuItem;
-    pnBackStatusBar: TPanel;
+    pnBackButtonsSearch: TPanel;
     lbCurrentAI: TLabel;
     StatusBar1: TStatusBar;
     pnCommands: TPanel;
@@ -83,14 +83,8 @@ type
     Groq1: TMenuItem;
     pnGridBack: TPanel;
     DBGrid1: TDBGrid;
-    Panel9: TPanel;
     Splitter2: TSplitter;
     DataSource1: TDataSource;
-    btnTestSQL: TButton;
-    cBoxDatabases: TComboBox;
-    Label1: TLabel;
-    lbLastGeneration: TLabel;
-    Panel1: TPanel;
     pMenuGrid: TPopupMenu;
     CopyCurrentColumn1: TMenuItem;
     CopyCurrentLine1: TMenuItem;
@@ -98,6 +92,14 @@ type
     N3: TMenuItem;
     SaveAllGridDataAsCSV: TMenuItem;
     SaveAllGridDataAsTXT: TMenuItem;
+    Panel1: TPanel;
+    btnExecuteSQL: TButton;
+    cBoxDatabases: TComboBox;
+    Label1: TLabel;
+    lbLastGeneration: TLabel;
+    Panel9: TPanel;
+    lbCount: TLabel;
+    Label3: TLabel;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -125,7 +127,7 @@ type
     procedure btnDefaultsQuestionsClick(Sender: TObject);
     procedure Clear1Click(Sender: TObject);
     procedure btnCleanAllClick(Sender: TObject);
-    procedure btnTestSQLClick(Sender: TObject);
+    procedure btnExecuteSQLClick(Sender: TObject);
     procedure cBoxDatabasesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -762,9 +764,9 @@ begin
   if btnCodeOnly.ImageIndex = CodeOnly_ImageIndex_ON then
     LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgCodeOnly + sLineBreak;
 
-  LQuestion := LQuestion + 'O seguinte JSON se refere a estrutura de um banco de dados: ';
+  LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgJSONIsDatabaseStructure(Self.GetFieldDBSelected.DriverID.ToString);
   LQuestion := LQuestion + Self.GetJsonDatabase + sLineBreak;
-  LQuestion := LQuestion + 'Com base no JSON que foi informado, responda a seguinte pergunta: ';
+  LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgJSONInformedAnswerQuestion;
   LQuestion := LQuestion + mmQuestion.Lines.Text;
 
   LTask := TTask.Create(
@@ -826,12 +828,13 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDBChatView.btnTestSQLClick(Sender: TObject);
+procedure TDelphiAIDevDBChatView.btnExecuteSQLClick(Sender: TObject);
 var
   LField: TDelphiAIDevDBRegistersFields;
 begin
   Screen.Cursor := crHourGlass;
   try
+    lbCount.Caption := '000000';
     LField := Self.GetFieldDBSelected;
 
     FConn.Configs
@@ -851,7 +854,9 @@ begin
         TUtils.ShowMsgErrorAndAbort(E.Message);
     end;
 
-    FQuery.CloseClear.Add(mmReturn.Lines.Text).Open;
+    TUtils.ShowMsg(mmReturn.Lines.Text);
+    FQuery.CloseClear.Add(Trim(mmReturn.Lines.Text)).Open;
+    lbCount.Caption := FQuery.RecordCountStr;
   finally
     Screen.Cursor := crDefault;
   end;

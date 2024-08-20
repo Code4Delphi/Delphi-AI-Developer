@@ -100,11 +100,11 @@ begin
   FApiKeyGemini := '';
 
   FBaseUrlOpenAI := TConsts.BASE_URL_OPEN_AI;
-  FModelOpenAI := 'gpt-3.5-turbo';
+  FModelOpenAI := TConsts.MODEL_OPEN_AI_DEFAULT;
   FApiKeyOpenAI := '';
 
   FBaseUrlGroq := TConsts.BASE_URL_GROQ;
-  FModelGroq := 'llama3-8b-8192';
+  FModelGroq := TConsts.MODEL_GROQ_DEFAULT;
   FApiKeyGroq := '';
 end;
 

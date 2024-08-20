@@ -40,23 +40,22 @@ end;
 function TDelphiAIDevAIGemini.GetResponse(const AQuestion: string): string;
 var
   LApiUrl: string;
-  LQuestion: string;
   LResponse: IResponse;
   LJsonValueAll: TJSONVALUE;
   LJsonArrayCandidates: TJsonArray;
   LJsonArrayParts: TJsonArray;
   LJsonObjContent: TJsonObject;
   LJsonObjParts: TJsonObject;
-  LItemCandidates, LItemParts: Integer;
+  LItemCandidates: Integer;
+  LItemParts: Integer;
 begin
   Result := '';
   LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + '?key=' + FSettings.ApiKeyGemini;
-  LQuestion := TUtils.AdjustQuestionToJson(AQuestion);
 
   LResponse := TRequest.New
     .BaseURL(LApiUrl)
     .Accept('application/json')
-    .AddBody(Format(API_JSON_BODY_BASE, [LQuestion]))
+    .AddBody(Format(API_JSON_BODY_BASE, [AQuestion]))
     .Post;
 
   if LResponse.StatusCode <> 200 then

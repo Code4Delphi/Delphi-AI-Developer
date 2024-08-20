@@ -351,7 +351,8 @@ end;
 class function TUtils.CodeIdMarkBeginCode(const AValue: string): Boolean;
 begin
  Result := (AValue.Trim = TConsts.MARK_BEGIN_DELPHI)
-   or(AValue.Trim = TConsts.MARK_BEGIN_PASCAL);
+   or(AValue.Trim = TConsts.MARK_BEGIN_PASCAL)
+   or(AValue.Trim = TConsts.MARK_BEGIN_SQL);
    //or(AValue.Trim = TConsts.MARK_BEGIN_PASCAL2);
 end;
 
@@ -361,6 +362,8 @@ begin
     .Replace(TConsts.MARK_BEGIN_DELPHI, '', [rfReplaceAll, rfIgnoreCase])
     .Replace(TConsts.MARK_BEGIN_PASCAL, '', [rfReplaceAll, rfIgnoreCase])
     //.Replace(TConsts.MARK_BEGIN_PASCAL2, '', [rfReplaceAll, rfIgnoreCase])
+    .Replace(TConsts.MARK_BEGIN_SQL, '', [rfReplaceAll, rfIgnoreCase])
+    .Replace(TConsts.MARK_BEGIN_SQL2, '', [rfReplaceAll, rfIgnoreCase])
     .Replace(TConsts.MARK_END, '', [rfReplaceAll, rfIgnoreCase]);
 end;
 

@@ -19,6 +19,8 @@ type
     MARK_BEGIN_DELPHI = '```delphi';
     MARK_BEGIN_PASCAL = '```objectpascal';
     MARK_BEGIN_PASCAL2 = '``pascal';
+    MARK_BEGIN_SQL = '```sql';
+    MARK_BEGIN_SQL2 = '``sql';
     MARK_END = '```';
     PREFIX_NAME_SEPARATOR = 'DelphiAIDevSeparator';
 
@@ -27,7 +29,9 @@ type
     BASE_URL_GEMINI_DEFAULT = 'https://generativelanguage.googleapis.com/';
     MODEL_GEMINI_DEFAULT = 'v1/models/gemini-1.5-flash:generateContent';
     BASE_URL_OPEN_AI = 'https://api.openai.com/v1/chat/completions/';
+    MODEL_OPEN_AI_DEFAULT = 'gpt-4o-2024-08-06';
     BASE_URL_GROQ = 'https://api.groq.com/openai/v1/chat/completions';
+    MODEL_GROQ_DEFAULT = 'llama3-70b-8192'; //'llama3-8b-8192';;
 
     //NAMES FILES .INI
     FILE_INI_GENERAL_SETTINGS = 'delphi-ai-developer.ini';

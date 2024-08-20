@@ -76,7 +76,7 @@ type
     function FieldByName(Value: string): TField;
     function RecNo: Integer;
     function RecordCount: Integer;
-    function RecordCountStr(pNumZerosLeft: Integer = 6): string;
+    function RecordCountStr(ANumZerosLeft: Integer = 6): string;
     function IndexFieldNames: string; overload;
     function IndexFieldNames(Value: string): IC4DConnQuery; overload;
     function GetLastAutoGenValue(const AName: string): Variant;
@@ -403,9 +403,9 @@ begin
   Result := FQuery.RecordCount;
 end;
 
-function TC4DConnFiredacQuery.RecordCountStr(pNumZerosLeft: Integer = 6): string;
+function TC4DConnFiredacQuery.RecordCountStr(ANumZerosLeft: Integer = 6): string;
 begin
-  Result := FQuery.RecordCount.ToString;
+  Result := Format('%'+ ANumZerosLeft.ToString +'.'+ ANumZerosLeft.ToString +'d',[FQuery.RecordCount]);
 end;
 
 function TC4DConnFiredacQuery.IndexFieldNames: string;

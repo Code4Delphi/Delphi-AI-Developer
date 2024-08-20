@@ -33,6 +33,8 @@ type
     function ToString: string;
     function GetLanguageDefinition: string;
     function GetMsgCodeOnly: string;
+    function GetMsgJSONIsDatabaseStructure(ASGBDName: string): string;
+    function GetMsgJSONInformedAnswerQuestion: string;
   end;
 
   TC4DExtensionsFilesHelper = record helper for TC4DExtensionsFiles
@@ -116,13 +118,41 @@ end;
 
 function TC4DLanguageHelper.GetMsgCodeOnly: string;
 begin
-  Result := 'Faça a seguinte ação sem adicionar comentários:' + sLineBreak;
+  Result := 'Faça a seguinte ação sem adicionar comentários:';
   case Self of
     TC4DLanguage.en:
-      Result := 'Perform the following action without adding comments:' + sLineBreak;
+      Result := 'Perform the following action without adding comments:';
     TC4DLanguage.es:
-      Result := 'Realice la siguiente acción sin agregar comentarios:' + sLineBreak;
+      Result := 'Realice la siguiente acción sin agregar comentarios:';
   end;
+
+  Result := Result + sLineBreak;
+end;
+
+function TC4DLanguageHelper.GetMsgJSONIsDatabaseStructure(ASGBDName: string): string;
+begin
+  Result := 'O seguinte JSON se refere a estrutura SQL de um banco de dados ';
+  case Self of
+    TC4DLanguage.en:
+      Result := 'The following JSON refers to the SQL structure of a database ';
+    TC4DLanguage.es:
+      Result := 'El siguiente JSON hace referencia a la estructura SQL de una base de datos ';
+  end;
+
+  Result := Result + ASGBDName + ': ' + sLineBreak;
+end;
+
+function TC4DLanguageHelper.GetMsgJSONInformedAnswerQuestion: string;
+begin
+  Result := 'Com base na estrutura que foi informada, responda a seguinte pergunta e retorne o comando SQL correspondente:';
+  case Self of
+    TC4DLanguage.en:
+      Result := 'Based on the structure that was provided, answer the following question and return the corresponding SQL command:';
+    TC4DLanguage.es:
+      Result := 'Según la estructura proporcionada, responda la siguiente pregunta y devuelva el comando SQL correspondiente:';
+  end;
+
+  Result := Result + sLineBreak;
 end;
 
 { TC4DExtensionsFilesHelper }
