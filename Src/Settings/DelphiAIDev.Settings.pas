@@ -28,6 +28,9 @@ type
     FIELD_BaseUrlGroq = 'BaseUrlGroq';
     FIELD_ModelGroq = 'ModelGroq';
     FIELD_ApiKeyGroq = 'ApiKeyGroq';
+    FIELD_BaseUrlOllama = 'BaseUrlOllama';
+    FIELD_ModelOllama = 'ModelOllama';
+    FIELD_ApiKeyOllama = 'ApiKeyOllama';
   private
     FLanguageQuestions: TC4DLanguage;
     FAIDefault: TC4DAIsAvailable;
@@ -45,6 +48,11 @@ type
     FBaseUrlGroq: string;
     FModelGroq: string;
     FApiKeyGroq: string;
+
+    FBaseUrlOllama: string;
+    FModelOllama: string;
+    FApiKeyOllama: string;
+
     constructor Create;
   public
     class function GetInstance: TDelphiAIDevSettings;
@@ -68,6 +76,10 @@ type
     property BaseUrlGroq: string read FBaseUrlGroq write FBaseUrlGroq;
     property ModelGroq: string read FModelGroq write FModelGroq;
     property ApiKeyGroq: string read FApiKeyGroq write FApiKeyGroq;
+
+    property BaseUrlOllama: string read FBaseUrlOllama write FBaseUrlOllama;
+    property ModelOllama: string read FModelOllama write FModelOllama;
+    property ApiKeyOllama: string read FApiKeyOllama write FApiKeyOllama;
   end;
 
 implementation
@@ -106,6 +118,10 @@ begin
   FBaseUrlGroq := TConsts.BASE_URL_GROQ;
   FModelGroq := TConsts.MODEL_GROQ_DEFAULT;
   FApiKeyGroq := '';
+
+  FBaseUrlOllama := TConsts.BASE_URL_OLLAMA;
+  FModelOllama := TConsts.MODEL_OLLAMA_DEFAULT;
+  FApiKeyOllama := '';
 end;
 
 procedure TDelphiAIDevSettings.SaveData;
@@ -136,6 +152,10 @@ begin
     LReg.WriteString(FIELD_BaseUrlGroq, FBaseUrlGroq);
     LReg.WriteString(FIELD_ModelGroq, FModelGroq);
     LReg.WriteString(FIELD_ApiKeyGroq, FApiKeyGroq);
+
+    LReg.WriteString(FIELD_BaseUrlOllama, FBaseUrlOllama);
+    LReg.WriteString(FIELD_ModelOllama, FModelOllama);
+    LReg.WriteString(FIELD_ApiKeyOllama, FApiKeyOllama);
   finally
     LReg.Free;
   end;
@@ -198,6 +218,16 @@ begin
 
       if LReg.ValueExists(FIELD_ApiKeyGroq) then
         fApiKeyGroq := LReg.ReadString(FIELD_ApiKeyGroq);
+
+      //OLLAMA
+      if LReg.ValueExists(FIELD_BaseUrlOllama) then
+        fBaseUrlOllama := LReg.ReadString(FIELD_BaseUrlOllama);
+
+      if LReg.ValueExists(FIELD_ModelOllama) then
+        fModelOllama := LReg.ReadString(FIELD_ModelOllama);
+
+      if LReg.ValueExists(FIELD_ApiKeyOllama) then
+        fApiKeyOllama := LReg.ReadString(FIELD_ApiKeyOllama);
     except
       Self.LoadDefaults;
     end;

@@ -818,6 +818,11 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       Caption = 'Groq'
       OnClick = Gemini1Click
     end
+    object Ollama1: TMenuItem
+      Tag = 3
+      Caption = 'Ollama (offline)'
+      OnClick = Gemini1Click
+    end
   end
   object pMenuMoreActions: TPopupMenu
     Images = ImageList1

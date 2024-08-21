@@ -7,6 +7,7 @@ uses
   System.JSON,
   System.Classes,
   RESTRequest4D,
+  DelphiAIDev.Consts,
   DelphiAIDev.Utils,
   DelphiAIDev.Settings,
   DelphiAIDev.AI.Interfaces;
@@ -54,7 +55,7 @@ begin
 
   LResponse := TRequest.New
     .BaseURL(LApiUrl)
-    .Accept('application/json')
+    .Accept(TConsts.APPLICATION_JSON)
     .AddBody(Format(API_JSON_BODY_BASE, [AQuestion]))
     .Post;
 

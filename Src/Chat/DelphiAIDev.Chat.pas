@@ -10,7 +10,8 @@ uses
   DelphiAIDev.Settings,
   DelphiAIDev.AI.Gemini,
   DelphiAIDev.AI.ChatGPT,
-  DelphiAIDev.AI.Groq;
+  DelphiAIDev.AI.Groq,
+  DelphiAIDev.AI.Ollama;
 
 type
   TDelphiAIDevChat = class
@@ -44,7 +45,6 @@ var
   LQuestion: string;
 begin
   LQuestion := TUtils.AdjustQuestionToJson(AQuestion);
-  TUtils.ShowMsgSynchronize('LQuestion', LQuestion);
   FResponse.Clear;
 
   case FSettings.AIDefault of
@@ -54,6 +54,8 @@ begin
       FResponse.Text := TDelphiAIDevAIChatGPT.New(FSettings).GetResponse(LQuestion);
     TC4DAIsAvailable.Groq:
       FResponse.Text := TDelphiAIDevAIGroq.New(FSettings).GetResponse(LQuestion);
+    TC4DAIsAvailable.Ollama:
+      FResponse.Text := TDelphiAIDevAIOllama.New(FSettings).GetResponse(LQuestion);
   else
     FResponse.Text := 'Default AI not reported in Delphi AI Developer settings';
   end;

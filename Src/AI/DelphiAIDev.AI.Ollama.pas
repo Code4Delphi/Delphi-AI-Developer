@@ -1,4 +1,4 @@
-unit DelphiAIDev.AI.Groq;
+unit DelphiAIDev.AI.Ollama;
 
 interface
 
@@ -13,7 +13,7 @@ uses
   DelphiAIDev.AI.Interfaces;
 
 type
-  TDelphiAIDevAIGroq = class(TInterfacedObject, IDelphiAIDevAI)
+  TDelphiAIDevAIOllama = class(TInterfacedObject, IDelphiAIDevAI)
   private
     FSettings: TDelphiAIDevSettings;
   protected
@@ -26,19 +26,22 @@ type
 implementation
 
 const
-  API_JSON_BODY_BASE = '{"messages": [{"role": "user", "content": "%s"}], "model": "%s"}';
+  API_JSON_BODY_BASE = //'{"messages": [{"role": "user", "content": "%s"}], "model": "%s"}';
+    '{"model": "%s", '+
+    '"messages": [{"role": "user", "content": "%s"}], '+
+    '"stream": false}';
 
-class function TDelphiAIDevAIGroq.New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
+class function TDelphiAIDevAIOllama.New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
 begin
   Result := Self.Create(ASettings);
 end;
 
-constructor TDelphiAIDevAIGroq.Create(const ASettings: TDelphiAIDevSettings);
+constructor TDelphiAIDevAIOllama.Create(const ASettings: TDelphiAIDevSettings);
 begin
   FSettings := ASettings;
 end;
 
-function TDelphiAIDevAIGroq.GetResponse(const AQuestion: string): string;
+function TDelphiAIDevAIOllama.GetResponse(const AQuestion: string): string;
 var
   LResponse: IResponse;
   LJsonValueAll: TJSONVALUE;
@@ -49,17 +52,23 @@ var
 begin
   Result := '';
 
+  TUtils.ShowMsgSynchronize(Format(API_JSON_BODY_BASE, [FSettings.ModelOllama, AQuestion]));
+
   LResponse := TRequest.New
-    .BaseURL(FSettings.BaseUrlGroq)
+    .BaseURL(FSettings.BaseUrlOllama)
     .ContentType(TConsts.APPLICATION_JSON)
     .Accept(TConsts.APPLICATION_JSON)
-    .Token('Bearer ' + FSettings.ApiKeyGroq)
-    .AddBody(Format(API_JSON_BODY_BASE, [AQuestion, FSettings.ModelGroq]))
+    //.Token('Bearer ' + FSettings.ApiKeyOllama)
+    .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOllama, AQuestion]))
     .Post;
 
   if LResponse.StatusCode <> 200 then
     Exit('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
 
+  Exit(LResponse.Content);
+
+
+  Exit;
   LJsonValueAll := TJsonObject.ParseJSONValue(LResponse.Content);
   if not(LJsonValueAll is TJSONObject) then
     Exit('The question cannot be answered, return object not found.' + sLineBreak +

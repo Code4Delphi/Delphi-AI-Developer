@@ -212,6 +212,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.DBGrids.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Ollama.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>

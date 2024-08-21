@@ -74,6 +74,7 @@ type
     pMenuQuestions: TPopupMenu;
     btnCleanAll: TSpeedButton;
     Groq1: TMenuItem;
+    Ollama1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -746,6 +747,7 @@ begin
   Gemini1.Checked := False;
   ChatGPT1.Checked := False;
   Groq1.Checked := False;
+  Ollama1.Checked := False;
   case FSettings.AIDefault of
     TC4DAIsAvailable.Gemini:
       Gemini1.Checked := True;
@@ -753,6 +755,8 @@ begin
       ChatGPT1.Checked := True;
     TC4DAIsAvailable.Groq:
       Groq1.Checked := True;
+    TC4DAIsAvailable.Ollama:
+      Ollama1.Checked := True;
   end;
 end;
 
@@ -767,6 +771,8 @@ begin
       lbCurrentAI.Hint := FSettings.ModelOpenAI;
     TC4DAIsAvailable.Groq:
       lbCurrentAI.Hint := FSettings.ModelGroq;
+    TC4DAIsAvailable.Ollama:
+      lbCurrentAI.Hint := FSettings.ModelOllama;
   end;
 
   lbCurrentAI.Repaint;
@@ -779,7 +785,7 @@ var
 begin
   //*SEVERAL
   LTag := TMenuItem(Sender).Tag;
-  if not(LTag in [0, 1, 2])then
+  if not(LTag in [0, 1, 2, 3])then
     Exit;
 
   FSettings.AIDefault := TC4DAIsAvailable(LTag);

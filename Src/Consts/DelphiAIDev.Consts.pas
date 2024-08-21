@@ -15,6 +15,7 @@ type
     NAME_FOLDER_MetaInfo = 'MetaInfo';
     GITHUB_Code4Delphi = 'https://github.com/Code4Delphi';
     GITHUB_PROJECT = 'https://github.com/Code4Delphi/Delphi-AI-Developer';
+    APPLICATION_JSON = 'application/json';
 
     MARK_BEGIN_DELPHI = '```delphi';
     MARK_BEGIN_PASCAL = '```objectpascal';
@@ -32,6 +33,9 @@ type
     MODEL_OPEN_AI_DEFAULT = 'gpt-4o-2024-08-06';
     BASE_URL_GROQ = 'https://api.groq.com/openai/v1/chat/completions';
     MODEL_GROQ_DEFAULT = 'llama3-70b-8192'; //'llama3-8b-8192';;
+
+    BASE_URL_OLLAMA = ' http://localhost:11434/api/chat';
+    MODEL_OLLAMA_DEFAULT = 'tinyllama'; //'mistral';
 
     //NAMES FILES .INI
     FILE_INI_GENERAL_SETTINGS = 'delphi-ai-developer.ini';

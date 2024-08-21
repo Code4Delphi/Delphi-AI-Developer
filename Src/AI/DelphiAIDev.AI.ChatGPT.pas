@@ -7,6 +7,7 @@ uses
   System.JSON,
   System.Classes,
   RESTRequest4D,
+  DelphiAIDev.Consts,
   DelphiAIDev.Utils,
   DelphiAIDev.Settings,
   DelphiAIDev.AI.Interfaces;
@@ -52,8 +53,8 @@ begin
 
   LResponse := TRequest.New
     .BaseURL(FSettings.BaseUrlOpenAI)
-    .ContentType('application/json')
-    .Accept('application/json')
+    .ContentType(TConsts.APPLICATION_JSON)
+    .Accept(TConsts.APPLICATION_JSON)
     .Token('Bearer ' + FSettings.ApiKeyOpenAI)
     .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOpenAI, AQuestion]))
     .Post;
