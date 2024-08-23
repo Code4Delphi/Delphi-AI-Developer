@@ -45,14 +45,10 @@ function TDelphiAIDevAIOllama.GetResponse(const AQuestion: string): string;
 var
   LResponse: IResponse;
   LJsonValueAll: TJSONVALUE;
-  LJsonArrayChoices: TJsonArray;
+  LJsonValueMessage: TJSONValue;
   LJsonObjMessage: TJsonObject;
-  LContent: string;
-  LItemChoices: Integer;
 begin
   Result := '';
-
-  TUtils.ShowMsgSynchronize(Format(API_JSON_BODY_BASE, [FSettings.ModelOllama, AQuestion]));
 
   LResponse := TRequest.New
     .BaseURL(FSettings.BaseUrlOllama)
@@ -65,24 +61,18 @@ begin
   if LResponse.StatusCode <> 200 then
     Exit('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
 
-  Exit(LResponse.Content);
-
-
-  Exit;
-  LJsonValueAll := TJsonObject.ParseJSONValue(LResponse.Content);
+  LJsonValueAll := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(LResponse.Content), 0);
   if not(LJsonValueAll is TJSONObject) then
     Exit('The question cannot be answered, return object not found.' + sLineBreak +
       'Return: ' + LResponse.Content);
 
-  LJsonArrayChoices := (LJsonValueAll as TJsonObject).GetValue<TJsonArray>('choices');
-  for LItemChoices := 0 to Pred(LJsonArrayChoices.Count) do
-  begin
-    LJsonObjMessage := LJsonArrayChoices.Items[LItemChoices].GetValue<TJsonObject>('message');
-    LContent := LJsonObjMessage.GetValue<string>('content');
-    Result := Result + LContent.Trim + sLineBreak;
-  end;
+  LJsonValueMessage := (LJsonValueAll as TJSONObject).GetValue('message');
+  if not(LJsonValueMessage is TJSONObject) then
+    Exit('The question cannot be answered, return object not found.' + sLineBreak +
+      'Return: ' + LResponse.Content);
 
-  Result := Result.Trim;
+  LJsonObjMessage := LJsonValueMessage as TJSONObject;
+  Result := TJSONString(LJsonObjMessage.GetValue('content')).Value.Trim;
 end;
 
 end.

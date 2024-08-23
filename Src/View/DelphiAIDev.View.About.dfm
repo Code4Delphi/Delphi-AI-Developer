@@ -29,6 +29,7 @@ object DelphiAIDevViewAbout: TDelphiAIDevViewAbout
     Color = clWindow
     ParentBackground = False
     TabOrder = 0
+    ExplicitTop = -4
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 0

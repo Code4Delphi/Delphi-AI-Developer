@@ -283,9 +283,6 @@ begin
 
       if FModelOllama.Trim.IsEmpty then
         TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'Ollama']));
-
-      if FApiKeyOllama.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'Ollama']));
     end;
   end;
 end;
