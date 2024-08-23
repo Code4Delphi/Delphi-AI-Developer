@@ -129,7 +129,6 @@ type
     procedure DoProcessClickInItemDefaultQuestions(ACodeOnly: Boolean; AQuestion: string);
     procedure ProcessWordWrap;
     procedure ConfScreenOnCreate;
-    procedure ValidateRegistrationOfSelectedAI;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -424,7 +423,7 @@ begin
   if mmQuestion.Lines.Text.Trim.IsEmpty then
     TUtils.ShowMsgAndAbort('No questions have been added', mmQuestion);
 
-  Self.ValidateRegistrationOfSelectedAI;
+  FSettings.ValidateFillingSelectedAI;
 
   mmReturn.Lines.Clear;
   Self.WaitingFormON;
@@ -477,37 +476,6 @@ begin
       end;
     end);
   LTask.Start;
-end;
-
-procedure TDelphiAIDevChatView.ValidateRegistrationOfSelectedAI;
-const
-  MSG = '"%s" for IA %s not specified in settings.' + sLineBreak + sLineBreak +
-    'Access menu > AI Developer > Settings';
-begin
-  case FSettings.AIDefault of
-    TC4DAIsAvailable.Gemini:
-    begin
-      if FSettings.BaseUrlGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'Gemini']));
-
-      if FSettings.ModelGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'Gemini']));
-
-      if FSettings.ApiKeyGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'Gemini']));
-    end;
-    TC4DAIsAvailable.OpenAI:
-    begin
-      if FSettings.BaseUrlOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'ChatGPT']));
-
-      if FSettings.ModelOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'ChatGPT']));
-
-      if FSettings.ApiKeyOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'ChatGPT']));
-    end;
-  end;
 end;
 
 procedure TDelphiAIDevChatView.AddResponseSimple(const AString: string);

@@ -33,6 +33,7 @@ type
     function ToString: string;
     function GetLanguageDefinition: string;
     function GetMsgCodeOnly: string;
+    function GetMsgSQLOnly: string;
     function GetMsgJSONIsDatabaseStructure(ASGBDName: string): string;
     function GetMsgJSONInformedAnswerQuestion: string;
   end;
@@ -124,6 +125,19 @@ begin
       Result := 'Perform the following action without adding comments:';
     TC4DLanguage.es:
       Result := 'Realice la siguiente acción sin agregar comentarios:';
+  end;
+
+  Result := Result + sLineBreak;
+end;
+
+function TC4DLanguageHelper.GetMsgSQLOnly: string;
+begin
+  Result := 'Faça a seguinte ação sem adicionar comentários e retorne apenas os Comandos SQLs:';
+  case Self of
+    TC4DLanguage.en:
+      Result := 'Perform the following action without adding comments, returning only the SQL commands:';
+    TC4DLanguage.es:
+      Result := 'Realice la siguiente acción sin agregar comentarios, devolviendo solo comandos SQL:';
   end;
 
   Result := Result + sLineBreak;

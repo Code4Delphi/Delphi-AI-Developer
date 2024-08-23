@@ -100,6 +100,7 @@ type
     Panel9: TPanel;
     lbCount: TLabel;
     Label3: TLabel;
+    Ollama1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -166,7 +167,6 @@ type
     procedure DoProcessClickInItemDefaultQuestions(ACodeOnly: Boolean; AQuestion: string);
     procedure ProcessWordWrap;
     procedure ConfScreenOnCreate;
-    procedure ValidateRegistrationOfSelectedAI;
     procedure ReloadDatabases;
     procedure ClearcBoxDatabases;
     procedure FillDateLastReferences;
@@ -363,7 +363,7 @@ var
   LWidth: Integer;
 const
   CAPTION_UseCurrentUnitCode = 'Use current unit code in query';
-  CAPTION_CodeOnly = 'Code only';
+  CAPTION_CodeOnly = 'SQL only';
   CAPTION_DefaultsQuestions = 'Questions';
 begin
   if Self.Width > 620 then
@@ -513,37 +513,6 @@ begin
   cBoxDatabases.Items.Clear;
 end;
 
-procedure TDelphiAIDevDBChatView.ValidateRegistrationOfSelectedAI;
-const
-  MSG = '"%s" for IA %s not specified in settings.' + sLineBreak + sLineBreak +
-    'Access menu > AI Developer > Settings';
-begin
-  case FSettings.AIDefault of
-    TC4DAIsAvailable.Gemini:
-    begin
-      if FSettings.BaseUrlGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'Gemini']));
-
-      if FSettings.ModelGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'Gemini']));
-
-      if FSettings.ApiKeyGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'Gemini']));
-    end;
-    TC4DAIsAvailable.OpenAI:
-    begin
-      if FSettings.BaseUrlOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'ChatGPT']));
-
-      if FSettings.ModelOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'ChatGPT']));
-
-      if FSettings.ApiKeyOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'ChatGPT']));
-    end;
-  end;
-end;
-
 procedure TDelphiAIDevDBChatView.AddResponseSimple(const AString: string);
 begin
   Self.Last;
@@ -671,6 +640,7 @@ begin
   Gemini1.Checked := False;
   ChatGPT1.Checked := False;
   Groq1.Checked := False;
+  Ollama1.Checked := False;
   case FSettings.AIDefault of
     TC4DAIsAvailable.Gemini:
       Gemini1.Checked := True;
@@ -678,6 +648,8 @@ begin
       ChatGPT1.Checked := True;
     TC4DAIsAvailable.Groq:
       Groq1.Checked := True;
+    TC4DAIsAvailable.Ollama:
+      Ollama1.Checked := True;
   end;
 end;
 
@@ -692,6 +664,8 @@ begin
       lbCurrentAI.Hint := FSettings.ModelOpenAI;
     TC4DAIsAvailable.Groq:
       lbCurrentAI.Hint := FSettings.ModelGroq;
+    TC4DAIsAvailable.Ollama:
+      lbCurrentAI.Hint := FSettings.ModelOllama;
   end;
 
   lbCurrentAI.Repaint;
@@ -704,7 +678,7 @@ var
 begin
   //*SEVERAL
   LTag := TMenuItem(Sender).Tag;
-  if not(LTag in [0, 1, 2])then
+  if not(LTag in [0, 1, 2, 3])then
     Exit;
 
   FSettings.AIDefault := TC4DAIsAvailable(LTag);
@@ -751,7 +725,7 @@ begin
   if mmQuestion.Lines.Text.Trim.IsEmpty then
     TUtils.ShowMsgAndAbort('No questions have been added', mmQuestion);
 
-  Self.ValidateRegistrationOfSelectedAI;
+  FSettings.ValidateFillingSelectedAI;
 
   mmReturn.Lines.Clear;
   Self.WaitingFormON;
@@ -762,7 +736,7 @@ begin
     LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak;
 
   if btnCodeOnly.ImageIndex = CodeOnly_ImageIndex_ON then
-    LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgCodeOnly + sLineBreak;
+    LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgSQLOnly + sLineBreak;
 
   LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgJSONIsDatabaseStructure(Self.GetFieldDBSelected.DriverID.ToString);
   LQuestion := LQuestion + Self.GetJsonDatabase + sLineBreak;

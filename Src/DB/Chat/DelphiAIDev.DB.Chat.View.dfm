@@ -219,7 +219,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
           Margins.Right = 0
           Margins.Bottom = 0
           Align = alRight
-          Caption = '* Code only *'
+          Caption = '* SQL only *'
           ImageIndex = 3
           Images = ImageList1
           TabOrder = 1
@@ -960,6 +960,11 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     object Groq1: TMenuItem
       Tag = 2
       Caption = 'Groq'
+      OnClick = Gemini1Click
+    end
+    object Ollama1: TMenuItem
+      Tag = 3
+      Caption = 'Ollama (offline)'
       OnClick = Gemini1Click
     end
   end
