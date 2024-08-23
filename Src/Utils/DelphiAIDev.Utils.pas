@@ -333,8 +333,8 @@ begin
   if AWinControl = nil then
     Exit;
 
-  LCenterX := AWinControl.Width div 2;
-  LCenterY := AWinControl.Height div 2;
+  LCenterX := AWinControl.Left + (AWinControl.Width div 2);
+  LCenterY := AWinControl.Top + (AWinControl.Height div 2);
 
   APanel.Left := LCenterX - (APanel.Width div 2);
   APanel.Top := LCenterY - (APanel.Height div 2);
