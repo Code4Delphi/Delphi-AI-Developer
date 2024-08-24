@@ -817,7 +817,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 16
         Top = 7
         Width = 80
-        Height = 21
+        Height = 13
         Cursor = crHandPoint
         Margins.Left = 16
         Margins.Top = 5
@@ -834,14 +834,13 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         ShowHint = True
         Layout = tlCenter
         OnClick = lbRestoreDefaultsClick
-        ExplicitHeight = 13
       end
       object lbOpenDataFolder: TLabel
         AlignWithMargins = True
         Left = 115
         Top = 7
         Width = 85
-        Height = 21
+        Height = 13
         Cursor = crHandPoint
         Margins.Left = 16
         Margins.Top = 5
@@ -858,7 +857,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         ShowHint = True
         Layout = tlCenter
         OnClick = lbOpenDataFolderClick
-        ExplicitHeight = 13
       end
       object btnConfirm: TButton
         AlignWithMargins = True

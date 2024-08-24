@@ -26,9 +26,10 @@ type
 implementation
 
 const
-  API_JSON_BODY_BASE = //'{"messages": [{"role": "user", "content": "%s"}], "model": "%s"}';
+  API_JSON_BODY_BASE =
     '{"model": "%s", '+
     '"messages": [{"role": "user", "content": "%s"}], '+
+    '"options": {"seed": 101, "temperature": 0}, '+
     '"stream": false}';
 
 class function TDelphiAIDevAIOllama.New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
