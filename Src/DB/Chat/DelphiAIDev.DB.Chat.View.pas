@@ -149,7 +149,7 @@ type
     FbtnDefaultsQuestionsWidth: Integer;
     FQuestionOnShow: string;
     FConn: IC4DConn;
-    FQuery: IC4DConnQuery;
+    FQueryExecuteSQL: IC4DConnQuery;
     procedure FillMemoReturnWithFile;
     procedure SaveMemoReturnInFile;
     procedure InitializeRichEditReturn;
@@ -172,6 +172,7 @@ type
     procedure FillDateLastReferences;
     function GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
     function GetJsonDatabase: string;
+    procedure HandleErrorExecutingSQLCommand(const E: Exception);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -239,7 +240,8 @@ begin
   FQuestionOnShow := '';
 
   FConn := TC4DConn.New;
-  FQuery := FConn.Query.DataSource(DataSource1);
+  FQueryExecuteSQL := FConn.Query.DataSource(DataSource1);
+
 
   Self.ConfScreenOnCreate;
   Self.FillMemoReturnWithFile;
@@ -770,8 +772,13 @@ end;
 
 procedure TDelphiAIDevDBChatView.btnExecuteSQLClick(Sender: TObject);
 var
+  LCommand: string;
   LField: TDelphiAIDevDBRegistersFields;
 begin
+  LCommand := Trim(mmReturn.Lines.Text);
+  if LCommand.IsEmpty then
+    TUtils.ShowMsgAndAbort('No SQL command informed');
+
   Screen.Cursor := crHourGlass;
   try
     lbCount.Caption := '000000';
@@ -794,12 +801,46 @@ begin
         TUtils.ShowMsgErrorAndAbort(E.Message);
     end;
 
-    TUtils.ShowMsg(mmReturn.Lines.Text);
-    FQuery.CloseClear.Add(Trim(mmReturn.Lines.Text)).Open;
-    lbCount.Caption := FQuery.RecordCountStr;
+    try
+      FQueryExecuteSQL.CloseClear.Add(LCommand).Open;
+    except
+      on E: Exception do
+        Self.HandleErrorExecutingSQLCommand(E);
+    end;
+
+    lbCount.Caption := FQueryExecuteSQL.RecordCountStr;
   finally
     Screen.Cursor := crDefault;
   end;
+end;
+
+procedure TDelphiAIDevDBChatView.HandleErrorExecutingSQLCommand(const E: Exception);
+var
+  LCommand: string;
+  LMsg: string;
+begin
+  LCommand := Trim(mmReturn.Lines.Text).ToLower;
+  LMsg := 'Unable to execute command.';
+
+  if LCommand.Contains('insert') then
+    LMsg := LMsg + sLineBreak + 'Insert commands are blocked';
+
+  if LCommand.Contains('update') then
+    LMsg := LMsg + sLineBreak + 'Update commands are blocked';
+
+  if LCommand.Contains('delete') then
+    LMsg := LMsg + sLineBreak + 'Delete commands are blocked';
+
+  if LCommand.Contains('drop') then
+    LMsg := LMsg + sLineBreak + 'Drop commands are blocked';
+
+  if LCommand.Contains('create') then
+    LMsg := LMsg + sLineBreak + 'Create commands are blocked';
+
+  if LMsg.Trim.IsEmpty then
+    LMsg := LMsg + sLineBreak + E.Message;
+
+  TUtils.ShowMsgErrorAndAbort(LMsg.Trim, E.Message);
 end;
 
 procedure TDelphiAIDevDBChatView.CopyCurrentColumn1Click(Sender: TObject);
@@ -842,10 +883,10 @@ begin
     Exit;
 
   LOrdem := LCampo + ':D';
-  if FQuery.IndexFieldNames.Contains(':D') then
+  if FQueryExecuteSQL.IndexFieldNames.Contains(':D') then
     LOrdem := LCampo;
 
-  FQuery.IndexFieldNames(LOrdem);
+  FQueryExecuteSQL.IndexFieldNames(LOrdem);
 end;
 
 initialization
