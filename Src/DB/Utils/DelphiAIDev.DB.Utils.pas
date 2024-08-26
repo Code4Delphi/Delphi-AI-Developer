@@ -43,7 +43,6 @@ class procedure TDelphiAIDevDBUtils.FillComboBoxDatabases(const AComboBox: TComb
 var
   LField: TDelphiAIDevDBRegistersFields;
   LFieldDefault: TDelphiAIDevDBRegistersFields;
-  FIndex: Integer;
 begin
   Self.ClearComboBox(AComboBox);
   LFieldDefault := nil;

@@ -68,7 +68,7 @@ type
 
     //CAPTIONS ITENS POPUPMENU PROJ
     ITEM_POPUP_MENU_PROJ_CAPTION = 'AI Developer';
-    ITEM_POPUP_MENU_PROJ_LinkDatabase_CAPTION = 'Link database';
+    ITEM_POPUP_MENU_PROJ_EditInformation_CAPTION = 'Edit Information';
 
     //MAIN MENU IDE NAME AND CAPTIONS
     MENU_IDE_CHAT_NAME = 'DelphiAIDevChat1';

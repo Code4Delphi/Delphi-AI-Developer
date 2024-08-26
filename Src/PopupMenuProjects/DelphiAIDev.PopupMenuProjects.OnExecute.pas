@@ -13,7 +13,7 @@ type
     FIOTAProject: IOTAProject;
     procedure CheckFileNameProject;
   public
-    procedure LinkDatabase(const MenuContextList: IInterfaceList);
+    procedure EditInformation(const MenuContextList: IInterfaceList);
     property OTAProject: IOTAProject write FIOTAProject;
   end;
 
@@ -32,7 +32,7 @@ begin
 //    TUtils.ShowMsgAndAbort('Project file not found');
 end;
 
-procedure TDelphiAIDevPopupMenuProjectsOnExecute.LinkDatabase(const MenuContextList: IInterfaceList);
+procedure TDelphiAIDevPopupMenuProjectsOnExecute.EditInformation(const MenuContextList: IInterfaceList);
 var
   LView: TDelphiAIDevProjectsAddEditView;
 begin

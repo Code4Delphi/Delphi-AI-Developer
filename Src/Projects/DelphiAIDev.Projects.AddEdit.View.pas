@@ -30,13 +30,16 @@ type
     pnButtons: TPanel;
     btnConfirm: TButton;
     btnClose: TButton;
-    cBoxDatabases: TComboBox;
+    cBoxDatabaseDefault: TComboBox;
+    Label2: TLabel;
+    edtNickname: TEdit;
+    Label3: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
     procedure btnConfirmClick(Sender: TObject);
-    procedure cBoxDatabasesClick(Sender: TObject);
+    procedure cBoxDatabaseDefaultClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
@@ -88,6 +91,7 @@ procedure TDelphiAIDevProjectsAddEditView.FillScreenFields;
 begin
   Screen.Cursor := crHourGlass;
   try
+    edtNickname.Text := FProjectsFields.Nickname;
     Self.FillcBoxDatabases;
   finally
     Screen.Cursor := crDefault;
@@ -96,7 +100,7 @@ end;
 
 procedure TDelphiAIDevProjectsAddEditView.FillcBoxDatabases;
 begin
-  TDelphiAIDevDBUtils.FillComboBoxDataBases(cBoxDatabases, FProjectsFields.GuidDatabaseDefault);
+  TDelphiAIDevDBUtils.FillComboBoxDataBases(cBoxDatabaseDefault, FProjectsFields.GuidDatabaseDefault);
   Self.FillDateLastReferences;
 end;
 
@@ -112,7 +116,7 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevProjectsAddEditView.cBoxDatabasesClick(Sender: TObject);
+procedure TDelphiAIDevProjectsAddEditView.cBoxDatabaseDefaultClick(Sender: TObject);
 begin
   Self.FillDateLastReferences;
 end;
@@ -121,7 +125,7 @@ procedure TDelphiAIDevProjectsAddEditView.FillDateLastReferences;
 begin
   lbLastGeneration.Caption := '';
 
-  if cBoxDatabases.Items.Count < 0 then
+  if cBoxDatabaseDefault.Items.Count < 0 then
     Exit;
 
   lbLastGeneration.Caption := TUtils.DateTimeToStrEmpty(Self.GetFieldDBSelected.LastReferences);
@@ -129,7 +133,7 @@ end;
 
 function TDelphiAIDevProjectsAddEditView.GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
 begin
-  Result := TDelphiAIDevDBRegistersFields(cBoxDatabases.Items.Objects[cBoxDatabases.ItemIndex]);
+  Result := TDelphiAIDevDBRegistersFields(cBoxDatabaseDefault.Items.Objects[cBoxDatabaseDefault.ItemIndex]);
 end;
 
 procedure TDelphiAIDevProjectsAddEditView.btnCloseClick(Sender: TObject);
@@ -145,6 +149,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     FProjectsFields.FilePath := FOTAProject.FileName;
+    FProjectsFields.Nickname := edtNickname.Text;
     FProjectsFields.GuidDatabaseDefault := Self.GetFieldDBSelected.Guid;
 
     TDelphiAIDevProjectsModel.New.SaveOrEditData(FProjectsFields);
@@ -158,8 +163,11 @@ end;
 
 procedure TDelphiAIDevProjectsAddEditView.ValidateFillingFields;
 begin
-  if cBoxDatabases.ItemIndex < 0 then
-    TUtils.ShowMsgAndAbort('No informed Database', cBoxDatabases);
+  if Trim(edtNickname.Text).IsEmpty then
+    TUtils.ShowMsgAndAbort('No informed Nickname', edtNickname);
+
+//  if cBoxDatabaseDefault.ItemIndex < 0 then
+//    TUtils.ShowMsgAndAbort('No informed Database', cBoxDatabaseDefault);
 end;
 
 end.

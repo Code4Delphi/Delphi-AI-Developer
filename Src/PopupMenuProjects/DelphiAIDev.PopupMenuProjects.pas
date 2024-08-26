@@ -83,8 +83,8 @@ begin
   ProjectManagerMenuList.Add(Self.AddItemInMenu('-'));
   ProjectManagerMenuList.Add(Self.AddItemInMenu(TConsts.ITEM_POPUP_MENU_PROJ_CAPTION));
 
-  ProjectManagerMenuList.Add(Self.AddSubItemInMenu(TConsts.ITEM_POPUP_MENU_PROJ_LinkDatabase_CAPTION,
-    FOnExecute.LinkDatabase));
+  ProjectManagerMenuList.Add(Self.AddSubItemInMenu(TConsts.ITEM_POPUP_MENU_PROJ_EditInformation_CAPTION,
+    FOnExecute.EditInformation));
 end;
 
 function TC4DWizardIDEPopupMenuNotifier.AddItemInMenu(const ACaption: string): IOTAProjectManagerMenu;

@@ -36,7 +36,7 @@ implementation
 const
   GUID = 'guid';
   FILE_PATH = 'file_path';
-  DESCRIPTION = 'description';
+  NICKNAME = 'Nickname';
   GUID_DATABASE_DEFAULT = 'guid_database_default';
 
 class function TDelphiAIDevProjectsModel.New: IDelphiAIDevProjectsModel;
@@ -150,8 +150,8 @@ begin
   if AJSONObjItem.GetValue(FILE_PATH) <> nil then
     AField.FilePath := AJSONObjItem.GetValue<string>(FILE_PATH);
 
-  if AJSONObjItem.GetValue(DESCRIPTION) <> nil then
-    AField.Description := AJSONObjItem.GetValue<string>(DESCRIPTION);
+  if AJSONObjItem.GetValue(NICKNAME) <> nil then
+    AField.Nickname := AJSONObjItem.GetValue<string>(NICKNAME);
 
   if AJSONObjItem.GetValue(GUID_DATABASE_DEFAULT) <> nil then
     AField.GuidDatabaseDefault := AJSONObjItem.GetValue<string>(GUID_DATABASE_DEFAULT);
@@ -233,7 +233,7 @@ begin
       LJSONObject := TJSONObject.Create;
       LJSONObject.AddPair(GUID, TUtils.GetGuidStr);
       LJSONObject.AddPair(FILE_PATH, AFields.FilePath);
-      LJSONObject.AddPair(DESCRIPTION, AFields.Description);
+      LJSONObject.AddPair(NICKNAME, AFields.Nickname);
       LJSONObject.AddPair(GUID_DATABASE_DEFAULT, AFields.GuidDatabaseDefault);
       LJSONArray.AddElement(LJSONObject);
 
@@ -281,8 +281,8 @@ begin
           LJSONObjItem.RemovePair(FILE_PATH).Free;
           LJSONObjItem.AddPair(FILE_PATH, AFields.FilePath);
 
-          LJSONObjItem.RemovePair(DESCRIPTION).Free;
-          LJSONObjItem.AddPair(DESCRIPTION, AFields.Description);
+          LJSONObjItem.RemovePair(NICKNAME).Free;
+          LJSONObjItem.AddPair(NICKNAME, AFields.Nickname);
 
           LJSONObjItem.RemovePair(GUID_DATABASE_DEFAULT).Free;
           LJSONObjItem.AddPair(GUID_DATABASE_DEFAULT, AFields.GuidDatabaseDefault);
