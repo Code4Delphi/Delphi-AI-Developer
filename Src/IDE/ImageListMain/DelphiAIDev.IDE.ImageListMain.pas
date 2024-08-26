@@ -38,7 +38,7 @@ var
 
 class function TDelphiAIDevIDEImageListMain.GetInstance: TDelphiAIDevIDEImageListMain;
 begin
-  if(not Assigned(Instance))then
+  if not Assigned(Instance) then
     Instance := Self.Create;
   Result := Instance;
 end;
@@ -58,7 +58,7 @@ initialization
   Instance := TDelphiAIDevIDEImageListMain.GetInstance;
 
 finalization
-  if(Assigned(Instance))then
+  if Assigned(Instance) then
     Instance.Free;
 
 end.

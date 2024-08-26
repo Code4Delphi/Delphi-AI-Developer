@@ -32,7 +32,7 @@ begin
     Delete(Result, 1, 2);
     Result := 'where '+ Result;
   end
-  else if(copy(Result, 1, 5) <> 'where')
+  else if (copy(Result, 1, 5) <> 'where')
     and(copy(Result, 1, 5) <> 'limit')
     and(copy(Result, 1, 8) <> 'order by')
     and(copy(Result, 1, 8) <> 'group by')

@@ -104,7 +104,7 @@ begin
       btnClose.Click;
     VK_DOWN, VK_UP:
     begin
-      if(ListView <> ActiveControl)then
+      if ListView <> ActiveControl then
       begin
         case Key of
           VK_DOWN:
@@ -173,7 +173,7 @@ begin
       if (AFields.Kind = TC4DQuestionKind.ItemMenuNormal) and (AFields.Question.Trim.IsEmpty) then
         Exit;
 
-      if(LStrSearch.Trim.IsEmpty)
+      if (LStrSearch.Trim.IsEmpty)
         or(AFields.Caption.ToLower.Contains(LStrSearch))
         or(AFields.Question.ToLower.Contains(LStrSearch))
       then
@@ -196,7 +196,7 @@ begin
     .InvertOrder(False)
     .CustomSort;
 
-  if(not LGuid.Trim.IsEmpty)then
+  if not LGuid.Trim.IsEmpty then
     TUtils.FindListVewItem(ListView, C_INDEX_SUBITEM_Guid, LGuid);
 
   Self.FillStatusBar(ListView.Selected);
@@ -337,10 +337,10 @@ begin
     Exit;
 
   LGuid := ListView.Items[ListView.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
-  if(LGuid.Trim.IsEmpty)then
+  if LGuid.Trim.IsEmpty then
     TUtils.ShowMsgErrorAndAbort('Guid not found');
 
-//  if(TC4DWizardOpenExternalModel.New.ExistGuidInIniFile(LId))then
+//  if TC4DWizardOpenExternalModel.New.ExistGuidInIniFile(LId) then
 //    TUtils.ShowMsgAndAbort('This registration cannot be deleted, as it is linked to other registration(s)');
 
   if not TUtils.ShowQuestion2('Confirm remove?') then

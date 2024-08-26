@@ -112,7 +112,7 @@ begin
     VK_ESCAPE:
     if Shift = [] then
     begin
-      if(btnCancel.Visible)then
+      if btnCancel.Visible then
         btnCancel.Click
       else
         Self.Close;
@@ -132,7 +132,7 @@ procedure TDelphiAIDevViewDialog.ConfHeightForm;
 begin
   pnDetailsLabel.Visible := True;
   pnDetails.Visible := True;
-  if(FDetails.Trim.IsEmpty)then
+  if FDetails.Trim.IsEmpty then
   begin
     pnDetailsLabel.Visible := False;
     pnDetails.Visible := False;
@@ -149,14 +149,14 @@ procedure TDelphiAIDevViewDialog.ConfButtons;
 begin
   btnCancel.Visible := FButtons = TC4DButtons.OK_Cancel;
   btnOK.SetFocus;
-  if(btnCancel.Visible)and(FBtnFocu = TC4DBtnFocu.Cancel)then
+  if (btnCancel.Visible) and (FBtnFocu = TC4DBtnFocu.Cancel) then
     btnCancel.SetFocus;
 end;
 
 procedure TDelphiAIDevViewDialog.lbViewDetailsClick(Sender: TObject);
 begin
   try
-    if(mmDetails.Visible)then
+    if mmDetails.Visible then
     begin
       mmDetails.Visible := False;
       lbViewDetails02.Caption := '>>';

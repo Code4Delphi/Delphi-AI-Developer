@@ -39,7 +39,7 @@ var
 
 class function TDelphiAIDevIDEMainMenu.GetInstance: IDelphiAIDevIDEMainMenu;
 begin
-  if(not Assigned(Instance))then
+  if not Assigned(Instance) then
     Instance := Self.Create;
   Result := Instance;
 end;
@@ -51,7 +51,7 @@ end;
 
 destructor TDelphiAIDevIDEMainMenu.Destroy;
 begin
-  if(Assigned(FMenuItemC4D))then
+  if Assigned(FMenuItemC4D) then
     FreeAndNil(FMenuItemC4D);
   inherited;
 end;
@@ -105,7 +105,7 @@ var
   LMenuItemTools: TMenuItem;
 begin
   FMenuItemC4D := TMenuItem(FMainMenuIDE.FindComponent(TConsts.ITEM_MENU_C4DDelphiAIDev_NAME));
-  if(Assigned(FMenuItemC4D))then
+  if Assigned(FMenuItemC4D) then
     FreeAndNil(FMenuItemC4D);
 
   FMenuItemC4D := TMenuItem.Create(FMainMenuIDE);
@@ -113,14 +113,14 @@ begin
   FMenuItemC4D.Caption := TConsts.ITEM_MENU_C4DDelphiAIDev_CAPTION;
 
   LMenuItemTabs := FMainMenuIDE.Items.Find('Tabs');
-  if(Assigned(LMenuItemTabs))then
+  if Assigned(LMenuItemTabs) then
   begin
     FMainMenuIDE.Items.Insert(FMainMenuIDE.Items.IndexOf(LMenuItemTabs), FMenuItemC4D);
     Exit;
   end;
 
   LMenuItemTools := FMainMenuIDE.Items.Find('Tools');
-  if(Assigned(LMenuItemTools))then
+  if Assigned(LMenuItemTools) then
   begin
     FMainMenuIDE.Items.Insert(FMainMenuIDE.Items.IndexOf(LMenuItemTools) + 1, FMenuItemC4D);
     Exit;
@@ -151,7 +151,7 @@ end;
 initialization
 
 finalization
-  if(Assigned(Instance))then
+  if Assigned(Instance) then
     Instance := nil;
 
 end.

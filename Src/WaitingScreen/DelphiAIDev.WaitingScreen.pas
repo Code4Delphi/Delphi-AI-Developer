@@ -25,7 +25,7 @@ var
 
 class function TDelphiAIDevWaitingScreen.GetInstance: TDelphiAIDevWaitingScreen;
 begin
-  if(not Assigned(Instance))then
+  if not Assigned(Instance) then
     Instance := Self.Create;
   Result := Instance;
 end;
@@ -42,7 +42,7 @@ end;
 
 procedure TDelphiAIDevWaitingScreen.Show(const AMsg: string = '');
 begin
-  if(not Assigned(FDelphiAIDevWaitingScreenView))then
+  if not Assigned(FDelphiAIDevWaitingScreenView) then
     FDelphiAIDevWaitingScreenView := TDelphiAIDevWaitingScreenView.Create(nil);
   FDelphiAIDevWaitingScreenView.Msg := AMsg;
   FDelphiAIDevWaitingScreenView.Show;
@@ -57,7 +57,7 @@ end;
 initialization
 
 finalization
-  if(Assigned(Instance))then
+  if Assigned(Instance) then
     FreeAndNil(Instance);
 
 end.

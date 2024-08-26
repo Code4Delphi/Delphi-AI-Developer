@@ -95,7 +95,7 @@ begin
   Result := False;
 
   LIOTAProject := Self.GetCurrentProject;
-  if(LIOTAProject = nil)then
+  if LIOTAProject = nil then
     Exit;
 
   Result := TUtils.FileNameIsDelphiAIDeveloperDPROJ(LIOTAProject.FileName);
@@ -108,7 +108,7 @@ begin
   Result := False;
 
   LIOTAEditBuffer := Self.GetIOTAEditBufferCurrentModule;
-  if(LIOTAEditBuffer = nil)then
+  if LIOTAEditBuffer = nil then
     Exit;
 
   Result := LIOTAEditBuffer.IsReadOnly;
@@ -140,7 +140,7 @@ var
   LMaskColor: TColor;
 begin
   Result := -1;
-  if(FindResource(hInstance, PChar(AResourceName), RT_BITMAP) <= 0)then
+  if FindResource(hInstance, PChar(AResourceName), RT_BITMAP) <= 0 then
     Exit;
 
   LBitmap := TBitmap.Create;
@@ -248,7 +248,7 @@ var
 begin
   LIOTAEditorServices := Self.GetIOTAEditorServices;
   LIOTAEditView := LIOTAEditorServices.TopView;
-  if(LIOTAEditView = nil)then
+  if LIOTAEditView = nil then
     TUtils.ShowMsgAndAbort('No projects or files selected');
 
   LIOTAEditBlock := LIOTAEditView.Block;
@@ -295,7 +295,7 @@ var
 begin
   Result := '';
   LIOTAEditorServices := Self.GetIOTAEditorServices;
-  if(LIOTAEditorServices.TopView <> nil)then
+  if LIOTAEditorServices.TopView <> nil then
     Result := LIOTAEditorServices.TopView.GetBlock.Text;
 end;
 
@@ -308,10 +308,10 @@ end;
 
 class procedure TUtilsOTA.OpenFilePathInIDE(AFilePath: string);
 begin
-  if(not FileExists(AFilePath))then
+  if not FileExists(AFilePath) then
     Exit;
 
-  if(TUtils.IsProject(AFilePath))then
+  if TUtils.IsProject(AFilePath) then
     Self.GetIOTAActionServices.OpenProject(AFilePath, True)
   else
     Self.GetIOTAActionServices.OpenFile(AFilePath);
@@ -328,7 +328,7 @@ var
 begin
   Result := True;
   LIOTAProject := GetCurrentProject;
-  if(LIOTAProject = nil)then
+  if LIOTAProject = nil then
     Exit(False);
   LIOTAProject.Refresh(False);
 end;
@@ -339,14 +339,14 @@ var
 begin
   Result := True;
   LIOTAModule := GetCurrentModule;
-  if(LIOTAModule = nil)then
+  if LIOTAModule = nil then
     Exit(False);
   LIOTAModule.Refresh(False);
 end;
 
 class procedure TUtilsOTA.RefreshProjectOrModule;
 begin
-  if(not Self.RefreshProject)then
+  if not Self.RefreshProject then
     Self.RefreshModule;
 end;
 
@@ -358,7 +358,7 @@ var
   i: Integer;
 begin
   Result := False;
-  if(APathFile.Trim.IsEmpty)then
+  if APathFile.Trim.IsEmpty then
     Exit;
 
   LIOTAModuleServices := Self.GetIOTAModuleServices;
@@ -374,7 +374,7 @@ begin
       Continue;
 
     Result := SameFileName(APathFile, LIOTAModule.FileName);
-    if(Result)then
+    if Result then
       Exit;
   end;
 end;
@@ -384,27 +384,27 @@ var
   LIOTAModuleServices: IOTAModuleServices;
   LIOTAModuleCurrent: IOTAModule;
   LOTAProjectGroup: IOTAProjectGroup;
-  LIOTAProjectCurrent: IOTAProject;
   LContModule: Integer;
+  LIOTAProjectCurrent: IOTAProject;
   LContProject: Integer;
   LContFile: Integer;
   LFilePath: string;
 begin
   Result := False;
   LIOTAModuleServices := Self.GetIOTAModuleServices;
-  if(LIOTAModuleServices = nil)then
+  if LIOTAModuleServices = nil then
     Exit;
 
-  if(LIOTAModuleServices.ModuleCount = 0)then
+  if LIOTAModuleServices.ModuleCount = 0 then
     Exit;
 
   for LContModule := 0 to Pred(LIOTAModuleServices.ModuleCount) do
   begin
     LIOTAModuleCurrent := LIOTAModuleServices.Modules[LContModule];
-    if(ExtractFileName(LIOTAModuleCurrent.FileName) = ANameFileWithExtension)then
+    if ExtractFileName(LIOTAModuleCurrent.FileName) = ANameFileWithExtension then
       Exit(True);
 
-    if(Supports(LIOTAModuleCurrent, IOTAProjectGroup, LOTAProjectGroup))then
+    if Supports(LIOTAModuleCurrent, IOTAProjectGroup, LOTAProjectGroup) then
     begin
       for LContProject := 0 to Pred(LOTAProjectGroup.ProjectCount) do
       begin
@@ -415,7 +415,7 @@ begin
           if LFilePath.Trim.IsEmpty then
             Continue;
 
-          if(ExtractFileName(LFilePath) = ANameFileWithExtension)then
+          if ExtractFileName(LFilePath) = ANameFileWithExtension then
             Exit(True);
         end;
       end;
@@ -440,7 +440,7 @@ begin
 
   for i := 0 to Pred(AForm.ComponentCount) do
   begin
-    if(AForm.Components[i] is TPanel)then
+    if AForm.Components[i] is TPanel then
       TPanel(AForm.Components[i]).ParentBackground := True;
 
     LIOTAIDEThemingServices250.ApplyTheme(AForm.Components[i]);
@@ -481,14 +481,14 @@ var
   LIOTAFormEditor: IOTAFormEditor;
 begin
   Result := nil;
-  if(not Assigned(AIOTAModule))then
+  if not Assigned(AIOTAModule) then
     Exit;
 
   for i := 0 to Pred(AIOTAModule.GetModuleFileCount) do
   begin
     LIOTAEditor := AIOTAModule.GetModuleFileEditor(i);
 
-    if(Supports(LIOTAEditor, IOTAFormEditor, LIOTAFormEditor))then
+    if Supports(LIOTAEditor, IOTAFormEditor, LIOTAFormEditor) then
     begin
       Result := LIOTAFormEditor;
       Break;
@@ -499,26 +499,26 @@ end;
 {$IF CompilerVersion >= 32.0} //Tokyo
 class function TUtilsOTA.GetIOTAIDEThemingServices: IOTAIDEThemingServices;
 begin
-  if(not Supports(BorlandIDEServices, IOTAIDEThemingServices, Result))then
+  if not Supports(BorlandIDEServices, IOTAIDEThemingServices, Result) then
     raise Exception.Create('Interface not supported: IOTAIDEThemingServices');
 end;
 
 class function TUtilsOTA.GetIOTAIDEThemingServices250: IOTAIDEThemingServices250;
 begin
-  if(not Supports(BorlandIDEServices, IOTAIDEThemingServices250, Result))then
+  if not Supports(BorlandIDEServices, IOTAIDEThemingServices250, Result) then
     raise Exception.Create('Interface not supported: IOTAIDEThemingServices250');
 end;
 {$ENDIF}
 
 class function TUtilsOTA.GetIOTACompileServices: IOTACompileServices;
 begin
-  if(not Supports(BorlandIDEServices, IOTACompileServices, Result))then
+  if not Supports(BorlandIDEServices, IOTACompileServices, Result) then
     raise Exception.Create('Interface not supported: IOTACompileServices');
 end;
 
 class function TUtilsOTA.GetIOTAWizardServices: IOTAWizardServices;
 begin
-  if(not Supports(BorlandIDEServices, IOTAWizardServices, Result))then
+  if not Supports(BorlandIDEServices, IOTAWizardServices, Result) then
     raise Exception.Create('Interface not supported: IOTAWizardServices');
 end;
 
@@ -528,11 +528,11 @@ var
   LIOTAEditView: IOTAEditView;
 begin
   LIOTASourceEditor := Self.GetIOTASourceEditor(AIOTAModule);
-  if(LIOTASourceEditor = nil)then
+  if LIOTASourceEditor = nil then
     Exit;
 
   LIOTAEditView := Self.GetIOTAEditView(LIOTASourceEditor);
-  if(LIOTAEditView = nil)then
+  if LIOTAEditView = nil then
     Exit;
   //LIOTASourceEditor.Show;
   Result := LIOTAEditView;
@@ -544,10 +544,10 @@ var
 begin
   Result := nil;
 
-  if(not Supports(AIOTASourceEditor, IOTAEditBuffer, LIOTAEditBuffer))then
+  if not Supports(AIOTASourceEditor, IOTAEditBuffer, LIOTAEditBuffer) then
     raise Exception.Create('Interface not supported: IOTAEditBuffer');
 
-  if(LIOTAEditBuffer <> nil)then
+  if LIOTAEditBuffer <> nil then
     Result := LIOTAEditBuffer.TopView
   else if AIOTASourceEditor.EditViewCount > 0 then
     Result := AIOTASourceEditor.EditViews[0];
@@ -562,7 +562,7 @@ begin
   LIOTAModule := AIOTAModule;
   for i := 0 to Pred(LIOTAModule.ModuleFileCount) do
   begin
-    if(LIOTAModule.ModuleFileEditors[i].QueryInterface(IOTASourceEditor, Result) = S_OK)then
+    if LIOTAModule.ModuleFileEditors[i].QueryInterface(IOTASourceEditor, Result) = S_OK then
       Break;
   end;
 end;
@@ -570,7 +570,7 @@ end;
 class function TUtilsOTA.GetIOTASourceEditor(AIOTAEditor: IOTAEditor): IOTASourceEditor;
 begin
   Result := nil;
-  if(not Supports(AIOTAEditor, IOTASourceEditor, Result))then
+  if not Supports(AIOTAEditor, IOTASourceEditor, Result) then
     raise Exception.Create('Interface not supported: IOTASourceEditor');
 end;
 
@@ -596,7 +596,7 @@ var
     end;
   end;
 begin
-  if(not Assigned(AIOTAModule))then
+  if not Assigned(AIOTAModule) then
   begin
     Result := nil;
     Exit;
@@ -605,11 +605,11 @@ begin
   for i := 0 to Pred(AIOTAModule.GetModuleFileCount) do
   begin
     LIOTAEditor := GetFileEditorForModule(AIOTAModule, i);
-    if(Supports(LIOTAEditor, IOTASourceEditor, LIOTASourceEditor))then
+    if Supports(LIOTAEditor, IOTASourceEditor, LIOTASourceEditor) then
     begin
-      if(Assigned(LIOTASourceEditor))then
+      if Assigned(LIOTASourceEditor) then
       begin
-        if(AFileName = '')or(SameFileName(LIOTASourceEditor.FileName, AFileName))then
+        if (AFileName = '') or (SameFileName(LIOTASourceEditor.FileName, AFileName)) then
         begin
           Result := LIOTASourceEditor;
           Exit;
@@ -627,7 +627,7 @@ begin
   Result := nil;
 
   LIOTAModule := Self.GetCurrentModule;
-  if(LIOTAModule = nil)then
+  if LIOTAModule = nil then
     Exit;
 
   Result := TUtilsOTA.GetIOTAEditBuffer(LIOTAModule);
@@ -639,58 +639,58 @@ var
 begin
   Result := nil;
   LIOTASourceEditor := Self.GetIOTASourceEditor(AIOTAModule);
-  if(LIOTASourceEditor = nil)then
+  if LIOTASourceEditor = nil then
     Exit;
 
-  if(not Supports(LIOTASourceEditor, IOTAEditBuffer, Result))then
+  if not Supports(LIOTASourceEditor, IOTAEditBuffer, Result) then
     raise Exception.Create('Interface not supported: IOTAEditBuffer');
 end;
 
 class function TUtilsOTA.GetIOTAMessageServices: IOTAMessageServices;
 begin
-  if(not Supports(BorlandIDEServices, IOTAMessageServices, Result))then
+  if not Supports(BorlandIDEServices, IOTAMessageServices, Result) then
     raise Exception.Create('Interface not supported: IOTAMessageServices');
 end;
 
 class function TUtilsOTA.GetIOTAProjectManager: IOTAProjectManager;
 begin
-  if(not Supports(BorlandIDEServices, IOTAProjectManager, Result))then
+  if not Supports(BorlandIDEServices, IOTAProjectManager, Result) then
     raise Exception.Create('Interface not supported: IOTAProjectManager');
 end;
 
 class function TUtilsOTA.GetIOTAKeyboardServices: IOTAKeyboardServices;
 begin
-  if(not Supports(BorlandIDEServices, IOTAKeyboardServices, Result))then
+  if not Supports(BorlandIDEServices, IOTAKeyboardServices, Result) then
     raise Exception.Create('Interface not supported: IOTAKeyboardServices');
 end;
 
 class function TUtilsOTA.GetIOTAServices: IOTAServices;
 begin
-  if(not Supports(BorlandIDEServices, IOTAServices, Result))then
+  if not Supports(BorlandIDEServices, IOTAServices, Result) then
     raise Exception.Create('Interface not supported: IOTAServices');
 end;
 
 class function TUtilsOTA.GetIOTAActionServices: IOTAActionServices;
 begin
-  if(not Supports(BorlandIDEServices, IOTAActionServices, Result))then
+  if not Supports(BorlandIDEServices, IOTAActionServices, Result) then
     raise Exception.Create('Interface not supported: IOTAActionServices');
 end;
 
 class function TUtilsOTA.GetINTAServices: INTAServices;
 begin
-  if(not Supports(BorlandIDEServices, INTAServices, Result))then
+  if not Supports(BorlandIDEServices, INTAServices, Result) then
     raise Exception.Create('Interface not supported: INTAServices');
 end;
 
 class function TUtilsOTA.GetIOTAModuleServices: IOTAModuleServices;
 begin
-  if(not Supports(BorlandIDEServices, IOTAModuleServices, Result))then
+  if not Supports(BorlandIDEServices, IOTAModuleServices, Result) then
     raise Exception.Create('Interface not supported: IOTAModuleServices');
 end;
 
 class function TUtilsOTA.GetIOTAEditorServices: IOTAEditorServices;
 begin
-  if(not Supports(BorlandIDEServices, IOTAEditorServices, Result))then
+  if not Supports(BorlandIDEServices, IOTAEditorServices, Result) then
     raise Exception.Create('Interface not supported: IOTAEditorServices');
 end;
 
@@ -735,7 +735,7 @@ var
 begin
   Result := nil;
   LIOTAProjectGroup := Self.GetCurrentProjectGroup;
-  if(not Assigned(LIOTAProjectGroup))then
+  if not Assigned(LIOTAProjectGroup) then
     Exit;
 
   try
@@ -751,7 +751,7 @@ var
 begin
   Result := '';
   LIOTAProject := Self.GetCurrentProject;
-  if(Assigned(LIOTAProject))then
+  if Assigned(LIOTAProject) then
     Result := LIOTAProject.FileName.Trim;
 end;
 
@@ -764,7 +764,7 @@ begin
   for i := 0 to Pred(AIOTAProject.ModuleFileCount) do
   begin
     LExt := LowerCase(ExtractFileExt(AIOTAProject.ModuleFileEditors[i].FileName));
-    if(LExt = TC4DExtensionsFiles.DPR.ToString)or(LExt = TC4DExtensionsFiles.DPK.ToString) Then
+    if (LExt = TC4DExtensionsFiles.DPR.ToString) or (LExt = TC4DExtensionsFiles.DPK.ToString) Then
     begin
       Result := ChangeFileExt(Result, LExt);
       Break;
@@ -787,7 +787,7 @@ begin
       LFileName := AIOTAModule.ModuleFileEditors[i].FileName;
       LExt := ExtractFileExt(LFileName);
 
-      if(LExt = TC4DExtensionsFiles.DPR.ToStringWithPoint)or(LExt = TC4DExtensionsFiles.DPK.ToStringWithPoint)then
+      if (LExt = TC4DExtensionsFiles.DPR.ToStringWithPoint) or (LExt = TC4DExtensionsFiles.DPK.ToStringWithPoint) then
         Result := LFileName;
     end;
   end;
@@ -799,7 +799,7 @@ var
 begin
   Result := nil;
   LIOTAProject := Self.GetCurrentProject;
-  if(LIOTAProject = nil)then
+  if LIOTAProject = nil then
     Exit;
 
   Result := LIOTAProject.ProjectOptions;
@@ -810,7 +810,7 @@ var
   LIOTAProjectOptions: IOTAProjectOptions;
 begin
   LIOTAProjectOptions := Self.GetCurrentProjectOptions;
-  if(LIOTAProjectOptions = nil)then
+  if LIOTAProjectOptions = nil then
     Exit;
 
   Result := VarToStr(LIOTAProjectOptions.Values['OutputDir']);
@@ -821,8 +821,8 @@ var
   LIOTAProjectOptions: IOTAProjectOptions;
 begin
   LIOTAProjectOptions := Self.GetCurrentProjectOptions;
-  if(LIOTAProjectOptions <> nil)then
-    if(Supports(LIOTAProjectOptions, IOTAProjectOptionsConfigurations, Result))then
+  if LIOTAProjectOptions <> nil then
+    if Supports(LIOTAProjectOptions, IOTAProjectOptionsConfigurations, Result) then
       Exit;
 
   Result := nil;
@@ -860,19 +860,19 @@ var
   LFilterIsProject: Boolean;
 begin
   LIOTAModuleServices := Self.GetIOTAModuleServices;
-  if(LIOTAModuleServices = nil)then
+  if LIOTAModuleServices = nil then
     Exit;
 
-  if(LIOTAModuleServices.ModuleCount = 0)then
+  if LIOTAModuleServices.ModuleCount = 0 then
     Exit;
 
   LFilterIsProjectGroup := False;
   LFilterIsProject := False;
-  if(not AFilePathProjectOrGroupForFilter.Trim.IsEmpty)then
+  if not AFilePathProjectOrGroupForFilter.Trim.IsEmpty then
   begin
-    if(TUtils.IsProjectGroup(AFilePathProjectOrGroupForFilter))then
+    if TUtils.IsProjectGroup(AFilePathProjectOrGroupForFilter) then
       LFilterIsProjectGroup := True
-    else if(TUtils.IsProject(AFilePathProjectOrGroupForFilter))
+    else if TUtils.IsProject(AFilePathProjectOrGroupForFilter)
       or(TUtils.IsDPROJ(AFilePathProjectOrGroupForFilter))
     then
       LFilterIsProject := True;
@@ -882,16 +882,16 @@ begin
   begin
     LIOTAModuleCurrent := LIOTAModuleServices.Modules[LContModule];
     LFilePath := LIOTAModuleCurrent.FileName;
-    if(Supports(LIOTAModuleCurrent, IOTAProjectGroup, LOTAProjectGroup))then
+    if Supports(LIOTAModuleCurrent, IOTAProjectGroup, LOTAProjectGroup) then
     begin
-      if(LFilterIsProjectGroup)and(LFilePath <> AFilePathProjectOrGroupForFilter)then
+      if (LFilterIsProjectGroup) and (LFilePath <> AFilePathProjectOrGroupForFilter) then
         Continue;
 
       for LContProject := 0 to Pred(LOTAProjectGroup.ProjectCount) do
       begin
         LIOTAProjectCurrent := LOTAProjectGroup.Projects[LContProject];
 
-        if(LFilterIsProject)and(LIOTAProjectCurrent.FileName <> AFilePathProjectOrGroupForFilter)then
+        if (LFilterIsProject) and (LIOTAProjectCurrent.FileName <> AFilePathProjectOrGroupForFilter) then
           Continue;
 
         for LContFile := 0 to Pred(LIOTAProjectCurrent.GetModuleCount) do
@@ -900,7 +900,7 @@ begin
           if LFilePath.Trim.IsEmpty then
             Continue;
 
-          if(not AC4DExtensions.ContainsStr(ExtractFileExt(LFilePath)))then
+          if not AC4DExtensions.ContainsStr(ExtractFileExt(LFilePath)) then
             Continue;
 
           AListFiles.Add(LFilePath);

@@ -327,7 +327,7 @@ var
   LPathFolder: string;
 begin
   LPathFolder := TUtils.GetPathFolderRoot;
-  if(not DirectoryExists(LPathFolder))then
+  if not DirectoryExists(LPathFolder) then
     TUtils.ShowMsg('Forder not found: ' + LPathFolder);
 
   TUtils.OpenFolder(LPathFolder);

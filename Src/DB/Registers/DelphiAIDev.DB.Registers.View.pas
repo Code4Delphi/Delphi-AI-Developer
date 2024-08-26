@@ -175,7 +175,7 @@ begin
       //if (AFields.Kind = TC4DQuestionKind.ItemMenuNormal) and (AFields.Question.Trim.IsEmpty) then
       //  Exit;
 
-      if(LStrSearch.Trim.IsEmpty)
+      if (LStrSearch.Trim.IsEmpty)
         or(AFields.Description.ToLower.Contains(LStrSearch))
         or(AFields.Host.ToLower.Contains(LStrSearch))
         or(AFields.DatabaseName.ToLower.Contains(LStrSearch))
@@ -348,7 +348,7 @@ begin
   if LGuid.Trim.IsEmpty then
     TUtils.ShowMsgErrorAndAbort('Guid not found');
 
-//  if(TC4DWizardOpenExternalModel.New.ExistGuidInIniFile(LId))then
+//  if TC4DWizardOpenExternalModel.New.ExistGuidInIniFile(LId) then
 //    TUtils.ShowMsgAndAbort('This registration cannot be deleted, as it is linked to other registration(s)');
 
   if not TUtils.ShowQuestion2('Confirm remove?') then

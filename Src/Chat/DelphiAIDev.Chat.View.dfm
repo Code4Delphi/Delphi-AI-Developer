@@ -138,7 +138,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Left = 0
         Top = 3
         Width = 56
-        Height = 22
+        Height = 13
         Cursor = crHandPoint
         Hint = 'AI being used'
         Margins.Left = 0
@@ -149,7 +149,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Caption = 'lbCurrentAI'
         PopupMenu = pMenuCurrentAI
         OnClick = lbCurrentAIClick
-        ExplicitHeight = 13
       end
       object btnSend: TButton
         AlignWithMargins = True

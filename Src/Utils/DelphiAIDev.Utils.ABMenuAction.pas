@@ -28,23 +28,23 @@ implementation
 function GetMenuItemOfSender(Sender: TObject): TMenuItem;
 begin
   Result := nil;
-  if(Sender.ClassType.ClassName = TMenuItem.ClassName)then
+  if Sender.ClassType.ClassName = TMenuItem.ClassName then
     Result := TMenuItem(Sender)
-  else if(Sender.ClassType.ClassName = TABMenuAction.ClassName)then
+  else if Sender.ClassType.ClassName = TABMenuAction.ClassName then
     Result := TABMenuAction(Sender).MenuItem
 end;
 
 {TABMenuAction}
 destructor TABMenuAction.Destroy;
 begin
-  if(Assigned(FMenuItem))then
+  if Assigned(FMenuItem) then
     FMenuItem.RemoveFreeNotification(Self);
   inherited;
 end;
 
 procedure TABMenuAction.ExecuteTarget(Target: TObject);
 begin
-  if(Assigned(FMenuItem))then
+  if Assigned(FMenuItem) then
     FMenuItem.Click;
 end;
 
@@ -55,7 +55,7 @@ end;
 
 procedure TABMenuAction.Notification(AComponent: TComponent; Operation: TOperation);
 begin
-  if(Operation = opRemove) and (AComponent = FMenuItem)then
+  if (Operation = opRemove) and (AComponent = FMenuItem) then
     FMenuItem := nil;
 end;
 

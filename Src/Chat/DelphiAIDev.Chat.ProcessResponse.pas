@@ -121,14 +121,14 @@ begin
 
     if not LCodeStarted then
     begin
-      if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
+      if (LCurrentLetter = BACKTICK) and (LNextLetter <> BACKTICK) then
       begin
         LCodeStarted := True;
         Continue;
       end;
     end;
 
-    if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
+    if (LCurrentLetter = BACKTICK) and (LNextLetter <> BACKTICK) then
     begin
       LCodeStarted := False;
       FRichEdit.SelAttributes.Style := [];
@@ -177,7 +177,7 @@ begin
 
     if not LCodeStarted then
     begin
-      if(LCurrentLetter = ASTERISK)and(LNextLetter = ASTERISK)then
+      if (LCurrentLetter = ASTERISK) and (LNextLetter = ASTERISK) then
       begin
         LCodeStarted := True;
         Inc(LPosLetter, 2);
@@ -185,7 +185,7 @@ begin
       end;
     end;
 
-    if(LCurrentLetter = ASTERISK)and(LNextLetter = ASTERISK)then
+    if (LCurrentLetter = ASTERISK) and (LNextLetter = ASTERISK) then
     begin
       LCodeStarted := False;
       FRichEdit.SelAttributes.Style := [];

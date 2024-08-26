@@ -187,23 +187,23 @@ var
 begin
   Result := False;
   LExtension := AExtension.Trim.ToLower;
-  if(LExtension = '.pas')then
+  if LExtension = '.pas' then
     Result := TC4DExtensionsFiles.PAS in Self
-  else if(LExtension = '.dfm')then
+  else if LExtension = '.dfm' then
     Result := TC4DExtensionsFiles.DFM in Self
-  else if(LExtension = '.fmx')then
+  else if LExtension = '.fmx' then
     Result := TC4DExtensionsFiles.FMX in Self
-  else if(LExtension = '.dpr')then
+  else if LExtension = '.dpr' then
     Result := TC4DExtensionsFiles.DPR in Self
-  else if(LExtension = '.dpk')then
+  else if LExtension = '.dpk' then
     Result := TC4DExtensionsFiles.DPK in Self
-  else if(LExtension = '.dproj')then
+  else if LExtension = '.dproj' then
     Result := TC4DExtensionsFiles.DPROJ in Self
-  else if(LExtension = '.zip')then
+  else if LExtension = '.zip' then
     Result := TC4DExtensionsFiles.ZIP in Self
-  else if(LExtension = '.bmp')then
+  else if LExtension = '.bmp' then
     Result := TC4DExtensionsFiles.BMP in Self
-  else if(LExtension = '.ini')then
+  else if LExtension = '.ini' then
     Result := TC4DExtensionsFiles.INI in Self;
 end;
 

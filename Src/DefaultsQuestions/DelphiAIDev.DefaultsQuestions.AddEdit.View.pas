@@ -217,7 +217,7 @@ begin
   end
   else if cBoxKind.Text = TC4DQuestionKind.MenuMasterOnly.ToString then
   begin
-    if(edtCaption.Text = '-')and(not FLastCaption.Trim.IsEmpty)then
+    if (edtCaption.Text = '-') and (not FLastCaption.Trim.IsEmpty) then
       edtCaption.Text := FLastCaption;
 
     FLastQuestion := mmQuestion.Lines.Text;
@@ -230,10 +230,10 @@ begin
   end
   else
   begin
-    if(edtCaption.Text = '-')and(not FLastCaption.Trim.IsEmpty)then
+    if (edtCaption.Text = '-') and (not FLastCaption.Trim.IsEmpty) then
       edtCaption.Text := FLastCaption;
 
-    if(mmQuestion.Text = '')and(not FLastQuestion.Trim.IsEmpty)then
+    if (mmQuestion.Text = '') and (not FLastQuestion.Trim.IsEmpty) then
       mmQuestion.Text := FLastQuestion;
   end;
 

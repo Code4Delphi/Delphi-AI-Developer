@@ -279,7 +279,7 @@ end;
 
 procedure TDelphiAIDevChatView.mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (ssCtrl in Shift)and(Key = VK_RETURN) then
+  if (ssCtrl in Shift) and (Key = VK_RETURN) then
   begin
     btnSend.Click;
     Key := 0;
@@ -288,7 +288,7 @@ end;
 
 procedure TDelphiAIDevChatView.mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (ssCtrl in Shift)and(Key = 65) then
+  if (ssCtrl in Shift) and (Key = 65) then
   begin
     mmQuestion.SelectAll;
     Key := 0;
@@ -562,14 +562,14 @@ end;
 //
 //    if not LCodeStarted then
 //    begin
-//      if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
+//      if (LCurrentLetter = BACKTICK) and (LNextLetter <> BACKTICK) then
 //      begin
 //        LCodeStarted := True;
 //        Continue;
 //      end;
 //    end;
 //
-//    if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
+//    if (LCurrentLetter = BACKTICK) and (LNextLetter <> BACKTICK) then
 //    begin
 //      LCodeStarted := False;
 //      mmReturn.SelAttributes.Style := [];

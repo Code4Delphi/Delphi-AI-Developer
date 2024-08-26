@@ -7,7 +7,7 @@ uses
   System.Classes,
   ToolsAPI,
   DelphiAIDev.Types,
- DelphiAIDev.PopupMenuProjects.Item;
+  DelphiAIDev.PopupMenuProjects.Item;
 
 type
   TC4DWizardIDEPopupMenuNotifier = class(TNotifierObject, IOTAProjectMenuItemCreatorNotifier)
@@ -15,14 +15,13 @@ type
     FProject: IOTAProject;
     FPosition: Integer;
     function AddItemInMenu(const ACaption: string): IOTAProjectManagerMenu;
-    function AddSubItemInMenu(const ACaption: string;
-      const AOnExecute: TC4DWizardMenuContextList = nil;
+    function AddSubItemInMenu(const ACaption: string; const AOnExecute: TC4DWizardMenuContextList = nil;
       const AChecked: Boolean = False): IOTAProjectManagerMenu;
     procedure CheckFileNameProject;
-    //function GetReopenDataOfFileName: TC4DWizardReopenData;
     procedure OnExecuteEditInformations(const MenuContextList: IInterfaceList);
   protected
-    procedure AddMenu(const Project: IOTAProject; const IdentList: TStrings; const ProjectManagerMenuList: IInterfaceList; IsMultiSelect: Boolean);
+    procedure AddMenu(const Project: IOTAProject; const IdentList: TStrings;
+      const ProjectManagerMenuList: IInterfaceList; IsMultiSelect: Boolean);
   public
     class function New: IOTAProjectMenuItemCreatorNotifier;
   end;
@@ -51,14 +50,15 @@ begin
   Result := Self.Create;
 end;
 
-procedure TC4DWizardIDEPopupMenuNotifier.AddMenu(const Project: IOTAProject; const IdentList: TStrings; const ProjectManagerMenuList: IInterfaceList; IsMultiSelect: Boolean);
+procedure TC4DWizardIDEPopupMenuNotifier.AddMenu(const Project: IOTAProject; const IdentList: TStrings;
+  const ProjectManagerMenuList: IInterfaceList; IsMultiSelect: Boolean);
 begin
-  if(not Assigned(ProjectManagerMenuList))then
+  if not Assigned(ProjectManagerMenuList) then
     Exit;
 
-  if(IdentList.IndexOf(sProjectContainer) >= 0)then
+  if IdentList.IndexOf(sProjectContainer) >= 0 then
     FPosition := pmmpUninstall
-  else if(IdentList.IndexOf(sProjectGroupContainer) >= 0)then
+  else if IdentList.IndexOf(sProjectGroupContainer) >= 0 then
     FPosition := pmmpRename
   else
     Exit;
@@ -90,8 +90,7 @@ begin
 end;
 
 function TC4DWizardIDEPopupMenuNotifier.AddSubItemInMenu(const ACaption: string;
-  const AOnExecute: TC4DWizardMenuContextList = nil;
-  const AChecked: Boolean = False): IOTAProjectManagerMenu;
+  const AOnExecute: TC4DWizardMenuContextList = nil; const AChecked: Boolean = False): IOTAProjectManagerMenu;
 begin
   Result := TDelphiAIDevPopupMenuProjectsItem.New(AOnExecute);
   Result.Caption := ACaption;
@@ -104,10 +103,10 @@ end;
 
 procedure TC4DWizardIDEPopupMenuNotifier.CheckFileNameProject;
 begin
-  if(FProject.FileName.Trim.IsEmpty)then
+  if FProject.FileName.Trim.IsEmpty then
     TUtils.ShowMsgAndAbort('File name is empty');
 
-  if(not System.SysUtils.FileExists(FProject.FileName))then
+  if not System.SysUtils.FileExists(FProject.FileName) then
     TUtils.ShowMsgAndAbort('File not found');
 end;
 

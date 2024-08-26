@@ -66,7 +66,7 @@ end;
 
 procedure TDelphiAIDevPopupMenuProjectsItem.Execute(const MenuContextList: IInterfaceList);
 begin
-  if(Assigned(FOnExecute))then
+  if Assigned(FOnExecute) then
     FOnExecute(MenuContextList);
 end;
 
