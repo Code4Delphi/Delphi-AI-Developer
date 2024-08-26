@@ -86,6 +86,7 @@ type
     class function GetPathFileChatDB: string;
     class function GetPathFileJSONDefaultsQuestions: string;
     class function GetPathFileJSONDatabases: string;
+    class function GetPathFileJSONProjects: string;
     class function CreateIfNecessaryAndGetPathFolderTemp: string;
     class function GetPathFolderMetaInfo: string;
     class function GetGuidStr: string;
@@ -784,6 +785,11 @@ end;
 class function TUtils.GetPathFileJSONDatabases: string;
 begin
   Result := Self.GetPathFolderRoot + TConsts.FILE_JSON_DATABASES;
+end;
+
+class function TUtils.GetPathFileJSONProjects: string;
+begin
+  Result := Self.GetPathFolderRoot + TConsts.FILE_JSON_PROJECTS;
 end;
 
 class function TUtils.CreateIfNecessaryAndGetPathFolderTemp: string;

@@ -47,6 +47,7 @@ type
     //NAMES FILE JSON
     FILE_JSON_DEFAULTS_QUESTIONS = 'delphi_ai_developer_questions.json';
     FILE_JSON_DATABASES = 'delphi_ai_developer_databases.json';
+    FILE_JSON_PROJECTS = 'delphi_ai_developer_projects.json';
 
     //ABOUT AND SPLASH
     ABOUT_TITLE = 'Delphi AI Developer';
@@ -67,7 +68,7 @@ type
 
     //CAPTIONS ITENS POPUPMENU PROJ
     ITEM_POPUP_MENU_PROJ_CAPTION = 'AI Developer';
-    ITEM_POPUP_MENU_PROJ_ConfigureDB_CAPTION = 'Configure Database';
+    ITEM_POPUP_MENU_PROJ_LinkDatabase_CAPTION = 'Link database';
 
     //MAIN MENU IDE NAME AND CAPTIONS
     MENU_IDE_CHAT_NAME = 'DelphiAIDevChat1';

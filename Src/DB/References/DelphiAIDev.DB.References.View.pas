@@ -21,10 +21,10 @@ uses
 type
   TDelphiAIDevDBReferencesView = class(TForm)
     Bevel2: TBevel;
-    Panel1: TPanel;
+    pnButtons: TPanel;
     btnGenerate: TButton;
     btnClose: TButton;
-    Panel9: TPanel;
+    pnBody: TPanel;
     Bevel1: TBevel;
     Label1: TLabel;
     lbLastGeneration: TLabel;
@@ -34,6 +34,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnGenerateClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FFields: TDelphiAIDevDBRegistersFields;
     procedure FillScreenFields;
@@ -54,6 +55,18 @@ procedure TDelphiAIDevDBReferencesView.FormCreate(Sender: TObject);
 begin
   Self.ModalResult := mrCancel;
   TUtilsOTA.IDEThemingAll(TDelphiAIDevDBReferencesView, Self);
+end;
+
+procedure TDelphiAIDevDBReferencesView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_F4:
+      if ssAlt in Shift then
+        Key := 0;
+    VK_ESCAPE:
+      if Shift = [] then
+        btnClose.Click;
+  end;
 end;
 
 procedure TDelphiAIDevDBReferencesView.FormShow(Sender: TObject);

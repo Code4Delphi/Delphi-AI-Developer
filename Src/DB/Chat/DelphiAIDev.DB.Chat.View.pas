@@ -168,7 +168,6 @@ type
     procedure ProcessWordWrap;
     procedure ConfScreenOnCreate;
     procedure ReloadDatabases;
-    procedure ClearcBoxDatabases;
     procedure FillDateLastReferences;
     function GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
     function GetJsonDatabase: string;
@@ -190,7 +189,8 @@ implementation
 uses
   DeskUtil,
   DelphiAIDev.Utils,
-  DelphiAIDev.Utils.OTA;
+  DelphiAIDev.Utils.OTA,
+  DelphiAIDev.DB.Utils;
 
 {$R *.dfm}
 
@@ -469,48 +469,9 @@ begin
 end;
 
 procedure TDelphiAIDevDBChatView.ReloadDatabases;
-var
-  LField: TDelphiAIDevDBRegistersFields;
 begin
-  Self.ClearcBoxDatabases;
-
-  TDelphiAIDevDBRegistersModel.New.ReadData(
-    procedure(AFields: TDelphiAIDevDBRegistersFields)
-    begin
-      if (not AFields.Visible) or (AFields.Description.Trim.IsEmpty) then
-        Exit;
-
-      if AFields.Visible then
-      begin
-        LField := TDelphiAIDevDBRegistersFields.Create;
-        LField.GetDataFromOtherObject(AFields);
-        cBoxDatabases.Items.AddObject(LField.Description, LField);
-      end;
-    end,
-    TAutoFreeField.Yes
-  );
-
-  cBoxDatabases.ItemIndex := 0;
+  TDelphiAIDevDBUtils.FillComboBoxDataBases(cBoxDatabases);
   Self.FillDateLastReferences;
-end;
-
-procedure TDelphiAIDevDBChatView.ClearcBoxDatabases;
-var
-  i: Integer;
-  LObj: TObject;
-begin
-  for i := 0 to Pred(cBoxDatabases.Items.Count) do
-  begin
-    if not Assigned(cBoxDatabases.Items.Objects[i]) then
-      Continue;
-
-    LObj := cBoxDatabases.Items.Objects[i];
-
-    if LObj is TDelphiAIDevDBRegistersFields then
-      TDelphiAIDevDBRegistersFields(LObj).Free;
-  end;
-
-  cBoxDatabases.Items.Clear;
 end;
 
 procedure TDelphiAIDevDBChatView.AddResponseSimple(const AString: string);

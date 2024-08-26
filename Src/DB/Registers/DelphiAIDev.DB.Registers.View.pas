@@ -157,12 +157,12 @@ procedure TDelphiAIDevDBRegistersView.ReloadDataInternal;
 var
   LStrSearch: string;
   LListItem: TListItem;
-  LGuid: string;
+  LGuidSelected: string;
 begin
   LStrSearch := LowerCase(edtSearch.Text);
 
   if ListView.Selected <> nil then
-    LGuid := ListView.Items[ListView.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
+    LGuidSelected := ListView.Items[ListView.Selected.Index].SubItems[C_INDEX_SUBITEM_Guid];
 
   ListView.Clear;
 
@@ -202,8 +202,8 @@ begin
     .InvertOrder(False)
     .CustomSort;
 
-  if not LGuid.Trim.IsEmpty then
-    TUtils.FindListVewItem(ListView, C_INDEX_SUBITEM_Guid, LGuid);
+  if not LGuidSelected.Trim.IsEmpty then
+    TUtils.FindListVewItem(ListView, C_INDEX_SUBITEM_Guid, LGuidSelected);
 
   Self.FillStatusBar(ListView.Selected);
 end;

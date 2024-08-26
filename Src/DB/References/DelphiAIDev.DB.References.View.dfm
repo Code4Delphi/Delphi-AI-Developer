@@ -15,6 +15,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -33,7 +34,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
     ExplicitTop = 264
     ExplicitWidth = 665
   end
-  object Panel1: TPanel
+  object pnButtons: TPanel
     Left = 0
     Top = 126
     Width = 295
@@ -78,7 +79,7 @@ object DelphiAIDevDBReferencesView: TDelphiAIDevDBReferencesView
       OnClick = btnCloseClick
     end
   end
-  object Panel9: TPanel
+  object pnBody: TPanel
     Left = 0
     Top = 0
     Width = 295

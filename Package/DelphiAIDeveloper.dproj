@@ -213,6 +213,15 @@
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.DBGrids.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Ollama.pas"/>
+        <DCCReference Include="..\Src\DB\LinkedProject\DelphiAIDev.DB.LinkedProject.View.pas">
+            <Form>DelphiAIDevDBLinkedProjectView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\Src\DB\Utils\DelphiAIDev.DB.Utils.pas"/>
+        <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.OnExecute.pas"/>
+        <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Fields.pas"/>
+        <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Model.pas"/>
+        <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Interfaces.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>
