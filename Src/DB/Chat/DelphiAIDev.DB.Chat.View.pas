@@ -37,7 +37,8 @@ uses
   DelphiAIDev.DB.Registers.Model,
   DelphiAIDev.DB.Registers.Fields,
   C4D.Conn,
-  DelphiAIDev.Utils.DBGrids;
+  DelphiAIDev.Utils.DBGrids,
+  DelphiAIDev.Projects.Model;
 
 type
   TDelphiAIDevDBChatView = class(TDockableForm)
@@ -469,8 +470,12 @@ begin
 end;
 
 procedure TDelphiAIDevDBChatView.ReloadDatabases;
+var
+  LGuidDatabaseDefault: string;
 begin
-  TDelphiAIDevDBUtils.FillComboBoxDataBases(cBoxDatabases);
+  LGuidDatabaseDefault := TDelphiAIDevProjectsModel.New.ReadFilePathCurrentProject.GuidDatabaseDefault;
+
+  TDelphiAIDevDBUtils.FillComboBoxDataBases(cBoxDatabases, LGuidDatabaseDefault);
   Self.FillDateLastReferences;
 end;
 

@@ -213,8 +213,8 @@
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.DBGrids.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Ollama.pas"/>
-        <DCCReference Include="..\Src\DB\LinkedProject\DelphiAIDev.DB.LinkedProject.View.pas">
-            <Form>DelphiAIDevDBLinkedProjectView</Form>
+        <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.AddEdit.View.pas">
+            <Form>DelphiAIDevProjectsAddEditView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\DB\Utils\DelphiAIDev.DB.Utils.pas"/>

@@ -101,7 +101,7 @@ contains
   DelphiAIDev.DB.References.View in '..\Src\DB\References\DelphiAIDev.DB.References.View.pas' {DelphiAIDevDBReferencesView},
   DelphiAIDev.Utils.DBGrids in '..\Src\Utils\DelphiAIDev.Utils.DBGrids.pas',
   DelphiAIDev.AI.Ollama in '..\Src\AI\DelphiAIDev.AI.Ollama.pas',
-  DelphiAIDev.DB.LinkedProject.View in '..\Src\DB\LinkedProject\DelphiAIDev.DB.LinkedProject.View.pas' {DelphiAIDevDBLinkedProjectView},
+  DelphiAIDev.Projects.AddEdit.View in '..\Src\Projects\DelphiAIDev.Projects.AddEdit.View.pas' {DelphiAIDevProjectsAddEditView},
   DelphiAIDev.DB.Utils in '..\Src\DB\Utils\DelphiAIDev.DB.Utils.pas',
   DelphiAIDev.PopupMenuProjects.OnExecute in '..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.OnExecute.pas',
   DelphiAIDev.Projects.Fields in '..\Src\Projects\DelphiAIDev.Projects.Fields.pas',

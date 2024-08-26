@@ -1,4 +1,4 @@
-unit DelphiAIDev.DB.LinkedProject.View;
+unit DelphiAIDev.Projects.AddEdit.View;
 
 interface
 
@@ -21,21 +21,21 @@ uses
   DelphiAIDev.Projects.Fields;
 
 type
-  TDelphiAIDevDBLinkedProjectView = class(TForm)
+  TDelphiAIDevProjectsAddEditView = class(TForm)
     Bevel2: TBevel;
     pnBody: TPanel;
     Bevel1: TBevel;
     Label1: TLabel;
     lbLastGeneration: TLabel;
     pnButtons: TPanel;
-    btnSaveLink: TButton;
+    btnConfirm: TButton;
     btnClose: TButton;
     cBoxDatabases: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
-    procedure btnSaveLinkClick(Sender: TObject);
+    procedure btnConfirmClick(Sender: TObject);
     procedure cBoxDatabasesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -61,31 +61,30 @@ uses
 
 {$R *.dfm}
 
-procedure TDelphiAIDevDBLinkedProjectView.FormCreate(Sender: TObject);
+procedure TDelphiAIDevProjectsAddEditView.FormCreate(Sender: TObject);
 begin
   Self.ModalResult := mrCancel;
-  TUtilsOTA.IDEThemingAll(TDelphiAIDevDBLinkedProjectView, Self);
+  TUtilsOTA.IDEThemingAll(TDelphiAIDevProjectsAddEditView, Self);
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.FormDestroy(Sender: TObject);
+procedure TDelphiAIDevProjectsAddEditView.FormDestroy(Sender: TObject);
 begin
-  //FProjectsFields.Free;
+  //
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.FormShow(Sender: TObject);
+procedure TDelphiAIDevProjectsAddEditView.FormShow(Sender: TObject);
 begin
   FProjectsFields := TDelphiAIDevProjectsModel.New.ReadFilePath(FOTAProject.FileName);
-
   Self.FillScreenFields;
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TDelphiAIDevProjectsAddEditView.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if Assigned(FProjectsFields)then
     FProjectsFields.Free;
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.FillScreenFields;
+procedure TDelphiAIDevProjectsAddEditView.FillScreenFields;
 begin
   Screen.Cursor := crHourGlass;
   try
@@ -95,21 +94,13 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.FillcBoxDatabases;
-var
-  LDBRegistersFields: TDelphiAIDevDBRegistersFields;
+procedure TDelphiAIDevProjectsAddEditView.FillcBoxDatabases;
 begin
-  TDelphiAIDevDBUtils.FillComboBoxDataBases(cBoxDatabases);
-
-  LDBRegistersFields := TDelphiAIDevDBRegistersModel.New.Re
-
-//  if not FProjectsFields.GuidDatabaseDefault.Trim.IsEmpty then
-//    cBoxDatabases.ItemIndex := cBoxDatabases.Items.IndexOf(FProjectsFields);
-
+  TDelphiAIDevDBUtils.FillComboBoxDataBases(cBoxDatabases, FProjectsFields.GuidDatabaseDefault);
   Self.FillDateLastReferences;
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDelphiAIDevProjectsAddEditView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   case Key of
     VK_F4:
@@ -121,12 +112,12 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.cBoxDatabasesClick(Sender: TObject);
+procedure TDelphiAIDevProjectsAddEditView.cBoxDatabasesClick(Sender: TObject);
 begin
   Self.FillDateLastReferences;
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.FillDateLastReferences;
+procedure TDelphiAIDevProjectsAddEditView.FillDateLastReferences;
 begin
   lbLastGeneration.Caption := '';
 
@@ -136,18 +127,18 @@ begin
   lbLastGeneration.Caption := TUtils.DateTimeToStrEmpty(Self.GetFieldDBSelected.LastReferences);
 end;
 
-function TDelphiAIDevDBLinkedProjectView.GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
+function TDelphiAIDevProjectsAddEditView.GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
 begin
   Result := TDelphiAIDevDBRegistersFields(cBoxDatabases.Items.Objects[cBoxDatabases.ItemIndex]);
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.btnCloseClick(Sender: TObject);
+procedure TDelphiAIDevProjectsAddEditView.btnCloseClick(Sender: TObject);
 begin
   Self.Close;
   Self.ModalResult := mrCancel;
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.btnSaveLinkClick(Sender: TObject);
+procedure TDelphiAIDevProjectsAddEditView.btnConfirmClick(Sender: TObject);
 begin
   Self.ValidateFillingFields;
 
@@ -165,7 +156,7 @@ begin
   Self.ModalResult := mrOk;
 end;
 
-procedure TDelphiAIDevDBLinkedProjectView.ValidateFillingFields;
+procedure TDelphiAIDevProjectsAddEditView.ValidateFillingFields;
 begin
   if cBoxDatabases.ItemIndex < 0 then
     TUtils.ShowMsgAndAbort('No informed Database', cBoxDatabases);

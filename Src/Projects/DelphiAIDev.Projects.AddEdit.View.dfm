@@ -1,8 +1,8 @@
-object DelphiAIDevDBLinkedProjectView: TDelphiAIDevDBLinkedProjectView
+object DelphiAIDevProjectsAddEditView: TDelphiAIDevProjectsAddEditView
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
-  Caption = 'IA Developer - Linked Databese With Project'
+  Caption = 'IA Developer - Project Config'
   ClientHeight = 213
   ClientWidth = 629
   Color = clBtnFace
@@ -11,6 +11,7 @@ object DelphiAIDevDBLinkedProjectView: TDelphiAIDevDBLinkedProjectView
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
@@ -44,7 +45,6 @@ object DelphiAIDevDBLinkedProjectView: TDelphiAIDevDBLinkedProjectView
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 624
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 0
@@ -97,8 +97,7 @@ object DelphiAIDevDBLinkedProjectView: TDelphiAIDevDBLinkedProjectView
     Padding.Bottom = 2
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 624
-    object btnSaveLink: TButton
+    object btnConfirm: TButton
       AlignWithMargins = True
       Left = 401
       Top = 2
@@ -109,10 +108,9 @@ object DelphiAIDevDBLinkedProjectView: TDelphiAIDevDBLinkedProjectView
       Margins.Top = 0
       Margins.Bottom = 0
       Align = alRight
-      Caption = 'Save link'
+      Caption = 'Confirm'
       TabOrder = 0
-      OnClick = btnSaveLinkClick
-      ExplicitLeft = 396
+      OnClick = btnConfirmClick
     end
     object btnClose: TButton
       AlignWithMargins = True
@@ -128,7 +126,6 @@ object DelphiAIDevDBLinkedProjectView: TDelphiAIDevDBLinkedProjectView
       Caption = 'Close'
       TabOrder = 1
       OnClick = btnCloseClick
-      ExplicitLeft = 509
     end
   end
 end

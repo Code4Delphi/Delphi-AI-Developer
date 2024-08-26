@@ -8,6 +8,7 @@ uses
   System.JSON,
   Rest.JSON,
   DelphiAIDev.Utils,
+  DelphiAIDev.Utils.OTA,
   DelphiAIDev.Types,
   DelphiAIDev.Projects.Interfaces,
   DelphiAIDev.Projects.Fields;
@@ -20,6 +21,7 @@ type
     procedure FillField(const AJSONObjItem: TJSONObject; var AField: TDelphiAIDevProjectsFields);
   protected
     function ReadGuid(const AGuid: string): TDelphiAIDevProjectsFields;
+    function ReadFilePathCurrentProject: TDelphiAIDevProjectsFields;
     function ReadFilePath(const AFilePath: string): TDelphiAIDevProjectsFields;
     procedure ReadData(AProc: TProc<TDelphiAIDevProjectsFields>; const AAutoFreeField: TAutoFreeField = TAutoFreeField.Yes);
     procedure SaveOrEditData(AFields: TDelphiAIDevProjectsFields);
@@ -87,6 +89,11 @@ begin
   finally
     LJSONArray.Free;
   end;
+end;
+
+function TDelphiAIDevProjectsModel.ReadFilePathCurrentProject: TDelphiAIDevProjectsFields;
+begin
+  Result := Self.ReadFilePath(TUtilsOTA.GetCurrentProjectFileName);
 end;
 
 function TDelphiAIDevProjectsModel.ReadFilePath(const AFilePath: string): TDelphiAIDevProjectsFields;

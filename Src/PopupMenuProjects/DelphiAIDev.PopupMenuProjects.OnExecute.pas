@@ -21,7 +21,7 @@ implementation
 
 uses
   DelphiAIDev.Utils,
-  DelphiAIDev.DB.LinkedProject.View;
+  DelphiAIDev.Projects.AddEdit.View;
 
 procedure TDelphiAIDevPopupMenuProjectsOnExecute.CheckFileNameProject;
 begin
@@ -34,11 +34,11 @@ end;
 
 procedure TDelphiAIDevPopupMenuProjectsOnExecute.LinkDatabase(const MenuContextList: IInterfaceList);
 var
-  LView: TDelphiAIDevDBLinkedProjectView;
+  LView: TDelphiAIDevProjectsAddEditView;
 begin
   Self.CheckFileNameProject;
 
-  LView := TDelphiAIDevDBLinkedProjectView.Create(nil);
+  LView := TDelphiAIDevProjectsAddEditView.Create(nil);
   try
     LView.OTAProject := FIOTAProject;
     LView.ShowModal;

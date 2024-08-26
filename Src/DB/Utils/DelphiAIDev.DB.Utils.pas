@@ -9,11 +9,9 @@ uses
 type
   TDelphiAIDevDBUtils = class
   private
-
   public
     class procedure ClearComboBox(const AComboBox: TComboBox);
-    class procedure FillComboBoxDatabases(const AComboBox: TComboBox);
-    class procedure SelectByGuidDatabase(const AComboBox: TComboBox; const AGuidDatabase);
+    class procedure FillComboBoxDatabases(const AComboBox: TComboBox; const AGuidDatabaseDefault: string);
   end;
 
 implementation
@@ -41,11 +39,14 @@ begin
   AComboBox.Items.Clear;
 end;
 
-class procedure TDelphiAIDevDBUtils.FillComboBoxDatabases(const AComboBox: TComboBox);
+class procedure TDelphiAIDevDBUtils.FillComboBoxDatabases(const AComboBox: TComboBox; const AGuidDatabaseDefault: string);
 var
   LField: TDelphiAIDevDBRegistersFields;
+  LFieldDefault: TDelphiAIDevDBRegistersFields;
+  FIndex: Integer;
 begin
   Self.ClearComboBox(AComboBox);
+  LFieldDefault := nil;
 
   TDelphiAIDevDBRegistersModel.New.ReadData(
     procedure(AFields: TDelphiAIDevDBRegistersFields)
@@ -58,16 +59,16 @@ begin
         LField := TDelphiAIDevDBRegistersFields.Create;
         LField.GetDataFromOtherObject(AFields);
         AComboBox.Items.AddObject(LField.Description, LField);
+
+       if LField.Guid = AGuidDatabaseDefault then
+         LFieldDefault := LField;
       end;
     end
   );
 
   AComboBox.ItemIndex := 0;
-end;
-
-class procedure TDelphiAIDevDBUtils.SelectByGuidDatabase(const AComboBox: TComboBox; const AGuidDatabase);
-begin
-  AComboBox
+  if LFieldDefault <> nil then
+    AComboBox.ItemIndex := AComboBox.Items.IndexOfObject(LFieldDefault);
 end;
 
 end.
