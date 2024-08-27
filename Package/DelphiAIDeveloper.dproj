@@ -222,6 +222,7 @@
         <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Fields.pas"/>
         <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Model.pas"/>
         <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Interfaces.pas"/>
+        <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Vars.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>

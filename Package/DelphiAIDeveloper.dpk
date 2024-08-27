@@ -106,6 +106,7 @@ contains
   DelphiAIDev.PopupMenuProjects.OnExecute in '..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.OnExecute.pas',
   DelphiAIDev.Projects.Fields in '..\Src\Projects\DelphiAIDev.Projects.Fields.pas',
   DelphiAIDev.Projects.Model in '..\Src\Projects\DelphiAIDev.Projects.Model.pas',
-  DelphiAIDev.Projects.Interfaces in '..\Src\Projects\DelphiAIDev.Projects.Interfaces.pas';
+  DelphiAIDev.Projects.Interfaces in '..\Src\Projects\DelphiAIDev.Projects.Interfaces.pas',
+  DelphiAIDev.CodeCompletion.Vars in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Vars.pas';
 
 end.
