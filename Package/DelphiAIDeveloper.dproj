@@ -167,7 +167,7 @@
         <DCCReference Include="..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.pas"/>
         <DCCReference Include="..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.Interfaces.pas"/>
         <DCCReference Include="..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas"/>
-        <DCCReference Include="..\Src\IDE\Shortcuts\DelphiAIDev.IDE.Shortcuts.pas"/>
+        <DCCReference Include="..\Src\KeyboardBinding\DelphiAIDev.KeyboardBinding.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas"/>
         <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.View.pas">
             <Form>DelphiAIDevDBRegistersView</Form>

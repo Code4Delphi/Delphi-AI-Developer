@@ -1,4 +1,4 @@
-unit DelphiAIDev.IDE.Shortcuts;
+unit DelphiAIDev.KeyboardBinding;
 
 interface
 
@@ -12,7 +12,7 @@ uses
   DelphiAIDev.Chat.View;
 
 type
-  TDelphiAIDevIDEShortcuts = class(TNotifierObject, IOTAKeyboardBinding)
+  TDelphiAIDevKeyboardBinding = class(TNotifierObject, IOTAKeyboardBinding)
   private
     //procedure KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     procedure KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
@@ -39,7 +39,7 @@ var
 procedure RegisterSelf;
 begin
   if Index < 0 then
-    Index := TUtilsOTA.GetIOTAKeyboardServices.AddKeyboardBinding(TDelphiAIDevIDEShortcuts.New);
+    Index := TUtilsOTA.GetIOTAKeyboardServices.AddKeyboardBinding(TDelphiAIDevKeyboardBinding.New);
 end;
 
 procedure UnRegisterSelf;
@@ -57,27 +57,27 @@ begin
   RegisterSelf;
 end;
 
-class function TDelphiAIDevIDEShortcuts.New: IOTAKeyboardBinding;
+class function TDelphiAIDevKeyboardBinding.New: IOTAKeyboardBinding;
 begin
   Result := Self.Create;
 end;
 
-function TDelphiAIDevIDEShortcuts.GetBindingType: TBindingType;
+function TDelphiAIDevKeyboardBinding.GetBindingType: TBindingType;
 begin
   Result := btPartial;
 end;
 
-function TDelphiAIDevIDEShortcuts.GetDisplayName: string;
+function TDelphiAIDevKeyboardBinding.GetDisplayName: string;
 begin
   Result := Self.ClassName;
 end;
 
-function TDelphiAIDevIDEShortcuts.GetName: string;
+function TDelphiAIDevKeyboardBinding.GetName: string;
 begin
   Result := Self.ClassName;
 end;
 
-procedure TDelphiAIDevIDEShortcuts.BindKeyboard(const BindingServices: IOTAKeyBindingServices);
+procedure TDelphiAIDevKeyboardBinding.BindKeyboard(const BindingServices: IOTAKeyBindingServices);
 begin
 //  if TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ then
 //    Exit;
@@ -86,7 +86,7 @@ begin
   BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [ssAlt])], Self.KeyProcBlockReturnAndAlt, nil);
 end;
 
-//procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+//procedure TDelphiAIDevKeyboardBinding.KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 //begin
 //  if KeyCode <> Shortcut(VK_RETURN, []) then
 //    Exit;
@@ -95,7 +95,7 @@ end;
 //  BindingResult := TKeyBindingResult.krNextProc; //krUnhandled;
 //end;
 
-procedure TDelphiAIDevIDEShortcuts.KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+procedure TDelphiAIDevKeyboardBinding.KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 var
   LTextCurrentLineOrBlock: string;
 begin

@@ -68,7 +68,7 @@ contains
   DelphiAIDev.ModuleCreator in '..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.pas',
   DelphiAIDev.ModuleCreator.Interfaces in '..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.Interfaces.pas',
   DelphiAIDev.IDE.ImageListMain in '..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas',
-  DelphiAIDev.IDE.Shortcuts in '..\Src\IDE\Shortcuts\DelphiAIDev.IDE.Shortcuts.pas',
+  DelphiAIDev.KeyboardBinding in '..\Src\KeyboardBinding\DelphiAIDev.KeyboardBinding.pas',
   DelphiAIDev.Utils.CnWizard in '..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas',
   DelphiAIDev.DB.Registers.View in '..\Src\DB\Registers\DelphiAIDev.DB.Registers.View.pas' {DelphiAIDevDBRegistersView},
   DelphiAIDev.Utils.ListView in '..\Src\Utils\DelphiAIDev.Utils.ListView.pas',
