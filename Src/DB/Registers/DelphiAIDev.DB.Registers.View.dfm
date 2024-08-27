@@ -48,7 +48,6 @@ object DelphiAIDevDBRegistersView: TDelphiAIDevDBRegistersView
       Caption = 'Edit'
       TabOrder = 0
       OnClick = btnEditClick
-      ExplicitTop = 1
     end
     object btnClose: TButton
       AlignWithMargins = True

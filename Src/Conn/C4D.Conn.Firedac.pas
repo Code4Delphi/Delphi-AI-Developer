@@ -165,7 +165,7 @@ begin
   try
     Self.LoadConnectionConfig;
     LConnectedOld := FConnection.Connected;
-    FConnection.Close; //
+    FConnection.Close;
     FConnection.Open;
     Result := FConnection.Connected;
 

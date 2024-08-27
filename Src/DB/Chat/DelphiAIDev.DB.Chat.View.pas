@@ -38,7 +38,8 @@ uses
   DelphiAIDev.DB.Registers.Fields,
   C4D.Conn,
   DelphiAIDev.Utils.DBGrids,
-  DelphiAIDev.Projects.Model;
+  DelphiAIDev.Projects.Model,
+  DelphiAIDev.DB.References.View;
 
 type
   TDelphiAIDevDBChatView = class(TDockableForm)
@@ -102,6 +103,7 @@ type
     lbCount: TLabel;
     Label3: TLabel;
     Ollama1: TMenuItem;
+    btnGenerateDatabaseReference: TButton;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -139,6 +141,7 @@ type
     procedure SaveAllGridDataAsCSVClick(Sender: TObject);
     procedure SaveAllGridDataAsTXTClick(Sender: TObject);
     procedure DBGrid1TitleClick(Column: TColumn);
+    procedure btnGenerateDatabaseReferenceClick(Sender: TObject);
   private
     FChat: TDelphiAIDevChat;
     FSettings: TDelphiAIDevSettings;
@@ -674,6 +677,29 @@ begin
 
   lbLastGeneration.Caption := TUtils.DateTimeToStrEmpty(Self.GetFieldDBSelected.LastReferences);
 end;
+
+procedure TDelphiAIDevDBChatView.btnGenerateDatabaseReferenceClick(Sender: TObject);
+var
+  LView: TDelphiAIDevDBReferencesView;
+  LFields: TDelphiAIDevDBRegistersFields;
+begin
+  if cBoxDatabases.Items.Count < 0 then
+    Exit;
+
+  LFields := Self.GetFieldDBSelected;
+  if LFields = nil then
+    Exit;
+
+  LView := TDelphiAIDevDBReferencesView.Create(nil);
+  try
+    LView.Fields := LFields;
+    if LView.ShowModal = mrOk then
+      Self.FillDateLastReferences;
+  finally
+    LView.Free;
+  end;
+end;
+
 
 function TDelphiAIDevDBChatView.GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
 begin

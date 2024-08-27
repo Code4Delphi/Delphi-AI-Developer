@@ -334,16 +334,19 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         ExplicitHeight = 13
       end
       object lbLastGeneration: TLabel
+        AlignWithMargins = True
         Left = 422
         Top = 0
-        Width = 120
+        Width = 81
         Height = 25
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
         Align = alLeft
-        AutoSize = False
         Caption = 'lbLastGeneration'
         Layout = tlCenter
-        ExplicitLeft = 585
-        ExplicitTop = 3
+        ExplicitHeight = 13
       end
       object btnExecuteSQL: TButton
         AlignWithMargins = True
@@ -373,6 +376,22 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Style = csDropDownList
         TabOrder = 1
         OnClick = cBoxDatabasesClick
+      end
+      object btnGenerateDatabaseReference: TButton
+        AlignWithMargins = True
+        Left = 508
+        Top = 0
+        Width = 58
+        Height = 25
+        Cursor = crHandPoint
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Generate'
+        TabOrder = 2
+        OnClick = btnGenerateDatabaseReferenceClick
+        ExplicitLeft = 503
       end
     end
   end
