@@ -7,7 +7,8 @@ uses
   DelphiAIDev.MainMenu.Register,
   DelphiAIDev.KeyboardBinding,
   DelphiAIDev.PopupMenuProjects,
-  DelphiAIDev.DB.Chat.View;
+  DelphiAIDev.DB.Chat.View,
+  DelphiAIDev.IDE.OTAIDENotifier;
 
 procedure Register;
 
@@ -20,6 +21,7 @@ begin
   DelphiAIDev.KeyboardBinding.RefreshRegister;
   DelphiAIDev.PopupMenuProjects.RegisterSelf;
   DelphiAIDev.DB.Chat.View.RegisterSelf;
+  DelphiAIDev.IDE.OTAIDENotifier.RegisterSelf;
 end;
 
 end.

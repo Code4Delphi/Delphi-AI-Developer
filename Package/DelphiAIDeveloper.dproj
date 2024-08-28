@@ -223,6 +223,9 @@
         <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Model.pas"/>
         <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Interfaces.pas"/>
         <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Vars.pas"/>
+        <DCCReference Include="..\Src\IDE\OTAIDENotifier\DelphiAIDev.IDE.OTAIDENotifier.pas"/>
+        <DCCReference Include="..\Src\IDE\OTAEditorNotifier\DelphiAIDev.IDE.OTAEditorNotifier.pas"/>
+        <DCCReference Include="..\Src\IDE\NTAEditViewNotifier\DelphiAIDev.IDE.NTAEditViewNotifier.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>

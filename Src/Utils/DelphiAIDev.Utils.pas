@@ -210,6 +210,8 @@ begin
   Result := Result.Replace('\\"', '\"', [rfReplaceAll, rfIgnoreCase]);
 end;
 
+
+
 class procedure TUtils.AddLog(const AMessage: string);
 const
   DIRECTORY = 'C:\TempLog\DelphiAIDev\';

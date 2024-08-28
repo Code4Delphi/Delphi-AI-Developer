@@ -107,6 +107,9 @@ contains
   DelphiAIDev.Projects.Fields in '..\Src\Projects\DelphiAIDev.Projects.Fields.pas',
   DelphiAIDev.Projects.Model in '..\Src\Projects\DelphiAIDev.Projects.Model.pas',
   DelphiAIDev.Projects.Interfaces in '..\Src\Projects\DelphiAIDev.Projects.Interfaces.pas',
-  DelphiAIDev.CodeCompletion.Vars in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Vars.pas';
+  DelphiAIDev.CodeCompletion.Vars in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Vars.pas',
+  DelphiAIDev.IDE.OTAIDENotifier in '..\Src\IDE\OTAIDENotifier\DelphiAIDev.IDE.OTAIDENotifier.pas',
+  DelphiAIDev.IDE.OTAEditorNotifier in '..\Src\IDE\OTAEditorNotifier\DelphiAIDev.IDE.OTAEditorNotifier.pas',
+  DelphiAIDev.IDE.NTAEditViewNotifier in '..\Src\IDE\NTAEditViewNotifier\DelphiAIDev.IDE.NTAEditViewNotifier.pas';
 
 end.

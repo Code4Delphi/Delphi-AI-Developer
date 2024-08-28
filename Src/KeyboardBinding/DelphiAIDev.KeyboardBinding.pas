@@ -128,6 +128,7 @@ begin
   TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Clear;
   TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Add('  TUtils.AddLog(EmptyStr);');
   TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Add('  TUtils.ShowMsg(EmptyStr);');
+  TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Add('  TUtils.ShowMsg(LMsg3);');
 end;
 
 procedure TDelphiAIDevKeyboardBinding.KeyAltHome(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);

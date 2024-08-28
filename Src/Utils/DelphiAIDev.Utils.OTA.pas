@@ -18,6 +18,8 @@ type
   TUtilsOTA = class
   private
   public
+    class procedure GetCursorPosition(var ALine, AColumn: Integer);
+    class procedure GetCursorPositionPixel(var AX, AY: Integer);
     class function CurrentProjectIsDelphiAIDeveloperDPROJ: Boolean;
     class function CurrentModuleIsReadOnly: Boolean;
     class procedure SaveAllModifiedModules;
@@ -87,6 +89,95 @@ implementation
 
 uses
   DelphiAIDev.Utils;
+
+class procedure TUtilsOTA.GetCursorPosition(var ALine, AColumn: Integer);
+var
+  LOTAEditorServices: IOTAEditorServices;
+  LIOTAEditView: IOTAEditView;
+  LOTAEditPos: TOTAEditPos;
+  //LIOTAEditPosition: IOTAEditPosition;
+begin
+  ALine := 0;
+  AColumn := 0;
+
+  LOTAEditorServices := Self.GetIOTAEditorServices;
+  if not Assigned(LOTAEditorServices) then
+    Exit;
+
+  LIOTAEditView := LOTAEditorServices.TopView;
+  if Assigned(LIOTAEditView) then
+  begin
+    LOTAEditPos := LIOTAEditView.CursorPos;
+    ALine := LOTAEditPos.Line;
+    AColumn := LOTAEditPos.Col;
+
+    {LIOTAEditPosition := LIOTAEditView.Position;
+    if Assigned(LIOTAEditPosition) then
+    begin
+      ALine := LIOTAEditPosition.Row;
+      AColumn := LIOTAEditPosition.Column;
+      //TUtils.AddLog(Format('%d : %d', [ALine, AColumn]));
+    end;}
+  end;
+end;
+
+class procedure TUtilsOTA.GetCursorPositionPixel(var AX, AY: Integer);
+var
+  LIOTAEditorServices: IOTAEditorServices;
+  LIOTAEditView: IOTAEditView;
+  LIOTAEditPosition: IOTAEditPosition;
+  LLineHeight: Integer;
+  LCharWidth: Integer;
+  LEditorWindow: TCustomForm;
+  LHDC: HDC;
+  LCanvas: TCanvas;
+  LTextMetric: TTextMetric;
+begin
+  // Obtém a instância do Editor Services
+  LIOTAEditorServices := BorlandIDEServices as IOTAEditorServices;
+
+  if Assigned(LIOTAEditorServices) then
+  begin
+    // Obtém a visualização de edição ativa
+    LIOTAEditView := LIOTAEditorServices.TopView;
+    if Assigned(LIOTAEditView) then
+    begin
+      // Obtém a posição do cursor
+      LIOTAEditPosition := LIOTAEditView.Position;
+      if Assigned(LIOTAEditPosition) then
+      begin
+        // Obtém a janela do editor
+        LEditorWindow := LIOTAEditView.GetEditWindow.Form;
+
+        // Cria um DC (Device Context) para a janela do editor
+        LHDC := GetDC(LEditorWindow.Handle);
+        try
+          LCanvas := TCanvas.Create;
+          try
+            LCanvas.Handle := LHDC;
+
+            // Obtém as métricas do texto (altura da linha e largura do caractere)
+            GetTextMetrics(LCanvas.Handle, LTextMetric);
+            LLineHeight := LTextMetric.tmHeight;
+            LCharWidth := LTextMetric.tmAveCharWidth;
+          finally
+            LCanvas.Free;
+          end;
+        finally
+          ReleaseDC(LEditorWindow.Handle, LHDC);
+        end;
+
+        // Calcula a posição em pixels
+        AX := (LIOTAEditPosition.Column - 1) * LCharWidth;
+        AY := (LIOTAEditPosition.Row - 1) * LLineHeight;
+
+        // Agora você tem a posição do cursor em pixels
+        //ShowMessage(Format('Cursor está em X: %d, Y: %d pixels', [PixelX, PixelY]));
+        TUtils.AddLog(Format('Cursor está em X: %d, Y: %d pixels', [AX, AY]));
+      end;
+    end;
+  end;
+end;
 
 class function TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ: Boolean;
 var
@@ -268,9 +359,9 @@ class procedure TUtilsOTA.InsertBlockTextIntoEditor(const AText: string);
 var
   LOTAEditorServices: IOTAEditorServices;
   LIOTAEditView: IOTAEditView;
+  LOTAEditPos: TOTAEditPos;
   LPosition: Longint;
   LOTACharPos: TOTACharPos;
-  LOTAEditPos: TOTAEditPos;
   LIOTAEditWriter: IOTAEditWriter;
 begin
   LOTAEditorServices := Self.GetIOTAEditorServices;
