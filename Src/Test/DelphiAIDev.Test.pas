@@ -30,6 +30,9 @@ implementation
 
 procedure TDelphiAIDevTest.Clear;
 begin
+  //Suggestion
+
+
 
 end;
 

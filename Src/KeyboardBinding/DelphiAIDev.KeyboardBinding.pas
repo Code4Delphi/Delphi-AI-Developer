@@ -9,7 +9,8 @@ uses
   Vcl.Menus,
   ToolsAPI,
   DelphiAIDev.Utils.CnWizard,
-  DelphiAIDev.Chat.View;
+  DelphiAIDev.Chat.View,
+  DelphiAIDev.CodeCompletion.Search;
 
 type
   TDelphiAIDevKeyboardBinding = class(TNotifierObject, IOTAKeyboardBinding)
@@ -141,7 +142,9 @@ begin
   if KeyCode <> Shortcut(VK_HOME, [ssAlt]) then
     Exit;
 
-  Self.AddBlockText;
+  TDelphiAIDevCodeCompletionSearch.New.Process(Context);
+
+  //Self.AddBlockText;
 
   LRow := Context.EditBuffer.EditPosition.Row;
   LColumn := Context.EditBuffer.EditPosition.Column;
@@ -167,6 +170,35 @@ begin
   //    Exit;
 
   BindingResult := TKeyBindingResult.krUnhandled; //krNextProc;
+
+
+  //**
+  //Self.AddBlockText;
+
+  {LRow := Context.EditBuffer.EditPosition.Row;
+  LColumn := Context.EditBuffer.EditPosition.Column;
+
+  TDelphiAIDevCodeCompletionVars.GetInstance.LineIni := LRow; // + 1;
+  TDelphiAIDevCodeCompletionVars.GetInstance.LineEnd := TDelphiAIDevCodeCompletionVars.GetInstance.LineIni + (TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count); // + 1 //TDelphiAIDevCodeCompletionVars.GetInstance.LineIni + 1;
+
+  //Context.EditBuffer.EditPosition.InsertText(sLineBreak + sLineBreak);
+  LText := '';
+  for i := 0 to Pred(TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count) do
+    LText := LText + sLineBreak;
+
+  Context.EditBuffer.EditPosition.InsertText(LText.TrimRight + sLineBreak);
+  Context.EditBuffer.EditPosition.Move(TDelphiAIDevCodeCompletionVars.GetInstance.LineIni, LColumn);
+
+  TDelphiAIDevCodeCompletionVars.GetInstance.Row := TDelphiAIDevCodeCompletionVars.GetInstance.LineIni;
+  TDelphiAIDevCodeCompletionVars.GetInstance.Column := LColumn;
+
+  //Context.EditBuffer.EditPosition.MoveBOL;
+  //  //LTextCurrentLineOrBlock := Context.EditBuffer.EditBlock.Text;
+  //  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView);
+  //  if LTextCurrentLineOrBlock.Trim.IsEmpty then
+  //    Exit;
+
+  BindingResult := TKeyBindingResult.krUnhandled; //krNextProc;  }
 end;
 
 procedure TDelphiAIDevKeyboardBinding.KeyTab(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);

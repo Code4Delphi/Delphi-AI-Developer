@@ -226,6 +226,7 @@
         <DCCReference Include="..\Src\IDE\OTAIDENotifier\DelphiAIDev.IDE.OTAIDENotifier.pas"/>
         <DCCReference Include="..\Src\IDE\OTAEditorNotifier\DelphiAIDev.IDE.OTAEditorNotifier.pas"/>
         <DCCReference Include="..\Src\IDE\NTAEditViewNotifier\DelphiAIDev.IDE.NTAEditViewNotifier.pas"/>
+        <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Search.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>
