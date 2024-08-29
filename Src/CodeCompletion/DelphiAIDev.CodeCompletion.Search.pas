@@ -66,11 +66,19 @@ var
 begin
   FSettings.ValidateFillingSelectedAI(TShowMsg.No);
 
+
   FQuestions.Clear;
   FQuestions.Add(FSettings.LanguageQuestions.GetLanguageDefinition);
   FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeCompletionSuggestion);
   FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeOnly);
-  FQuestions.Add(TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim);
+
+  LIOTAEditPosition := AContext.EditBuffer.EditPosition;
+  LIOTAEditPosition.InsertText(TConsts.TAG_CODE_COMPLETION);
+  try
+    FQuestions.Add(TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim);
+  finally
+    LIOTAEditPosition.BackspaceDelete(TConsts.TAG_CODE_COMPLETION.Length);
+  end;
 
   //TUtils.ShowMsg('CodeCompletionSearch.Process - FQuestions.Text', FQuestions.Text);
   try
@@ -82,7 +90,6 @@ begin
   FVars.Contents.Text := TUtils.ConfReturnAI(FChat.Response.Text);
   //TUtils.ShowMsg('CodeCompletionSearch.Process - FVars.Contents.Text', FVars.Contents.Text);
 
-  LIOTAEditPosition := AContext.EditBuffer.EditPosition;
   LRow := LIOTAEditPosition.Row;
   LColumn := LIOTAEditPosition.Column;
 

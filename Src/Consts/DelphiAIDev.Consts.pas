@@ -24,6 +24,7 @@ type
     MARK_BEGIN_SQL2 = '``sql';
     MARK_END = '```';
     PREFIX_NAME_SEPARATOR = 'DelphiAIDevSeparator';
+    TAG_CODE_COMPLETION = '//Suggestion_Code_Delphi';
 
     //SETTINGS
     KEY_SETTINGS_IN_WINDOWS_REGISTRY = '\SOFTWARE\DelphiAIDeveloper';

@@ -100,26 +100,6 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevKeyboardBinding.KeyAltHome(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
-var
-  LTextCurrentLineOrBlock: string;
-begin
-  if KeyCode <> Shortcut(VK_RETURN, [ssAlt]) then
-    Exit;
-
-  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView).Trim;
-  if LTextCurrentLineOrBlock.Trim.IsEmpty then
-    Exit;
-
-  if copy(LTextCurrentLineOrBlock, 1, 2) = '//' then
-    LTextCurrentLineOrBlock := copy(LTextCurrentLineOrBlock, 3, LTextCurrentLineOrBlock.Length);
-
-  DelphiAIDev.Chat.View.DelphiAIDevChatView.QuestionOnShow := LTextCurrentLineOrBlock;
-  DelphiAIDev.Chat.View.DelphiAIDevChatViewShowDockableForm;
-
-  BindingResult := TKeyBindingResult.krUnhandled;
-end;
-
 procedure TDelphiAIDevKeyboardBinding.KeyTab(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 var
   LText: string;
@@ -142,6 +122,26 @@ begin
   end
   else
     BindingResult := TKeyBindingResult.krUnhandled;
+end;
+
+procedure TDelphiAIDevKeyboardBinding.KeyAltHome(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+var
+  LTextCurrentLineOrBlock: string;
+begin
+  if KeyCode <> Shortcut(VK_RETURN, [ssAlt]) then
+    Exit;
+
+  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView).Trim;
+  if LTextCurrentLineOrBlock.Trim.IsEmpty then
+    Exit;
+
+  if copy(LTextCurrentLineOrBlock, 1, 2) = '//' then
+    LTextCurrentLineOrBlock := copy(LTextCurrentLineOrBlock, 3, LTextCurrentLineOrBlock.Length);
+
+  DelphiAIDev.Chat.View.DelphiAIDevChatView.QuestionOnShow := LTextCurrentLineOrBlock;
+  DelphiAIDev.Chat.View.DelphiAIDevChatViewShowDockableForm;
+
+  BindingResult := TKeyBindingResult.krUnhandled;
 end;
 
 initialization

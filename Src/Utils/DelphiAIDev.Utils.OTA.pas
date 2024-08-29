@@ -309,10 +309,7 @@ begin
 
   LOTASourceEditor := Self.GetIOTASourceEditor(AIOTAModule);
   if LOTASourceEditor = nil then
-  begin
-    //TUtils.ShowMsgSynchronize('Unable to get SourceEditor.');
     Exit;
-  end;
 
   LIOTAEditReader := LOTASourceEditor.CreateReader;
   try
