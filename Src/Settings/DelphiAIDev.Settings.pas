@@ -59,7 +59,7 @@ type
     procedure LoadDefaults;
     procedure SaveData;
     procedure LoadData;
-    procedure ValidateFillingSelectedAI;
+    procedure ValidateFillingSelectedAI(const AShowMsg: TShowMsg = TShowMsg.Yes);
 
     property LanguageQuestions: TC4DLanguage read FLanguageQuestions write FLanguageQuestions;
     property AIDefault: TC4DAIsAvailable read FAIDefault write FAIDefault;
@@ -237,52 +237,59 @@ begin
   end;
 end;
 
-procedure TDelphiAIDevSettings.ValidateFillingSelectedAI;
+procedure TDelphiAIDevSettings.ValidateFillingSelectedAI(const AShowMsg: TShowMsg = TShowMsg.Yes);
 const
   MSG = '"%s" for IA %s not specified in settings.' + sLineBreak + sLineBreak +
     'Access menu > AI Developer > Settings';
+
+  procedure ShowMsgInternal(const AArgs: array of const);//(const AMsg: string);
+  begin
+    if AShowMsg = TShowMsg.Yes then
+      TUtils.ShowMsg(Format(MSG, AArgs));
+    Abort;
+  end;
 begin
   case FAIDefault of
     TC4DAIsAvailable.Gemini:
     begin
       if FBaseUrlGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'Gemini']));
+        ShowMsgInternal(['Base URL', 'Gemini']);
 
       if FModelGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'Gemini']));
+        ShowMsgInternal(['Model', 'Gemini']);
 
       if FApiKeyGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'Gemini']));
+        ShowMsgInternal(['API Key', 'Gemini']);
     end;
     TC4DAIsAvailable.OpenAI:
     begin
       if FBaseUrlOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'ChatGPT']));
+        ShowMsgInternal(['Base URL', 'ChatGPT']);
 
       if FModelOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'ChatGPT']));
+        ShowMsgInternal(['Model', 'ChatGPT']);
 
       if FApiKeyOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'ChatGPT']));
+        ShowMsgInternal(['API Key', 'ChatGPT']);
     end;
     TC4DAIsAvailable.Groq:
     begin
       if FBaseUrlGroq.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'Groq']));
+        ShowMsgInternal(['Base URL', 'Groq']);
 
       if FModelGroq.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'Groq']));
+        ShowMsgInternal(['Model', 'Groq']);
 
       if FApiKeyGroq.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'Groq']));
+        ShowMsgInternal(['API Key', 'Groq']);
     end;
     TC4DAIsAvailable.Ollama:
     begin
       if FBaseUrlOllama.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'Ollama']));
+        ShowMsgInternal(['Base URL', 'Ollama']);
 
       if FModelOllama.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'Ollama']));
+        ShowMsgInternal(['Model', 'Ollama']);
     end;
   end;
 end;

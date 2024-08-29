@@ -20,6 +20,8 @@ uses
 
 type
   TDelphiAIDevIDENTAEditViewNotifier = class(TInterfacedObject, IOTANotifier, INTAEditViewNotifier)
+  private
+    LVars: TDelphiAIDevCodeCompletionVars;
   protected
     FIOTAEditView: IOTAEditView;
     FIndex: Integer;
@@ -57,17 +59,18 @@ begin
   inherited Create;
   FIOTAEditView := AEditView;
   FIndex := FIOTAEditView.AddNotifier(Self);
+  LVars := TDelphiAIDevCodeCompletionVars.GetInstance;
 end;
 
 destructor TDelphiAIDevIDENTAEditViewNotifier.Destroy;
 begin
-  RemoveNotifier;
+  Self.RemoveNotifier;
   inherited;
 end;
 
 procedure TDelphiAIDevIDENTAEditViewNotifier.Destroyed;
 begin
-  RemoveNotifier;
+  Self.RemoveNotifier;
 end;
 
 procedure TDelphiAIDevIDENTAEditViewNotifier.AfterSave;
@@ -92,23 +95,22 @@ var
 begin
   TUtilsOTA.GetCursorPosition(LRow, LColumn);
 
-//  TUtils.AddLog(Format('EditorIdle - %d (%d) - %d (%d) - %s ',
-//    [TDelphiAIDevCodeCompletionVars.GetInstance.Row, LRow, TDelphiAIDevCodeCompletionVars.GetInstance.Column, LColumn, DateTimeToStr(Now)]));
+  //TUtils.AddLog(Format('EditorIdle - %d (%d) - %d (%d) - %s ', [LVars.Row, LRow, LVars.Column, LColumn, DateTimeToStr(Now)]));
 
-  if (LRow <> TDelphiAIDevCodeCompletionVars.GetInstance.Row) or (LColumn <> TDelphiAIDevCodeCompletionVars.GetInstance.Column) then
+  if (LRow <> LVars.Row) or (LColumn <> LVars.Column) then
   begin
-    TDelphiAIDevCodeCompletionVars.GetInstance.LineIni := 0;
-    TDelphiAIDevCodeCompletionVars.GetInstance.Clear;
+    LVars.LineIni := 0;
+    LVars.Clear;
   end;
 
-  //TUtils.AddLog('EditorIdle ' + BoolToStr(TDelphiAIDevCodeCompletionVars.GetInstance.ClearNext, True));
+  //TUtils.AddLog('EditorIdle ' + BoolToStr(LVars.ClearNext, True));
 
-//  if TDelphiAIDevCodeCompletionVars.GetInstance.ClearNext then
+//  if LVars.ClearNext then
 //  begin
-//    TDelphiAIDevCodeCompletionVars.GetInstance.Clear;
+//    LVars.Clear;
 //  end
 //  else
-//    TDelphiAIDevCodeCompletionVars.GetInstance.ClearNext := True;
+//    LVars.ClearNext := True;
 
   //View.AddNotifier()
   //View.GetEditWindow.Form.Repaint;
@@ -123,7 +125,6 @@ procedure TDelphiAIDevIDENTAEditViewNotifier.Modified;
 begin
 
 end;
-
 
 procedure TDelphiAIDevIDENTAEditViewNotifier.PaintLine(const View: IOTAEditView; LineNumber: Integer;
   const LineText: PAnsiChar; const TextWidth: Word; const LineAttributes: TOTAAttributeArray;
@@ -142,13 +143,13 @@ begin
   //if LineNumber <> View.CursorPos.Line then
   //  Exit;
 
-  if (LineNumber >= TDelphiAIDevCodeCompletionVars.GetInstance.LineIni)and(LineNumber <= TDelphiAIDevCodeCompletionVars.GetInstance.LineEnd) then
+  if (LineNumber >= LVars.LineIni)and(LineNumber <= LVars.LineEnd) then
   begin
     Canvas.Brush.Style := bsClear;
     Canvas.Font.Color := $777777; //$666666;
 
     try
-      LLineText := TDelphiAIDevCodeCompletionVars.GetInstance.Contents[LineNumber - TDelphiAIDevCodeCompletionVars.GetInstance.LineIni];
+      LLineText := LVars.Contents[LineNumber - LVars.LineIni];
       Canvas.TextOut(TextRect.Left, TextRect.Top, LLineText.TrimRight);
     except on E: Exception do
       TUtils.AddLog(E.Message);

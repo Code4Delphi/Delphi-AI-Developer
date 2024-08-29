@@ -35,7 +35,6 @@ type
     procedure ViewActivated(const View: IOTAEditView);
   end;
 
-
 implementation
 
 constructor TDelphiAIDevIDEOTAEditorNotifier.Create(ASourceEditor: IOTASourceEditor);

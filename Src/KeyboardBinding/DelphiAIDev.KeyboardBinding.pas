@@ -19,7 +19,6 @@ type
     procedure KeyTab(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     //procedure KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     procedure KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
-    procedure AddBlockText;
   protected
     function GetBindingType: TBindingType;
     function GetDisplayName: string;
@@ -87,30 +86,27 @@ begin
 //  if TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ then
 //    Exit;
 
-  BindingServices.AddKeyBinding([Shortcut(VK_HOME, [ssAlt])], Self.KeyAltHome, nil);
-  BindingServices.AddKeyBinding([Shortcut(VK_TAB, [])], Self.KeyTab, nil);
-
-  //BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [])], Self.KeyProcBlockReturn, nil);
   BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [ssAlt])], Self.KeyProcBlockReturnAndAlt, nil);
+  BindingServices.AddKeyBinding([Shortcut(VK_TAB, [])], Self.KeyTab, nil);
+  BindingServices.AddKeyBinding([Shortcut(VK_HOME, [ssAlt])], Self.KeyAltHome, nil);
 end;
 
-//procedure TDelphiAIDevKeyboardBinding.KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
-//begin
-//  if KeyCode <> Shortcut(VK_RETURN, []) then
-//    Exit;
-//
-//  TUtils.AddLog(GetCurrentLineOrBlock(CnOtaGetTopMostEditView));
-//  BindingResult := TKeyBindingResult.krNextProc; //krUnhandled;
-//end;
-
 procedure TDelphiAIDevKeyboardBinding.KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+begin
+  try
+    TDelphiAIDevCodeCompletionSearch.New.Process(Context);
+  finally
+    BindingResult := TKeyBindingResult.krUnhandled;
+  end;
+end;
+
+procedure TDelphiAIDevKeyboardBinding.KeyAltHome(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 var
   LTextCurrentLineOrBlock: string;
 begin
   if KeyCode <> Shortcut(VK_RETURN, [ssAlt]) then
     Exit;
 
-  //LTextCurrentLineOrBlock := Context.EditBuffer.EditBlock.Text;
   LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView).Trim;
   if LTextCurrentLineOrBlock.Trim.IsEmpty then
     Exit;
@@ -121,84 +117,7 @@ begin
   DelphiAIDev.Chat.View.DelphiAIDevChatView.QuestionOnShow := LTextCurrentLineOrBlock;
   DelphiAIDev.Chat.View.DelphiAIDevChatViewShowDockableForm;
 
-  BindingResult := TKeyBindingResult.krUnhandled; //krNextProc;
-end;
-
-procedure TDelphiAIDevKeyboardBinding.AddBlockText;
-begin
-  TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Clear;
-  TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Add('  TUtils.AddLog(EmptyStr);');
-  TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Add('  TUtils.ShowMsg(EmptyStr);');
-  TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Add('  TUtils.ShowMsg(LMsg3);');
-end;
-
-procedure TDelphiAIDevKeyboardBinding.KeyAltHome(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
-var
-  LRow: Integer;
-  LColumn: Integer;
-  i: Integer;
-  LText: string;
-begin
-  if KeyCode <> Shortcut(VK_HOME, [ssAlt]) then
-    Exit;
-
-  TDelphiAIDevCodeCompletionSearch.New.Process(Context);
-
-  //Self.AddBlockText;
-
-  LRow := Context.EditBuffer.EditPosition.Row;
-  LColumn := Context.EditBuffer.EditPosition.Column;
-
-  TDelphiAIDevCodeCompletionVars.GetInstance.LineIni := LRow; // + 1;
-  TDelphiAIDevCodeCompletionVars.GetInstance.LineEnd := TDelphiAIDevCodeCompletionVars.GetInstance.LineIni + (TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count); // + 1 //TDelphiAIDevCodeCompletionVars.GetInstance.LineIni + 1;
-
-  //Context.EditBuffer.EditPosition.InsertText(sLineBreak + sLineBreak);
-  LText := '';
-  for i := 0 to Pred(TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count) do
-    LText := LText + sLineBreak;
-
-  Context.EditBuffer.EditPosition.InsertText(LText.TrimRight + sLineBreak);
-  Context.EditBuffer.EditPosition.Move(TDelphiAIDevCodeCompletionVars.GetInstance.LineIni, LColumn);
-
-  TDelphiAIDevCodeCompletionVars.GetInstance.Row := TDelphiAIDevCodeCompletionVars.GetInstance.LineIni;
-  TDelphiAIDevCodeCompletionVars.GetInstance.Column := LColumn;
-
-  //Context.EditBuffer.EditPosition.MoveBOL;
-  //  //LTextCurrentLineOrBlock := Context.EditBuffer.EditBlock.Text;
-  //  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView);
-  //  if LTextCurrentLineOrBlock.Trim.IsEmpty then
-  //    Exit;
-
-  BindingResult := TKeyBindingResult.krUnhandled; //krNextProc;
-
-
-  //**
-  //Self.AddBlockText;
-
-  {LRow := Context.EditBuffer.EditPosition.Row;
-  LColumn := Context.EditBuffer.EditPosition.Column;
-
-  TDelphiAIDevCodeCompletionVars.GetInstance.LineIni := LRow; // + 1;
-  TDelphiAIDevCodeCompletionVars.GetInstance.LineEnd := TDelphiAIDevCodeCompletionVars.GetInstance.LineIni + (TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count); // + 1 //TDelphiAIDevCodeCompletionVars.GetInstance.LineIni + 1;
-
-  //Context.EditBuffer.EditPosition.InsertText(sLineBreak + sLineBreak);
-  LText := '';
-  for i := 0 to Pred(TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count) do
-    LText := LText + sLineBreak;
-
-  Context.EditBuffer.EditPosition.InsertText(LText.TrimRight + sLineBreak);
-  Context.EditBuffer.EditPosition.Move(TDelphiAIDevCodeCompletionVars.GetInstance.LineIni, LColumn);
-
-  TDelphiAIDevCodeCompletionVars.GetInstance.Row := TDelphiAIDevCodeCompletionVars.GetInstance.LineIni;
-  TDelphiAIDevCodeCompletionVars.GetInstance.Column := LColumn;
-
-  //Context.EditBuffer.EditPosition.MoveBOL;
-  //  //LTextCurrentLineOrBlock := Context.EditBuffer.EditBlock.Text;
-  //  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView);
-  //  if LTextCurrentLineOrBlock.Trim.IsEmpty then
-  //    Exit;
-
-  BindingResult := TKeyBindingResult.krUnhandled; //krNextProc;  }
+  BindingResult := TKeyBindingResult.krUnhandled;
 end;
 
 procedure TDelphiAIDevKeyboardBinding.KeyTab(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
@@ -206,14 +125,11 @@ var
   LText: string;
   i: Integer;
 begin
-  TUtils.AddLog('KeyTab ' + TDelphiAIDevCodeCompletionVars.GetInstance.LineIni.ToString);
-
   if KeyCode <> Shortcut(VK_TAB, []) then
     Exit;
 
   if TDelphiAIDevCodeCompletionVars.GetInstance.LineIni > 0 then
   begin
-    //Context.EditBuffer.EditPosition.InsertText('Minha linha 01'  + sLineBreak + 'Linha 2');
     LText := '';
     for i := 0 to Pred(TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count) do
       LText := LText + TDelphiAIDevCodeCompletionVars.GetInstance.Contents[i].Trim + sLineBreak;
@@ -222,10 +138,10 @@ begin
     //Context.EditBuffer.EditPosition.Move(TDelphiAIDevCodeCompletionVars.GetInstance.LineEnd, 20);
 
     TDelphiAIDevCodeCompletionVars.GetInstance.Clear;
-  end;
-
-  BindingResult := TKeyBindingResult.krUnhandled; //krNextProc;
-  TUtils.AddLog('KeyTab krUnhandled');
+    BindingResult := TKeyBindingResult.krHandled;
+  end
+  else
+    BindingResult := TKeyBindingResult.krUnhandled;
 end;
 
 initialization

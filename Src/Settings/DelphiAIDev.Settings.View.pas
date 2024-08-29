@@ -136,7 +136,6 @@ procedure TDelphiAIDevSettingsView.FormShow(Sender: TObject);
 begin
   FSettings.LoadData;
   Self.ConfigScreen;
-  //FSettings.LoadData;
   Self.LoadSettings;
 end;
 

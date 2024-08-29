@@ -214,7 +214,7 @@ end;
 
 class procedure TUtils.AddLog(const AMessage: string);
 const
-  DIRECTORY = 'C:\TempLog\DelphiAIDev\';
+  DIRECTORY = 'C:\Temp\DelphiAIDev\';
 var
   LFileName: string;
   LTextFile: TextFile;
@@ -1043,7 +1043,7 @@ end;
 
 class function TUtils.IsProjectGroup(const AFilePath: string): Boolean;
 begin
-  Result := ExtractFileExt(AFilePath).ToLower = '.groupproj';
+  Result := ExtractFileExt(AFilePath).ToLower = TC4DExtensionsFiles.GROUPPROJ.ToStringWithPoint;
 end;
 
 class function TUtils.IsProject(const AFilePath: string): Boolean;

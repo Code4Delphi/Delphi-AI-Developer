@@ -25,6 +25,7 @@ type
     FSettings: TDelphiAIDevSettings;
     FQuestions: TStrings;
     FChat: TDelphiAIDevChat;
+    FVars: TDelphiAIDevCodeCompletionVars;
   protected
     procedure Process(const AContext: IOTAKeyContext);
   public
@@ -45,6 +46,7 @@ begin
   FSettings := TDelphiAIDevSettings.GetInstance;
   FChat := TDelphiAIDevChat.Create;
   FQuestions := TStringList.Create;
+  FVars := TDelphiAIDevCodeCompletionVars.GetInstance;
 end;
 
 destructor TDelphiAIDevCodeCompletionSearch.Destroy;
@@ -58,52 +60,46 @@ procedure TDelphiAIDevCodeCompletionSearch.Process(const AContext: IOTAKeyContex
 var
   LRow: Integer;
   LColumn: Integer;
-  i: Integer;
   LText: string;
+  i: Integer;
+  LIOTAEditPosition: IOTAEditPosition;
 begin
-  FSettings.ValidateFillingSelectedAI;
+  FSettings.ValidateFillingSelectedAI(TShowMsg.No);
 
   FQuestions.Clear;
   FQuestions.Add(FSettings.LanguageQuestions.GetLanguageDefinition);
-  FQuestions.Add(TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim);
+  FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeCompletionSuggestion);
   FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeOnly);
+  FQuestions.Add(TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim);
 
-  FQuestions.Add('Com base no seguinte código delphi, de uma sugestão ' +
-    'de código para ser adicionado onde esta o comentário //Suggestion');
-   TUtils.ShowMsg(FQuestions.Text);
+  //TUtils.ShowMsg('CodeCompletionSearch.Process - FQuestions.Text', FQuestions.Text);
   try
     FChat.ProcessSend(FQuestions.Text);
   except
     Abort;
   end;
-  //Self.AddBlockText;
 
-  TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Clear;
-  for i := 0 to Pred(FChat.Response.Count) do
-  begin
-    TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Add(FChat.Response[i]);
-  end;
+  FVars.Contents.Text := TUtils.ConfReturnAI(FChat.Response.Text);
+  //TUtils.ShowMsg('CodeCompletionSearch.Process - FVars.Contents.Text', FVars.Contents.Text);
 
-  TUtils.ShowMsg(TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Text);
+  LIOTAEditPosition := AContext.EditBuffer.EditPosition;
+  LRow := LIOTAEditPosition.Row;
+  LColumn := LIOTAEditPosition.Column;
 
-  LRow := AContext.EditBuffer.EditPosition.Row;
-  LColumn := AContext.EditBuffer.EditPosition.Column;
+  FVars.Row := LRow;
+  FVars.Column := LColumn;
+  FVars.LineIni := LRow;
+  FVars.LineEnd := FVars.LineIni + FVars.Contents.Count;
 
-  TDelphiAIDevCodeCompletionVars.GetInstance.LineIni := LRow; // + 1;
-  TDelphiAIDevCodeCompletionVars.GetInstance.LineEnd := TDelphiAIDevCodeCompletionVars.GetInstance.LineIni + (TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count); // + 1 //TDelphiAIDevCodeCompletionVars.GetInstance.LineIni + 1;
-
-  //Context.EditBuffer.EditPosition.InsertText(sLineBreak + sLineBreak);
   LText := '';
-  for i := 0 to Pred(TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count) do
+  for i := 0 to Pred(FVars.Contents.Count) do
     LText := LText + sLineBreak;
 
-  AContext.EditBuffer.EditPosition.InsertText(LText.TrimRight + sLineBreak);
-  AContext.EditBuffer.EditPosition.Move(TDelphiAIDevCodeCompletionVars.GetInstance.LineIni, LColumn);
+  LIOTAEditPosition.InsertText(LText); //.TrimRight + sLineBreak);
+  LIOTAEditPosition.Move(FVars.LineIni, LColumn);
 
-  TDelphiAIDevCodeCompletionVars.GetInstance.Row := TDelphiAIDevCodeCompletionVars.GetInstance.LineIni;
-  TDelphiAIDevCodeCompletionVars.GetInstance.Column := LColumn;
 
-  //Context.EditBuffer.EditPosition.MoveBOL;
+  //LIOTAEditPositionMoveBOL;
   //  //LTextCurrentLineOrBlock := Context.EditBuffer.EditBlock.Text;
   //  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView);
   //  if LTextCurrentLineOrBlock.Trim.IsEmpty then

@@ -15,6 +15,7 @@ uses
   ToolsAPI,
   DelphiAIDev.Utils,
   DelphiAIDev.Consts,
+  DelphiAIDev.Types,
   DelphiAIDev.CodeCompletion.Vars,
   DelphiAIDev.IDE.OTAEditorNotifier;
 
@@ -62,7 +63,6 @@ var
   LIOTASourceEditor: IOTASourceEditor;
   LExt: string;
 begin
-  //TUtils.AddLog('#01 - TC4DFileNotification.Create');
   FEditorNotifiers := TList<IOTAEditorNotifier>.Create;
   LIOTAModuleServices := BorlandIDEServices as IOTAModuleServices;
   for i := 0 to Pred(LIOTAModuleServices.ModuleCount) do
@@ -73,7 +73,7 @@ begin
       if Supports(LIOTAModule.ModuleFileEditors[j], IOTASourceEditor, LIOTASourceEditor) then
       begin
         LExt := ExtractFileExt(LIOTASourceEditor.FileName).ToLower;
-        if LExt.Equals('.pas') then
+        if LExt.Equals(TC4DExtensionsFiles.PAS.ToStringWithPoint) then
           FEditorNotifiers.Add(TDelphiAIDevIDEOTAEditorNotifier.Create(LIOTASourceEditor));
       end;
   end;
@@ -93,8 +93,8 @@ end;
 
 procedure TDelphiAIDevIDEOTAIDENotifier.FileNotification(NotifyCode: TOTAFileNotification; const FileName: string; var Cancel: Boolean);
 var
-  LExtensao: string;
   LIOTAModule: IOTAModule;
+  LExtension: string;
   i: Integer;
   LIOTASourceEditor: IOTASourceEditor;
 begin
@@ -110,8 +110,8 @@ begin
     for i := 0 to Pred(LIOTAModule.ModuleFileCount) do
       if Supports(LIOTAModule.ModuleFileEditors[i], IOTASourceEditor, LIOTASourceEditor) then
       begin
-        LExtensao := ExtractFileExt(LIOTASourceEditor.FileName).ToLower;
-        if LExtensao.Equals('.pas') then
+        LExtension := ExtractFileExt(LIOTASourceEditor.FileName).ToLower;
+        if LExtension.Equals(TC4DExtensionsFiles.PAS.ToStringWithPoint) then
           FEditorNotifiers.Add(TDelphiAIDevIDEOTAEditorNotifier.Create(LIOTASourceEditor));
       end;
   end;
@@ -119,8 +119,10 @@ begin
   if (NotifyCode <> ofnFileOpened) and (NotifyCode <> ofnFileClosing) then
     Exit;
 
-  LExtensao := ExtractFileExt(FileName).ToLower;
-  if (LExtensao <> '.dproj') and (LExtensao <> '.groupproj') then
+  LExtension := ExtractFileExt(FileName).ToLower;
+  if (LExtension <> TC4DExtensionsFiles.DPROJ.ToStringWithPoint)
+    and (LExtension <> TC4DExtensionsFiles.GROUPPROJ.ToStringWithPoint)
+  then
     Exit;
 end;
 
@@ -129,9 +131,4 @@ initialization
 finalization
   if Index >= 0 then
     (BorlandIDEServices as IOTAServices).RemoveNotifier(Index);
-
-
-
-
-
 end.

@@ -111,6 +111,7 @@ contains
   DelphiAIDev.IDE.OTAIDENotifier in '..\Src\IDE\OTAIDENotifier\DelphiAIDev.IDE.OTAIDENotifier.pas',
   DelphiAIDev.IDE.OTAEditorNotifier in '..\Src\IDE\OTAEditorNotifier\DelphiAIDev.IDE.OTAEditorNotifier.pas',
   DelphiAIDev.IDE.NTAEditViewNotifier in '..\Src\IDE\NTAEditViewNotifier\DelphiAIDev.IDE.NTAEditViewNotifier.pas',
-  DelphiAIDev.CodeCompletion.Search in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Search.pas';
+  DelphiAIDev.CodeCompletion.Search in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Search.pas',
+  DelphiAIDev.Test.Client in '..\Src\Test\DelphiAIDev.Test.Client.pas';
 
 end.

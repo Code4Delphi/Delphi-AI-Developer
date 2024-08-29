@@ -13,7 +13,7 @@ type
   {$SCOPEDENUMS ON}
   TC4DAIsAvailable = (Gemini, OpenAI, Groq, Ollama);
   TC4DLanguage = (en, ptBR, es);
-  TC4DExtensionsFiles = (None, PAS, DFM, FMX, DPR, DPK, DPROJ, ZIP, BMP, INI, ALL);
+  TC4DExtensionsFiles = (None, PAS, DFM, FMX, DPR, DPK, DPROJ, GROUPPROJ, ZIP, BMP, INI, ALL);
   TC4DExtensionsOfFiles = set of TC4DExtensionsFiles;
   TC4DExtensionsCommon = (rtf, csv, txt);
   TC4DIcon = (Information, Question, Warning, Error, Success);
@@ -22,6 +22,7 @@ type
   TC4DQuestionKind = (None, ItemMenuNormal, MenuMasterOnly, Separators);
   TC4DDriverID = (None, MySQL, Firebird);
   TAutoFreeField = (Yes, No);
+  TShowMsg = (Yes, No);
   {$SCOPEDENUMS OFF}
 
   TC4DAIsAvailableHelper = record helper for TC4DAIsAvailable
@@ -36,6 +37,7 @@ type
     function GetMsgSQLOnly: string;
     function GetMsgJSONIsDatabaseStructure(ASGBDName: string): string;
     function GetMsgJSONInformedAnswerQuestion: string;
+    function GetMsgCodeCompletionSuggestion: string;
   end;
 
   TC4DExtensionsFilesHelper = record helper for TC4DExtensionsFiles
@@ -119,7 +121,8 @@ end;
 
 function TC4DLanguageHelper.GetMsgCodeOnly: string;
 begin
-  Result := 'Faça a seguinte ação sem adicionar comentários:';
+  //Result := 'Faça a seguinte ação sem adicionar nenhum comentários';
+  Result := 'Responda a pergunta sem adicionar nenhum comentários, retorne apenas o código fonte';
   case Self of
     TC4DLanguage.en:
       Result := 'Perform the following action without adding comments:';
@@ -169,6 +172,20 @@ begin
   Result := Result + sLineBreak;
 end;
 
+function TC4DLanguageHelper.GetMsgCodeCompletionSuggestion: string;
+begin
+  Result := 'Com base no seguinte código delphi, de uma sugestão ' +
+    'de código para ser adicionado onde esta o comentário //Suggestion';
+  case Self of
+    TC4DLanguage.en:
+      Result := 'Based on the following Delphi code, give a suggestion of code to be added where the comment //Suggestion is';
+    TC4DLanguage.es:
+      Result := 'Basado en el siguiente código Delphi, se agregará una sugerencia de código donde está el comentario //Sugerencia';
+  end;
+
+  Result := Result + sLineBreak;
+end;
+
 { TC4DExtensionsFilesHelper }
 function TC4DExtensionsFilesHelper.ToString: string;
 begin
@@ -187,23 +204,25 @@ var
 begin
   Result := False;
   LExtension := AExtension.Trim.ToLower;
-  if LExtension = '.pas' then
+  if LExtension = TC4DExtensionsFiles.PAS.ToStringWithPoint then
     Result := TC4DExtensionsFiles.PAS in Self
-  else if LExtension = '.dfm' then
+  else if LExtension = TC4DExtensionsFiles.DFM.ToStringWithPoint then
     Result := TC4DExtensionsFiles.DFM in Self
-  else if LExtension = '.fmx' then
+  else if LExtension = TC4DExtensionsFiles.FMX.ToStringWithPoint then
     Result := TC4DExtensionsFiles.FMX in Self
-  else if LExtension = '.dpr' then
+  else if LExtension = TC4DExtensionsFiles.DPR.ToStringWithPoint then
     Result := TC4DExtensionsFiles.DPR in Self
-  else if LExtension = '.dpk' then
+  else if LExtension = TC4DExtensionsFiles.DPK.ToStringWithPoint then
     Result := TC4DExtensionsFiles.DPK in Self
-  else if LExtension = '.dproj' then
+  else if LExtension = TC4DExtensionsFiles.DPROJ.ToStringWithPoint then
     Result := TC4DExtensionsFiles.DPROJ in Self
-  else if LExtension = '.zip' then
+  else if LExtension = TC4DExtensionsFiles.GROUPPROJ.ToStringWithPoint then
+    Result := TC4DExtensionsFiles.GROUPPROJ in Self
+  else if LExtension =TC4DExtensionsFiles.ZIP.ToStringWithPoint then
     Result := TC4DExtensionsFiles.ZIP in Self
-  else if LExtension = '.bmp' then
+  else if LExtension = TC4DExtensionsFiles.BMP.ToStringWithPoint then
     Result := TC4DExtensionsFiles.BMP in Self
-  else if LExtension = '.ini' then
+  else if LExtension = TC4DExtensionsFiles.INI.ToStringWithPoint then
     Result := TC4DExtensionsFiles.INI in Self;
 end;
 
