@@ -10,7 +10,8 @@ uses
   ToolsAPI,
   DelphiAIDev.Utils.CnWizard,
   DelphiAIDev.Chat.View,
-  DelphiAIDev.CodeCompletion.Search;
+  DelphiAIDev.CodeCompletion.Search,
+  DelphiAIDev.CodeCompletion.KeyTab;
 
 type
   TDelphiAIDevKeyboardBinding = class(TNotifierObject, IOTAKeyboardBinding)
@@ -101,23 +102,13 @@ begin
 end;
 
 procedure TDelphiAIDevKeyboardBinding.KeyTab(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
-var
-  LText: string;
-  i: Integer;
 begin
   if KeyCode <> Shortcut(VK_TAB, []) then
     Exit;
 
   if TDelphiAIDevCodeCompletionVars.GetInstance.LineIni > 0 then
   begin
-    LText := '';
-    for i := 0 to Pred(TDelphiAIDevCodeCompletionVars.GetInstance.Contents.Count) do
-      LText := LText + TDelphiAIDevCodeCompletionVars.GetInstance.Contents[i].Trim + sLineBreak;
-
-    Context.EditBuffer.EditPosition.InsertText(LText.Trim);
-    //Context.EditBuffer.EditPosition.Move(TDelphiAIDevCodeCompletionVars.GetInstance.LineEnd, 20);
-
-    TDelphiAIDevCodeCompletionVars.GetInstance.Clear;
+    TDelphiAIDevCodeCompletionKeyTab.New.Process(Context);
     BindingResult := TKeyBindingResult.krHandled;
   end
   else

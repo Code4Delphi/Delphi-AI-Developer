@@ -30,5 +30,9 @@ type
 
 implementation
 
+procedure TDelphiAIDevTest.Clear;
+begin
+
+end;
 
 end.

@@ -228,6 +228,7 @@
         <DCCReference Include="..\Src\IDE\NTAEditViewNotifier\DelphiAIDev.IDE.NTAEditViewNotifier.pas"/>
         <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Search.pas"/>
         <DCCReference Include="..\Src\Test\DelphiAIDev.Test.Client.pas"/>
+        <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.KeyTab.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>
