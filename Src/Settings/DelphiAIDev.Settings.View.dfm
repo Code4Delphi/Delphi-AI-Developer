@@ -10,6 +10,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
@@ -1056,10 +1057,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             BevelOuter = bvNone
             ParentBackground = False
             TabOrder = 0
-            ExplicitLeft = 3
-            ExplicitTop = 9
-            ExplicitWidth = 655
-            ExplicitHeight = 476
             object Label15: TLabel
               Left = 16
               Top = 29
@@ -1070,14 +1067,27 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object Label16: TLabel
               Left = 16
               Top = 138
-              Width = 92
+              Width = 231
               Height = 13
-              Caption = 'Shortcut for invoke'
+              Caption = 'Shortcut for invoke (Delphi IDE restart required)'
+            end
+            object Label17: TLabel
+              Left = 16
+              Top = 443
+              Width = 316
+              Height = 13
+              Caption = '* Attention! This feature is in Beta and may be unstable.'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
             end
             object ckCodeCompletionUse: TCheckBox
               Left = 16
               Top = 5
-              Width = 97
+              Width = 111
               Height = 17
               Cursor = crHandPoint
               Caption = 'Code Completion'
@@ -1096,7 +1106,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object ColorBoxCodeCompletionSuggestionColor: TColorBox
               Left = 16
               Top = 102
-              Width = 133
+              Width = 333
               Height = 22
               TabOrder = 2
             end
@@ -1108,20 +1118,13 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               Cursor = crHandPoint
               Caption = 'Suggestion Code Color'
               TabOrder = 3
-              OnClick = ckColorHighlightCodeDelphiUseClick
+              OnClick = ckCodeCompletionSuggestionColorUseClick
             end
-            object hotKeyCodeCompletionShortcutInvoke: THotKey
+            object edtCodeCompletionShortcutInvoke: TEdit
               Left = 16
-              Top = 154
-              Width = 150
-              Height = 19
-              Cursor = crArrow
-              Hint = 'Customize Shortcut'
-              HotKey = 0
-              InvalidKeys = [hcNone]
-              Modifiers = []
-              ParentShowHint = False
-              ShowHint = True
+              Top = 155
+              Width = 333
+              Height = 21
               TabOrder = 4
             end
           end

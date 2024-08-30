@@ -21,7 +21,7 @@ type
     procedure KeyAltHome(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     procedure KeyTab(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     //procedure KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
-    procedure KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+    procedure CodeCompletionSearch(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
   protected
     function GetBindingType: TBindingType;
     function GetDisplayName: string;
@@ -96,17 +96,17 @@ begin
   if not(Trim(TDelphiAIDevSettings.GetInstance.CodeCompletionShortcutInvoke).IsEmpty) then
     LShortcut := TDelphiAIDevSettings.GetInstance.CodeCompletionShortcutInvoke;
 
-  TUtils.ShowMsg(LShortcut);
-  BindingServices.AddKeyBinding([TextToShortCut(LShortcut)], Self.KeyProcBlockReturnAndAlt, nil);
+  BindingServices.AddKeyBinding([TextToShortCut(LShortcut)], Self.CodeCompletionSearch, nil);
 
   BindingServices.AddKeyBinding([Shortcut(VK_TAB, [])], Self.KeyTab, nil);
   BindingServices.AddKeyBinding([Shortcut(VK_HOME, [ssAlt])], Self.KeyAltHome, nil);
 end;
 
-procedure TDelphiAIDevKeyboardBinding.KeyProcBlockReturnAndAlt(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+procedure TDelphiAIDevKeyboardBinding.CodeCompletionSearch(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 begin
   try
-    TDelphiAIDevCodeCompletionSearch.New.Process(Context);
+    if TDelphiAIDevSettings.GetInstance.CodeCompletionUse then
+      TDelphiAIDevCodeCompletionSearch.New.Process(Context);
   finally
     BindingResult := TKeyBindingResult.krUnhandled;
   end;
@@ -114,16 +114,16 @@ end;
 
 procedure TDelphiAIDevKeyboardBinding.KeyTab(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 begin
-  if KeyCode <> Shortcut(VK_TAB, []) then
-    Exit;
+//  if KeyCode <> Shortcut(VK_TAB, []) then
+//    Exit;
+
+  BindingResult := TKeyBindingResult.krUnhandled;
 
   if TDelphiAIDevCodeCompletionVars.GetInstance.LineIni > 0 then
   begin
     TDelphiAIDevCodeCompletionKeyTab.New.Process(Context);
     BindingResult := TKeyBindingResult.krHandled;
-  end
-  else
-    BindingResult := TKeyBindingResult.krUnhandled;
+  end;
 end;
 
 procedure TDelphiAIDevKeyboardBinding.KeyAltHome(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);

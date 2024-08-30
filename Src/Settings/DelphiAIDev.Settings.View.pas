@@ -18,7 +18,8 @@ uses
   Vcl.ComCtrls,
   Vcl.Menus,
   DelphiAIDev.Settings,
-  DelphiAIDev.Types;
+  DelphiAIDev.Types,
+  DelphiAIDev.Consts;
 
 type
   TDelphiAIDevSettingsView = class(TForm)
@@ -109,10 +110,11 @@ type
     cBoxCodeCompletionAIDefault: TComboBox;
     ColorBoxCodeCompletionSuggestionColor: TColorBox;
     ckCodeCompletionSuggestionColorUse: TCheckBox;
-    hotKeyCodeCompletionShortcutInvoke: THotKey;
     Label16: TLabel;
     gboxData: TGroupBox;
     btnOpenDataFolder: TButton;
+    edtCodeCompletionShortcutInvoke: TEdit;
+    Label17: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -131,6 +133,7 @@ type
     procedure btnIAsOfflineClick(Sender: TObject);
     procedure btnCodeCompletionClick(Sender: TObject);
     procedure btnOpenDataFolderClick(Sender: TObject);
+    procedure ckCodeCompletionSuggestionColorUseClick(Sender: TObject);
   private
     FSettings: TDelphiAIDevSettings;
     procedure SaveSettings;
@@ -142,6 +145,8 @@ type
     procedure FillcBoxCodeCompletionAIDefault;
     procedure ShowPanel(const AButton: TButton; const APanel: TPanel);
     procedure PanelsSetParent;
+    procedure ValidateCodeCompletionShortcutInvoke;
+    procedure ConfigFieldsCodeCompletionSuggestionColor;
   public
 
   end;
@@ -289,9 +294,36 @@ end;
 
 procedure TDelphiAIDevSettingsView.btnConfirmClick(Sender: TObject);
 begin
+  Self.ValidateCodeCompletionShortcutInvoke;
+
   Self.SaveSettings;
   Self.Close;
   Self.ModalResult := mrOk;
+end;
+
+procedure TDelphiAIDevSettingsView.ValidateCodeCompletionShortcutInvoke;
+var
+  LShortcutStr: string;
+  LShortCut: TShortCut;
+begin
+  LShortcutStr := Trim(edtCodeCompletionShortcutInvoke.Text);
+  if LShortcutStr.Length = 1 then
+    raise Exception.Create('Invalid CodeCompletion shortcut');
+
+  LShortCut := TextToShortCut(LShortcutStr);
+
+  if ShortCutToText(LShortCut).Trim.IsEmpty then
+    edtCodeCompletionShortcutInvoke.Text := TConsts.CODE_COMPLETION_SHORTCUT_INVOKE;
+end;
+
+procedure TDelphiAIDevSettingsView.ckCodeCompletionSuggestionColorUseClick(Sender: TObject);
+begin
+  Self.ConfigFieldsCodeCompletionSuggestionColor;
+end;
+
+procedure TDelphiAIDevSettingsView.ConfigFieldsCodeCompletionSuggestionColor;
+begin
+  ColorBoxCodeCompletionSuggestionColor.Enabled := ckCodeCompletionSuggestionColorUse.Checked;
 end;
 
 procedure TDelphiAIDevSettingsView.ckColorHighlightCodeDelphiUseClick(Sender: TObject);
@@ -317,7 +349,7 @@ begin
   cBoxCodeCompletionAIDefault.ItemIndex := Integer(FSettings.CodeCompletionAIDefault);
   ckCodeCompletionSuggestionColorUse.Checked := FSettings.CodeCompletionSuggestionColorUse;
   ColorBoxCodeCompletionSuggestionColor.Selected := FSettings.CodeCompletionSuggestionColor;
-  hotKeyCodeCompletionShortcutInvoke.HotKey := TextToShortCut(FSettings.CodeCompletionShortcutInvoke);
+  edtCodeCompletionShortcutInvoke.Text := FSettings.CodeCompletionShortcutInvoke;
 
   edtBaseUrlGemini.Text := FSettings.BaseUrlGemini;
   cBoxModelGemini.ItemIndex := cBoxModelGemini.Items.IndexOf(FSettings.ModelGemini);
@@ -356,7 +388,7 @@ begin
   FSettings.CodeCompletionAIDefault := TC4DAiAvailable(cBoxCodeCompletionAIDefault.ItemIndex);
   FSettings.CodeCompletionSuggestionColorUse := ckCodeCompletionSuggestionColorUse.Checked;
   FSettings.CodeCompletionSuggestionColor := ColorBoxCodeCompletionSuggestionColor.Selected;
-  FSettings.CodeCompletionShortcutInvoke := ShortCutToText(hotKeyCodeCompletionShortcutInvoke.HotKey);
+  FSettings.CodeCompletionShortcutInvoke := edtCodeCompletionShortcutInvoke.Text;
 
   FSettings.BaseUrlGemini := edtBaseUrlGemini.Text;
   FSettings.ModelGemini := cBoxModelGemini.Text;
@@ -373,8 +405,6 @@ begin
   FSettings.BaseUrlOllama := edtBaseUrlOllama.Text;
   FSettings.ModelOllama := cBoxModelOllama.Text;
   FSettings.ApiKeyOllama := edtApiKeyOllama.Text;
-
-
 
   FSettings.SaveData;
 end;
