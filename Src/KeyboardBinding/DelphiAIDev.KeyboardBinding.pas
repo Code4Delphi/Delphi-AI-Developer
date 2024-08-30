@@ -8,10 +8,12 @@ uses
   Winapi.Windows,
   Vcl.Menus,
   ToolsAPI,
+  DelphiAIDev.Consts,
   DelphiAIDev.Utils.CnWizard,
   DelphiAIDev.Chat.View,
   DelphiAIDev.CodeCompletion.Search,
-  DelphiAIDev.CodeCompletion.KeyTab;
+  DelphiAIDev.CodeCompletion.KeyTab,
+  DelphiAIDev.Settings;
 
 type
   TDelphiAIDevKeyboardBinding = class(TNotifierObject, IOTAKeyboardBinding)
@@ -83,11 +85,20 @@ begin
 end;
 
 procedure TDelphiAIDevKeyboardBinding.BindKeyboard(const BindingServices: IOTAKeyBindingServices);
+var
+  LShortcut: string;
 begin
 //  if TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ then
 //    Exit;
 
-  BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [ssAlt])], Self.KeyProcBlockReturnAndAlt, nil);
+  //BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [ssAlt])], Self.KeyProcBlockReturnAndAlt, nil);
+  LShortcut := TConsts.CODE_COMPLETION_SHORTCUT_INVOKE;
+  if not(Trim(TDelphiAIDevSettings.GetInstance.CodeCompletionShortcutInvoke).IsEmpty) then
+    LShortcut := TDelphiAIDevSettings.GetInstance.CodeCompletionShortcutInvoke;
+
+  TUtils.ShowMsg(LShortcut);
+  BindingServices.AddKeyBinding([TextToShortCut(LShortcut)], Self.KeyProcBlockReturnAndAlt, nil);
+
   BindingServices.AddKeyBinding([Shortcut(VK_TAB, [])], Self.KeyTab, nil);
   BindingServices.AddKeyBinding([Shortcut(VK_HOME, [ssAlt])], Self.KeyAltHome, nil);
 end;

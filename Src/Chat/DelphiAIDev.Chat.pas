@@ -48,13 +48,13 @@ begin
   FResponse.Clear;
 
   case FSettings.AIDefault of
-    TC4DAIsAvailable.Gemini:
+    TC4DAiAvailable.Gemini:
       FResponse.Text := TDelphiAIDevAIGemini.New(FSettings).GetResponse(LQuestion);
-    TC4DAIsAvailable.OpenAI:
+    TC4DAiAvailable.OpenAI:
       FResponse.Text := TDelphiAIDevAIChatGPT.New(FSettings).GetResponse(LQuestion);
-    TC4DAIsAvailable.Groq:
+    TC4DAiAvailable.Groq:
       FResponse.Text := TDelphiAIDevAIGroq.New(FSettings).GetResponse(LQuestion);
-    TC4DAIsAvailable.Ollama:
+    TC4DAiAvailable.Ollama:
       FResponse.Text := TDelphiAIDevAIOllama.New(FSettings).GetResponse(LQuestion);
   else
     FResponse.Text := 'Default AI not reported in Delphi AI Developer settings';

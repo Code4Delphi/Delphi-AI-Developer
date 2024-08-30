@@ -613,13 +613,13 @@ begin
   Groq1.Checked := False;
   Ollama1.Checked := False;
   case FSettings.AIDefault of
-    TC4DAIsAvailable.Gemini:
+    TC4DAiAvailable.Gemini:
       Gemini1.Checked := True;
-    TC4DAIsAvailable.OpenAI:
+    TC4DAiAvailable.OpenAI:
       ChatGPT1.Checked := True;
-    TC4DAIsAvailable.Groq:
+    TC4DAiAvailable.Groq:
       Groq1.Checked := True;
-    TC4DAIsAvailable.Ollama:
+    TC4DAiAvailable.Ollama:
       Ollama1.Checked := True;
   end;
 end;
@@ -629,13 +629,13 @@ begin
   lbCurrentAI.Caption := FSettings.AIDefault.ToString;
 
   case FSettings.AIDefault of
-    TC4DAIsAvailable.Gemini:
+    TC4DAiAvailable.Gemini:
       lbCurrentAI.Hint := FSettings.ModelGemini;
-    TC4DAIsAvailable.OpenAI:
+    TC4DAiAvailable.OpenAI:
       lbCurrentAI.Hint := FSettings.ModelOpenAI;
-    TC4DAIsAvailable.Groq:
+    TC4DAiAvailable.Groq:
       lbCurrentAI.Hint := FSettings.ModelGroq;
-    TC4DAIsAvailable.Ollama:
+    TC4DAiAvailable.Ollama:
       lbCurrentAI.Hint := FSettings.ModelOllama;
   end;
 
@@ -652,7 +652,7 @@ begin
   if not(LTag in [0, 1, 2, 3])then
     Exit;
 
-  FSettings.AIDefault := TC4DAIsAvailable(LTag);
+  FSettings.AIDefault := TC4DAiAvailable(LTag);
   FSettings.SaveData;
   Self.ConfLabelCurrentAI;
 end;

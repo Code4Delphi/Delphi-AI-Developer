@@ -15,10 +15,15 @@ uses
 type
   TDelphiAIDevSettings = class
   private const
-    FIELD_LanguageQuestions =  'LanguageQuestions';
+    FIELD_LanguageQuestions = 'LanguageQuestions';
     FIELD_AIDefault = 'AIDefault';
     FIELD_ColorHighlightCodeDelphiUse = 'ColorHighlightCodeDelphiUse';
     FIELD_ColorHighlightCodeDelphi =  'ColorHighlightCodeDelphi';
+    FIELD_CodeCompletionUse = 'CodeCompletionUse';
+    FIELD_CodeCompletionAIDefault = 'CodeCompletionAIDefault';
+    FIELD_CodeCompletionSuggestionColorUse = 'CodeCompletionSuggestionColorUse';
+    FIELD_CodeCompletionSuggestionColor = 'CodeCompletionSuggestionColor';
+    FIELD_CodeCompletionShortcutInvoke = 'CodeCompletionShortcutInvoke';
     FIELD_BaseUrlGemini = 'BaseUrlGemini';
     FIELD_ModelGemini = 'ModelGemini';
     FIELD_ApiKeyGemini = 'ApiKeyGemini';
@@ -33,9 +38,15 @@ type
     FIELD_ApiKeyOllama = 'ApiKeyOllama';
   private
     FLanguageQuestions: TC4DLanguage;
-    FAIDefault: TC4DAIsAvailable;
+    FAIDefault: TC4DAiAvailable;
     FColorHighlightCodeDelphiUse: Boolean;
     FColorHighlightCodeDelphi: TColor;
+
+    FCodeCompletionUse: Boolean;
+    FCodeCompletionAIDefault: TC4DAiAvailable;
+    FCodeCompletionSuggestionColorUse: Boolean;
+    FCodeCompletionSuggestionColor: TColor;
+    FCodeCompletionShortcutInvoke: string;
 
     FBaseUrlGemini: string;
     FModelGemini: string;
@@ -62,9 +73,15 @@ type
     procedure ValidateFillingSelectedAI(const AShowMsg: TShowMsg = TShowMsg.Yes);
 
     property LanguageQuestions: TC4DLanguage read FLanguageQuestions write FLanguageQuestions;
-    property AIDefault: TC4DAIsAvailable read FAIDefault write FAIDefault;
+    property AIDefault: TC4DAiAvailable read FAIDefault write FAIDefault;
     property ColorHighlightCodeDelphiUse: Boolean read FColorHighlightCodeDelphiUse write FColorHighlightCodeDelphiUse;
     property ColorHighlightCodeDelphi: TColor read FColorHighlightCodeDelphi write FColorHighlightCodeDelphi;
+
+    property CodeCompletionUse: Boolean read FCodeCompletionUse write FCodeCompletionUse;
+    property CodeCompletionAIDefault: TC4DAiAvailable read FCodeCompletionAIDefault write FCodeCompletionAIDefault;
+    property CodeCompletionSuggestionColorUse: Boolean read FCodeCompletionSuggestionColorUse write FCodeCompletionSuggestionColorUse;
+    property CodeCompletionSuggestionColor: TColor read FCodeCompletionSuggestionColor write FCodeCompletionSuggestionColor;
+    property CodeCompletionShortcutInvoke: string read FCodeCompletionShortcutInvoke write FCodeCompletionShortcutInvoke;
 
     property BaseUrlGemini: string read FBaseUrlGemini write FBaseUrlGemini;
     property ModelGemini: string read FModelGemini write FModelGemini;
@@ -103,10 +120,16 @@ end;
 procedure TDelphiAIDevSettings.LoadDefaults;
 begin
   FLanguageQuestions := TC4DLanguage.ptBR;
-  FAIDefault := TC4DAIsAvailable.Groq;
+  FAIDefault := TC4DAiAvailable.Groq;
 
   FColorHighlightCodeDelphiUse := False;
   FColorHighlightCodeDelphi := clNone;
+
+  FCodeCompletionUse := False;
+  FCodeCompletionAIDefault := TC4DAiAvailable.Groq;
+  FCodeCompletionSuggestionColorUse := False;
+  FCodeCompletionSuggestionColor := TConsts.CODE_COMPLETION_SUGGESTION_COLOR;
+  FCodeCompletionShortcutInvoke := TConsts.CODE_COMPLETION_SHORTCUT_INVOKE;
 
   FBaseUrlGemini := TConsts.BASE_URL_GEMINI_DEFAULT;
   FModelGemini := TConsts.MODEL_GEMINI_DEFAULT;
@@ -142,6 +165,12 @@ begin
     LReg.WriteBool(FIELD_ColorHighlightCodeDelphiUse, FColorHighlightCodeDelphiUse);
     LReg.WriteString(FIELD_ColorHighlightCodeDelphi, ColorToString(FColorHighlightCodeDelphi));
 
+    LReg.WriteBool(FIELD_CodeCompletionUse, FCodeCompletionUse);
+    LReg.WriteInteger(FIELD_CodeCompletionAIDefault, Integer(FCodeCompletionAIDefault));
+    LReg.WriteBool(FIELD_CodeCompletionSuggestionColorUse, FCodeCompletionSuggestionColorUse);
+    LReg.WriteString(FIELD_CodeCompletionSuggestionColor, ColorToString(FCodeCompletionSuggestionColor));
+    LReg.WriteString(FIELD_CodeCompletionShortcutInvoke, FCodeCompletionShortcutInvoke);
+
     LReg.WriteString(FIELD_BaseUrlGemini, FBaseUrlGemini);
     LReg.WriteString(FIELD_ModelGemini, FModelGemini);
     LReg.WriteString(FIELD_ApiKeyGemini, FApiKeyGemini);
@@ -173,14 +202,14 @@ begin
       LReg.CloseKey;
       LReg.RootKey := HKEY_CURRENT_USER;
 
-      if not(LReg.OpenKey(TConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, False)) then
+      if not LReg.OpenKey(TConsts.KEY_SETTINGS_IN_WINDOWS_REGISTRY, False) then
         Exit;
 
       if LReg.ValueExists(FIELD_LanguageQuestions) then
         FLanguageQuestions := TC4DLanguage(LReg.ReadInteger(FIELD_LanguageQuestions));
 
       if LReg.ValueExists(FIELD_AIDefault) then
-        FAIDefault := TC4DAIsAvailable(LReg.ReadInteger(FIELD_AIDefault));
+        FAIDefault := TC4DAiAvailable(LReg.ReadInteger(FIELD_AIDefault));
 
       //COLOR FOR HIGHLIGHT CODE DELPHI/PASCAL
       if LReg.ValueExists(FIELD_ColorHighlightCodeDelphiUse) then
@@ -189,6 +218,23 @@ begin
       if LReg.ValueExists(FIELD_ColorHighlightCodeDelphi) then
         FColorHighlightCodeDelphi := TUtils.StringToColorDef(LReg.ReadString(FIELD_ColorHighlightCodeDelphi),
           TUtilsOTA.ActiveThemeForCode);
+
+      //Code Completion
+      if LReg.ValueExists(FIELD_CodeCompletionUse) then
+        FCodeCompletionUse := LReg.ReadBool(FIELD_CodeCompletionUse);
+
+      if LReg.ValueExists(FIELD_CodeCompletionAIDefault) then
+        FCodeCompletionAIDefault := TC4DAiAvailable(LReg.ReadInteger(FIELD_CodeCompletionAIDefault));
+
+      if LReg.ValueExists(FIELD_CodeCompletionSuggestionColorUse) then
+        FCodeCompletionSuggestionColorUse := LReg.ReadBool(FIELD_CodeCompletionSuggestionColorUse);
+
+      if LReg.ValueExists(FIELD_CodeCompletionSuggestionColor) then
+        FCodeCompletionSuggestionColor := TUtils.StringToColorDef(LReg.ReadString(FIELD_CodeCompletionSuggestionColor),
+          TUtilsOTA.ActiveThemeForCode);
+
+      if LReg.ValueExists(FIELD_CodeCompletionShortcutInvoke) then
+        FCodeCompletionShortcutInvoke := LReg.ReadString(FIELD_CodeCompletionShortcutInvoke);
 
       //GEMINI
       if LReg.ValueExists(FIELD_BaseUrlGemini) then
@@ -250,7 +296,7 @@ const
   end;
 begin
   case FAIDefault of
-    TC4DAIsAvailable.Gemini:
+    TC4DAiAvailable.Gemini:
     begin
       if FBaseUrlGemini.Trim.IsEmpty then
         ShowMsgInternal(['Base URL', 'Gemini']);
@@ -261,7 +307,7 @@ begin
       if FApiKeyGemini.Trim.IsEmpty then
         ShowMsgInternal(['API Key', 'Gemini']);
     end;
-    TC4DAIsAvailable.OpenAI:
+    TC4DAiAvailable.OpenAI:
     begin
       if FBaseUrlOpenAI.Trim.IsEmpty then
         ShowMsgInternal(['Base URL', 'ChatGPT']);
@@ -272,7 +318,7 @@ begin
       if FApiKeyOpenAI.Trim.IsEmpty then
         ShowMsgInternal(['API Key', 'ChatGPT']);
     end;
-    TC4DAIsAvailable.Groq:
+    TC4DAiAvailable.Groq:
     begin
       if FBaseUrlGroq.Trim.IsEmpty then
         ShowMsgInternal(['Base URL', 'Groq']);
@@ -283,7 +329,7 @@ begin
       if FApiKeyGroq.Trim.IsEmpty then
         ShowMsgInternal(['API Key', 'Groq']);
     end;
-    TC4DAIsAvailable.Ollama:
+    TC4DAiAvailable.Ollama:
     begin
       if FBaseUrlOllama.Trim.IsEmpty then
         ShowMsgInternal(['Base URL', 'Ollama']);

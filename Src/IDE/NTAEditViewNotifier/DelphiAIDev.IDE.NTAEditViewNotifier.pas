@@ -16,6 +16,7 @@ uses
   DelphiAIDev.Utils.OTA,
   DelphiAIDev.Consts,
   DelphiAIDev.CodeCompletion.Vars,
+  DelphiAIDev.Settings,
   ToolsAPI;
 
 type
@@ -95,30 +96,16 @@ var
 begin
   TUtilsOTA.GetCursorPosition(LRow, LColumn);
 
-  //TUtils.AddLog(Format('EditorIdle - %d (%d) - %d (%d) - %s ', [LVars.Row, LRow, LVars.Column, LColumn, DateTimeToStr(Now)]));
-
   if (LRow <> LVars.Row) or (LColumn <> LVars.Column) then
   begin
     LVars.LineIni := 0;
     LVars.Clear;
   end;
-
-  //TUtils.AddLog('EditorIdle ' + BoolToStr(LVars.ClearNext, True));
-
-//  if LVars.ClearNext then
-//  begin
-//    LVars.Clear;
-//  end
-//  else
-//    LVars.ClearNext := True;
-
-  //View.AddNotifier()
-  //View.GetEditWindow.Form.Repaint;
 end;
 
 procedure TDelphiAIDevIDENTAEditViewNotifier.EndPaint(const View: IOTAEditView);
 begin
-  //TUtils.AddLog('EndPaint');
+
 end;
 
 procedure TDelphiAIDevIDENTAEditViewNotifier.Modified;
@@ -147,6 +134,8 @@ begin
   begin
     Canvas.Brush.Style := bsClear;
     Canvas.Font.Color := $777777; //$666666;
+    if TDelphiAIDevSettings.GetInstance.CodeCompletionSuggestionColorUse then
+      Canvas.Font.Color := TDelphiAIDevSettings.GetInstance.CodeCompletionSuggestionColor;
 
     try
       LLineText := LVars.Contents[LineNumber - LVars.LineIni];
