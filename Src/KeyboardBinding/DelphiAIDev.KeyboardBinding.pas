@@ -20,7 +20,6 @@ type
   private
     procedure KeyAltHome(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     procedure KeyTab(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
-    //procedure KeyProcBlockReturn(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     procedure CodeCompletionSearch(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
   protected
     function GetBindingType: TBindingType;
@@ -88,10 +87,9 @@ procedure TDelphiAIDevKeyboardBinding.BindKeyboard(const BindingServices: IOTAKe
 var
   LShortcut: string;
 begin
-//  if TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ then
-//    Exit;
+  //if TUtilsOTA.CurrentProjectIsDelphiAIDeveloperDPROJ then
+  //  Exit;
 
-  //BindingServices.AddKeyBinding([Shortcut(VK_RETURN, [ssAlt])], Self.KeyProcBlockReturnAndAlt, nil);
   LShortcut := TConsts.CODE_COMPLETION_SHORTCUT_INVOKE;
   if not(Trim(TDelphiAIDevSettings.GetInstance.CodeCompletionShortcutInvoke).IsEmpty) then
     LShortcut := TDelphiAIDevSettings.GetInstance.CodeCompletionShortcutInvoke;
@@ -130,9 +128,6 @@ procedure TDelphiAIDevKeyboardBinding.KeyAltHome(const Context: IOTAKeyContext; 
 var
   LTextCurrentLineOrBlock: string;
 begin
-  if KeyCode <> Shortcut(VK_RETURN, [ssAlt]) then
-    Exit;
-
   LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView).Trim;
   if LTextCurrentLineOrBlock.Trim.IsEmpty then
     Exit;

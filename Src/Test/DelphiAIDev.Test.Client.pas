@@ -11,7 +11,7 @@ type
     FNumero: Integer;
     FTelefone: string;
     FEmail: string;
-    FDataNascimento: TDateTime;
+    FSalario: Double;
   public
     property Nome: string read FNome write FNome;
     property Endereco: string read FEndereco write FEndereco;
@@ -19,17 +19,10 @@ type
     property Numero: Integer read FNumero write FNumero;
     property Telefone: string read FTelefone write FTelefone;
     property Email: string read FEmail write FEmail;
-    property DataNascimento: TDateTime read FDataNascimento write FDataNascimento;
-
-    procedure Clear;
+    property Salario: Double read FSalario write FSalario;
   end;
 
 implementation
 
-procedure TDelphiAIDevTestClient.Clear;
-begin
-  //Suggestion
-
-end;
 
 end.
