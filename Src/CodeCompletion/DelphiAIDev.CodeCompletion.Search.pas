@@ -5,6 +5,8 @@ interface
 uses
   System.SysUtils,
   System.Classes,
+  Vcl.Forms,
+  Vcl.Controls,
   ToolsAPI,
   DelphiAIDev.Types,
   DelphiAIDev.Consts,
@@ -66,41 +68,46 @@ var
 begin
   FSettings.ValidateFillingSelectedAICodeCompletion(TShowMsg.No);
 
-  FQuestions.Clear;
-  FQuestions.Add(FSettings.LanguageQuestions.GetLanguageDefinition);
-  FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeCompletionSuggestion);
-  FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeOnly);
-
-  LIOTAEditPosition := AContext.EditBuffer.EditPosition;
-  LIOTAEditPosition.InsertText(TConsts.TAG_CODE_COMPLETION);
+  Screen.Cursor := crHourGlass;
   try
-    FQuestions.Add(TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim);
+    FQuestions.Clear;
+    FQuestions.Add(FSettings.LanguageQuestions.GetLanguageDefinition);
+    FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeCompletionSuggestion);
+    FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeOnly);
+
+    LIOTAEditPosition := AContext.EditBuffer.EditPosition;
+    LIOTAEditPosition.InsertText(TConsts.TAG_CODE_COMPLETION);
+    try
+      FQuestions.Add(TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim);
+    finally
+      LIOTAEditPosition.BackspaceDelete(TConsts.TAG_CODE_COMPLETION.Length);
+    end;
+
+    try
+      FAI.AiUse(FSettings.CodeCompletionAIDefault).ProcessSend(FQuestions.Text);
+    except
+      Abort;
+    end;
+
+    FVars.Contents.Text := TUtils.ConfReturnAI(FAI.Response.Text);
+
+    LRow := LIOTAEditPosition.Row;
+    LColumn := LIOTAEditPosition.Column;
+
+    FVars.Row := LRow;
+    FVars.Column := LColumn;
+    FVars.LineIni := LRow;
+    FVars.LineEnd := FVars.LineIni + FVars.Contents.Count;
+
+    LText := '';
+    for i := 0 to Pred(FVars.Contents.Count) do
+      LText := LText + sLineBreak;
+
+    LIOTAEditPosition.InsertText(LText); //.TrimRight + sLineBreak);
+    LIOTAEditPosition.Move(FVars.LineIni, LColumn);
   finally
-    LIOTAEditPosition.BackspaceDelete(TConsts.TAG_CODE_COMPLETION.Length);
+    Screen.Cursor := crDefault;
   end;
-
-  try
-    FAI.AiUse(FSettings.CodeCompletionAIDefault).ProcessSend(FQuestions.Text);
-  except
-    Abort;
-  end;
-
-  FVars.Contents.Text := TUtils.ConfReturnAI(FAI.Response.Text);
-
-  LRow := LIOTAEditPosition.Row;
-  LColumn := LIOTAEditPosition.Column;
-
-  FVars.Row := LRow;
-  FVars.Column := LColumn;
-  FVars.LineIni := LRow;
-  FVars.LineEnd := FVars.LineIni + FVars.Contents.Count;
-
-  LText := '';
-  for i := 0 to Pred(FVars.Contents.Count) do
-    LText := LText + sLineBreak;
-
-  LIOTAEditPosition.InsertText(LText); //.TrimRight + sLineBreak);
-  LIOTAEditPosition.Move(FVars.LineIni, LColumn);
 
   //LIOTAEditPositionMoveBOL;
   //  //LTextCurrentLineOrBlock := Context.EditBuffer.EditBlock.Text;

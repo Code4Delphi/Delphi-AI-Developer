@@ -165,7 +165,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Caption = 'Send'
         TabOrder = 0
         OnClick = btnSendClick
-        ExplicitTop = 0
       end
       object pnBackConfigurableButtons: TPanel
         Left = 395

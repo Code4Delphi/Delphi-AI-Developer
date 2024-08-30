@@ -129,7 +129,7 @@ begin
   FColorHighlightCodeDelphi := clNone;
 
   FCodeCompletionUse := False;
-  FCodeCompletionAIDefault := TC4DAiAvailable.Groq;
+  FCodeCompletionAIDefault := TC4DAiAvailable.Gemini;
   FCodeCompletionSuggestionColorUse := False;
   FCodeCompletionSuggestionColor := TConsts.CODE_COMPLETION_SUGGESTION_COLOR;
   FCodeCompletionShortcutInvoke := TConsts.CODE_COMPLETION_SHORTCUT_INVOKE;
