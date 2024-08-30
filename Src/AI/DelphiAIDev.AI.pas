@@ -56,7 +56,6 @@ begin
   LQuestion := TUtils.AdjustQuestionToJson(AQuestion);
   FResponse.Clear;
 
-  TUtils.ShowMsgSynchronize(FAiUse.ToString);
   case FAiUse of
     TC4DAiAvailable.Gemini:
       FResponse.Text := TDelphiAIDevAIGemini.New(FSettings).GetResponse(LQuestion);

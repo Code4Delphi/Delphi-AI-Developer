@@ -228,7 +228,7 @@ begin
     if not FileExists(LFileName)then
       Rewrite(LTextFile);
     Append(LTextFile);
-    Writeln(LTextFile, AMessage);
+    Writeln(LTextFile, Format('%s: %s', [DateTimeToStr(Now), AMessage]));
     CloseFile(LTextFile);
   except
 //    on E: Exception do
