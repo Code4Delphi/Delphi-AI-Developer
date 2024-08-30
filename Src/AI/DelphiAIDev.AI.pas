@@ -1,4 +1,4 @@
-unit DelphiAIDev.Chat;
+unit DelphiAIDev.AI;
 
 interface
 
@@ -14,40 +14,50 @@ uses
   DelphiAIDev.AI.Ollama;
 
 type
-  TDelphiAIDevChat = class
+  TDelphiAIDevAI = class
   private
+    FAiUse: TC4DAiAvailable;
     FSettings: TDelphiAIDevSettings;
     FResponse: TStrings;
   public
     constructor Create;
     destructor Destroy; override;
+    function AiUse(const Value: TC4DAiAvailable): TDelphiAIDevAI;
     procedure ProcessSend(const AQuestion: string);
     function Response: TStrings;
   end;
 
 implementation
 
-constructor TDelphiAIDevChat.Create;
+constructor TDelphiAIDevAI.Create;
 begin
   FSettings := TDelphiAIDevSettings.GetInstance;
   FSettings.LoadData;
+  FAiUse := FSettings.AIDefault;
   FResponse := TStringList.Create;
 end;
 
-destructor TDelphiAIDevChat.Destroy;
+destructor TDelphiAIDevAI.Destroy;
 begin
   FResponse.Free;
   inherited;
 end;
 
-procedure TDelphiAIDevChat.ProcessSend(const AQuestion: string);
+function TDelphiAIDevAI.AiUse(const Value: TC4DAiAvailable): TDelphiAIDevAI;
+begin
+  Result := Self;
+  FAiUse := Value;
+end;
+
+procedure TDelphiAIDevAI.ProcessSend(const AQuestion: string);
 var
   LQuestion: string;
 begin
   LQuestion := TUtils.AdjustQuestionToJson(AQuestion);
   FResponse.Clear;
 
-  case FSettings.AIDefault of
+  TUtils.ShowMsgSynchronize(FAiUse.ToString);
+  case FAiUse of
     TC4DAiAvailable.Gemini:
       FResponse.Text := TDelphiAIDevAIGemini.New(FSettings).GetResponse(LQuestion);
     TC4DAiAvailable.OpenAI:
@@ -61,7 +71,7 @@ begin
   end;
 end;
 
-function TDelphiAIDevChat.Response: TStrings;
+function TDelphiAIDevAI.Response: TStrings;
 begin
   Result := FResponse;
 end;

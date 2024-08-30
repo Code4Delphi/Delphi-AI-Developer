@@ -57,7 +57,7 @@ contains
   DelphiAIDev.Test in '..\Src\Test\DelphiAIDev.Test.pas',
   DelphiAIDev.Settings.View in '..\Src\Settings\DelphiAIDev.Settings.View.pas' {DelphiAIDevSettingsView},
   DelphiAIDev.Settings in '..\Src\Settings\DelphiAIDev.Settings.pas',
-  DelphiAIDev.Chat in '..\Src\Chat\DelphiAIDev.Chat.pas',
+  DelphiAIDev.AI in '..\Src\AI\DelphiAIDev.AI.pas',
   DelphiAIDev.Chat.View in '..\Src\Chat\DelphiAIDev.Chat.View.pas' {DelphiAIDevChatView},
   DelphiAIDev.Chat.ProcessResponse in '..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas',
   DelphiAIDev.AI.Gemini in '..\Src\AI\DelphiAIDev.AI.Gemini.pas',

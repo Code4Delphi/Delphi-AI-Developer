@@ -26,7 +26,7 @@ uses
   Clipbrd,
   DelphiAIDev.Types,
   DelphiAIDev.Consts,
-  DelphiAIDev.Chat,
+  DelphiAIDev.AI,
   DelphiAIDev.Settings,
   DelphiAIDev.ModuleCreator,
   DelphiAIDev.DefaultsQuestions.PopupMenu,
@@ -143,7 +143,7 @@ type
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure btnGenerateDatabaseReferenceClick(Sender: TObject);
   private
-    FChat: TDelphiAIDevChat;
+    FAI: TDelphiAIDevAI;
     FSettings: TDelphiAIDevSettings;
     FProcessResponse: TDelphiAIDevChatProcessResponse;
     FPopupMenuQuestions: TDelphiAIDevDefaultsQuestionsPopupMenu;
@@ -236,7 +236,7 @@ begin
   AutoSave := True;
   SaveStateNecessary := True;
 
-  FChat := TDelphiAIDevChat.Create;
+  FAI := TDelphiAIDevAI.Create;
   FSettings := TDelphiAIDevSettings.GetInstance;
   FProcessResponse := TDelphiAIDevChatProcessResponse.Create(mmReturn);
   FPopupMenuQuestions := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
@@ -261,7 +261,7 @@ begin
   Self.SaveMemoReturnInFile;
   FPopupMenuQuestions.Free;
   FProcessResponse.Free;
-  FChat.Free;
+  FAI.Free;
   inherited;
 end;
 
@@ -742,7 +742,7 @@ begin
     begin
       try
         try
-          FChat.ProcessSend(LQuestion);
+          FAI.AiUse(FSettings.AIDefault).ProcessSend(LQuestion);
         except
           on E: Exception do
             TThread.Synchronize(nil,
@@ -759,7 +759,7 @@ begin
             mmReturn.Lines.BeginUpdate;
             try
               //Optional use of one of the following lines
-              FProcessResponse.AddResponseComplete(FChat.Response);
+              FProcessResponse.AddResponseComplete(FAI.Response);
               Self.Last;
               //Self.AddResponseSimple(FChat.Response.Text);
             finally

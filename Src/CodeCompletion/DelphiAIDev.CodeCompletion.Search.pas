@@ -12,7 +12,7 @@ uses
   DelphiAIDev.Utils,
   DelphiAIDev.Utils.OTA,
   DelphiAIDev.CodeCompletion.Vars,
-  DelphiAIDev.Chat;
+  DelphiAIDev.AI;
 
 type
   IDelphiAIDevCodeCompletionSearch = interface
@@ -24,7 +24,7 @@ type
   private
     FSettings: TDelphiAIDevSettings;
     FQuestions: TStrings;
-    FChat: TDelphiAIDevChat;
+    FAI: TDelphiAIDevAI;
     FVars: TDelphiAIDevCodeCompletionVars;
   protected
     procedure Process(const AContext: IOTAKeyContext);
@@ -44,7 +44,7 @@ end;
 constructor TDelphiAIDevCodeCompletionSearch.Create;
 begin
   FSettings := TDelphiAIDevSettings.GetInstance;
-  FChat := TDelphiAIDevChat.Create;
+  FAI := TDelphiAIDevAI.Create;
   FQuestions := TStringList.Create;
   FVars := TDelphiAIDevCodeCompletionVars.GetInstance;
 end;
@@ -52,7 +52,7 @@ end;
 destructor TDelphiAIDevCodeCompletionSearch.Destroy;
 begin
   FQuestions.Free;
-  FChat.Free;
+  FAI.Free;
   inherited;
 end;
 
@@ -64,7 +64,7 @@ var
   i: Integer;
   LIOTAEditPosition: IOTAEditPosition;
 begin
-  FSettings.ValidateFillingSelectedAI(TShowMsg.No);
+  FSettings.ValidateFillingSelectedAICodeCompletion(TShowMsg.No);
 
   FQuestions.Clear;
   FQuestions.Add(FSettings.LanguageQuestions.GetLanguageDefinition);
@@ -80,12 +80,12 @@ begin
   end;
 
   try
-    FChat.ProcessSend(FQuestions.Text);
+    FAI.AiUse(FSettings.CodeCompletionAIDefault).ProcessSend(FQuestions.Text);
   except
     Abort;
   end;
 
-  FVars.Contents.Text := TUtils.ConfReturnAI(FChat.Response.Text);
+  FVars.Contents.Text := TUtils.ConfReturnAI(FAI.Response.Text);
 
   LRow := LIOTAEditPosition.Row;
   LColumn := LIOTAEditPosition.Column;

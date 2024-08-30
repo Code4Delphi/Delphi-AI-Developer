@@ -381,7 +381,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         AlignWithMargins = True
         Left = 508
         Top = 0
-        Width = 58
+        Width = 61
         Height = 25
         Cursor = crHandPoint
         Margins.Left = 0
@@ -391,7 +391,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Caption = 'Generate'
         TabOrder = 2
         OnClick = btnGenerateDatabaseReferenceClick
-        ExplicitLeft = 503
       end
     end
   end
@@ -445,8 +444,8 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       end>
   end
   object pnCommands: TPanel
-    Left = 936
-    Top = 184
+    Left = 947
+    Top = 174
     Width = 26
     Height = 115
     Margins.Left = 0

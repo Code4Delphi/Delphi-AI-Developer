@@ -154,7 +154,7 @@
             <Form>DelphiAIDevSettingsView</Form>
         </DCCReference>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.pas"/>
-        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiAIDev.AI.pas"/>
         <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
             <Form>DelphiAIDevChatView</Form>
         </DCCReference>

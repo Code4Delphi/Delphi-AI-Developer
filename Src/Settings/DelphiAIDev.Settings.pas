@@ -65,12 +65,15 @@ type
     FApiKeyOllama: string;
 
     constructor Create;
+    procedure ValidateFillingSelectedAIInternal(
+      const AShowMsg: TShowMsg; const AAiUse: TC4DAiAvailable);
   public
     class function GetInstance: TDelphiAIDevSettings;
     procedure LoadDefaults;
     procedure SaveData;
     procedure LoadData;
     procedure ValidateFillingSelectedAI(const AShowMsg: TShowMsg = TShowMsg.Yes);
+    procedure ValidateFillingSelectedAICodeCompletion(const AShowMsg: TShowMsg = TShowMsg.Yes);
 
     property LanguageQuestions: TC4DLanguage read FLanguageQuestions write FLanguageQuestions;
     property AIDefault: TC4DAiAvailable read FAIDefault write FAIDefault;
@@ -284,6 +287,17 @@ begin
 end;
 
 procedure TDelphiAIDevSettings.ValidateFillingSelectedAI(const AShowMsg: TShowMsg = TShowMsg.Yes);
+begin
+  Self.ValidateFillingSelectedAIInternal(AShowMsg, FAIDefault);
+end;
+
+procedure TDelphiAIDevSettings.ValidateFillingSelectedAICodeCompletion(const AShowMsg: TShowMsg = TShowMsg.Yes);
+begin
+  Self.ValidateFillingSelectedAIInternal(AShowMsg, FCodeCompletionAIDefault);
+end;
+
+procedure TDelphiAIDevSettings.ValidateFillingSelectedAIInternal(
+  const AShowMsg: TShowMsg; const AAiUse: TC4DAiAvailable);
 const
   MSG = '"%s" for IA %s not specified in settings.' + sLineBreak + sLineBreak +
     'Access menu > AI Developer > Settings';
@@ -295,7 +309,7 @@ const
     Abort;
   end;
 begin
-  case FAIDefault of
+  case AAiUse of
     TC4DAiAvailable.Gemini:
     begin
       if FBaseUrlGemini.Trim.IsEmpty then
