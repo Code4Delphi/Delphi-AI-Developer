@@ -106,7 +106,8 @@ begin
     if TDelphiAIDevSettings.GetInstance.CodeCompletionUse then
       TDelphiAIDevCodeCompletionSearch.New.Process(Context);
   finally
-    BindingResult := TKeyBindingResult.krUnhandled;
+    //BindingResult := TKeyBindingResult.krUnhandled;
+    BindingResult := TKeyBindingResult.krHandled;
   end;
 end;
 

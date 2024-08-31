@@ -20,9 +20,15 @@ type
     property Telefone: string read FTelefone write FTelefone;
     property Email: string read FEmail write FEmail;
     property Salario: Double read FSalario write FSalario;
+
+    procedure Clear;
   end;
 
 implementation
 
+procedure TDelphiAIDevTestClient.Clear;
+begin
+
+end;
 
 end.

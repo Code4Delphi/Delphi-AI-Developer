@@ -145,7 +145,7 @@ end;
 
 function TDelphiAIDevIDEMainMenu.GetShortCutStrChat: string;
 begin
-  Result := 'Ctrl+Shift+Alt+A';
+  Result := TConsts.SHORTCUT_CHAT_DEFAULT;
 end;
 
 initialization

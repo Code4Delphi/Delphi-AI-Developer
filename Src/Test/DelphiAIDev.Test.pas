@@ -23,7 +23,7 @@ type
     property Email: string read FEmail write FEmail;
     property DataNascimento: TDateTime read FDataNascimento write FDataNascimento;
     property Apelido: string read FApelido write FApelido;
-    property Cep: Integer read FCep write FCep;
+
 
     procedure Clear;
   end;
@@ -32,7 +32,6 @@ implementation
 
 procedure TDelphiAIDevTest.Clear;
 begin
-
 end;
 
 end.

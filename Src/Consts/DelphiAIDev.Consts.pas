@@ -16,6 +16,7 @@ type
     GITHUB_Code4Delphi = 'https://github.com/Code4Delphi';
     GITHUB_PROJECT = 'https://github.com/Code4Delphi/Delphi-AI-Developer';
     APPLICATION_JSON = 'application/json';
+    SHORTCUT_CHAT_DEFAULT = 'Ctrl+Shift+Alt+A';
     CODE_COMPLETION_SUGGESTION_COLOR = $777777;
     CODE_COMPLETION_SHORTCUT_INVOKE = 'Alt+Enter';
 
