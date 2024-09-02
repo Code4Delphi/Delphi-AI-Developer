@@ -207,7 +207,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
     Top = 33
     Width = 667
     Height = 521
-    ActivePage = TabSheet4
+    ActivePage = TabSheet3
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'Preferences'
@@ -981,7 +981,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               Width = 82
               Height = 13
               Cursor = crHandPoint
-              Hint = 'https://ollama.com/'
+              Hint = 'https://ollama.com/download'
               Caption = 'Ollama Download'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlue

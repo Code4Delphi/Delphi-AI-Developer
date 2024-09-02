@@ -10,16 +10,13 @@ type
     FBairro: string;
     FNumero: Integer;
     FTelefone: string;
-    FEmail: string;
-    FSalario: Double;
+
   public
     property Nome: string read FNome write FNome;
     property Endereco: string read FEndereco write FEndereco;
     property Bairro: string read FBairro write FBairro;
     property Numero: Integer read FNumero write FNumero;
     property Telefone: string read FTelefone write FTelefone;
-    property Email: string read FEmail write FEmail;
-    property Salario: Double read FSalario write FSalario;
 
     procedure Clear;
   end;
@@ -28,7 +25,11 @@ implementation
 
 procedure TDelphiAIDevTestClient.Clear;
 begin
-
+  FNome := '';
+  FEndereco := '';
+  FBairro := '';
+  FNumero := 0;
+  FTelefone := '';
 end;
 
 end.

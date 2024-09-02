@@ -73,4 +73,5 @@ begin
   FLastReferences := AOtherObj.LastReferences;
 end;
 
+
 end.

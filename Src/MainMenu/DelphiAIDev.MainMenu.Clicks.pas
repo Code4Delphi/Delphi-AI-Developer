@@ -31,7 +31,6 @@ uses
   DelphiAIDev.Settings.View,
   DelphiAIDev.View.About;
 
-
 class procedure TDelphiAIDevIDEMainMenuClicks.ChatClick(Sender: TObject);
 begin
   DelphiAIDev.Chat.View.DelphiAIDevChatViewShowDockableForm;

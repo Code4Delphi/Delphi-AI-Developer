@@ -245,15 +245,8 @@ begin
   FConn := TC4DConn.New;
   FQueryExecuteSQL := FConn.Query.DataSource(DataSource1);
 
-
   Self.ConfScreenOnCreate;
   Self.FillMemoReturnWithFile;
-end;
-
-procedure TDelphiAIDevDBChatView.DBGrid1DrawColumnCell(Sender: TObject;
-  const Rect: TRect; DataCol: Integer; Column: TColumn;  State: TGridDrawState);
-begin
-  TUtilsDBGrids.DrawColumnCell(TDBGrid(Sender), Rect, DataCol, Column, Vcl.Grids.TGridDrawState(State));
 end;
 
 destructor TDelphiAIDevDBChatView.Destroy;
@@ -295,6 +288,12 @@ end;
 procedure TDelphiAIDevDBChatView.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Self.WaitingFormOFF;
+end;
+
+procedure TDelphiAIDevDBChatView.DBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;  State: TGridDrawState);
+begin
+  TUtilsDBGrids.DrawColumnCell(TDBGrid(Sender), Rect, DataCol, Column, Vcl.Grids.TGridDrawState(State));
 end;
 
 procedure TDelphiAIDevDBChatView.ConfScreenOnCreate;
