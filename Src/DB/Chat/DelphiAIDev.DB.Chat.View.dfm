@@ -43,7 +43,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     TabOrder = 0
     object Splitter1: TSplitter
       Left = 18
-      Top = 128
+      Top = 153
       Width = 938
       Height = 3
       Cursor = crVSplit
@@ -54,7 +54,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     end
     object Splitter2: TSplitter
       Left = 18
-      Top = 333
+      Top = 498
       Width = 938
       Height = 3
       Cursor = crVSplit
@@ -65,9 +65,9 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     object mmReturn: TRichEdit
       AlignWithMargins = True
       Left = 18
-      Top = 158
+      Top = 183
       Width = 938
-      Height = 145
+      Height = 285
       Hint = 'Response returned'
       Margins.Left = 0
       Margins.Top = 0
@@ -98,7 +98,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       Left = 18
       Top = 15
       Width = 938
-      Height = 113
+      Height = 138
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -122,7 +122,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Left = 0
         Top = 22
         Width = 938
-        Height = 91
+        Height = 116
         Hint = 'Insert question'
         Margins.Left = 0
         Margins.Top = 0
@@ -145,7 +145,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     end
     object pnBackButtonsSearch: TPanel
       Left = 18
-      Top = 131
+      Top = 156
       Width = 938
       Height = 27
       Margins.Left = 0
@@ -257,9 +257,9 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     end
     object pnGridBack: TPanel
       Left = 18
-      Top = 336
+      Top = 501
       Width = 938
-      Height = 325
+      Height = 160
       Align = alBottom
       BevelOuter = bvNone
       ParentBackground = False
@@ -268,7 +268,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Left = 0
         Top = 0
         Width = 938
-        Height = 298
+        Height = 133
         Align = alClient
         BorderStyle = bsNone
         DataSource = DataSource1
@@ -285,7 +285,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       end
       object Panel9: TPanel
         Left = 0
-        Top = 298
+        Top = 133
         Width = 938
         Height = 27
         Align = alBottom
@@ -320,7 +320,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     end
     object Panel1: TPanel
       Left = 18
-      Top = 306
+      Top = 471
       Width = 938
       Height = 27
       Margins.Left = 0
