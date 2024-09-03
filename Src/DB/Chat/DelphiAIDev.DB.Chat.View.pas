@@ -104,6 +104,7 @@ type
     Label3: TLabel;
     Ollama1: TMenuItem;
     btnGenerateDatabaseReference: TButton;
+    Label2: TLabel;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
