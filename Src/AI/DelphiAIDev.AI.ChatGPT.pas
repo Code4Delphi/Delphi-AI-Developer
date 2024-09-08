@@ -7,6 +7,7 @@ uses
   System.JSON,
   System.Classes,
   RESTRequest4D,
+  DelphiAIDev.Consts,
   DelphiAIDev.Utils,
   DelphiAIDev.Settings,
   DelphiAIDev.AI.Interfaces;
@@ -39,7 +40,6 @@ end;
 
 function TDelphiAIDevAIChatGPT.GetResponse(const AQuestion: string): string;
 var
-  LQuestion: string;
   LResponse: IResponse;
   LJsonValueAll: TJSONValue;
   LJsonValueChoices: TJSONValue;
@@ -50,14 +50,13 @@ var
   LItemChoices: Integer;
 begin
   Result := '';
-  LQuestion := TUtils.AdjustQuestionToJson(AQuestion); //AQuestion.Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase]);
 
   LResponse := TRequest.New
     .BaseURL(FSettings.BaseUrlOpenAI)
-    .ContentType('application/json')
-    .Accept('application/json')
+    .ContentType(TConsts.APPLICATION_JSON)
+    .Accept(TConsts.APPLICATION_JSON)
     .Token('Bearer ' + FSettings.ApiKeyOpenAI)
-    .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOpenAI, LQuestion]))
+    .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOpenAI, AQuestion]))
     .Post;
 
   if LResponse.StatusCode <> 200 then

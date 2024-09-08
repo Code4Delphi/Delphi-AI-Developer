@@ -39,7 +39,7 @@ var
 
 class function TDelphiAIDevIDEMainMenu.GetInstance: IDelphiAIDevIDEMainMenu;
 begin
-  if(not Assigned(Instance))then
+  if not Assigned(Instance) then
     Instance := Self.Create;
   Result := Instance;
 end;
@@ -51,7 +51,7 @@ end;
 
 destructor TDelphiAIDevIDEMainMenu.Destroy;
 begin
-  if(Assigned(FMenuItemC4D))then
+  if Assigned(FMenuItemC4D) then
     FreeAndNil(FMenuItemC4D);
   inherited;
 end;
@@ -64,32 +64,39 @@ begin
     TConsts.MENU_IDE_CHAT_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.ChatClick,
     TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexMessage,
-    Self.GetShortCutStrChat
-    );
+    Self.GetShortCutStrChat);
 
-  Self.CreateSubMenu('C4DSeparator40', '-', nil);
+  Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '10', '-', nil);
 
   Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_QUESTIONS_NAME,
     TConsts.MENU_IDE_DEFAULTS_QUESTIONS_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.DefaultsQuestionsClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgQuestion
-    );
+    TDelphiAIDevIDEImageListMain.GetInstance.ImgQuestion);
 
-  Self.CreateSubMenu('C4DSeparator50', '-', nil);
+  Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '20', '-', nil);
+
+  Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_DATABASES_ADD_NAME,
+    TConsts.MENU_IDE_DEFAULTS_DATABASES_ADD_Caption,
+    TDelphiAIDevIDEMainMenuClicks.DatabasesAddClick,
+    TDelphiAIDevIDEImageListMain.GetInstance.ImgDatabaseAdd);
+
+  Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_DATABASES_CHAT_NAME,
+    TConsts.MENU_IDE_DEFAULTS_DATABASES_CHAT_CAPTION,
+    TDelphiAIDevIDEMainMenuClicks.DatabasesChatClick,
+    TDelphiAIDevIDEImageListMain.GetInstance.ImgDatabaseExecute);
+
+  Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '30', '-', nil);
 
   Self.CreateSubMenu(TConsts.MENU_IDE_SETTINGS_NAME,
     TConsts.MENU_IDE_SETTINGS_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.SettingsClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexGear
-    );
+    TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexGear);
 
-
-  Self.CreateSubMenu('C4DSeparator90', '-', nil);
+  Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '40', '-', nil);
   Self.CreateSubMenu(TConsts.MENU_IDE_ABOUT_NAME,
     TConsts.MENU_IDE_ABOUT_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.AboutClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexC4D_Logo
-    );
+    TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexC4D_Logo);
 end;
 
 procedure TDelphiAIDevIDEMainMenu.CreateMenuDelphiAIDeveloperInIDEMenu;
@@ -98,7 +105,7 @@ var
   LMenuItemTools: TMenuItem;
 begin
   FMenuItemC4D := TMenuItem(FMainMenuIDE.FindComponent(TConsts.ITEM_MENU_C4DDelphiAIDev_NAME));
-  if(Assigned(FMenuItemC4D))then
+  if Assigned(FMenuItemC4D) then
     FreeAndNil(FMenuItemC4D);
 
   FMenuItemC4D := TMenuItem.Create(FMainMenuIDE);
@@ -106,14 +113,14 @@ begin
   FMenuItemC4D.Caption := TConsts.ITEM_MENU_C4DDelphiAIDev_CAPTION;
 
   LMenuItemTabs := FMainMenuIDE.Items.Find('Tabs');
-  if(Assigned(LMenuItemTabs))then
+  if Assigned(LMenuItemTabs) then
   begin
     FMainMenuIDE.Items.Insert(FMainMenuIDE.Items.IndexOf(LMenuItemTabs), FMenuItemC4D);
     Exit;
   end;
 
   LMenuItemTools := FMainMenuIDE.Items.Find('Tools');
-  if(Assigned(LMenuItemTools))then
+  if Assigned(LMenuItemTools) then
   begin
     FMainMenuIDE.Items.Insert(FMainMenuIDE.Items.IndexOf(LMenuItemTools) + 1, FMenuItemC4D);
     Exit;
@@ -138,13 +145,13 @@ end;
 
 function TDelphiAIDevIDEMainMenu.GetShortCutStrChat: string;
 begin
-  Result := 'Ctrl+Shift+Alt+A';
+  Result := TConsts.SHORTCUT_CHAT_DEFAULT;
 end;
 
 initialization
 
 finalization
-  if(Assigned(Instance))then
+  if Assigned(Instance) then
     Instance := nil;
 
 end.

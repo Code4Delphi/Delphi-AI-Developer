@@ -75,8 +75,8 @@ end;
 //ESTA ROTINA CONFERE DE A LETRA ANTERIOR/POSTERIOR A PALAVRA FECHA COM VAZIO OU NÃO LETRA NEM NUMERO
 procedure TDelphiAIDevUtilsGetIniPositionStr.CheckWholeWord;
 begin
-  if((IfThen(FColCurrent = 0, '', Copy(FStrOriginal, FColCurrent - 1, 1)) <> '')and(Copy(FStrOriginal, FColCurrent - 1, 1)[1] in ['0'..'9', 'A'..'Z', 'a'..'z']))
-    or((IfThen(FColCurrent = 0, '', Copy(FStrOriginal, FColCurrent + Length(FStrToLocate), 1)) <> '')and(Copy(FStrOriginal, FColCurrent + Length(FStrToLocate), 1)[1] in ['0'..'9', 'A'..'Z', 'a'..'z']))
+  if ((IfThen(FColCurrent = 0, '', Copy(FStrOriginal, FColCurrent - 1, 1)) <> '') and (Copy(FStrOriginal, FColCurrent - 1, 1)[1] in ['0'..'9', 'A'..'Z', 'a'..'z']))
+    or ((IfThen(FColCurrent = 0, '', Copy(FStrOriginal, FColCurrent + Length(FStrToLocate), 1)) <> '') and (Copy(FStrOriginal, FColCurrent + Length(FStrToLocate), 1)[1] in ['0'..'9', 'A'..'Z', 'a'..'z']))
   then
     FFound := False;
 end;
@@ -89,13 +89,13 @@ var
   LChar: Char;
 begin
   Result := '';
-  if(FStrToLocate = ' ')then
+  if FStrToLocate = ' ' then
     Exit;
 
   Result := FStrOriginal[FColCurrent];
 
   LColIni := FColCurrent;
-  if(LColIni > 0)then
+  if LColIni > 0 then
   begin
     Dec(LColIni);
     LChar := FStrOriginal[LColIni];
@@ -109,7 +109,7 @@ begin
 
   LColEnd := FColCurrent;
   LLastColLine := FStrOriginal.Length;
-  if(LColEnd < LLastColLine)then
+  if LColEnd < LLastColLine then
   begin
     Inc(LColEnd);
     LChar := FStrOriginal[LColEnd];
@@ -127,21 +127,21 @@ var
   LStrValidate: string;
   LStrIgnore: string;
 begin
-  if(FTextIgnore.Trim.IsEmpty)then
+  if FTextIgnore.Trim.IsEmpty then
     Exit;
 
   LStrValidate := Self.GetWholeWord;
-  if(LStrValidate.Trim.IsEmpty)then
+  if LStrValidate.Trim.IsEmpty then
     Exit;
 
   LStrIgnore := FTextIgnore;
-  if(not FCaseSensitive)then
+  if not FCaseSensitive then
   begin
     LStrValidate := LStrValidate.ToLower;
     LStrIgnore := LStrIgnore.ToLower;
   end;
 
-  if(LStrValidate.Contains(LStrIgnore))then
+  if LStrValidate.Contains(LStrIgnore) then
     FFound := False;
 end;
 
@@ -157,21 +157,21 @@ begin
   begin
     FColCurrent := LColCurrent;
 
-    if(FCaseSensitive)then
+    if FCaseSensitive then
       FFound := FStrToLocate = Copy(FStrOriginal, FColCurrent, Length(FStrToLocate))
     else
       FFound := AnsiUpperCase(FStrToLocate) = AnsiUpperCase(Copy(FStrOriginal, FColCurrent, Length(FStrToLocate)));
 
-    if(FFound)and(FWholeWordOnly)then
+    if (FFound) and (FWholeWordOnly) then
       Self.CheckWholeWord;
 
-    if(FFound)then
+    if FFound then
       Self.CheckWordIgnore;
 
-    if(FFound)then
+    if FFound then
     begin
       Result := FColCurrent - 1;
-      if(Result < 0)then
+      if Result < 0 then
         Result := 0;
       Break;
     end;

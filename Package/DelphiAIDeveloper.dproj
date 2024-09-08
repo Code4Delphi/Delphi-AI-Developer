@@ -67,33 +67,33 @@
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <SanitizedProjectName>DelphiAIDeveloper</SanitizedProjectName>
-        <DCC_UnitSearchPath>modules\.dcp;modules\.dcu;modules;modules\restrequest4delphi\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>modules\.dcp;modules\.dcu;modules;modules\bcrypt\src;modules\restrequest4delphi\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1046</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
         <EnabledSysJars>android-support-v4.dex.jar;cloud-messaging.dex.jar;com-google-android-gms.play-services-ads-base.17.2.0.dex.jar;com-google-android-gms.play-services-ads-identifier.16.0.0.dex.jar;com-google-android-gms.play-services-ads-lite.17.2.0.dex.jar;com-google-android-gms.play-services-ads.17.2.0.dex.jar;com-google-android-gms.play-services-analytics-impl.16.0.8.dex.jar;com-google-android-gms.play-services-analytics.16.0.8.dex.jar;com-google-android-gms.play-services-base.16.0.1.dex.jar;com-google-android-gms.play-services-basement.16.2.0.dex.jar;com-google-android-gms.play-services-gass.17.2.0.dex.jar;com-google-android-gms.play-services-identity.16.0.0.dex.jar;com-google-android-gms.play-services-maps.16.1.0.dex.jar;com-google-android-gms.play-services-measurement-base.16.4.0.dex.jar;com-google-android-gms.play-services-measurement-sdk-api.16.4.0.dex.jar;com-google-android-gms.play-services-stats.16.0.1.dex.jar;com-google-android-gms.play-services-tagmanager-v4-impl.16.0.8.dex.jar;com-google-android-gms.play-services-tasks.16.0.1.dex.jar;com-google-android-gms.play-services-wallet.16.0.1.dex.jar;com-google-firebase.firebase-analytics.16.4.0.dex.jar;com-google-firebase.firebase-common.16.1.0.dex.jar;com-google-firebase.firebase-iid-interop.16.0.1.dex.jar;com-google-firebase.firebase-iid.17.1.1.dex.jar;com-google-firebase.firebase-measurement-connector.17.0.1.dex.jar;com-google-firebase.firebase-messaging.17.5.0.dex.jar;fmx.dex.jar;google-play-billing.dex.jar;google-play-licensing.dex.jar</EnabledSysJars>
-        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;FireDAC;FireDACCommonDriver;FireDACCommon;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android64)'!=''">
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
         <EnabledSysJars>android-support-v4.dex.jar;cloud-messaging.dex.jar;com-google-android-gms.play-services-ads-base.17.2.0.dex.jar;com-google-android-gms.play-services-ads-identifier.16.0.0.dex.jar;com-google-android-gms.play-services-ads-lite.17.2.0.dex.jar;com-google-android-gms.play-services-ads.17.2.0.dex.jar;com-google-android-gms.play-services-analytics-impl.16.0.8.dex.jar;com-google-android-gms.play-services-analytics.16.0.8.dex.jar;com-google-android-gms.play-services-base.16.0.1.dex.jar;com-google-android-gms.play-services-basement.16.2.0.dex.jar;com-google-android-gms.play-services-gass.17.2.0.dex.jar;com-google-android-gms.play-services-identity.16.0.0.dex.jar;com-google-android-gms.play-services-maps.16.1.0.dex.jar;com-google-android-gms.play-services-measurement-base.16.4.0.dex.jar;com-google-android-gms.play-services-measurement-sdk-api.16.4.0.dex.jar;com-google-android-gms.play-services-stats.16.0.1.dex.jar;com-google-android-gms.play-services-tagmanager-v4-impl.16.0.8.dex.jar;com-google-android-gms.play-services-tasks.16.0.1.dex.jar;com-google-android-gms.play-services-wallet.16.0.1.dex.jar;com-google-firebase.firebase-analytics.16.4.0.dex.jar;com-google-firebase.firebase-common.16.1.0.dex.jar;com-google-firebase.firebase-iid-interop.16.0.1.dex.jar;com-google-firebase.firebase-iid.17.1.1.dex.jar;com-google-firebase.firebase-measurement-connector.17.0.1.dex.jar;com-google-firebase.firebase-messaging.17.5.0.dex.jar;fmx.dex.jar;google-play-billing.dex.jar;google-play-licensing.dex.jar</EnabledSysJars>
-        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;FireDAC;FireDACCommonDriver;FireDACCommon;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Linux64)'!=''">
-        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;FireDAC;FireDACCommonDriver;FireDACCommon;FireDACIBDriver;FireDACMySQLDriver;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;vclFireDAC;FireDAC;FireDACCommonDriver;FireDACCommon;FireDACIBDriver;FireDACMySQLDriver;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_DcuOutput>.\dcu\</DCC_DcuOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>rtl;bindengine;bindcomp;RESTComponents;vclFireDAC;FireDAC;FireDACCommonDriver;FireDACCommon;FireDACIBDriver;FireDACMySQLDriver;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -122,10 +122,13 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="designide.dcp"/>
         <DCCReference Include="RESTComponents.dcp"/>
+        <DCCReference Include="vclFireDAC.dcp"/>
+        <DCCReference Include="FireDAC.dcp"/>
+        <DCCReference Include="FireDACCommonDriver.dcp"/>
+        <DCCReference Include="FireDACCommon.dcp"/>
+        <DCCReference Include="FireDACMySQLDriver.dcp"/>
+        <DCCReference Include="FireDACIBDriver.dcp"/>
         <DCCReference Include="..\Src\DelphiAIDev.Register.pas"/>
-        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
-            <Form>DelphiAIDevChatView</Form>
-        </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.OTA.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.pas"/>
         <DCCReference Include="..\Src\Types\DelphiAIDev.Types.pas"/>
@@ -149,10 +152,13 @@
         <DCCReference Include="..\Src\Test\DelphiAIDev.Test.pas"/>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.View.pas">
             <Form>DelphiAIDevSettingsView</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.pas"/>
-        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiAIDev.AI.pas"/>
+        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
+            <Form>DelphiAIDevChatView</Form>
+        </DCCReference>
+        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Gemini.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.ChatGPT.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Interfaces.pas"/>
@@ -161,41 +167,83 @@
         <DCCReference Include="..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.pas"/>
         <DCCReference Include="..\Src\ModuleCreator\DelphiAIDev.ModuleCreator.Interfaces.pas"/>
         <DCCReference Include="..\Src\IDE\ImageListMain\DelphiAIDev.IDE.ImageListMain.pas"/>
-        <DCCReference Include="..\Src\IDE\Shortcuts\DelphiAIDev.IDE.Shortcuts.pas"/>
+        <DCCReference Include="..\Src\KeyboardBinding\DelphiAIDev.KeyboardBinding.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.CnWizard.pas"/>
-        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas">
-            <Form>DelphiAIDevDefaultsQuestionsView</Form>
-            <FormType>dfm</FormType>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.View.pas">
+            <Form>DelphiAIDevDBRegistersView</Form>
         </DCCReference>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ListView.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.GetIniPositionStr.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Fields.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Interfaces.pas"/>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.Model.pas"/>
-        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas">
-            <Form>DelphiAIDevDefaultsQuestionsAddEditView</Form>
-            <FormType>dfm</FormType>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.AddEdit.View.pas">
+            <Form>DelphiAIDevDBRegistersAddEditView</Form>
         </DCCReference>
         <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.PopupMenu.pas"/>
         <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.ABMenuAction.pas"/>
         <DCCReference Include="..\Src\IDE\Splash\DelphiAIDev.IDE.Splash.pas"/>
-        <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Groq.pas"/>
-        <RcItem Include="Img\c4d_gear.bmp">
-            <ResourceType>BITMAP</ResourceType>
-            <ResourceId>c4d_gear</ResourceId>
-        </RcItem>
+        <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.pas"/>
+        <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.Item.pas"/>
+        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.View.pas">
+            <Form>DelphiAIDevDefaultsQuestionsView</Form>
+        </DCCReference>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.Model.pas"/>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.Interfaces.pas"/>
+        <DCCReference Include="..\Src\DB\Registers\DelphiAIDev.DB.Registers.Fields.pas"/>
+        <DCCReference Include="..\Src\DefaultsQuestions\DelphiAIDev.DefaultsQuestions.AddEdit.View.pas">
+            <Form>DelphiAIDevDefaultsQuestionsAddEditView</Form>
+        </DCCReference>
+        <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.Crypt.pas"/>
+        <DCCReference Include="..\Src\Conn\C4D.Conn.Types.pas"/>
+        <DCCReference Include="..\Src\Conn\C4D.Conn.Configs.pas"/>
+        <DCCReference Include="..\Src\Conn\C4D.Conn.Firedac.pas"/>
+        <DCCReference Include="..\Src\Conn\C4D.Conn.Firedac.Query.pas"/>
+        <DCCReference Include="..\Src\Conn\C4D.Conn.Interfaces.pas"/>
+        <DCCReference Include="..\Src\Conn\C4D.Conn.pas"/>
+        <DCCReference Include="..\Src\Conn\C4D.Conn.Utils.pas"/>
+        <DCCReference Include="..\Src\DB\Chat\DelphiAIDev.DB.Chat.View.pas">
+            <Form>DelphiAIDevDBChatView</Form>
+        </DCCReference>
+        <DCCReference Include="..\Src\MetaInfo\DelphiAIDev.MetaInfo.pas"/>
+        <DCCReference Include="..\Src\DB\References\DelphiAIDev.DB.References.View.pas">
+            <Form>DelphiAIDevDBReferencesView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.DBGrids.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Ollama.pas"/>
+        <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.AddEdit.View.pas">
+            <Form>DelphiAIDevProjectsAddEditView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\Src\DB\Utils\DelphiAIDev.DB.Utils.pas"/>
+        <DCCReference Include="..\Src\PopupMenuProjects\DelphiAIDev.PopupMenuProjects.OnExecute.pas"/>
+        <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Fields.pas"/>
+        <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Model.pas"/>
+        <DCCReference Include="..\Src\Projects\DelphiAIDev.Projects.Interfaces.pas"/>
+        <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Vars.pas"/>
+        <DCCReference Include="..\Src\IDE\OTAIDENotifier\DelphiAIDev.IDE.OTAIDENotifier.pas"/>
+        <DCCReference Include="..\Src\IDE\OTAEditorNotifier\DelphiAIDev.IDE.OTAEditorNotifier.pas"/>
+        <DCCReference Include="..\Src\IDE\NTAEditViewNotifier\DelphiAIDev.IDE.NTAEditViewNotifier.pas"/>
+        <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Search.pas"/>
+        <DCCReference Include="..\Src\Test\DelphiAIDev.Test.Client.pas"/>
+        <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.KeyTab.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>
         </RcItem>
-        <RcItem Include="Img\c4d_logo_24x24.bmp">
+        <RcItem Include="Img\c4d_database.bmp">
             <ResourceType>BITMAP</ResourceType>
-            <ResourceId>c4d_logo_24x24</ResourceId>
+            <ResourceId>c4d_database</ResourceId>
         </RcItem>
-        <RcItem Include="Img\c4d_logo_48x48.bmp">
+        <RcItem Include="Img\c4d_database_add.bmp">
             <ResourceType>BITMAP</ResourceType>
-            <ResourceId>c4d_logo_48x48</ResourceId>
+            <ResourceId>c4d_database_add</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_gear.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_gear</ResourceId>
         </RcItem>
         <RcItem Include="Img\c4d_message.bmp">
             <ResourceType>BITMAP</ResourceType>
@@ -204,6 +252,14 @@
         <RcItem Include="Img\c4d_question.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_question</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_logo_24x24.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_logo_24x24</ResourceId>
+        </RcItem>
+        <RcItem Include="Img\c4d_database_execute.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>c4d_database_execute</ResourceId>
         </RcItem>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

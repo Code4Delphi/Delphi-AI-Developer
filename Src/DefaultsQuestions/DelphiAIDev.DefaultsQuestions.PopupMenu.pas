@@ -107,8 +107,8 @@ var
    for LOrder2 in LListOrder do
      for LItem2 in FList do
      begin
-       if(LItem2.Order = LOrder2)then
-         if(not LItem2.Created)and(LItem2.GuidMenuMaster.Trim = AFields.Guid.Trim)then
+       if LItem2.Order = LOrder2 then
+         if (not LItem2.Created) and (LItem2.GuidMenuMaster.Trim = AFields.Guid.Trim) then
          begin
            LMenuItem2 := Self.CreateSubMenu(AMenuItem, LItem2);
            LItem2.Created := True;
@@ -129,10 +129,10 @@ begin
   try
     for LItem in FList do
     begin
-      if(LItem.Order <= 0)then
+      if LItem.Order <= 0 then
         LItem.Order := 9999;
 
-      if(not LListOrder.Contains(LItem.Order))then //(LItem.Order > 0)and
+      if not LListOrder.Contains(LItem.Order) then //(LItem.Order > 0)and
         LListOrder.Add(LItem.Order);
     end;
 
@@ -142,8 +142,8 @@ begin
     for LOrder in LListOrder do
       for LItem in FList do
       begin
-        if(LItem.Order = LOrder)then
-          if(not LItem.Created)and(LITem.GuidMenuMaster.Trim.IsEmpty)then
+        if LItem.Order = LOrder then
+          if (not LItem.Created) and (LITem.GuidMenuMaster.Trim.IsEmpty) then
           begin
             LMenuItem := Self.CreateSubMenu(nil, LItem);
             LItem.Created := True;
@@ -156,8 +156,8 @@ begin
     for LOrder in LListOrder do
       for LItem in FList do
       begin
-        if(LItem.Order = LOrder)then
-          if(not LItem.Created)then
+        if LItem.Order = LOrder then
+          if not LItem.Created then
           begin
             LMenuItem := Self.CreateSubMenu(nil, LItem);
             LItem.Created := True;

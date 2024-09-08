@@ -56,7 +56,7 @@ procedure TDelphiAIDevViewMemo.mmMensagemKeyDown(Sender: TObject; var Key: Word;
 const
   KEY_A = $41;
 begin
-  if(Key = KEY_A)and(Shift = [ssCtrl])then
+  if (Key = KEY_A) and (Shift = [ssCtrl]) then
     mmMensagem.SelectAll;
 end;
 

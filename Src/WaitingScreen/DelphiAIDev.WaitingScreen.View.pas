@@ -47,7 +47,7 @@ end;
 procedure TDelphiAIDevWaitingScreenView.FormShow(Sender: TObject);
 begin
   lbMsg.Caption := C_MSG_DEFAULT;
-  if(not FMsg.Trim.IsEmpty)then
+  if not FMsg.Trim.IsEmpty then
     lbMsg.Caption := FMsg;
 
   Self.BringToFront;
@@ -55,7 +55,7 @@ end;
 
 procedure TDelphiAIDevWaitingScreenView.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if(Key = VK_F4)and(ssAlt in Shift)then
+  if (Key = VK_F4) and (ssAlt in Shift) then
     Key := 0;
 end;
 

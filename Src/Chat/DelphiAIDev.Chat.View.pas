@@ -26,7 +26,7 @@ uses
   Clipbrd,
   DelphiAIDev.Types,
   DelphiAIDev.Consts,
-  DelphiAIDev.Chat,
+  DelphiAIDev.AI,
   DelphiAIDev.Settings,
   DelphiAIDev.ModuleCreator,
   DelphiAIDev.DefaultsQuestions.PopupMenu,
@@ -52,7 +52,7 @@ type
     pMenuCurrentAI: TPopupMenu;
     Gemini1: TMenuItem;
     ChatGPT1: TMenuItem;
-    pnBackStatusBar: TPanel;
+    pnBackButtons: TPanel;
     lbCurrentAI: TLabel;
     StatusBar1: TStatusBar;
     pnCommands: TPanel;
@@ -74,6 +74,7 @@ type
     pMenuQuestions: TPopupMenu;
     btnCleanAll: TSpeedButton;
     Groq1: TMenuItem;
+    Ollama1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
     procedure Cut1Click(Sender: TObject);
@@ -102,7 +103,7 @@ type
     procedure Clear1Click(Sender: TObject);
     procedure btnCleanAllClick(Sender: TObject);
   private
-    FChat: TDelphiAIDevChat;
+    FAI: TDelphiAIDevAI;
     FSettings: TDelphiAIDevSettings;
     FProcessResponse: TDelphiAIDevChatProcessResponse;
     FPopupMenuQuestions: TDelphiAIDevDefaultsQuestionsPopupMenu;
@@ -128,7 +129,6 @@ type
     procedure DoProcessClickInItemDefaultQuestions(ACodeOnly: Boolean; AQuestion: string);
     procedure ProcessWordWrap;
     procedure ConfScreenOnCreate;
-    procedure ValidateRegistrationOfSelectedAI;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -159,10 +159,10 @@ const
 
 procedure RegisterSelf;
 begin
-  if(not Assigned(DelphiAIDevChatView))then
+  if not Assigned(DelphiAIDevChatView) then
     DelphiAIDevChatView := TDelphiAIDevChatView.Create(nil);
 
-  if(@RegisterFieldAddress <> nil)then
+  if @RegisterFieldAddress <> nil then
     RegisterFieldAddress(DelphiAIDevChatView.Name, @DelphiAIDevChatView);
 
   RegisterDesktopFormClass(TDelphiAIDevChatView, DelphiAIDevChatView.Name, DelphiAIDevChatView.Name);
@@ -170,7 +170,7 @@ end;
 
 procedure Unregister;
 begin
-  if(@UnRegisterFieldAddress <> nil)then
+  if @UnRegisterFieldAddress <> nil then
     UnRegisterFieldAddress(@DelphiAIDevChatView);
   FreeAndNil(DelphiAIDevChatView);
 end;
@@ -188,7 +188,7 @@ begin
   AutoSave := True;
   SaveStateNecessary := True;
 
-  FChat := TDelphiAIDevChat.Create;
+  FAI := TDelphiAIDevAI.Create;
   FSettings := TDelphiAIDevSettings.GetInstance;
   FProcessResponse := TDelphiAIDevChatProcessResponse.Create(mmReturn);
   FPopupMenuQuestions := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
@@ -203,7 +203,7 @@ begin
   Self.SaveMemoReturnInFile;
   FPopupMenuQuestions.Free;
   FProcessResponse.Free;
-  FChat.Free;
+  FAI.Free;
   inherited;
 end;
 
@@ -279,7 +279,7 @@ end;
 
 procedure TDelphiAIDevChatView.mmQuestionKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (ssCtrl in Shift)and(Key = VK_RETURN) then
+  if (ssCtrl in Shift) and (Key = VK_RETURN) then
   begin
     btnSend.Click;
     Key := 0;
@@ -288,7 +288,7 @@ end;
 
 procedure TDelphiAIDevChatView.mmQuestionKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (ssCtrl in Shift)and(Key = 65) then
+  if (ssCtrl in Shift) and (Key = 65) then
   begin
     mmQuestion.SelectAll;
     Key := 0;
@@ -344,7 +344,7 @@ end;
 
 procedure TDelphiAIDevChatView.FillMemoReturnWithFile;
 begin
-  if(FileExists(TUtils.GetPathFileChat))then
+  if FileExists(TUtils.GetPathFileChat) then
     mmReturn.Lines.LoadFromFile(TUtils.GetPathFileChat)
 end;
 
@@ -423,7 +423,7 @@ begin
   if mmQuestion.Lines.Text.Trim.IsEmpty then
     TUtils.ShowMsgAndAbort('No questions have been added', mmQuestion);
 
-  Self.ValidateRegistrationOfSelectedAI;
+  FSettings.ValidateFillingSelectedAI;
 
   mmReturn.Lines.Clear;
   Self.WaitingFormON;
@@ -443,7 +443,7 @@ begin
     begin
       try
         try
-          FChat.ProcessSend(LQuestion);
+          FAI.AiUse(FSettings.AIDefault).ProcessSend(LQuestion);
         except
           on E: Exception do
             TThread.Synchronize(nil,
@@ -460,7 +460,7 @@ begin
             mmReturn.Lines.BeginUpdate;
             try
               //Optional use of one of the following lines
-              FProcessResponse.AddResponseComplete(FChat.Response);
+              FProcessResponse.AddResponseComplete(FAI.Response);
               Self.Last;
               //Self.AddResponseSimple(FChat.Response.Text);
             finally
@@ -478,37 +478,6 @@ begin
   LTask.Start;
 end;
 
-procedure TDelphiAIDevChatView.ValidateRegistrationOfSelectedAI;
-const
-  MSG = '"%s" for IA %s not specified in settings.' + sLineBreak + sLineBreak +
-    'Access menu > AI Developer > Settings';
-begin
-  case FSettings.AIDefault of
-    TC4DAIsAvailable.Gemini:
-    begin
-      if FSettings.BaseUrlGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'Gemini']));
-
-      if FSettings.ModelGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'Gemini']));
-
-      if FSettings.ApiKeyGemini.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'Gemini']));
-    end;
-    TC4DAIsAvailable.OpenAI:
-    begin
-      if FSettings.BaseUrlOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Base URL', 'ChatGPT']));
-
-      if FSettings.ModelOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['Model', 'ChatGPT']));
-
-      if FSettings.ApiKeyOpenAI.Trim.IsEmpty then
-        TUtils.ShowMsgAndAbort(Format(MSG, ['API Key', 'ChatGPT']));
-    end;
-  end;
-end;
-
 procedure TDelphiAIDevChatView.AddResponseSimple(const AString: string);
 begin
   Self.Last;
@@ -517,116 +486,6 @@ begin
   mmReturn.Lines.Add(AString);
   Self.Last;
 end;
-
-////Add line-by-line response to color where Delphi code is
-//procedure TDelphiAIDevChatView.AddResponseComplete(const AStrings: TStrings);
-//var
-//  LLineNum: Integer;
-//  LLineStr: string;
-//  LCodeStarted: Boolean;
-//begin
-//  mmReturn.Lines.Clear;
-//  mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
-//  mmReturn.SelAttributes.Style := [];
-//
-//  LCodeStarted := False;
-//  for LLineNum := 0 to Pred(AStrings.Count) do
-//  begin
-//    LLineStr := AStrings[LLineNum].TrimRight;
-//
-//    if not LCodeStarted then
-//    begin
-//      if TUtils.CodeIdMarkBeginCode(LLineStr) then
-//      begin
-//        LCodeStarted := True;
-//        Continue;
-//      end;
-//    end;
-//
-//    if LLineStr.Trim = TConsts.MARK_END then
-//    begin
-//      LCodeStarted := False;
-//      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
-//      Continue;
-//    end;
-//
-//    if LCodeStarted then
-//    begin
-//      if (FSettings.ColorHighlightCodeDelphiUse) and (FSettings.ColorHighlightCodeDelphi <> clNone) then
-//        mmReturn.SelAttributes.Color := FSettings.ColorHighlightCodeDelphi
-//      else
-//        mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeForCode;
-//    end
-//    else
-//      mmReturn.SelAttributes.Color := TUtilsOTA.ActiveThemeColorDefault;
-//
-//    //Optional use of one of the following lines
-//    //mmReturn.Lines.Add(LLineStr);
-//    Self.AddResponseLine(LLineStr); //.Replace(TConsts.MARK_BEGIN_PASCAL2, '', [rfReplaceAll, rfIgnoreCase])
-//  end;
-//  Self.Last;
-//end;
-//
-////Bold in words between Backtick
-//procedure TDelphiAIDevChatView.AddResponseLine(const ALineStr: string);
-//const
-//  BACKTICK = '`';
-//var
-//  i: Integer;
-//  LCurrentLetter: Char;
-//  LNextLetter: Char;
-//  LLineStarted: Boolean;
-//  LCodeStarted: Boolean;
-//begin
-//  if not ALineStr.Contains(BACKTICK) then
-//  begin
-//    mmReturn.Lines.Add(IFThen(ALineStr.IsEmpty, ' ', ALineStr));
-//    Exit;
-//  end;
-//
-//  LLineStarted := False;
-//  LCodeStarted := False;
-//  for i := 0 to ALineStr.Length do
-//  begin
-//    LCurrentLetter := ALineStr[i];
-//    LNextLetter := ALineStr[Succ(i)];
-//
-//    if not LCodeStarted then
-//    begin
-//      if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
-//      begin
-//        LCodeStarted := True;
-//        Continue;
-//      end;
-//    end;
-//
-//    if(LCurrentLetter = BACKTICK)and(LNextLetter <> BACKTICK)then
-//    begin
-//      LCodeStarted := False;
-//      mmReturn.SelAttributes.Style := [];
-//      Continue;
-//    end;
-//
-//    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-//    if LCodeStarted then
-//      mmReturn.SelAttributes.Style := [fsBold]
-//    else
-//      mmReturn.SelAttributes.Style := [];
-//
-//    if LLineStarted then
-//      mmReturn.SelText := LCurrentLetter
-//    else
-//    begin
-//      mmReturn.Lines.Add('');
-//      mmReturn.SelText := LCurrentLetter;
-//
-//      LLineStarted := True;
-//    end;
-//    SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-//  end;
-//  mmReturn.SelText := ' ';
-//  SendMessage(mmReturn.Handle, WM_VSCROLL, SB_BOTTOM, 0);
-//end;
 
 procedure TDelphiAIDevChatView.WaitingFormON;
 begin
@@ -746,13 +605,16 @@ begin
   Gemini1.Checked := False;
   ChatGPT1.Checked := False;
   Groq1.Checked := False;
+  Ollama1.Checked := False;
   case FSettings.AIDefault of
-    TC4DAIsAvailable.Gemini:
+    TC4DAiAvailable.Gemini:
       Gemini1.Checked := True;
-    TC4DAIsAvailable.OpenAI:
+    TC4DAiAvailable.OpenAI:
       ChatGPT1.Checked := True;
-    TC4DAIsAvailable.Groq:
+    TC4DAiAvailable.Groq:
       Groq1.Checked := True;
+    TC4DAiAvailable.Ollama:
+      Ollama1.Checked := True;
   end;
 end;
 
@@ -761,12 +623,14 @@ begin
   lbCurrentAI.Caption := FSettings.AIDefault.ToString;
 
   case FSettings.AIDefault of
-    TC4DAIsAvailable.Gemini:
+    TC4DAiAvailable.Gemini:
       lbCurrentAI.Hint := FSettings.ModelGemini;
-    TC4DAIsAvailable.OpenAI:
+    TC4DAiAvailable.OpenAI:
       lbCurrentAI.Hint := FSettings.ModelOpenAI;
-    TC4DAIsAvailable.Groq:
+    TC4DAiAvailable.Groq:
       lbCurrentAI.Hint := FSettings.ModelGroq;
+    TC4DAiAvailable.Ollama:
+      lbCurrentAI.Hint := FSettings.ModelOllama;
   end;
 
   lbCurrentAI.Repaint;
@@ -779,10 +643,10 @@ var
 begin
   //*SEVERAL
   LTag := TMenuItem(Sender).Tag;
-  if not(LTag in [0, 1, 2])then
+  if not(LTag in [0, 1, 2, 3])then
     Exit;
 
-  FSettings.AIDefault := TC4DAIsAvailable(LTag);
+  FSettings.AIDefault := TC4DAiAvailable(LTag);
   FSettings.SaveData;
   Self.ConfLabelCurrentAI;
 end;

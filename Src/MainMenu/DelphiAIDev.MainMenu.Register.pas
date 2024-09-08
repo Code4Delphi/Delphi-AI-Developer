@@ -39,7 +39,7 @@ var
 begin
   DelphiAIDevIDEMainMenuRegister := TDelphiAIDevIDEMainMenuRegister.Create;
 
-  if(Supports(TObject(DelphiAIDevIDEMainMenuRegister), IOTAWizard, LIOTAWizard))then
+  if Supports(TObject(DelphiAIDevIDEMainMenuRegister), IOTAWizard, LIOTAWizard) then
     IndexPlugin := TUtilsOTA.GetIOTAWizardServices.AddWizard(LIOTAWizard);
 end;
 

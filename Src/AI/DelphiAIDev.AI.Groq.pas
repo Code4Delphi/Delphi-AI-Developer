@@ -7,6 +7,7 @@ uses
   System.JSON,
   System.Classes,
   RESTRequest4D,
+  DelphiAIDev.Consts,
   DelphiAIDev.Utils,
   DelphiAIDev.Settings,
   DelphiAIDev.AI.Interfaces;
@@ -39,7 +40,6 @@ end;
 
 function TDelphiAIDevAIGroq.GetResponse(const AQuestion: string): string;
 var
-  LQuestion: string;
   LResponse: IResponse;
   LJsonValueAll: TJSONVALUE;
   LJsonArrayChoices: TJsonArray;
@@ -48,14 +48,13 @@ var
   LItemChoices: Integer;
 begin
   Result := '';
-  LQuestion := TUtils.AdjustQuestionToJson(AQuestion);
 
   LResponse := TRequest.New
     .BaseURL(FSettings.BaseUrlGroq)
-    .ContentType('application/json')
-    .Accept('application/json')
+    .ContentType(TConsts.APPLICATION_JSON)
+    .Accept(TConsts.APPLICATION_JSON)
     .Token('Bearer ' + FSettings.ApiKeyGroq)
-    .AddBody(Format(API_JSON_BODY_BASE, [LQuestion, FSettings.ModelGroq]))
+    .AddBody(Format(API_JSON_BODY_BASE, [AQuestion, FSettings.ModelGroq]))
     .Post;
 
   if LResponse.StatusCode <> 200 then

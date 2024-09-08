@@ -11,6 +11,8 @@ uses
   System.StrUtils,
   System.Classes,
   System.TypInfo,
+  System.JSON,
+  System.Generics.Collections,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Graphics,
@@ -27,8 +29,11 @@ type
     class function ShowMsgInternal(const AMsg, ADetails: string; const AIcon: TC4DIcon;
       const AButtons: TC4DButtons; const ABtnFocu: TC4DBtnFocu; const AWinControlFocu: TWinControl): Boolean;
   public
+    class procedure TryGetValueJson<T>(const AJSONObject: TJSONObject; const AKey: string; AResult: T);
     class function GetExceptionMessage(const E: Exception): string;
     class function StrToDefaultsQuestionsKind(Value: string): TC4DQuestionKind;
+    class function StrToDriverID(Value: string): TC4DDriverID;
+    class procedure DriverIDFillItemsTStrings(AStrings: TStrings);
     class procedure DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
     class function AdjustQuestionToJson(const AValue: string): string;
     class procedure AddLog(const AMessage: string);
@@ -78,8 +83,12 @@ type
     class function GetPathFolderRoot: string;
     //class function GetPathFileIniGeneralSettings: string;
     class function GetPathFileChat: string;
+    class function GetPathFileChatDB: string;
     class function GetPathFileJSONDefaultsQuestions: string;
+    class function GetPathFileJSONDatabases: string;
+    class function GetPathFileJSONProjects: string;
     class function CreateIfNecessaryAndGetPathFolderTemp: string;
+    class function GetPathFolderMetaInfo: string;
     class function GetGuidStr: string;
     class function GuidToFileName(const AGuid: string; const AExtension: string): string;
     class function GetNamespace(AText: string): string;
@@ -137,15 +146,11 @@ uses
   DelphiAIDev.View.Dialog,
   DelphiAIDev.WaitingScreen;
 
-//Winapi.WinInet
-//class function TUtils.TestInternetConnection: Boolean;
-//var
-//  LFlags: DWord;
-//begin
-//  Result := InternetGetConnectedState(@LFlags, 0);
-//  if Result then
-//      Result := InternetCheckConnection('http://google.com', 1, 0);
-//end;
+class procedure TUtils.TryGetValueJson<T>(const AJSONObject: TJSONObject; const AKey: string; AResult: T);
+begin
+  if AJSONObject.GetValue(AKey) <> nil then
+    AResult := AJSONObject.GetValue<T>(AKey);
+end;
 
 class function TUtils.GetExceptionMessage(const E: Exception): string;
 begin
@@ -176,6 +181,26 @@ begin
     AStrings.Add(LItem.ToString);
 end;
 
+class function TUtils.StrToDriverID(Value: string): TC4DDriverID;
+begin
+  Result := TC4DDriverID.None;
+  if Value = TC4DDriverID.MySQL.ToString then
+    Result := TC4DDriverID.MySQL
+  else if Value = TC4DDriverID.Firebird.ToString then
+    Result := TC4DDriverID.Firebird
+end;
+
+class procedure TUtils.DriverIDFillItemsTStrings(AStrings: TStrings);
+var
+  LItem: TC4DDriverID;
+begin
+  if AStrings = nil then
+    Exit;
+
+  for LItem := Low(TC4DDriverID) to High(TC4DDriverID) do
+    AStrings.Add(LItem.ToString);
+end;
+
 class function TUtils.AdjustQuestionToJson(const AValue: string): string;
 begin
   Result := AValue
@@ -185,9 +210,11 @@ begin
   Result := Result.Replace('\\"', '\"', [rfReplaceAll, rfIgnoreCase]);
 end;
 
+
+
 class procedure TUtils.AddLog(const AMessage: string);
 const
-  DIRECTORY = 'C:\TempLog\DelphiAIDev\';
+  DIRECTORY = 'C:\Temp\DelphiAIDev\';
 var
   LFileName: string;
   LTextFile: TextFile;
@@ -201,7 +228,7 @@ begin
     if not FileExists(LFileName)then
       Rewrite(LTextFile);
     Append(LTextFile);
-    Writeln(LTextFile, AMessage);
+    Writeln(LTextFile, Format('%s: %s', [DateTimeToStr(Now), AMessage]));
     CloseFile(LTextFile);
   except
 //    on E: Exception do
@@ -210,7 +237,6 @@ begin
 end;
 
 class function TUtils.GetFileName(const AExtension: string): string;
-
 var
   LFileName: string;
   LSaveDialog: TSaveDialog;
@@ -310,8 +336,8 @@ begin
   if AWinControl = nil then
     Exit;
 
-  LCenterX := AWinControl.Width div 2;
-  LCenterY := AWinControl.Height div 2;
+  LCenterX := AWinControl.Left + (AWinControl.Width div 2);
+  LCenterY := AWinControl.Top + (AWinControl.Height div 2);
 
   APanel.Left := LCenterX - (APanel.Width div 2);
   APanel.Top := LCenterY - (APanel.Height div 2);
@@ -328,7 +354,8 @@ end;
 class function TUtils.CodeIdMarkBeginCode(const AValue: string): Boolean;
 begin
  Result := (AValue.Trim = TConsts.MARK_BEGIN_DELPHI)
-   or(AValue.Trim = TConsts.MARK_BEGIN_PASCAL);
+   or(AValue.Trim = TConsts.MARK_BEGIN_PASCAL)
+   or(AValue.Trim = TConsts.MARK_BEGIN_SQL);
    //or(AValue.Trim = TConsts.MARK_BEGIN_PASCAL2);
 end;
 
@@ -338,6 +365,8 @@ begin
     .Replace(TConsts.MARK_BEGIN_DELPHI, '', [rfReplaceAll, rfIgnoreCase])
     .Replace(TConsts.MARK_BEGIN_PASCAL, '', [rfReplaceAll, rfIgnoreCase])
     //.Replace(TConsts.MARK_BEGIN_PASCAL2, '', [rfReplaceAll, rfIgnoreCase])
+    .Replace(TConsts.MARK_BEGIN_SQL, '', [rfReplaceAll, rfIgnoreCase])
+    .Replace(TConsts.MARK_BEGIN_SQL2, '', [rfReplaceAll, rfIgnoreCase])
     .Replace(TConsts.MARK_END, '', [rfReplaceAll, rfIgnoreCase]);
 end;
 
@@ -399,7 +428,7 @@ end;
 
 class procedure TUtils.RemoveBlankSpaceInBegin(var AValue: string; const ACount: Integer);
 begin
-  if(ACount <= 0)then
+  if ACount <= 0 then
     Exit;
 
   if Trim(copy(AValue, 1, ACount)).IsEmpty then
@@ -441,9 +470,9 @@ begin
   I := 1;
   while(I <= LLengthText)do
   begin
-    if(Copy(LText, I, LLengthSeparator) = ASeparator)or(I = LLengthText)then
+    if (Copy(LText, I, LLengthSeparator) = ASeparator) or (I = LLengthText) then
     begin
-      if(I = LLengthText)then
+      if I = LLengthText then
         LItem := LItem + StringReplace(LText[I], ASeparator, '', [rfReplaceAll, rfIgnoreCase]);
 
       AStrings.Add(Trim(LItem));
@@ -466,7 +495,7 @@ begin
   AMemo.Lines.Text := AText.Trim;
   LLinesCount := AMemo.Lines.Count;
   AMemo.ScrollBars := System.UITypes.TScrollStyle.ssVertical;
-  if(LLinesCount < ANumLines)then
+  if LLinesCount < ANumLines then
   begin
     AMemo.ScrollBars := System.UITypes.TScrollStyle.ssNone;
     AMemo.Lines.Clear;
@@ -483,14 +512,14 @@ var
   LNumPanel: Integer;
 begin
   LNumPanel := 0;
-  if(not AStatusBar.SimplePanel)and(AStatusBar.Panels.Count > 0)then
+  if (not AStatusBar.SimplePanel) and (AStatusBar.Panels.Count > 0) then
   begin
     LPointMouse := AStatusBar.ScreenToClient(Mouse.CursorPos);
     LWidth := 0;
     for LNumPanel := 0 to AStatusBar.Panels.Count - 2 do
     begin
       LWidth := LWidth + AStatusBar.Panels[LNumPanel].Width;
-      if(LPointMouse.X <= LWidth)then
+      if LPointMouse.X <= LWidth then
         Break;
     end;
   end;
@@ -510,7 +539,7 @@ end;
 class function TUtils.RemoveCommentAfterTwoBars(Value: string): string;
 begin
   Result := Value;
-  if(Result.Contains('//'))then
+  if Result.Contains('//') then
     Result := Copy(Result, 1, (Pos('//', Result) - 1));
 end;
 
@@ -518,12 +547,12 @@ class procedure TUtils.FindListVewItem(AListView: TListView; AIndexSubItem: Inte
 var
   I: Integer;
 begin
-  if(AStrFind.Trim.IsEmpty)then
+  if AStrFind.Trim.IsEmpty then
     Exit;
 
   for I := 0 to Pred(AListView.Items.Count)do
   begin
-    if(AListView.Items[I].SubItems[AIndexSubItem] = AStrFind)then
+    if AListView.Items[I].SubItems[AIndexSubItem] = AStrFind then
     begin
       AListView.ItemIndex := I;
       AListView.SetFocus;
@@ -575,23 +604,23 @@ begin
   LOpenDialog := TOpenDialog.Create(nil);
   try
     LOpenDialog.Title := 'C4D - Select a file';
-    if(not ADefaultFile.Trim.IsEmpty)then
+    if not ADefaultFile.Trim.IsEmpty then
     begin
       LFolder := ExtractFilePath(ADefaultFile);
-      if(System.SysUtils.DirectoryExists(LFolder))then
+      if System.SysUtils.DirectoryExists(LFolder) then
         LOpenDialog.InitialDir := LFolder;
 
-      if(System.SysUtils.FileExists(ADefaultFile))then
+      if System.SysUtils.FileExists(ADefaultFile) then
         LOpenDialog.FileName := ExtractFileName(ADefaultFile);
     end;
 
-    if(ADefaultExt <> TC4DExtensionsFiles.All)then
+    if ADefaultExt <> TC4DExtensionsFiles.All then
     begin
       LOpenDialog.DefaultExt := ADefaultExt.ToString;
       LOpenDialog.Filter := Format('Arquivo %s|*.%s', [ADefaultExt.ToString.ToUpper, ADefaultExt.ToString]);
     end;
 
-    if(not LOpenDialog.Execute)then
+    if not LOpenDialog.Execute then
       Exit(ADefaultFile);
     Result := LOpenDialog.FileName;
   finally
@@ -611,12 +640,12 @@ begin
     LFileOpenDialog.Title := 'Delphi AI Developer -  Select a folder';
     LFileOpenDialog.Options := [fdoPickFolders];
 
-    if(not ADefaultFolder.Trim.IsEmpty)and(System.SysUtils.DirectoryExists(ADefaultFolder))then
+    if (not ADefaultFolder.Trim.IsEmpty) and (System.SysUtils.DirectoryExists(ADefaultFolder)) then
       LFileOpenDialog.DefaultFolder := ADefaultFolder;
 
-    if(not LFileOpenDialog.Execute)then
+    if not LFileOpenDialog.Execute then
     begin
-      if(ADefaultFolderIfCancel)then
+      if ADefaultFolderIfCancel then
         Result := ADefaultFolder;
       Exit;
     end;
@@ -640,7 +669,7 @@ end;
 class function TUtils.DateTimeToStrEmpty(AValue: TDateTime): string;
 begin
   Result := '';
-  if(AValue > 0)then
+  if AValue > 0 then
     Result := DateTimeToStr(AValue);
 end;
 
@@ -649,19 +678,19 @@ var
   LSr: TSearchRec;
   LFullName: string;
 begin
-  if(not System.SysUtils.DirectoryExists(AFullPath))then
+  if not System.SysUtils.DirectoryExists(AFullPath) then
     Exit(False);
 
   try
     Result := True;
-    if(FindFirst(AFullPath + '\*.*', faAnyFile, LSr) = 0)then
+    if FindFirst(AFullPath + '\*.*', faAnyFile, LSr) = 0 then
     begin
       try
         repeat
           LFullName := IncludeTrailingPathDelimiter(AFullPath) + LSr.Name;
-          if(LSr.Name <> '.')and(LSr.Name <> '..')then
+          if (LSr.Name <> '.') and (LSr.Name <> '..') then
           begin
-            if((LSr.Attr and faDirectory) = 0)then
+            if ((LSr.Attr and faDirectory) = 0) then
               Result := System.SysUtils.DeleteFile(LFullName)
             else
               Result := DirectoryDelete(LFullName);
@@ -681,7 +710,7 @@ class function TUtils.DirectoryOrFileMove(AFrom, ATo: string): Boolean;
 begin
   Result := False;
   try
-    if(MoveFile(PWideChar(AFrom), PWideChar(ATo)))then
+    if MoveFile(PWideChar(AFrom), PWideChar(ATo)) then
       Result := True;
   except
     on E: Exception do
@@ -707,7 +736,7 @@ end;
 
 class procedure TUtils.OpenFileOrFolder(APath: string);
 begin
-  if(FileExists(APath))then
+  if FileExists(APath) then
     Self.OpenFile(APath)
   else
     Self.OpenFolder(APath);
@@ -745,15 +774,37 @@ begin
   Result := Self.GetPathFolderRoot + TConsts.FILE_RTF_CHAT;
 end;
 
+class function TUtils.GetPathFileChatDB: string;
+begin
+  Result := Self.GetPathFolderRoot + TConsts.FILE_RTF_CHAT_DB;
+end;
+
 class function TUtils.GetPathFileJSONDefaultsQuestions: string;
 begin
   Result := Self.GetPathFolderRoot + TConsts.FILE_JSON_DEFAULTS_QUESTIONS;
 end;
 
+class function TUtils.GetPathFileJSONDatabases: string;
+begin
+  Result := Self.GetPathFolderRoot + TConsts.FILE_JSON_DATABASES;
+end;
+
+class function TUtils.GetPathFileJSONProjects: string;
+begin
+  Result := Self.GetPathFolderRoot + TConsts.FILE_JSON_PROJECTS;
+end;
+
 class function TUtils.CreateIfNecessaryAndGetPathFolderTemp: string;
 begin
   Result := Self.GetPathFolderRoot + TConsts.NAME_FOLDER_TEMP;
-  if(not DirectoryExists(Result))then
+  if not DirectoryExists(Result) then
+    ForceDirectories(Result);
+end;
+
+class function TUtils.GetPathFolderMetaInfo: string;
+begin
+  Result := IncludeTrailingPathDelimiter(Self.GetPathFolderRoot + TConsts.NAME_FOLDER_MetaInfo);
+  if not DirectoryExists(Result) then
     ForceDirectories(Result);
 end;
 
@@ -774,7 +825,7 @@ end;
 class function TUtils.GetNamespace(AText: string): string;
 begin
   Result := '';
-  if(ContainsStr(AText, '.'))then
+  if ContainsStr(AText, '.') then
     Result := Copy(AText, 1, Pos('.', AText));
 end;
 
@@ -786,23 +837,23 @@ var
 begin
   Result := '';
   LText := AText;
-  if(ACaseSensitive)then
+  if ACaseSensitive then
     LPosIni := Pos(ADelimitador1, LText)
   else
     LPosIni := Pos(AnsiUpperCase(ADelimitador1), AnsiUpperCase(LText));
 
-  if(LPosIni > 0)then
+  if LPosIni > 0 then
     LText := Copy(LText, LPosIni, Length(LText));
 
-  if(ACaseSensitive)then
+  if ACaseSensitive then
     LPosFim := Pos(ADelimitador2, LText)
   else
     LPosFim := Pos(AnsiUpperCase(ADelimitador2), AnsiUpperCase(LText));
 
-  if(LPosFim > 0)then
+  if LPosFim > 0 then
     LText := Copy(LText, 1, LPosFim + Length(ADelimitador2) - 1);
 
-  if(LPosIni > 0)or(LPosFim > 0)then
+  if (LPosIni > 0) or (LPosFim > 0) then
     Result := LText;
 end;
 
@@ -852,9 +903,9 @@ class function TUtils.ChangeLastComma(AValue: string; ANewLastChar: Char): strin
 begin
   Result := AValue;
   AValue := AValue.TrimRight;
-  if(not AValue.IsEmpty)then
+  if not AValue.IsEmpty then
   begin
-    if(RightStr(AValue, 1) = ',')then
+    if RightStr(AValue, 1) = ',' then
     begin
       Delete(AValue, AValue.Length, 1);
       Result := AValue + ANewLastChar;
@@ -866,9 +917,9 @@ class function TUtils.RemoveLastChar(AValue: string; AChar: Char): string;
 begin
   Result := AValue;
   AValue := AValue.Trim;
-  if(not AValue.IsEmpty)then
+  if not AValue.IsEmpty then
   begin
-    if(RightStr(AValue, 1) = AChar)then
+    if RightStr(AValue, 1) = AChar then
     begin
       Delete(AValue, AValue.Length, 1);
       Result := AValue;
@@ -889,7 +940,7 @@ var
   I: Integer;
 begin
   for I := 1 to Length(AValue) do
-    if(Pos(AValue[I], WITH_ACCENTS) <> 0)then
+    if Pos(AValue[I], WITH_ACCENTS) <> 0 then
       AValue[I] := OUT_ACCENTS[Pos(AValue[I], WITH_ACCENTS)];
 
   Result := AValue;
@@ -903,7 +954,7 @@ var
   I: Integer;
 begin
   for I := 1 to Length(AValue)do
-    if(Pos(AValue[I], SYMBOLS_OLD) <> 0)then
+    if Pos(AValue[I], SYMBOLS_OLD) <> 0 then
       AValue[I] := SYMBOLS_NEW[Pos(AValue[I], SYMBOLS_OLD)];
 
   Result := AValue;
@@ -992,7 +1043,7 @@ end;
 
 class function TUtils.IsProjectGroup(const AFilePath: string): Boolean;
 begin
-  Result := ExtractFileExt(AFilePath).ToLower = '.groupproj';
+  Result := ExtractFileExt(AFilePath).ToLower = TC4DExtensionsFiles.GROUPPROJ.ToStringWithPoint;
 end;
 
 class function TUtils.IsProject(const AFilePath: string): Boolean;
