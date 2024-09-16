@@ -45,6 +45,7 @@ begin
   for i := 0 to Pred(FVars.Contents.Count) do
     LText := LText + FVars.Contents[i].Trim + sLineBreak;
 
+  AContext.EditBuffer.EditPosition.Delete(FVars.Contents.Count);
   AContext.EditBuffer.EditPosition.InsertText(LText.Trim);
   //Context.EditBuffer.EditPosition.Move(TDelphiAIDevCodeCompletionVars.GetInstance.LineEnd, 20);
 
