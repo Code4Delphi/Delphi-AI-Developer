@@ -62,7 +62,7 @@ procedure TDelphiAIDevCodeCompletionSearch.Process(const AContext: IOTAKeyContex
 var
   LRow: Integer;
   LColumn: Integer;
-  LText: string;
+  LBlankTextLines: string;
   i: Integer;
   LIOTAEditPosition: IOTAEditPosition;
 begin
@@ -101,11 +101,11 @@ begin
     FVars.LineIni := LRow;
     FVars.LineEnd := FVars.LineIni + FVars.Contents.Count;
 
-    LText := '';
-    for i := 0 to Pred(FVars.Contents.Count) do
-      LText := LText + sLineBreak;
+    LBlankTextLines := '';
+    for i := 1 to Pred(FVars.Contents.Count) do
+      LBlankTextLines := LBlankTextLines + sLineBreak;
 
-    LIOTAEditPosition.InsertText(LText); //.TrimRight + sLineBreak);
+    LIOTAEditPosition.InsertText(LBlankTextLines);
     LIOTAEditPosition.Move(FVars.LineIni, LColumn);
   finally
     Screen.Cursor := crDefault;

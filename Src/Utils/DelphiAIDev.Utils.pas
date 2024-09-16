@@ -384,6 +384,10 @@ begin
 end;
 
 class function TUtils.ConfReturnAI(const AValue: string): string;
+var
+  LStrings: TStrings;
+  LStrLine: string;
+  i: Integer;
 begin
   Result := AValue.Trim
     .Replace(TConsts.MARK_BEGIN_DELPHI, '', [rfReplaceAll, rfIgnoreCase])
@@ -392,6 +396,28 @@ begin
     .Replace(TConsts.MARK_BEGIN_SQL, '', [rfReplaceAll, rfIgnoreCase])
     .Replace(TConsts.MARK_BEGIN_SQL2, '', [rfReplaceAll, rfIgnoreCase])
     .Replace(TConsts.MARK_END, '', [rfReplaceAll, rfIgnoreCase]);
+
+  LStrings := TStringList.Create;
+  try
+    LStrings.Text := Result;
+
+    Result := '';
+    for i := 0 to Pred(LStrings.Count) do
+    begin
+      LStrLine := LStrings[i];
+      if (i = 0) and ((LStrLine.Trim.IsEmpty)or(LStrLine = sLineBreak)) then
+        Continue;
+
+      //if (i = Pred(LStrings.Count)) and ((LStrLine.Trim.IsEmpty) or (LStrLine = sLineBreak)) then
+      //  Continue;
+
+      Result := Result + LStrLine + sLineBreak;
+    end;
+
+    Result := Result.TrimRight;
+  finally
+    LStrings.Free;
+  end;
 end;
 
 class function TUtils.ProcessTextForEditor(const AText: string): string;
