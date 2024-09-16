@@ -96,11 +96,13 @@ var
 begin
   TUtilsOTA.GetCursorPosition(LRow, LColumn);
 
-  if (LRow <> LVars.Row) or (LColumn <> LVars.Column) then
-  begin
-    LVars.LineIni := 0;
-    LVars.Clear;
-  end;
+  if LVars.LineIni > 0 then
+    if (LRow <> LVars.Row) or (LColumn <> LVars.Column) then
+    begin
+      LVars.LineIni := 0;
+      LVars.Clear;
+      TUtils.AddLog('EditorIdle');
+    end;
 end;
 
 procedure TDelphiAIDevIDENTAEditViewNotifier.EndPaint(const View: IOTAEditView);
@@ -130,10 +132,10 @@ begin
   //if LineNumber <> View.CursorPos.Line then
   //  Exit;
 
-  if (LineNumber >= LVars.LineIni)and(LineNumber <= LVars.LineEnd) then
+  if (LineNumber >= LVars.LineIni)and(LineNumber < LVars.LineEnd) then
   begin
     Canvas.Brush.Style := bsClear;
-    Canvas.Font.Color := $777777; //$666666;
+    Canvas.Font.Color := $777777;
     if TDelphiAIDevSettings.GetInstance.CodeCompletionSuggestionColorUse then
       Canvas.Font.Color := TDelphiAIDevSettings.GetInstance.CodeCompletionSuggestionColor;
 
@@ -141,7 +143,12 @@ begin
       LLineText := LVars.Contents[LineNumber - LVars.LineIni];
       Canvas.TextOut(TextRect.Left, TextRect.Top, LLineText.TrimRight);
     except on E: Exception do
-      TUtils.AddLog(E.Message);
+      if TUtils.DebugMyIsOn then
+        TUtils.AddLog('Exception in TDelphiAIDevIDENTAEditViewNotifier.PaintLine: ' + sLineBreak +
+          'LineNumber: ' + LineNumber.ToString + sLineBreak +
+          'LineIni: ' + LVars.LineIni.ToString + sLineBreak +
+          'LineEnd: ' + LVars.LineEnd.ToString + sLineBreak +
+          E.Message);
     end;
   end;
 end;

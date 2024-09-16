@@ -36,7 +36,7 @@ type
     class procedure DriverIDFillItemsTStrings(AStrings: TStrings);
     class procedure DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
     class function AdjustQuestionToJson(const AValue: string): string;
-    class function InDebugMy: Boolean;
+    class function DebugMyIsOn: Boolean;
     class procedure AddLog(const AMessage: string);
     class procedure AddLogDeleteFileFirst(const AMessage: string; const ANameFile: string);
     class procedure AddLogInFileTxt(const AMessage: string; const ANameFile: string; ADeleteFileFirst: Boolean = False);
@@ -213,7 +213,7 @@ begin
   Result := Result.Replace('\\"', '\"', [rfReplaceAll, rfIgnoreCase]);
 end;
 
-class function TUtils.InDebugMy: Boolean;
+class function TUtils.DebugMyIsOn: Boolean;
 begin
   Result := FileExists('C:\Temp\DelphiAIDev\DebugOn.c4d');
 end;

@@ -56,7 +56,7 @@ begin
   LQuestion := TUtils.AdjustQuestionToJson(AQuestion);
   FResponse.Clear;
 
-  if TUtils.InDebugMy then
+  if TUtils.DebugMyIsOn then
     TUtils.AddLogDeleteFileFirst(LQuestion, 'DelphiAIDevAI_ProcessSend');
 
   case FAiUse of
