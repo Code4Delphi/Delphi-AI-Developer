@@ -408,9 +408,6 @@ begin
       if (i = 0) and ((LStrLine.Trim.IsEmpty)or(LStrLine = sLineBreak)) then
         Continue;
 
-      //if (i = Pred(LStrings.Count)) and ((LStrLine.Trim.IsEmpty) or (LStrLine = sLineBreak)) then
-      //  Continue;
-
       Result := Result + LStrLine + sLineBreak;
     end;
 

@@ -57,13 +57,17 @@ begin
 end;
 
 procedure TDelphiAIDevIDEMainMenu.CreateMenus;
+var
+ LImgList: TDelphiAIDevIDEImageListMain;
 begin
+  LImgList := TDelphiAIDevIDEImageListMain.GetInstance;
+
   Self.CreateMenuDelphiAIDeveloperInIDEMenu;
 
   Self.CreateSubMenu(TConsts.MENU_IDE_CHAT_NAME,
     TConsts.MENU_IDE_CHAT_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.ChatClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexMessage,
+    LImgList.ImgIndexMessage,
     Self.GetShortCutStrChat);
 
   Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '10', '-', nil);
@@ -71,32 +75,32 @@ begin
   Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_QUESTIONS_NAME,
     TConsts.MENU_IDE_DEFAULTS_QUESTIONS_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.DefaultsQuestionsClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgQuestion);
+    LImgList.ImgQuestion);
 
   Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '20', '-', nil);
 
   Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_DATABASES_ADD_NAME,
     TConsts.MENU_IDE_DEFAULTS_DATABASES_ADD_Caption,
     TDelphiAIDevIDEMainMenuClicks.DatabasesAddClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgDatabaseAdd);
+    LImgList.ImgDatabaseAdd);
 
   Self.CreateSubMenu(TConsts.MENU_IDE_DEFAULTS_DATABASES_CHAT_NAME,
     TConsts.MENU_IDE_DEFAULTS_DATABASES_CHAT_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.DatabasesChatClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgDatabaseExecute);
+    LImgList.ImgDatabaseExecute);
 
   Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '30', '-', nil);
 
   Self.CreateSubMenu(TConsts.MENU_IDE_SETTINGS_NAME,
     TConsts.MENU_IDE_SETTINGS_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.SettingsClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexGear);
+    LImgList.ImgIndexGear);
 
   Self.CreateSubMenu(TConsts.PREFIX_NAME_SEPARATOR + '40', '-', nil);
   Self.CreateSubMenu(TConsts.MENU_IDE_ABOUT_NAME,
     TConsts.MENU_IDE_ABOUT_CAPTION,
     TDelphiAIDevIDEMainMenuClicks.AboutClick,
-    TDelphiAIDevIDEImageListMain.GetInstance.ImgIndexC4D_Logo);
+    LImgList.ImgIndexC4D_Logo);
 end;
 
 procedure TDelphiAIDevIDEMainMenu.CreateMenuDelphiAIDeveloperInIDEMenu;

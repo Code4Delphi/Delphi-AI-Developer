@@ -38,19 +38,20 @@ end;
 
 procedure TDelphiAIDevCodeCompletionKeyTab.Process(const AContext: IOTAKeyContext);
 var
-  LText: string;
   i: Integer;
 begin
-  if FVars.Contents.Count > 1 then
-    AContext.EditBuffer.EditPosition.Delete(Pred(FVars.Contents.Count));
+  try
+    if FVars.Contents.Count > 1 then
+      AContext.EditBuffer.EditPosition.Delete(Pred(FVars.Contents.Count));
 
-  for i := 0 to Pred(FVars.Contents.Count) do
-  begin
-    AContext.EditBuffer.EditPosition.MoveEOL;
-    AContext.EditBuffer.EditPosition.InsertText(FVars.Contents[i] + sLineBreak);
+    for i := 0 to Pred(FVars.Contents.Count) do
+    begin
+      AContext.EditBuffer.EditPosition.MoveEOL;
+      AContext.EditBuffer.EditPosition.InsertText(FVars.Contents[i] + sLineBreak);
+    end;
+  finally
+    FVars.Clear;
   end;
-
-  FVars.GetInstance.Clear;
 end;
 
 end.
