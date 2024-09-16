@@ -134,7 +134,6 @@ type
     procedure btnCleanAllClick(Sender: TObject);
     procedure btnExecuteSQLClick(Sender: TObject);
     procedure cBoxDatabasesClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure CopyCurrentColumn1Click(Sender: TObject);
     procedure CopyCurrentLine1Click(Sender: TObject);
@@ -248,6 +247,7 @@ begin
 
   Self.ConfScreenOnCreate;
   Self.FillMemoReturnWithFile;
+  TUtilsDBGrids.ConfDBGrid(DBGrid1);
 end;
 
 destructor TDelphiAIDevDBChatView.Destroy;
@@ -279,11 +279,6 @@ begin
     mmQuestion.Lines.Add(FQuestionOnShow);
     FQuestionOnShow := '';
   end;
-end;
-
-procedure TDelphiAIDevDBChatView.FormCreate(Sender: TObject);
-begin
-  TUtilsDBGrids.ConfDBGrid(DBGrid1);
 end;
 
 procedure TDelphiAIDevDBChatView.FormClose(Sender: TObject; var Action: TCloseAction);

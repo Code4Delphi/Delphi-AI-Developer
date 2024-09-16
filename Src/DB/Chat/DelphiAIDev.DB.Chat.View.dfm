@@ -17,7 +17,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
   ShowHint = True
   OnActivate = FormActivate
   OnClose = FormClose
-  OnCreate = FormCreate
   OnResize = FormResize
   OnShow = FormShow
   DesignSize = (
