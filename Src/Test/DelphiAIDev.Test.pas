@@ -25,13 +25,13 @@ type
     property Apelido: string read FApelido write FApelido;
     property Cep: Integer read FCep write FCep;
     procedure Clear;
-
   end;
 
 implementation
 
 procedure TDelphiAIDevTest.Clear;
 begin
+
 end;
 
 end.

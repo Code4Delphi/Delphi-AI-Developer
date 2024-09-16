@@ -39,6 +39,7 @@ end;
 procedure TDelphiAIDevCodeCompletionKeyTab.Process(const AContext: IOTAKeyContext);
 var
   i: Integer;
+  LTextLine: string;
 begin
   try
     if FVars.Contents.Count > 1 then
@@ -46,8 +47,15 @@ begin
 
     for i := 0 to Pred(FVars.Contents.Count) do
     begin
-      AContext.EditBuffer.EditPosition.MoveEOL;
-      AContext.EditBuffer.EditPosition.InsertText(FVars.Contents[i] + sLineBreak);
+      LTextLine := FVars.Contents[i].Trim;
+
+      if FVars.Contents.Count > 1 then
+      begin
+        AContext.EditBuffer.EditPosition.MoveEOL;
+        LTextLine := FVars.Contents[i];
+      end;
+
+      AContext.EditBuffer.EditPosition.InsertText(LTextLine + sLineBreak);
     end;
   finally
     FVars.Clear;
