@@ -74,6 +74,8 @@ begin
     FQuestions.Add(FSettings.LanguageQuestions.GetLanguageDefinition);
     FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeCompletionSuggestion);
     FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeOnly);
+    if not FSettings.CodeCompletionDefaultPrompt.Trim.IsEmpty then
+      FQuestions.Add(FSettings.CodeCompletionDefaultPrompt);
 
     LIOTAEditPosition := AContext.EditBuffer.EditPosition;
     LIOTAEditPosition.InsertText(TConsts.TAG_CODE_COMPLETION);

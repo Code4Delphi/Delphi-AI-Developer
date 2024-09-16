@@ -434,7 +434,10 @@ begin
     LQuestion := TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim + sLineBreak;
 
   if btnCodeOnly.ImageIndex = CodeOnly_ImageIndex_ON then
-    LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgCodeOnly;
+    LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgCodeOnly + sLineBreak;
+
+  if not FSettings.DefaultPrompt.Trim.IsEmpty then
+    LQuestion := LQuestion + FSettings.DefaultPrompt + sLineBreak;
 
   LQuestion := LQuestion + mmQuestion.Lines.Text;
 

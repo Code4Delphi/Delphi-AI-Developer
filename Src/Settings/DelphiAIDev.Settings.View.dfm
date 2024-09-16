@@ -207,10 +207,14 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
     Top = 33
     Width = 667
     Height = 521
-    ActivePage = TabSheet3
+    ActivePage = TabSheet4
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'Preferences'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pnPreferencesBack: TPanel
         Left = 0
         Top = 0
@@ -242,6 +246,13 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Width = 133
             Height = 13
             Caption = 'Language used in questions'
+          end
+          object Label19: TLabel
+            Left = 21
+            Top = 122
+            Width = 72
+            Height = 13
+            Caption = 'Default Prompt'
           end
           object cBoxAIDefault: TComboBox
             Left = 272
@@ -303,12 +314,24 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               OnClick = btnOpenDataFolderClick
             end
           end
+          object mmDefaultPrompt: TMemo
+            Left = 21
+            Top = 139
+            Width = 617
+            Height = 201
+            ScrollBars = ssVertical
+            TabOrder = 5
+          end
         end
       end
     end
     object TabSheet2: TTabSheet
       Caption = 'IAs on-line'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pnIAsOnLineBack: TPanel
         Left = 0
         Top = 0
@@ -851,6 +874,10 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
     object TabSheet3: TTabSheet
       Caption = 'IAs off-Line'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pnIAsOffLineBack: TPanel
         Left = 0
         Top = 0
@@ -1084,6 +1111,13 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               Font.Style = [fsBold]
               ParentFont = False
             end
+            object Label18: TLabel
+              Left = 16
+              Top = 187
+              Width = 72
+              Height = 13
+              Caption = 'Default Prompt'
+            end
             object ckCodeCompletionUse: TCheckBox
               Left = 16
               Top = 5
@@ -1126,6 +1160,14 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               Width = 333
               Height = 21
               TabOrder = 4
+            end
+            object mmCodeCompletionDefaultPrompt: TMemo
+              Left = 16
+              Top = 204
+              Width = 617
+              Height = 201
+              ScrollBars = ssVertical
+              TabOrder = 5
             end
           end
         end

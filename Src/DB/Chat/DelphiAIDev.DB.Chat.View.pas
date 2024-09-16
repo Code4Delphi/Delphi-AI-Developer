@@ -735,6 +735,8 @@ begin
   LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgJSONIsDatabaseStructure(Self.GetFieldDBSelected.DriverID.ToString);
   LQuestion := LQuestion + Self.GetJsonDatabase + sLineBreak;
   LQuestion := LQuestion + FSettings.LanguageQuestions.GetMsgJSONInformedAnswerQuestion;
+  if not FSettings.DefaultPrompt.Trim.IsEmpty then
+    LQuestion := LQuestion + FSettings.DefaultPrompt + sLineBreak;
   LQuestion := LQuestion + mmQuestion.Lines.Text;
 
   LTask := TTask.Create(

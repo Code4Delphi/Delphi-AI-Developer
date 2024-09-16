@@ -115,6 +115,10 @@ type
     btnOpenDataFolder: TButton;
     edtCodeCompletionShortcutInvoke: TEdit;
     Label17: TLabel;
+    Label18: TLabel;
+    mmCodeCompletionDefaultPrompt: TMemo;
+    Label19: TLabel;
+    mmDefaultPrompt: TMemo;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -344,12 +348,14 @@ begin
   ckColorHighlightCodeDelphiUse.Checked := FSettings.ColorHighlightCodeDelphiUse;
   ColorBoxColorHighlightCodeDelphi.Selected := FSettings.ColorHighlightCodeDelphi;
   Self.ConfigFieldsColorHighlightDelphi;
+  mmDefaultPrompt.Lines.Text := FSettings.DefaultPrompt;
 
   ckCodeCompletionUse.Checked := FSettings.CodeCompletionUse;
   cBoxCodeCompletionAIDefault.ItemIndex := Integer(FSettings.CodeCompletionAIDefault);
   ckCodeCompletionSuggestionColorUse.Checked := FSettings.CodeCompletionSuggestionColorUse;
   ColorBoxCodeCompletionSuggestionColor.Selected := FSettings.CodeCompletionSuggestionColor;
   edtCodeCompletionShortcutInvoke.Text := FSettings.CodeCompletionShortcutInvoke;
+  mmCodeCompletionDefaultPrompt.Lines.Text := FSettings.CodeCompletionDefaultPrompt;
 
   edtBaseUrlGemini.Text := FSettings.BaseUrlGemini;
   cBoxModelGemini.ItemIndex := cBoxModelGemini.Items.IndexOf(FSettings.ModelGemini);
@@ -383,12 +389,14 @@ begin
 
   FSettings.ColorHighlightCodeDelphiUse := ckColorHighlightCodeDelphiUse.Checked;
   FSettings.ColorHighlightCodeDelphi := ColorBoxColorHighlightCodeDelphi.Selected;
+  FSettings.DefaultPrompt := mmDefaultPrompt.Lines.Text;
 
   FSettings.CodeCompletionUse := ckCodeCompletionUse.Checked;
   FSettings.CodeCompletionAIDefault := TC4DAiAvailable(cBoxCodeCompletionAIDefault.ItemIndex);
   FSettings.CodeCompletionSuggestionColorUse := ckCodeCompletionSuggestionColorUse.Checked;
   FSettings.CodeCompletionSuggestionColor := ColorBoxCodeCompletionSuggestionColor.Selected;
   FSettings.CodeCompletionShortcutInvoke := edtCodeCompletionShortcutInvoke.Text;
+  FSettings.CodeCompletionDefaultPrompt := mmCodeCompletionDefaultPrompt.Lines.Text;
 
   FSettings.BaseUrlGemini := edtBaseUrlGemini.Text;
   FSettings.ModelGemini := cBoxModelGemini.Text;

@@ -18,12 +18,14 @@ type
     FIELD_LanguageQuestions = 'LanguageQuestions';
     FIELD_AIDefault = 'AIDefault';
     FIELD_ColorHighlightCodeDelphiUse = 'ColorHighlightCodeDelphiUse';
-    FIELD_ColorHighlightCodeDelphi =  'ColorHighlightCodeDelphi';
+    FIELD_ColorHighlightCodeDelphi = 'ColorHighlightCodeDelphi';
+    FIELD_DefaultPrompt = 'DefaultPrompt';
     FIELD_CodeCompletionUse = 'CodeCompletionUse';
     FIELD_CodeCompletionAIDefault = 'CodeCompletionAIDefault';
     FIELD_CodeCompletionSuggestionColorUse = 'CodeCompletionSuggestionColorUse';
     FIELD_CodeCompletionSuggestionColor = 'CodeCompletionSuggestionColor';
     FIELD_CodeCompletionShortcutInvoke = 'CodeCompletionShortcutInvoke';
+    FIELD_CodeCompletionDefaultPrompt =  'CodeCompletionDefaultPrompt';
     FIELD_BaseUrlGemini = 'BaseUrlGemini';
     FIELD_ModelGemini = 'ModelGemini';
     FIELD_ApiKeyGemini = 'ApiKeyGemini';
@@ -41,12 +43,14 @@ type
     FAIDefault: TC4DAiAvailable;
     FColorHighlightCodeDelphiUse: Boolean;
     FColorHighlightCodeDelphi: TColor;
+    FDefaultPrompt: string;
 
     FCodeCompletionUse: Boolean;
     FCodeCompletionAIDefault: TC4DAiAvailable;
     FCodeCompletionSuggestionColorUse: Boolean;
     FCodeCompletionSuggestionColor: TColor;
     FCodeCompletionShortcutInvoke: string;
+    FCodeCompletionDefaultPrompt: string;
 
     FBaseUrlGemini: string;
     FModelGemini: string;
@@ -79,12 +83,14 @@ type
     property AIDefault: TC4DAiAvailable read FAIDefault write FAIDefault;
     property ColorHighlightCodeDelphiUse: Boolean read FColorHighlightCodeDelphiUse write FColorHighlightCodeDelphiUse;
     property ColorHighlightCodeDelphi: TColor read FColorHighlightCodeDelphi write FColorHighlightCodeDelphi;
+    property DefaultPrompt: string read FDefaultPrompt write FDefaultPrompt;
 
     property CodeCompletionUse: Boolean read FCodeCompletionUse write FCodeCompletionUse;
     property CodeCompletionAIDefault: TC4DAiAvailable read FCodeCompletionAIDefault write FCodeCompletionAIDefault;
     property CodeCompletionSuggestionColorUse: Boolean read FCodeCompletionSuggestionColorUse write FCodeCompletionSuggestionColorUse;
     property CodeCompletionSuggestionColor: TColor read FCodeCompletionSuggestionColor write FCodeCompletionSuggestionColor;
     property CodeCompletionShortcutInvoke: string read FCodeCompletionShortcutInvoke write FCodeCompletionShortcutInvoke;
+    property CodeCompletionDefaultPrompt: string read FCodeCompletionDefaultPrompt write FCodeCompletionDefaultPrompt;
 
     property BaseUrlGemini: string read FBaseUrlGemini write FBaseUrlGemini;
     property ModelGemini: string read FModelGemini write FModelGemini;
@@ -127,12 +133,14 @@ begin
 
   FColorHighlightCodeDelphiUse := False;
   FColorHighlightCodeDelphi := clNone;
+  FDefaultPrompt := '';
 
   FCodeCompletionUse := False;
   FCodeCompletionAIDefault := TC4DAiAvailable.Gemini;
   FCodeCompletionSuggestionColorUse := False;
   FCodeCompletionSuggestionColor := TConsts.CODE_COMPLETION_SUGGESTION_COLOR;
   FCodeCompletionShortcutInvoke := TConsts.CODE_COMPLETION_SHORTCUT_INVOKE;
+  FCodeCompletionDefaultPrompt := '';
 
   FBaseUrlGemini := TConsts.BASE_URL_GEMINI_DEFAULT;
   FModelGemini := TConsts.MODEL_GEMINI_DEFAULT;
@@ -167,12 +175,14 @@ begin
 
     LReg.WriteBool(FIELD_ColorHighlightCodeDelphiUse, FColorHighlightCodeDelphiUse);
     LReg.WriteString(FIELD_ColorHighlightCodeDelphi, ColorToString(FColorHighlightCodeDelphi));
+    LReg.WriteString(FIELD_DefaultPrompt, FDefaultPrompt);
 
     LReg.WriteBool(FIELD_CodeCompletionUse, FCodeCompletionUse);
     LReg.WriteInteger(FIELD_CodeCompletionAIDefault, Integer(FCodeCompletionAIDefault));
     LReg.WriteBool(FIELD_CodeCompletionSuggestionColorUse, FCodeCompletionSuggestionColorUse);
     LReg.WriteString(FIELD_CodeCompletionSuggestionColor, ColorToString(FCodeCompletionSuggestionColor));
     LReg.WriteString(FIELD_CodeCompletionShortcutInvoke, FCodeCompletionShortcutInvoke);
+    LReg.WriteString(FIELD_CodeCompletionDefaultPrompt, FCodeCompletionDefaultPrompt);
 
     LReg.WriteString(FIELD_BaseUrlGemini, FBaseUrlGemini);
     LReg.WriteString(FIELD_ModelGemini, FModelGemini);
@@ -222,6 +232,9 @@ begin
         FColorHighlightCodeDelphi := TUtils.StringToColorDef(LReg.ReadString(FIELD_ColorHighlightCodeDelphi),
           TUtilsOTA.ActiveThemeForCode);
 
+      if LReg.ValueExists(FIELD_DefaultPrompt) then
+        FDefaultPrompt := LReg.ReadString(FIELD_DefaultPrompt);
+
       //Code Completion
       if LReg.ValueExists(FIELD_CodeCompletionUse) then
         FCodeCompletionUse := LReg.ReadBool(FIELD_CodeCompletionUse);
@@ -238,6 +251,9 @@ begin
 
       if LReg.ValueExists(FIELD_CodeCompletionShortcutInvoke) then
         FCodeCompletionShortcutInvoke := LReg.ReadString(FIELD_CodeCompletionShortcutInvoke);
+
+      if LReg.ValueExists(FIELD_CodeCompletionDefaultPrompt) then
+        FCodeCompletionDefaultPrompt := LReg.ReadString(FIELD_CodeCompletionDefaultPrompt);
 
       //GEMINI
       if LReg.ValueExists(FIELD_BaseUrlGemini) then
