@@ -41,15 +41,14 @@ var
   LText: string;
   i: Integer;
 begin
-  LText := '';
-  for i := 0 to Pred(FVars.Contents.Count) do
-    LText := LText + FVars.Contents[i].Trim + sLineBreak;
-
   if FVars.Contents.Count > 1 then
     AContext.EditBuffer.EditPosition.Delete(Pred(FVars.Contents.Count));
 
-  AContext.EditBuffer.EditPosition.InsertText(LText.Trim);
-  //Context.EditBuffer.EditPosition.Move(TDelphiAIDevCodeCompletionVars.GetInstance.LineEnd, 20);
+  for i := 0 to Pred(FVars.Contents.Count) do
+  begin
+    AContext.EditBuffer.EditPosition.MoveEOL;
+    AContext.EditBuffer.EditPosition.InsertText(FVars.Contents[i] + sLineBreak);
+  end;
 
   FVars.GetInstance.Clear;
 end;
