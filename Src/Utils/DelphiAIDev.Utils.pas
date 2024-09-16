@@ -36,7 +36,10 @@ type
     class procedure DriverIDFillItemsTStrings(AStrings: TStrings);
     class procedure DefaultsQuestionsKindFillItemsTStrings(AStrings: TStrings);
     class function AdjustQuestionToJson(const AValue: string): string;
+    class function InDebugMy: Boolean;
     class procedure AddLog(const AMessage: string);
+    class procedure AddLogDeleteFileFirst(const AMessage: string; const ANameFile: string);
+    class procedure AddLogInFileTxt(const AMessage: string; const ANameFile: string; ADeleteFileFirst: Boolean = False);
     class function GetFileName(const AExtension: string): string;
     class procedure MemoFocusOnTheEnd(const AMemo: TMemo);
     class function IfThenColor(const Conditional: Boolean; const AColorTrue, AColorFalse: TColor): TColor;
@@ -210,11 +213,24 @@ begin
   Result := Result.Replace('\\"', '\"', [rfReplaceAll, rfIgnoreCase]);
 end;
 
-
+class function TUtils.InDebugMy: Boolean;
+begin
+  Result := FileExists('C:\Temp\DelphiAIDev\DebugOn.c4d');
+end;
 
 class procedure TUtils.AddLog(const AMessage: string);
+begin
+  Self.AddLogInFileTxt(AMessage, FormatDateTime('yyyy-mm-dd', Now));
+end;
+
+class procedure TUtils.AddLogDeleteFileFirst(const AMessage: string; const ANameFile: string);
+begin
+  Self.AddLogInFileTxt(AMessage, ANameFile, True);
+end;
+
+class procedure TUtils.AddLogInFileTxt(const AMessage: string; const ANameFile: string; ADeleteFileFirst: Boolean = False);
 const
-  DIRECTORY = 'C:\Temp\DelphiAIDev\';
+  DIRECTORY = 'C:\Temp\DelphiAIDev\Logs\';
 var
   LFileName: string;
   LTextFile: TextFile;
@@ -223,7 +239,14 @@ begin
     if not(DirectoryExists(DIRECTORY)) then
       ForceDirectories(DIRECTORY);
 
-    LFileName := DIRECTORY + FormatDateTime('yyyy-mm-dd', Now) + '.txt';
+    LFileName := DIRECTORY + ANameFile + '.txt';
+
+    if ADeleteFileFirst then
+    begin
+      if FileExists(LFileName)then
+        DeleteFile(LFileName);
+    end;
+
     AssignFile(LTextFile, LFileName);
     if not FileExists(LFileName)then
       Rewrite(LTextFile);
@@ -231,10 +254,11 @@ begin
     Writeln(LTextFile, Format('%s: %s', [DateTimeToStr(Now), AMessage]));
     CloseFile(LTextFile);
   except
-//    on E: Exception do
-//      ShowMsg('Unable to generate log. Message: ' + E.Message + sLineBreak + 'Filename: ' + LFileName);
+    //on E: Exception do
+    //  ShowMsg('Unable to generate log. Message: ' + E.Message + sLineBreak + 'Filename: ' + LFileName);
   end;
 end;
+
 
 class function TUtils.GetFileName(const AExtension: string): string;
 var

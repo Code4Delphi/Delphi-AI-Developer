@@ -10,7 +10,6 @@ type
     FBairro: string;
     FNumero: Integer;
     FTelefone: string;
-
   public
     property Nome: string read FNome write FNome;
     property Endereco: string read FEndereco write FEndereco;

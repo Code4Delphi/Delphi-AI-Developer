@@ -175,14 +175,27 @@ end;
 function TC4DLanguageHelper.GetMsgCodeCompletionSuggestion: string;
 begin
   Result := 'Com base no seguinte código delphi, de uma sugestão ' +
-    'de código para ser adicionado onde esta o comentário //Suggestion';
+    'de código para ser adicionado onde esta o comentário %s ' + sLineBreak +
+    'Importante: antes do implementation e dentro dos especificadores '+
+    'private, protected, public, published deve-se adicionar apenas declarações '+
+    'e nunca se deve adicionar implementações de códigos delphi que contenham begin. ' + sLineBreak +
+    'Nas sugestões, nunca repita um código que já exista. ';
   case Self of
     TC4DLanguage.en:
-      Result := 'Based on the following Delphi code, give a suggestion of code to be added where the comment //Suggestion is';
+      Result := 'Based on the following Delphi code, give a suggestion of code to be added where the comment %s is ' + sLineBreak +
+        'Important: before implementation and within the '+
+        'private, protected, public, published specifiers, you should only add declarations '+
+        'and never add Delphi code implementations that contain begin. '+ sLineBreak +
+        'In suggestions, never repeat code that already exists. ';
     TC4DLanguage.es:
-      Result := 'Basado en el siguiente código Delphi, se agregará una sugerencia de código donde está el comentario //Sugerencia';
+      Result := 'Basado en el siguiente código Delphi, se agregará una sugerencia de código donde está el comentario %s ' + sLineBreak +
+        'Importante: antes de la implementación y dentro de los especificadores '+
+        'privados, protegidos, públicos y publicados, solo se deben agregar declaraciones '+
+        'y nunca se deben agregar implementaciones de códigos Delphi que contienen begin. ' + sLineBreak +
+        'En sugerencias, nunca repita código que ya existe. ';
   end;
 
+  Result := Format(Result, [TConsts.TAG_CODE_COMPLETION]);
   Result := Result + sLineBreak;
 end;
 

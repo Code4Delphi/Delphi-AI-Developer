@@ -56,6 +56,9 @@ begin
   LQuestion := TUtils.AdjustQuestionToJson(AQuestion);
   FResponse.Clear;
 
+  if TUtils.InDebugMy then
+    TUtils.AddLogDeleteFileFirst(LQuestion, 'DelphiAIDevAI_ProcessSend');
+
   case FAiUse of
     TC4DAiAvailable.Gemini:
       FResponse.Text := TDelphiAIDevAIGemini.New(FSettings).GetResponse(LQuestion);
