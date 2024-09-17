@@ -97,17 +97,22 @@ var
   LRow: Integer;
   LColumn: Integer;
 begin
+  if LVars.LineIni <= 0 then
+    Exit;
+
   TUtilsOTA.GetCursorPosition(LRow, LColumn);
 
-  if LVars.LineIni > 0 then
-  //if LVars.Release then
-    if (LRow <> LVars.Row) or (LColumn <> LVars.Column) then
-    begin
-      //LVars.LineIni := 0;
-      //LVars.Clear;
-      LVars.Release := True;
-      TUtils.AddLog('EditorIdle');
+  if (LRow <> LVars.Row) or (LColumn <> LVars.Column) then
+  begin
+    TUtils.AddLog('EditorIdle');
+
+    ////LVars.Release := True;
+    try
+      Self.ClearLinesNotUsed;
+    finally
+      LVars.Clear;
     end;
+  end;
 end;
 
 procedure TDelphiAIDevIDENTAEditViewNotifier.EndPaint(const View: IOTAEditView);
@@ -126,15 +131,10 @@ var
   LColCurrent: Integer;
   LLineCurrent: Integer;
 begin
-  LVars.Release := False;
+  ////LVars.Release := False;
 
   if LVars.Module = nil then
     Exit;
-
-  TUtils.AddLog(sLineBreak + LVars.Module.FileName + sLineBreak + TUtilsOTA.GetCurrentModule.FileName);
-
-  //if LVars.Module.FileName <> TUtilsOTA.GetCurrentModule.FileName then
-  //  Exit;
 
   LView := TUtilsOTA.GetIOTAEditView(LVars.Module);
   LColCurrent := LView.CursorPos.Col;
@@ -161,36 +161,16 @@ begin
   if not LLineText.Trim.IsEmpty then
     Exit;
 
-
   //if LineNumber <> View.CursorPos.Line then Exit;
 
-  if LVars.Release then
-  begin
-    try
-      Self.ClearLinesNotUsed;
-    finally
-      LVars.Clear;
-    end;
-
-    {TUtils.AddLog(sLineBreak + LVars.Module.FileName + sLineBreak + TUtilsOTA.GetCurrentModule.FileName);
-    LVars.Release := False;
-
-    try
-      if LVars.Module.FileName =  TUtilsOTA.GetCurrentModule.FileName then
-      begin
-        LColCurrent := View.CursorPos.Col;
-        LLineCurrent := View.CursorPos.Line;
-        try
-          View.Buffer.EditPosition.Move(LVars.LineIni, 2);
-          View.Buffer.EditPosition.Delete(Pred(LVars.Contents.Count));
-        finally
-          View.Buffer.EditPosition.Move(LLineCurrent, LColCurrent);
-        end;
-      end
-    finally
-      LVars.Clear;
-    end;}
-  end;
+//  if LVars.Release then
+//  begin
+//    try
+//      Self.ClearLinesNotUsed;
+//    finally
+//      LVars.Clear;
+//    end;
+//  end;
 
   if (LineNumber >= LVars.LineIni)and(LineNumber < LVars.LineEnd) then
   begin
