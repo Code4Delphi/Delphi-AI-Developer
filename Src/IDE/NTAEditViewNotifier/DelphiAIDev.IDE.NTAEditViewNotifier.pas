@@ -51,6 +51,9 @@ type
     procedure BeforeSave;
     procedure Modified;
     procedure Destroyed;
+
+    //TDelphiAIDevIDENTAEditViewNotifier
+    procedure ClearLinesNotUsed;
   end;
 
 implementation
@@ -96,8 +99,8 @@ var
 begin
   TUtilsOTA.GetCursorPosition(LRow, LColumn);
 
-  //if LVars.LineIni > 0 then
-  if not LVars.Release then
+  if LVars.LineIni > 0 then
+  //if LVars.Release then
     if (LRow <> LVars.Row) or (LColumn <> LVars.Column) then
     begin
       //LVars.LineIni := 0;
@@ -117,13 +120,38 @@ begin
 
 end;
 
+procedure TDelphiAIDevIDENTAEditViewNotifier.ClearLinesNotUsed;
+var
+  LView: IOTAEditView;
+  LColCurrent: Integer;
+  LLineCurrent: Integer;
+begin
+  LVars.Release := False;
+
+  if LVars.Module = nil then
+    Exit;
+
+  TUtils.AddLog(sLineBreak + LVars.Module.FileName + sLineBreak + TUtilsOTA.GetCurrentModule.FileName);
+
+  //if LVars.Module.FileName <> TUtilsOTA.GetCurrentModule.FileName then
+  //  Exit;
+
+  LView := TUtilsOTA.GetIOTAEditView(LVars.Module);
+  LColCurrent := LView.CursorPos.Col;
+  LLineCurrent := LView.CursorPos.Line;
+  try
+    LView.Buffer.EditPosition.Move(LVars.LineIni, 2);
+    LView.Buffer.EditPosition.Delete(Pred(LVars.Contents.Count));
+  finally
+    LView.Buffer.EditPosition.Move(LLineCurrent, LColCurrent);
+  end;
+end;
+
 procedure TDelphiAIDevIDENTAEditViewNotifier.PaintLine(const View: IOTAEditView; LineNumber: Integer;
   const LineText: PAnsiChar; const TextWidth: Word; const LineAttributes: TOTAAttributeArray;
   const Canvas: TCanvas; const TextRect: TRect; const LineRect: TRect; const CellSize: TSize);
 var
   LLineText: string;
-  LColCurrent: Integer;
-  LLineCurrent: Integer;
 begin
   if LineNumber < 1 then
     Exit;
@@ -133,27 +161,35 @@ begin
   if not LLineText.Trim.IsEmpty then
     Exit;
 
-  //if LineNumber <> View.CursorPos.Line then
-  //  Exit;
 
-  //verificar o nome da tab da unit aberta
+  //if LineNumber <> View.CursorPos.Line then Exit;
+
   if LVars.Release then
   begin
-    LVars.Release := False;
-
-    //**
-    LColCurrent := View.CursorPos.Col;
-    LLineCurrent := View.CursorPos.Line;
-    //**
     try
-      View.Buffer.EditPosition.Move(LVars.LineIni, 2);
-      View.Buffer.EditPosition.Delete(Pred(LVars.Contents.Count));
+      Self.ClearLinesNotUsed;
     finally
       LVars.Clear;
-      //**
-      View.Buffer.EditPosition.Move(LLineCurrent, LColCurrent);
-      //**
     end;
+
+    {TUtils.AddLog(sLineBreak + LVars.Module.FileName + sLineBreak + TUtilsOTA.GetCurrentModule.FileName);
+    LVars.Release := False;
+
+    try
+      if LVars.Module.FileName =  TUtilsOTA.GetCurrentModule.FileName then
+      begin
+        LColCurrent := View.CursorPos.Col;
+        LLineCurrent := View.CursorPos.Line;
+        try
+          View.Buffer.EditPosition.Move(LVars.LineIni, 2);
+          View.Buffer.EditPosition.Delete(Pred(LVars.Contents.Count));
+        finally
+          View.Buffer.EditPosition.Move(LLineCurrent, LColCurrent);
+        end;
+      end
+    finally
+      LVars.Clear;
+    end;}
   end;
 
   if (LineNumber >= LVars.LineIni)and(LineNumber < LVars.LineEnd) then

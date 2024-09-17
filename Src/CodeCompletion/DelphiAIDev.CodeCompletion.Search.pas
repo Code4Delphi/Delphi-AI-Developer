@@ -91,7 +91,6 @@ begin
       Abort;
     end;
 
-    //Pegar o nome da tab da unit aberta
     FVars.Module := TUtilsOTA.GetCurrentModule;
     FVars.Contents.Text := TUtils.ConfReturnAI(FAI.Response.Text);
 
