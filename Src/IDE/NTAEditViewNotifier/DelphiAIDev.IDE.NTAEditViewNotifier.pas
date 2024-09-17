@@ -96,11 +96,13 @@ var
 begin
   TUtilsOTA.GetCursorPosition(LRow, LColumn);
 
-  if LVars.LineIni > 0 then
+  //if LVars.LineIni > 0 then
+  if not LVars.Release then
     if (LRow <> LVars.Row) or (LColumn <> LVars.Column) then
     begin
-      LVars.LineIni := 0;
-      LVars.Clear;
+      //LVars.LineIni := 0;
+      //LVars.Clear;
+      LVars.Release := True;
       TUtils.AddLog('EditorIdle');
     end;
 end;
@@ -120,6 +122,8 @@ procedure TDelphiAIDevIDENTAEditViewNotifier.PaintLine(const View: IOTAEditView;
   const Canvas: TCanvas; const TextRect: TRect; const LineRect: TRect; const CellSize: TSize);
 var
   LLineText: string;
+  LColCurrent: Integer;
+  LLineCurrent: Integer;
 begin
   if LineNumber < 1 then
     Exit;
@@ -131,6 +135,26 @@ begin
 
   //if LineNumber <> View.CursorPos.Line then
   //  Exit;
+
+  //verificar o nome da tab da unit aberta
+  if LVars.Release then
+  begin
+    LVars.Release := False;
+
+    //**
+    LColCurrent := View.CursorPos.Col;
+    LLineCurrent := View.CursorPos.Line;
+    //**
+    try
+      View.Buffer.EditPosition.Move(LVars.LineIni, 2);
+      View.Buffer.EditPosition.Delete(Pred(LVars.Contents.Count));
+    finally
+      LVars.Clear;
+      //**
+      View.Buffer.EditPosition.Move(LLineCurrent, LColCurrent);
+      //**
+    end;
+  end;
 
   if (LineNumber >= LVars.LineIni)and(LineNumber < LVars.LineEnd) then
   begin

@@ -4,11 +4,14 @@ interface
 
 uses
   System.SysUtils,
-  System.Classes;
+  System.Classes,
+  ToolsAPI;
 
 type
   TDelphiAIDevCodeCompletionVars = class
   private
+    FRelease: Boolean;
+    FModule: IOTAModule;
     FLineIni: Integer;
     FLineEnd: Integer;
     FRow: Integer;
@@ -19,6 +22,8 @@ type
     class function GetInstance: TDelphiAIDevCodeCompletionVars;
     destructor Destroy; override;
     procedure Clear;
+    property Release: Boolean read FRelease write FRelease;
+    property Module: IOTAModule read FModule write FModule;
     property LineIni: Integer read FLineIni write FLineIni;
     property LineEnd: Integer read FLineEnd write FLineEnd;
     property Row: Integer read FRow write FRow;
@@ -53,6 +58,8 @@ end;
 
 procedure TDelphiAIDevCodeCompletionVars.Clear;
 begin
+  FRelease := False;
+  FModule := nil;
   FLineIni := 0;
   FLineEnd := 0;
   FRow := 0;
