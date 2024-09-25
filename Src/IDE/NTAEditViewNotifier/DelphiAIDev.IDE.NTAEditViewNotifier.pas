@@ -136,6 +136,11 @@ begin
   if LVars.Module = nil then
     Exit;
 
+  //**
+  if LVars.Contents.Count <= 1 then
+    Exit;
+  //**
+
   LView := TUtilsOTA.GetIOTAEditView(LVars.Module);
   LColCurrent := LView.CursorPos.Col;
   LLineCurrent := LView.CursorPos.Line;

@@ -107,7 +107,7 @@ begin
       TDelphiAIDevCodeCompletionSearch.New.Process(Context);
   finally
     //BindingResult := TKeyBindingResult.krUnhandled;
-    BindingResult := TKeyBindingResult.krHandled;
+    BindingResult := TKeyBindingResult.krNextProc; //krHandled;
   end;
 end;
 
@@ -121,7 +121,7 @@ begin
   if TDelphiAIDevCodeCompletionVars.GetInstance.LineIni > 0 then
   begin
     TDelphiAIDevCodeCompletionKeyTab.New.Process(Context);
-    BindingResult := TKeyBindingResult.krHandled;
+    BindingResult := TKeyBindingResult.krNextProc; //krHandled;
   end;
 end;
 
