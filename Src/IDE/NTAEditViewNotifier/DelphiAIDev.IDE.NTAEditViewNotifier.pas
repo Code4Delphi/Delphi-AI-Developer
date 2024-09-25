@@ -87,6 +87,32 @@ begin
 
 end;
 
+procedure TDelphiAIDevIDENTAEditViewNotifier.ClearLinesNotUsed;
+var
+  LView: IOTAEditView;
+  LColCurrent: Integer;
+  LLineCurrent: Integer;
+begin
+  ////LVars.Release := False;
+  if LVars.Module = nil then
+    Exit;
+
+  //**
+  if LVars.Contents.Count <= 1 then
+    Exit;
+  //**
+
+  LView := TUtilsOTA.GetIOTAEditView(LVars.Module);
+  LColCurrent := LView.CursorPos.Col;
+  LLineCurrent := LView.CursorPos.Line;
+  try
+    LView.Buffer.EditPosition.Move(LVars.LineIni, 2);
+    LView.Buffer.EditPosition.Delete(Pred(LVars.Contents.Count));
+  finally
+    LView.Buffer.EditPosition.Move(LLineCurrent, LColCurrent);
+  end;
+end;
+
 procedure TDelphiAIDevIDENTAEditViewNotifier.BeginPaint(const View: IOTAEditView; var FullRepaint: Boolean);
 begin
   FullRepaint := True;
@@ -125,33 +151,6 @@ begin
 
 end;
 
-procedure TDelphiAIDevIDENTAEditViewNotifier.ClearLinesNotUsed;
-var
-  LView: IOTAEditView;
-  LColCurrent: Integer;
-  LLineCurrent: Integer;
-begin
-  ////LVars.Release := False;
-
-  if LVars.Module = nil then
-    Exit;
-
-  //**
-  if LVars.Contents.Count <= 1 then
-    Exit;
-  //**
-
-  LView := TUtilsOTA.GetIOTAEditView(LVars.Module);
-  LColCurrent := LView.CursorPos.Col;
-  LLineCurrent := LView.CursorPos.Line;
-  try
-    LView.Buffer.EditPosition.Move(LVars.LineIni, 2);
-    LView.Buffer.EditPosition.Delete(Pred(LVars.Contents.Count));
-  finally
-    LView.Buffer.EditPosition.Move(LLineCurrent, LColCurrent);
-  end;
-end;
-
 procedure TDelphiAIDevIDENTAEditViewNotifier.PaintLine(const View: IOTAEditView; LineNumber: Integer;
   const LineText: PAnsiChar; const TextWidth: Word; const LineAttributes: TOTAAttributeArray;
   const Canvas: TCanvas; const TextRect: TRect; const LineRect: TRect; const CellSize: TSize);
@@ -163,8 +162,8 @@ begin
 
   LLineText := string(LineText);
 
-  if not LLineText.Trim.IsEmpty then
-    Exit;
+  //AQUI VERIFICA SE A LINHA NAO FOR VAZIA NAO ADICIONA O TEXTO DA SUGESTAO
+  //if not LLineText.Trim.IsEmpty then Exit;
 
   //if LineNumber <> View.CursorPos.Line then Exit;
 
@@ -177,7 +176,7 @@ begin
 //    end;
 //  end;
 
-  if (LineNumber >= LVars.LineIni)and(LineNumber < LVars.LineEnd) then
+  if (LineNumber >= LVars.LineIni) and (LineNumber < LVars.LineEnd) then
   begin
     Canvas.Brush.Style := bsClear;
     Canvas.Font.Color := $777777;

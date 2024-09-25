@@ -91,7 +91,7 @@ begin
   //  Exit;
 
   LShortcut := TConsts.CODE_COMPLETION_SHORTCUT_INVOKE;
-  if not(Trim(TDelphiAIDevSettings.GetInstance.CodeCompletionShortcutInvoke).IsEmpty) then
+  if not Trim(TDelphiAIDevSettings.GetInstance.CodeCompletionShortcutInvoke).IsEmpty then
     LShortcut := TDelphiAIDevSettings.GetInstance.CodeCompletionShortcutInvoke;
 
   BindingServices.AddKeyBinding([TextToShortCut(LShortcut)], Self.CodeCompletionSearch, nil);
