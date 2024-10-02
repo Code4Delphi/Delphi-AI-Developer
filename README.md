@@ -94,6 +94,43 @@ Note: If the current unit has any code selected, only the selected code snippet 
 
 <br/>
 
+## Chat for database interaction
+- To register Databases, access the menu “AI Developer” > “Databases Registers”
+![image](https://github.com/user-attachments/assets/aacd2440-898a-4e7d-96fd-8dfa94c09c76)
+
+- **Generate reference with database**
+- Note: This process must always be performed whenever a new field or table is added to the database.
+![image](https://github.com/user-attachments/assets/8649509e-189b-46d2-bc0d-378ead1e8929)
+
+- Optional Step: Link Default Database to Project or Project Group
+![image](https://github.com/user-attachments/assets/92812a6f-fdd6-45e0-b60c-b26669f166dc)
+
+- Chat for database
+
+![image](https://github.com/user-attachments/assets/f3aeb00e-cdcb-491d-b360-5c625c5c8f2f)
+
+
+1. Select the desired database
+2. Quick access to the reference generation screen for the selected database
+3. Select the desired AI to be used in the chat
+4. Field where the question/prompt should be added
+5. Button that makes the request to the AIs
+6. Field where the AI ​​response will be displayed
+7. Button to execute the SQL command of the field with the response (field 6)
+8. Grid with the response from the execution of the SQl command
+9. Options for copying or exporting Grid data
+10. Access the menu with pre-registered questions (to register, access the menu: “AI Developer” > “Defaults Questions”)
+11. By checking this option, the AI ​​will only return SQL commands, without inserting comments or explanations.
+12. By checking the "Use current unit code in query" option, the source code of the current unit will be used as a reference for the prompt sent to the AIs.
+Note: If the current unit has any code selected, only the selected code snippet will be used as a reference, otherwise the entire unit code will be used.
+13. **Insert Selected Text at Cursor**: Inserts the selected text into the response, field in the IDE code editor (if there is no selection, use the entire response)
+14. Create new unit with selected code (if there is no selection, use the entire response)
+15. Copy Selected Text (if there is no selection, use the entire response)
+16. Clean all and start a new chat
+17. Opens a menu with additional options
+
+<br/>
+
 ## ▶️ Demo Video
 We have also created a video with details on how to download, install and use the plugin. The video is in Portuguese (ptBR), but we are providing subtitles and possibly a video in English.
 * [https://www.youtube.com/watch?v=2NAlUFK2FGs](https://www.youtube.com/watch?v=2NAlUFK2FGs)
