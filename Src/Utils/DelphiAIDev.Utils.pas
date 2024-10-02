@@ -236,7 +236,7 @@ var
   LTextFile: TextFile;
 begin
   try
-    if not(DirectoryExists(DIRECTORY)) then
+    if not DirectoryExists(DIRECTORY) then
       ForceDirectories(DIRECTORY);
 
     LFileName := DIRECTORY + ANameFile + '.txt';

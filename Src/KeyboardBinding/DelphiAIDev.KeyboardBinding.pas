@@ -21,6 +21,7 @@ type
     procedure KeyAltHome(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     procedure KeyTab(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
     procedure CodeCompletionSearch(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+    //procedure HandleKeyBinding(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
   protected
     function GetBindingType: TBindingType;
     function GetDisplayName: string;
@@ -98,7 +99,23 @@ begin
 
   BindingServices.AddKeyBinding([Shortcut(VK_TAB, [])], Self.KeyTab, nil);
   BindingServices.AddKeyBinding([Shortcut(VK_HOME, [ssAlt])], Self.KeyAltHome, nil);
+
+//  //**
+//  BindingServices.AddKeyBinding([], HandleKeyBinding, nil);
+//  //**
 end;
+
+////**
+//procedure TDelphiAIDevKeyboardBinding.HandleKeyBinding(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
+//var
+//  Key: Word;
+//begin
+//  //Key := Word(KeyCode and $FF); // Extrai o código da tecla
+//  //TUtils.AddLog('Tecla pressionada: ' + IntToStr(Key));
+//  TUtils.ShowMsg('Aqui');
+//  BindingResult := TKeyBindingResult.krNextProc
+//end;
+////**
 
 procedure TDelphiAIDevKeyboardBinding.CodeCompletionSearch(const Context: IOTAKeyContext; KeyCode: TShortcut; var BindingResult: TKeyBindingResult);
 begin

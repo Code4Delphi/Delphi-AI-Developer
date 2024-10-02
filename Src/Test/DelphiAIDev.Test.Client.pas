@@ -6,29 +6,34 @@ type
   TDelphiAIDevTestClient = class
   private
     FNome: string;
+    FCPF: string;
     FEndereco: string;
-    FBairro: string;
-    FNumero: Integer;
-    FTelefone: string;
+    FIdade: Integer;
   public
+    constructor Create(ANome: string; ACpf: string; AEndereco: string);
     property Nome: string read FNome write FNome;
+    property CPF: string read FCPF write FCPF;
     property Endereco: string read FEndereco write FEndereco;
-    property Bairro: string read FBairro write FBairro;
-    property Numero: Integer read FNumero write FNumero;
-    property Telefone: string read FTelefone write FTelefone;
-
-    procedure Clear;
+    property Idade: Integer read FIdade write FIdade;
+    procedure LimparVariaveis;
   end;
 
 implementation
 
-procedure TDelphiAIDevTestClient.Clear;
+
+{ TDelphiAIDevTestClient }
+
+constructor TDelphiAIDevTestClient.Create(ANome, ACpf, AEndereco: string);
+begin
+
+end;
+
+procedure TDelphiAIDevTestClient.LimparVariaveis;
 begin
   FNome := '';
+  FCPF := '';
   FEndereco := '';
-  FBairro := '';
-  FNumero := 0;
-  FTelefone := '';
+  FIdade := 0;
 end;
 
 end.
