@@ -51,7 +51,7 @@ Receive suggestions for creating and improving code directly in the IDE and take
 
 <br/>
 
-# PLUGIN SETTINGS
+## PLUGIN SETTINGS
 - Access the menu “AI Developer” > “Settings” > Tab “Preferences”
 ![image](https://github.com/user-attachments/assets/c89d1145-4178-45ec-bd45-ecb13dfc37cc)
 
