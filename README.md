@@ -65,12 +65,32 @@ Receive suggestions for creating and improving code directly in the IDE and take
 
 ## CONFIGURING IAS ONLINE
 You can choose between 3 APIs, Gemini (Google), ChatGPT (OpenAI) and Groq. Gemini and Groq APIs are free. 
-- Access the menu “AI Developer” > “Settings” > Tab “IAs on-line”
+Access the menu “AI Developer” > “Settings” > Tab “IAs on-line”
 ![image](https://github.com/user-attachments/assets/2c3a45a2-94c8-4449-8c71-58246f6ca67f)
 
 1. Inform the desired model.
 2. Click on the **"Generate API Key"** link to generate your key.
 3. In this field you must enter the API access key.
+
+<br/>
+
+## AI Chat interacting with Delphi IDE
+Access the menu “AI Developer” > “Chat” or Ctrl+Shift+Alt+A
+![image](https://github.com/user-attachments/assets/a8e58367-36c3-481f-8583-98d19cee68af)
+
+1. Select the desired AI to be used in the chat
+2. Field where the question/prompt should be added
+3. Field where the AI ​​response will be displayed
+4. Access the menu with pre-registered questions (to register, access the menu: “AI Developer” > “Defaults Questions”)
+5. By checking this option, the AI ​​will only return codes, without inserting comments or explanations.
+6. By checking the "Use current unit code in query" option, the source code of the current unit will be used as a reference for the prompt sent to the AIs.
+Note: If the current unit has any code selected, only the selected code snippet will be used as a reference, otherwise the entire unit code will be used.
+7. Button that makes the request to the AIs
+8. **Insert Selected Text at Cursor**: Inserts the selected text into the response, field in the IDE code editor (if there is no selection, use the entire response)
+9. Create new unit with selected code (if there is no selection, use the entire response)
+10. Copy Selected Text (if there is no selection, use the entire response)
+11. Clean all and start a new chat
+12. Opens a menu with additional options
 
 <br/>
 
