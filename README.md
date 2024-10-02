@@ -61,6 +61,16 @@ Receive suggestions for creating and improving code directly in the IDE and take
 4. **Default Prompt:** The Default Prompts that were added in this field will be sent to the AIs, with this you can considerably improve the quality of the responses. (Example of prompt: Always return SQL commands in lowercase)
 
 
+<br/>
+
+## CONFIGURING IAS ONLINE
+You can choose between 3 APIs, Gemini (Google), ChatGPT (OpenAI) and Groq. Gemini and Groq APIs are free. 
+- Access the menu “AI Developer” > “Settings” > Tab “IAs on-line”
+![image](https://github.com/user-attachments/assets/2c3a45a2-94c8-4449-8c71-58246f6ca67f)
+
+1. Inform the desired model.
+2. Click on the **"Generate API Key"** link to generate your key.
+3. In this field you must enter the API access key.
 
 <br/>
 
