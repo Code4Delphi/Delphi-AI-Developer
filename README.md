@@ -5,7 +5,7 @@ With Delphi AI Developer, you will have assistance in generating and refactoring
 
 Receive suggestions for creating and improving code directly in the IDE and take advantage of the possibility of creating predefined questions to speed up your searches.
 
-# 📞 Contacts
+## 📞 Contacts
 
 <p align="left">
   <a href="https://t.me/Code4Delphi" target="_blank">
@@ -29,7 +29,7 @@ Receive suggestions for creating and improving code directly in the IDE and take
   </a>
 </p> 
 
-## 🚀 Installation
+## 🚀 INSTALLATION
 
 1 - Download Delphi AI Developer. You can download the .zip file or clone the project on your PC.
 ![image](https://github.com/Code4Delphi/Delphi-AI-Developer/assets/33873267/a32c9333-6d5a-4036-9891-b97778bca90a)
@@ -94,7 +94,7 @@ To configure, access the menu “AI Developer” > “Settings” > Tab “Code 
 
 <br/>
 
-## 🔵 AI Chat interacting with Delphi IDE
+## 🔵 AI CHAT INTERACTING WITH DELPHI IDE
 Access the menu “AI Developer” > “Chat” or Ctrl+Shift+Alt+A
 ![image](https://github.com/user-attachments/assets/a8e58367-36c3-481f-8583-98d19cee68af)
 
@@ -114,7 +114,7 @@ Note: If the current unit has any code selected, only the selected code snippet 
 
 <br/>
 
-## 🟣 Chat for database interaction
+## 🟣 CHAT FOR DATABASE INTERACTION
 - To register Databases, access the menu “AI Developer” > “Databases Registers”
 ![image](https://github.com/user-attachments/assets/aacd2440-898a-4e7d-96fd-8dfa94c09c76)
 
@@ -151,7 +151,7 @@ Note: If the current unit has any code selected, only the selected code snippet 
 
 <br/>
 
-## ▶️ Demo Video
+## ▶️ DEMO VIDEO
 We have also created a video with details on how to download, install and use the plugin. The video is in Portuguese (ptBR), but we are providing subtitles and possibly a video in English.
 * [https://www.youtube.com/watch?v=2NAlUFK2FGs](https://www.youtube.com/watch?v=2NAlUFK2FGs)
 
