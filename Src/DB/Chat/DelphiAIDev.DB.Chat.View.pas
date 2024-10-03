@@ -176,6 +176,7 @@ type
     function GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
     function GetJsonDatabase: string;
     procedure HandleErrorExecutingSQLCommand(const E: Exception);
+    procedure ValidateIfDatabaseSelected;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -671,7 +672,7 @@ procedure TDelphiAIDevDBChatView.FillDateLastReferences;
 begin
   lbLastGeneration.Caption := '';
 
-  if cBoxDatabases.Items.Count < 0 then
+  if cBoxDatabases.Items.Count <= 0 then
     Exit;
 
   lbLastGeneration.Caption := TUtils.DateTimeToStrEmpty(Self.GetFieldDBSelected.LastReferences);
@@ -682,8 +683,7 @@ var
   LView: TDelphiAIDevDBReferencesView;
   LFields: TDelphiAIDevDBRegistersFields;
 begin
-  if cBoxDatabases.Items.Count < 0 then
-    Exit;
+  Self.ValidateIfDatabaseSelected;
 
   LFields := Self.GetFieldDBSelected;
   if LFields = nil then
@@ -699,9 +699,15 @@ begin
   end;
 end;
 
+procedure TDelphiAIDevDBChatView.ValidateIfDatabaseSelected;
+begin
+  if cBoxDatabases.Items.Count <= 0 then
+    TUtils.ShowMsgAndAbort('Please select a database to continue', cBoxDatabases);
+end;
 
 function TDelphiAIDevDBChatView.GetFieldDBSelected: TDelphiAIDevDBRegistersFields;
 begin
+  Self.ValidateIfDatabaseSelected;
   Result := TDelphiAIDevDBRegistersFields(cBoxDatabases.Items.Objects[cBoxDatabases.ItemIndex]);
 end;
 
@@ -721,7 +727,6 @@ begin
   FSettings.ValidateFillingSelectedAI;
 
   mmReturn.Lines.Clear;
-  Self.WaitingFormON;
 
   LQuestion := FSettings.LanguageQuestions.GetLanguageDefinition;
 
@@ -738,6 +743,7 @@ begin
     LQuestion := LQuestion + FSettings.DefaultPrompt + sLineBreak;
   LQuestion := LQuestion + mmQuestion.Lines.Text;
 
+  Self.WaitingFormON;
   LTask := TTask.Create(
     procedure
     begin
@@ -802,6 +808,8 @@ var
   LCommand: string;
   LField: TDelphiAIDevDBRegistersFields;
 begin
+  Self.ValidateIfDatabaseSelected;
+
   LCommand := Trim(mmReturn.Lines.Text);
   if LCommand.IsEmpty then
     TUtils.ShowMsgAndAbort('No SQL command informed');
@@ -887,12 +895,18 @@ end;
 
 procedure TDelphiAIDevDBChatView.SaveAllGridDataAsCSVClick(Sender: TObject);
 begin
+  if DataSource1.DataSet.IsEmpty then
+    TUtils.ShowMsgAndAbort('There is no data to be exported');
+
   TUtilsDBGrids.DBGridToCSV(DBGrid1);
   TUtils.ShowV('File saved successfully');
 end;
 
 procedure TDelphiAIDevDBChatView.SaveAllGridDataAsTXTClick(Sender: TObject);
 begin
+  if DataSource1.DataSet.IsEmpty then
+    TUtils.ShowMsgAndAbort('There is no data to be exported');
+
   TUtilsDBGrids.DBGridToTxt(DBGrid1);
   TUtils.ShowV('File saved successfully');
 end;
