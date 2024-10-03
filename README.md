@@ -29,7 +29,7 @@ Receive suggestions for creating and improving code directly in the IDE and take
   </a>
 </p> 
 
-## ⚙️ Installation
+## 🚀 Installation
 
 1 - Download Delphi AI Developer. You can download the .zip file or clone the project on your PC.
 ![image](https://github.com/Code4Delphi/Delphi-AI-Developer/assets/33873267/a32c9333-6d5a-4036-9891-b97778bca90a)
@@ -51,7 +51,7 @@ Receive suggestions for creating and improving code directly in the IDE and take
 
 <br/>
 
-## PLUGIN SETTINGS
+## ⚙️ PLUGIN SETTINGS
 Access the menu “AI Developer” > “Settings” > Tab “Preferences”
 ![image](https://github.com/user-attachments/assets/c89d1145-4178-45ec-bd45-ecb13dfc37cc)
 
@@ -63,7 +63,7 @@ Access the menu “AI Developer” > “Settings” > Tab “Preferences”
 
 <br/>
 
-## CONFIGURING IAS ONLINE
+## ⚫ CONFIGURING IAS ONLINE
 You can choose between 3 APIs, Gemini (Google), ChatGPT (OpenAI) and Groq. Gemini and Groq APIs are free. 
 
 Access the menu “AI Developer” > “Settings” > Tab “IAs on-line”
@@ -75,7 +75,7 @@ Access the menu “AI Developer” > “Settings” > Tab “IAs on-line”
 
 <br/>
 
-## CODE COMPLETION
+## 🟠 CODE COMPLETION
 
 To configure, access the menu “AI Developer” > “Settings” > Tab “Code Completion”
 
@@ -94,7 +94,7 @@ To configure, access the menu “AI Developer” > “Settings” > Tab “Code 
 
 <br/>
 
-## AI Chat interacting with Delphi IDE
+## 🔵 AI Chat interacting with Delphi IDE
 Access the menu “AI Developer” > “Chat” or Ctrl+Shift+Alt+A
 ![image](https://github.com/user-attachments/assets/a8e58367-36c3-481f-8583-98d19cee68af)
 
@@ -114,7 +114,7 @@ Note: If the current unit has any code selected, only the selected code snippet 
 
 <br/>
 
-## Chat for database interaction
+## 🟣 Chat for database interaction
 - To register Databases, access the menu “AI Developer” > “Databases Registers”
 ![image](https://github.com/user-attachments/assets/aacd2440-898a-4e7d-96fd-8dfa94c09c76)
 
