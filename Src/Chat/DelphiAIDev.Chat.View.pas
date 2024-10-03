@@ -241,6 +241,10 @@ begin
   ShapeCommands.Top := 0;
   ShapeCommands.Width := ShapeCommands.Parent.Width;
   ShapeCommands.Height := ShapeCommands.Parent.Height;
+
+  {$IF CompilerVersion >= 34} //Sydney
+    pnWaitCaption.StyleElements := pnWaitCaption.StyleElements - [seFont];
+  {$ENDIF}
 end;
 
 procedure TDelphiAIDevChatView.ConfScreenOnShow;
