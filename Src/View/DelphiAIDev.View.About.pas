@@ -32,7 +32,7 @@ type
     imgGithub: TImage;
     pnButtons: TPanel;
     btnOK: TButton;
-    btnTeste: TButton;
+    btnTest: TButton;
     Panel1: TPanel;
     lbDonateToCode4Delphi: TLabel;
     imgDonate: TImage;
@@ -44,7 +44,7 @@ type
     procedure lbSiteCode4DelphiMouseLeave(Sender: TObject);
     procedure lbGitHubCode4DelphiClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure btnTesteClick(Sender: TObject);
+    procedure btnTestClick(Sender: TObject);
     procedure lbDonateToCode4DelphiClick(Sender: TObject);
   private
 
@@ -121,7 +121,7 @@ begin
   TLabel(Sender).Font.Style := TLabel(Sender).Font.Style + [fsUnderline];
 end;
 
-procedure TDelphiAIDevViewAbout.btnTesteClick(Sender: TObject);
+procedure TDelphiAIDevViewAbout.btnTestClick(Sender: TObject);
 begin
   //
 end;

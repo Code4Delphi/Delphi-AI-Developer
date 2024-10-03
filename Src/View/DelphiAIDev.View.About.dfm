@@ -29,7 +29,6 @@ object DelphiAIDevViewAbout: TDelphiAIDevViewAbout
     Color = clWindow
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = -4
     object Bevel1: TBevel
       AlignWithMargins = True
       Left = 0
@@ -2104,15 +2103,16 @@ object DelphiAIDevViewAbout: TDelphiAIDevViewAbout
       TabOrder = 0
       OnClick = btnOKClick
     end
-    object btnTeste: TButton
+    object btnTest: TButton
       Left = 2
       Top = 2
       Width = 75
       Height = 31
       Align = alLeft
-      Caption = 'Teste'
+      Caption = 'Test'
       TabOrder = 1
-      OnClick = btnTesteClick
+      Visible = False
+      OnClick = btnTestClick
     end
   end
 end
