@@ -16,11 +16,11 @@ type
   TDelphiAIDevAIGroq = class(TInterfacedObject, IDelphiAIDevAI)
   private
     FSettings: TDelphiAIDevSettings;
+    FResponse: IDelphiAIDevAIResponse;
   protected
-    function GetResponse(const AQuestion: string): string;
+    function GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
   public
-    class function New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
-    constructor Create(const ASettings: TDelphiAIDevSettings);
+    constructor Create(const ASettings: TDelphiAIDevSettings; const AResponse: IDelphiAIDevAIResponse);
   end;
 
 implementation
@@ -28,17 +28,13 @@ implementation
 const
   API_JSON_BODY_BASE = '{"messages": [{"role": "user", "content": "%s"}], "model": "%s"}';
 
-class function TDelphiAIDevAIGroq.New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
-begin
-  Result := Self.Create(ASettings);
-end;
-
-constructor TDelphiAIDevAIGroq.Create(const ASettings: TDelphiAIDevSettings);
+constructor TDelphiAIDevAIGroq.Create(const ASettings: TDelphiAIDevSettings; const AResponse: IDelphiAIDevAIResponse);
 begin
   FSettings := ASettings;
+  FResponse := AResponse;
 end;
 
-function TDelphiAIDevAIGroq.GetResponse(const AQuestion: string): string;
+function TDelphiAIDevAIGroq.GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
 var
   LResponse: IResponse;
   LJsonValueAll: TJSONVALUE;
@@ -46,8 +42,9 @@ var
   LJsonObjMessage: TJsonObject;
   LContent: string;
   LItemChoices: Integer;
+  LResult: string;
 begin
-  Result := '';
+  Result := FResponse;
 
   LResponse := TRequest.New
     .BaseURL(FSettings.BaseUrlGroq)
@@ -57,23 +54,31 @@ begin
     .AddBody(Format(API_JSON_BODY_BASE, [AQuestion, FSettings.ModelGroq]))
     .Post;
 
+  FResponse.SetStatusCode(LResponse.StatusCode);
+
   if LResponse.StatusCode <> 200 then
-    Exit('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
+  begin
+    FResponse.SetContentText('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonValueAll := TJsonObject.ParseJSONValue(LResponse.Content);
   if not(LJsonValueAll is TJSONObject) then
-    Exit('The question cannot be answered, return object not found.' + sLineBreak +
+  begin
+    FResponse.SetContentText('The question cannot be answered, return object not found.' + sLineBreak +
       'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonArrayChoices := (LJsonValueAll as TJsonObject).GetValue<TJsonArray>('choices');
   for LItemChoices := 0 to Pred(LJsonArrayChoices.Count) do
   begin
     LJsonObjMessage := LJsonArrayChoices.Items[LItemChoices].GetValue<TJsonObject>('message');
     LContent := LJsonObjMessage.GetValue<string>('content');
-    Result := Result + LContent.Trim + sLineBreak;
+    LResult := LResult + LContent.Trim + sLineBreak;
   end;
 
-  Result := Result.Trim;
+  FResponse.SetContentText(LResult.Trim);
 end;
 
 end.

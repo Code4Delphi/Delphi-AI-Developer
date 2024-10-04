@@ -154,7 +154,7 @@
             <Form>DelphiAIDevSettingsView</Form>
         </DCCReference>
         <DCCReference Include="..\Src\Settings\DelphiAIDev.Settings.pas"/>
-        <DCCReference Include="..\Src\AI\DelphiAIDev.AI.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Facade.pas"/>
         <DCCReference Include="..\Src\Chat\DelphiAIDev.Chat.View.pas">
             <Form>DelphiAIDevChatView</Form>
         </DCCReference>
@@ -229,6 +229,7 @@
         <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Search.pas"/>
         <DCCReference Include="..\Src\Test\DelphiAIDev.Test.Client.pas"/>
         <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.KeyTab.pas"/>
+        <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Response.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>

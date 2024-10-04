@@ -161,7 +161,7 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Left = 0
         Top = 3
         Width = 56
-        Height = 22
+        Height = 13
         Cursor = crHandPoint
         Hint = 'AI being used'
         Margins.Left = 0
@@ -172,7 +172,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Caption = 'lbCurrentAI'
         PopupMenu = pMenuCurrentAI
         OnClick = lbCurrentAIClick
-        ExplicitHeight = 13
       end
       object btnSend: TButton
         AlignWithMargins = True
@@ -299,21 +298,19 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
           Left = 899
           Top = 3
           Width = 36
-          Height = 21
+          Height = 13
           Align = alRight
           Caption = '000000'
           Layout = tlCenter
-          ExplicitHeight = 13
         end
         object Label3: TLabel
           Left = 863
           Top = 3
           Width = 36
-          Height = 21
+          Height = 13
           Align = alRight
           Caption = 'Count: '
           Layout = tlCenter
-          ExplicitHeight = 13
         end
       end
     end
@@ -335,18 +332,17 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Left = 337
         Top = 0
         Width = 85
-        Height = 25
+        Height = 13
         Align = alLeft
         Caption = ' Last generation: '
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object lbLastGeneration: TLabel
         AlignWithMargins = True
         Left = 422
         Top = 0
         Width = 81
-        Height = 25
+        Height = 13
         Margins.Left = 0
         Margins.Top = 0
         Margins.Right = 5
@@ -354,7 +350,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Align = alLeft
         Caption = 'lbLastGeneration'
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object btnExecuteSQL: TButton
         AlignWithMargins = True

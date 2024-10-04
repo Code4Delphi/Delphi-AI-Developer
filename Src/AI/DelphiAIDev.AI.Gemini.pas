@@ -10,17 +10,18 @@ uses
   DelphiAIDev.Consts,
   DelphiAIDev.Utils,
   DelphiAIDev.Settings,
-  DelphiAIDev.AI.Interfaces;
+  DelphiAIDev.AI.Interfaces,
+  DelphiAIDev.AI.Response;
 
 type
   TDelphiAIDevAIGemini = class(TInterfacedObject, IDelphiAIDevAI)
   private
     FSettings: TDelphiAIDevSettings;
+    FResponse: IDelphiAIDevAIResponse;
   protected
-    function GetResponse(const AQuestion: string): string;
+    function GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
   public
-    class function New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
-    constructor Create(const ASettings: TDelphiAIDevSettings);
+    constructor Create(const ASettings: TDelphiAIDevSettings; const AResponse: IDelphiAIDevAIResponse);
   end;
 
 implementation
@@ -28,17 +29,13 @@ implementation
 const
   API_JSON_BODY_BASE = '{"contents": [{"parts": [ {"text": "%s"}]}]}';
 
-class function TDelphiAIDevAIGemini.New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
-begin
-  Result := Self.Create(ASettings);
-end;
-
-constructor TDelphiAIDevAIGemini.Create(const ASettings: TDelphiAIDevSettings);
+constructor TDelphiAIDevAIGemini.Create(const ASettings: TDelphiAIDevSettings; const AResponse: IDelphiAIDevAIResponse);
 begin
   FSettings := ASettings;
+  FResponse := AResponse;
 end;
 
-function TDelphiAIDevAIGemini.GetResponse(const AQuestion: string): string;
+function TDelphiAIDevAIGemini.GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
 var
   LApiUrl: string;
   LResponse: IResponse;
@@ -49,23 +46,32 @@ var
   LJsonObjParts: TJsonObject;
   LItemCandidates: Integer;
   LItemParts: Integer;
+  LResult: string;
 begin
-  Result := '';
-  LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + '?key=' + FSettings.ApiKeyGemini;
+  Result := FResponse;
 
+  LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + '?key=' + FSettings.ApiKeyGemini;
   LResponse := TRequest.New
     .BaseURL(LApiUrl)
     .Accept(TConsts.APPLICATION_JSON)
     .AddBody(Format(API_JSON_BODY_BASE, [AQuestion]))
     .Post;
 
+  FResponse.SetStatusCode(LResponse.StatusCode);
+
   if LResponse.StatusCode <> 200 then
-    Exit('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
+  begin
+    FResponse.SetContentText('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonValueAll := TJsonObject.ParseJSONValue(LResponse.Content);
   if not(LJsonValueAll is TJSONObject) then
-    Exit('The question cannot be answered, return object not found.' + sLineBreak +
+  begin
+    FResponse.SetContentText('The question cannot be answered, return object not found.' + sLineBreak +
       'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonArrayCandidates := (LJsonValueAll as TJsonObject).GetValue<TJsonArray>('candidates');
   for LItemCandidates := 0 to Pred(LJsonArrayCandidates.Count) do
@@ -75,11 +81,11 @@ begin
     for LItemParts := 0 to Pred(LJsonArrayParts.Count) do
     begin
       LJsonObjParts := LJsonArrayParts.Items[LItemParts] as TJsonObject;
-      Result := Result + LJsonObjParts.GetValue<string>('text').Trim + sLineBreak;
+      LResult := LResult + LJsonObjParts.GetValue<string>('text').Trim + sLineBreak;
     end;
   end;
 
-  Result := Result.Trim;
+  FResponse.SetContentText(LResult.Trim);
 end;
 
 end.

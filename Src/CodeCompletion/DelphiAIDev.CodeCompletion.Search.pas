@@ -14,7 +14,7 @@ uses
   DelphiAIDev.Utils,
   DelphiAIDev.Utils.OTA,
   DelphiAIDev.CodeCompletion.Vars,
-  DelphiAIDev.AI;
+  DelphiAIDev.AI.Facade;
 
 type
   IDelphiAIDevCodeCompletionSearch = interface
@@ -26,8 +26,11 @@ type
   private
     FSettings: TDelphiAIDevSettings;
     FQuestions: TStrings;
-    FAI: TDelphiAIDevAI;
+    FAIRequest: TDelphiAIDevAIFacade;
     FVars: TDelphiAIDevCodeCompletionVars;
+    FIOTAEditPosition: IOTAEditPosition;
+    procedure ProcessQuestions(const AContext: IOTAKeyContext);
+    procedure ProcessResponse;
   protected
     procedure Process(const AContext: IOTAKeyContext);
   public
@@ -46,7 +49,7 @@ end;
 constructor TDelphiAIDevCodeCompletionSearch.Create;
 begin
   FSettings := TDelphiAIDevSettings.GetInstance;
-  FAI := TDelphiAIDevAI.Create;
+  FAIRequest := TDelphiAIDevAIFacade.Create;
   FQuestions := TStringList.Create;
   FVars := TDelphiAIDevCodeCompletionVars.GetInstance;
 end;
@@ -54,69 +57,78 @@ end;
 destructor TDelphiAIDevCodeCompletionSearch.Destroy;
 begin
   FQuestions.Free;
-  FAI.Free;
+  FAIRequest.Free;
   inherited;
 end;
 
 procedure TDelphiAIDevCodeCompletionSearch.Process(const AContext: IOTAKeyContext);
-var
-  LRow: Integer;
-  LColumn: Integer;
-  LBlankTextLines: string;
-  i: Integer;
-  LIOTAEditPosition: IOTAEditPosition;
 begin
   FSettings.ValidateFillingSelectedAICodeCompletion(TShowMsg.No);
 
   Screen.Cursor := crHourGlass;
   try
-    FQuestions.Clear;
-    FQuestions.Add(FSettings.LanguageQuestions.GetLanguageDefinition);
-    FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeCompletionSuggestion);
-    FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeOnly);
-    if not FSettings.CodeCompletionDefaultPrompt.Trim.IsEmpty then
-      FQuestions.Add(FSettings.CodeCompletionDefaultPrompt);
-
-    LIOTAEditPosition := AContext.EditBuffer.EditPosition;
-    LIOTAEditPosition.InsertText(TConsts.TAG_CODE_COMPLETION);
-    try
-      FQuestions.Add(TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim);
-    finally
-      LIOTAEditPosition.BackspaceDelete(TConsts.TAG_CODE_COMPLETION.Length);
-    end;
+    Self.ProcessQuestions(AContext);
 
     try
-      FAI.AiUse(FSettings.CodeCompletionAIDefault).ProcessSend(FQuestions.Text);
+      FAIRequest.AiUse(FSettings.CodeCompletionAIDefault).ProcessSend(FQuestions.Text);
     except
       Abort;
     end;
 
-    FVars.Module := TUtilsOTA.GetCurrentModule;
-    FVars.Contents.Text := TUtils.ConfReturnAI(FAI.Response.Text);
-
-    LRow := LIOTAEditPosition.Row;
-    LColumn := LIOTAEditPosition.Column;
-
-    FVars.Row := LRow;
-    FVars.Column := LColumn;
-    FVars.LineIni := LRow;
-    FVars.LineEnd := FVars.LineIni + FVars.Contents.Count;
-
-    LBlankTextLines := '';
-    for i := 1 to Pred(FVars.Contents.Count) do
-      LBlankTextLines := LBlankTextLines + sLineBreak;
-
-    LIOTAEditPosition.InsertText(LBlankTextLines);
-    LIOTAEditPosition.Move(FVars.LineIni, LColumn);
+    Self.ProcessResponse;
   finally
     Screen.Cursor := crDefault;
   end;
+end;
 
-  //LIOTAEditPositionMoveBOL;
-  //  //LTextCurrentLineOrBlock := Context.EditBuffer.EditBlock.Text;
-  //  LTextCurrentLineOrBlock := GetCurrentLineOrBlock(CnOtaGetTopMostEditView);
-  //  if LTextCurrentLineOrBlock.Trim.IsEmpty then
-  //    Exit;
+procedure TDelphiAIDevCodeCompletionSearch.ProcessQuestions(const AContext: IOTAKeyContext);
+begin
+  FQuestions.Clear;
+  FQuestions.Add(FSettings.LanguageQuestions.GetLanguageDefinition);
+  FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeCompletionSuggestion);
+  FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeOnly);
+  if not FSettings.CodeCompletionDefaultPrompt.Trim.IsEmpty then
+    FQuestions.Add(FSettings.CodeCompletionDefaultPrompt);
+
+  FIOTAEditPosition := AContext.EditBuffer.EditPosition;
+  FIOTAEditPosition.InsertText(TConsts.TAG_CODE_COMPLETION);
+  try
+    FQuestions.Add(TUtilsOTA.GetSelectedBlockOrAllCodeUnit.Trim);
+  finally
+    FIOTAEditPosition.BackspaceDelete(TConsts.TAG_CODE_COMPLETION.Length);
+  end;
+end;
+
+procedure TDelphiAIDevCodeCompletionSearch.ProcessResponse;
+var
+  LRow: Integer;
+  LColumn: Integer;
+  LBlankTextLines: string;
+  i: Integer;
+begin
+  if FAIRequest.Response.GetStatusCode <> 200 then
+  begin
+    TUtils.ShowMsg('Unable to perform AI request.',
+      Format('Code: %d %s Message: %s', [FAIRequest.Response.GetStatusCode, sLineBreak, FAIRequest.Response.GetContent.Text]));
+    Exit;
+  end;
+
+  FVars.Module := TUtilsOTA.GetCurrentModule;
+  FVars.Contents.Text := TUtils.ConfReturnAI(FAIRequest.Response.GetContent.Text);
+  LRow := FIOTAEditPosition.Row;
+  LColumn := FIOTAEditPosition.Column;
+
+  FVars.Row := LRow;
+  FVars.Column := LColumn;
+  FVars.LineIni := LRow;
+  FVars.LineEnd := FVars.LineIni + FVars.Contents.Count;
+
+  LBlankTextLines := '';
+  for i := 1 to Pred(FVars.Contents.Count) do
+    LBlankTextLines := LBlankTextLines + sLineBreak;
+
+  FIOTAEditPosition.InsertText(LBlankTextLines);
+  FIOTAEditPosition.Move(FVars.LineIni, LColumn);
 end;
 
 end.

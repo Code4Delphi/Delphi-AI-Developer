@@ -16,11 +16,11 @@ type
   TDelphiAIDevAIChatGPT = class(TInterfacedObject, IDelphiAIDevAI)
   private
     FSettings: TDelphiAIDevSettings;
+    FResponse: IDelphiAIDevAIResponse;
   protected
-    function GetResponse(const AQuestion: string): string;
+    function GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
   public
-    class function New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
-    constructor Create(const ASettings: TDelphiAIDevSettings);
+    constructor Create(const ASettings: TDelphiAIDevSettings; const AResponse: IDelphiAIDevAIResponse);
   end;
 
 implementation
@@ -28,17 +28,13 @@ implementation
 const
   API_JSON_BODY_BASE = '{"model": "%s", "messages": [{"role": "user", "content": "%s"}], "stream": false, "max_tokens": 2048}';
 
-class function TDelphiAIDevAIChatGPT.New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
-begin
-  Result := Self.Create(ASettings);
-end;
-
-constructor TDelphiAIDevAIChatGPT.Create(const ASettings: TDelphiAIDevSettings);
+constructor TDelphiAIDevAIChatGPT.Create(const ASettings: TDelphiAIDevSettings; const AResponse: IDelphiAIDevAIResponse);
 begin
   FSettings := ASettings;
+  FResponse := AResponse;
 end;
 
-function TDelphiAIDevAIChatGPT.GetResponse(const AQuestion: string): string;
+function TDelphiAIDevAIChatGPT.GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
 var
   LResponse: IResponse;
   LJsonValueAll: TJSONValue;
@@ -48,8 +44,9 @@ var
   LJsonValueMessage: TJSONValue;
   LJsonObjMessage: TJSONObject;
   LItemChoices: Integer;
+  LResult: string;
 begin
-  Result := '';
+  Result := FResponse;
 
   LResponse := TRequest.New
     .BaseURL(FSettings.BaseUrlOpenAI)
@@ -59,18 +56,29 @@ begin
     .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOpenAI, AQuestion]))
     .Post;
 
+  FResponse.SetStatusCode(LResponse.StatusCode);
+
   if LResponse.StatusCode <> 200 then
-    Exit('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
+  begin
+    FResponse.SetContentText('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonValueAll := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(LResponse.Content), 0);
   if not(LJsonValueAll is TJSONObject) then
-    Exit('The question cannot be answered, return object not found.' + sLineBreak +
+  begin
+    FResponse.SetContentText('The question cannot be answered, return object not found.' + sLineBreak +
       'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonValueChoices := TJSONObject(LJsonValueAll).GetValue('choices');
   if not(LJsonValueChoices is TJSONArray) then
-    Exit('The question cannot be answered, choices not found.' + sLineBreak +
+  begin
+    FResponse.SetContentText('The question cannot be answered, choices not found.' + sLineBreak +
       'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonArrayChoices := LJsonValueChoices as TJSONArray;
   for LItemChoices := 0 to Pred(LJsonArrayChoices.Count) do
@@ -88,10 +96,10 @@ begin
 
     //GET MESSAGE LIKE TJSONObject
     LJsonObjMessage := LJsonValueMessage as TJSONObject;
-    Result := Result + TJSONString(LJsonObjMessage.GetValue('content')).Value.Trim + sLineBreak;
+    LResult := LResult + TJSONString(LJsonObjMessage.GetValue('content')).Value.Trim + sLineBreak;
   end;
 
-  Result := Result.Trim;
+  FResponse.SetContentText(LResult.Trim);
 end;
 
 end.

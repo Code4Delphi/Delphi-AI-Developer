@@ -26,7 +26,7 @@ uses
   Clipbrd,
   DelphiAIDev.Types,
   DelphiAIDev.Consts,
-  DelphiAIDev.AI,
+  DelphiAIDev.AI.Facade,
   DelphiAIDev.Settings,
   DelphiAIDev.ModuleCreator,
   DelphiAIDev.DefaultsQuestions.PopupMenu,
@@ -143,7 +143,7 @@ type
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure btnGenerateDatabaseReferenceClick(Sender: TObject);
   private
-    FAI: TDelphiAIDevAI;
+    FAI: TDelphiAIDevAIFacade;
     FSettings: TDelphiAIDevSettings;
     FProcessResponse: TDelphiAIDevChatProcessResponse;
     FPopupMenuQuestions: TDelphiAIDevDefaultsQuestionsPopupMenu;
@@ -237,7 +237,7 @@ begin
   AutoSave := True;
   SaveStateNecessary := True;
 
-  FAI := TDelphiAIDevAI.Create;
+  FAI := TDelphiAIDevAIFacade.Create;
   FSettings := TDelphiAIDevSettings.GetInstance;
   FProcessResponse := TDelphiAIDevChatProcessResponse.Create(mmReturn);
   FPopupMenuQuestions := TDelphiAIDevDefaultsQuestionsPopupMenu.Create;
@@ -766,7 +766,7 @@ begin
             mmReturn.Lines.BeginUpdate;
             try
               //Optional use of one of the following lines
-              FProcessResponse.AddResponseComplete(FAI.Response);
+              FProcessResponse.AddResponseComplete(FAI.Response.GetContent);
               Self.Last;
               //Self.AddResponseSimple(FChat.Response.Text);
             finally

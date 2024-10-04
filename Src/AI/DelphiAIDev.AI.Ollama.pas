@@ -16,11 +16,11 @@ type
   TDelphiAIDevAIOllama = class(TInterfacedObject, IDelphiAIDevAI)
   private
     FSettings: TDelphiAIDevSettings;
+    FResponse: IDelphiAIDevAIResponse;
   protected
-    function GetResponse(const AQuestion: string): string;
+    function GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
   public
-    class function New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
-    constructor Create(const ASettings: TDelphiAIDevSettings);
+    constructor Create(const ASettings: TDelphiAIDevSettings; const AResponse: IDelphiAIDevAIResponse);
   end;
 
 implementation
@@ -32,48 +32,65 @@ const
     '"options": {"seed": 101, "temperature": 0}, '+
     '"stream": false}';
 
-class function TDelphiAIDevAIOllama.New(const ASettings: TDelphiAIDevSettings): IDelphiAIDevAI;
-begin
-  Result := Self.Create(ASettings);
-end;
-
-constructor TDelphiAIDevAIOllama.Create(const ASettings: TDelphiAIDevSettings);
+constructor TDelphiAIDevAIOllama.Create(const ASettings: TDelphiAIDevSettings; const AResponse: IDelphiAIDevAIResponse);
 begin
   FSettings := ASettings;
+  FResponse := AResponse;
 end;
 
-function TDelphiAIDevAIOllama.GetResponse(const AQuestion: string): string;
+function TDelphiAIDevAIOllama.GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
 var
   LResponse: IResponse;
   LJsonValueAll: TJSONVALUE;
   LJsonValueMessage: TJSONValue;
   LJsonObjMessage: TJsonObject;
 begin
-  Result := '';
+  Result := FResponse;
 
-  LResponse := TRequest.New
-    .BaseURL(FSettings.BaseUrlOllama)
-    .ContentType(TConsts.APPLICATION_JSON)
-    .Accept(TConsts.APPLICATION_JSON)
-    //.Token('Bearer ' + FSettings.ApiKeyOllama)
-    .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOllama, AQuestion]))
-    .Post;
+  try
+    LResponse := TRequest.New
+      .BaseURL(FSettings.BaseUrlOllama)
+      .ContentType(TConsts.APPLICATION_JSON)
+      .Accept(TConsts.APPLICATION_JSON)
+      //.Token('Bearer ' + FSettings.ApiKeyOllama)
+      .AddBody(Format(API_JSON_BODY_BASE, [FSettings.ModelOllama, AQuestion]))
+      .Post;
+  except
+    on E: Exception do
+    begin
+      FResponse.SetStatusCode(LResponse.StatusCode)
+        .SetContentText('The question cannot be answered, return object not found.' + sLineBreak +
+          'Return: ' + LResponse.Content);
+      Exit;
+    end;
+  end;
+
+  FResponse.SetStatusCode(LResponse.StatusCode);
 
   if LResponse.StatusCode <> 200 then
-    Exit('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
+  begin
+    FResponse.SetContentText('Question cannot be answered' + sLineBreak + 'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonValueAll := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(LResponse.Content), 0);
   if not(LJsonValueAll is TJSONObject) then
-    Exit('The question cannot be answered, return object not found.' + sLineBreak +
+  begin
+    FResponse.SetContentText('The question cannot be answered, return object not found.' + sLineBreak +
       'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonValueMessage := (LJsonValueAll as TJSONObject).GetValue('message');
   if not(LJsonValueMessage is TJSONObject) then
-    Exit('The question cannot be answered, return object not found.' + sLineBreak +
+  begin
+    FResponse.SetContentText('The question cannot be answered, return object not found.' + sLineBreak +
       'Return: ' + LResponse.Content);
+    Exit;
+  end;
 
   LJsonObjMessage := LJsonValueMessage as TJSONObject;
-  Result := TJSONString(LJsonObjMessage.GetValue('content')).Value.Trim;
+  FResponse.SetContentText(TJSONString(LJsonObjMessage.GetValue('content')).Value.Trim);
 end;
 
 end.

@@ -57,7 +57,7 @@ contains
   DelphiAIDev.Test in '..\Src\Test\DelphiAIDev.Test.pas',
   DelphiAIDev.Settings.View in '..\Src\Settings\DelphiAIDev.Settings.View.pas' {DelphiAIDevSettingsView},
   DelphiAIDev.Settings in '..\Src\Settings\DelphiAIDev.Settings.pas',
-  DelphiAIDev.AI in '..\Src\AI\DelphiAIDev.AI.pas',
+  DelphiAIDev.AI.Facade in '..\Src\AI\DelphiAIDev.AI.Facade.pas',
   DelphiAIDev.Chat.View in '..\Src\Chat\DelphiAIDev.Chat.View.pas' {DelphiAIDevChatView},
   DelphiAIDev.Chat.ProcessResponse in '..\Src\Chat\DelphiAIDev.Chat.ProcessResponse.pas',
   DelphiAIDev.AI.Gemini in '..\Src\AI\DelphiAIDev.AI.Gemini.pas',
@@ -113,6 +113,7 @@ contains
   DelphiAIDev.IDE.NTAEditViewNotifier in '..\Src\IDE\NTAEditViewNotifier\DelphiAIDev.IDE.NTAEditViewNotifier.pas',
   DelphiAIDev.CodeCompletion.Search in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Search.pas',
   DelphiAIDev.Test.Client in '..\Src\Test\DelphiAIDev.Test.Client.pas',
-  DelphiAIDev.CodeCompletion.KeyTab in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.KeyTab.pas';
+  DelphiAIDev.CodeCompletion.KeyTab in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.KeyTab.pas',
+  DelphiAIDev.AI.Response in '..\Src\AI\DelphiAIDev.AI.Response.pas';
 
 end.
