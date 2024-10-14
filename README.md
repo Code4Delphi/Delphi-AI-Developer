@@ -166,7 +166,7 @@ To use AI offline, follow these steps:
 <br/>
 
 ## ▶️ DEMO VIDEO
-We have also created a video with details on how to download, install and use the plugin. The video is in Portuguese (ptBR), but we are providing subtitles and possibly a video in English.
+Para mais detalhes sobre o plugin, assista à nossa palestra, eleita como uma das melhores da Embarcadero Conference 2024. O vídeo está em português (pt-BR), mas estamos fornecendo legendas e, possivelmente, uma versão em inglês.
 * [https://www.youtube.com/watch?v=2NAlUFK2FGs](https://www.youtube.com/watch?v=2NAlUFK2FGs)
 
 <br/>
