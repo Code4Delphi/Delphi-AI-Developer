@@ -63,10 +63,10 @@ Access the menu “AI Developer” > “Settings” > Tab “Preferences”
 
 <br/>
 
-## ⚪ CONFIGURING IAS ONLINE
+## ⚪ CONFIGURING AI ONLINE
 You can choose between 3 APIs, Gemini (Google), ChatGPT (OpenAI) and Groq. Gemini and Groq APIs are free. 
 
-Access the menu “AI Developer” > “Settings” > Tab “IAs on-line”
+Access the menu “AI Developer” > “Settings” > Tab “AI on-line”
 ![image](https://github.com/user-attachments/assets/2c3a45a2-94c8-4449-8c71-58246f6ca67f)
 
 1. Inform the desired model.
@@ -151,7 +151,7 @@ Note: If the current unit has any code selected, only the selected code snippet 
 
 <br/>
 
-## 🟤 IAS OFF-LINE
+## 🟤 AI OFF-LINE
 
 To use AI offline, follow these steps:
 1. Install Ollama, which can be found at the following link: [https://ollama.com/download](https://ollama.com/download)
@@ -159,7 +159,7 @@ To use AI offline, follow these steps:
 ![image](https://github.com/user-attachments/assets/1c259158-8118-421e-84ab-f6931b1438c0)
 3. Open command prompt or terminal and run the command “ollama run <name_model>” and wait for the installation to finish
 ![image](https://github.com/user-attachments/assets/b5c12854-5ce4-4fe7-aa49-b0396f0d4040)
-4. **To configure**, access the menu “AI Developer” > “Settings” > Tab “IAs off-Line“
+4. **To configure**, access the menu “AI Developer” > “Settings” > Tab “AI off-Line“
 ![image](https://github.com/user-attachments/assets/f821ab05-743a-480f-a72b-f7ca3809ae6b)
 
 
