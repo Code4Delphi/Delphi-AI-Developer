@@ -176,6 +176,11 @@ Any suggestions or help are welcome. Send us a pull request or open an [issue](/
 
 <br/>
 
+## 📄 LGPD Compliance
+[Access information about LGPD](https://github.com/Code4Delphi/Delphi-AI-Developer/blob/master/LGPD.md) 
+
+<br/>
+
 ## ⚠️ LICENSE
 `Delphi AI Developer` is free and open-source wizard licensed under the [MIT License](LICENSE).
 
