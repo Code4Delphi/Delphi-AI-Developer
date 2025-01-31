@@ -74,6 +74,7 @@ type
     pMenuQuestions: TPopupMenu;
     btnCleanAll: TSpeedButton;
     Groq1: TMenuItem;
+    Mistral1: TMenuItem;
     Ollama1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure cBoxSizeFontKeyPress(Sender: TObject; var Key: Char);
@@ -620,6 +621,8 @@ begin
       ChatGPT1.Checked := True;
     TC4DAiAvailable.Groq:
       Groq1.Checked := True;
+    TC4DAiAvailable.Mistral:
+      Mistral1.Checked := True;
     TC4DAiAvailable.Ollama:
       Ollama1.Checked := True;
   end;
@@ -636,6 +639,8 @@ begin
       lbCurrentAI.Hint := FSettings.ModelOpenAI;
     TC4DAiAvailable.Groq:
       lbCurrentAI.Hint := FSettings.ModelGroq;
+    TC4DAiAvailable.Mistral:
+      lbCurrentAI.Hint := FSettings.ModelMistral;
     TC4DAiAvailable.Ollama:
       lbCurrentAI.Hint := FSettings.ModelOllama;
   end;
@@ -650,7 +655,7 @@ var
 begin
   //*SEVERAL
   LTag := TMenuItem(Sender).Tag;
-  if not(LTag in [0, 1, 2, 3])then
+  if not(LTag in [0, 1, 2, 3, 4])then
     Exit;
 
   FSettings.AIDefault := TC4DAiAvailable(LTag);

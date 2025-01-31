@@ -22,7 +22,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
   DesignSize = (
     975
     661)
-  PixelsPerInch = 96
   TextHeight = 13
   object pnBack: TPanel
     Left = 0
@@ -40,6 +39,8 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     Padding.Top = 15
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 950
+    ExplicitHeight = 644
     object Splitter1: TSplitter
       Left = 18
       Top = 518
@@ -80,7 +81,8 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       ScrollBars = ssVertical
       ShowHint = True
       TabOrder = 1
-      Zoom = 100
+      ExplicitWidth = 932
+      ExplicitHeight = 483
     end
     object pnBackQuestion: TPanel
       Left = 18
@@ -96,6 +98,8 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       Padding.Top = 5
       ParentBackground = False
       TabOrder = 0
+      ExplicitTop = 504
+      ExplicitWidth = 932
       object mmQuestion: TMemo
         AlignWithMargins = True
         Left = 0
@@ -117,6 +121,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         OnChange = mmQuestionChange
         OnKeyDown = mmQuestionKeyDown
         OnKeyUp = mmQuestionKeyUp
+        ExplicitWidth = 932
       end
     end
     object pnBackButtons: TPanel
@@ -134,11 +139,13 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       Padding.Bottom = 2
       ParentBackground = False
       TabOrder = 2
+      ExplicitTop = 617
+      ExplicitWidth = 932
       object lbCurrentAI: TLabel
         Left = 0
         Top = 3
         Width = 56
-        Height = 13
+        Height = 22
         Cursor = crHandPoint
         Hint = 'AI being used'
         Margins.Left = 0
@@ -149,6 +156,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Caption = 'lbCurrentAI'
         PopupMenu = pMenuCurrentAI
         OnClick = lbCurrentAIClick
+        ExplicitHeight = 13
       end
       object btnSend: TButton
         AlignWithMargins = True
@@ -164,6 +172,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Caption = 'Send'
         TabOrder = 0
         OnClick = btnSendClick
+        ExplicitLeft = 858
       end
       object pnBackConfigurableButtons: TPanel
         Left = 395
@@ -173,6 +182,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 1
+        ExplicitLeft = 389
         object btnUseCurrentUnitCode: TButton
           AlignWithMargins = True
           Left = 261
@@ -279,6 +289,8 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       item
         Width = 50
       end>
+    ExplicitLeft = 950
+    ExplicitHeight = 644
   end
   object pnCommands: TPanel
     Left = 936
@@ -293,6 +305,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 3
+    ExplicitLeft = 930
     DesignSize = (
       26
       115)
@@ -815,6 +828,11 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
     object Groq1: TMenuItem
       Tag = 2
       Caption = 'Groq'
+      OnClick = Gemini1Click
+    end
+    object Mistral1: TMenuItem
+      Tag = 2
+      Caption = 'Mistral'
       OnClick = Gemini1Click
     end
     object Ollama1: TMenuItem
