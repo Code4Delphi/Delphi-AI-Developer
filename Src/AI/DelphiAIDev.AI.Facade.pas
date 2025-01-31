@@ -13,6 +13,7 @@ uses
   DelphiAIDev.AI.Gemini,
   DelphiAIDev.AI.ChatGPT,
   DelphiAIDev.AI.Groq,
+  DelphiAIDev.AI.Mistral,
   DelphiAIDev.AI.Ollama;
 
 type
@@ -70,6 +71,8 @@ begin
       LRequest := TDelphiAIDevAIChatGPT.Create(FSettings, FResponse);
     TC4DAiAvailable.Groq:
       LRequest := TDelphiAIDevAIGroq.Create(FSettings, FResponse);
+    TC4DAiAvailable.Mistral:
+      LRequest := TDelphiAIDevAIMistral.Create(FSettings, FResponse);
     TC4DAiAvailable.Ollama:
       LRequest := TDelphiAIDevAIOllama.Create(FSettings, FResponse);
   else
