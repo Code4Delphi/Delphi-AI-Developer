@@ -114,6 +114,7 @@ contains
   DelphiAIDev.CodeCompletion.Search in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.Search.pas',
   DelphiAIDev.Test.Client in '..\Src\Test\DelphiAIDev.Test.Client.pas',
   DelphiAIDev.CodeCompletion.KeyTab in '..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.KeyTab.pas',
-  DelphiAIDev.AI.Response in '..\Src\AI\DelphiAIDev.AI.Response.pas';
+  DelphiAIDev.AI.Response in '..\Src\AI\DelphiAIDev.AI.Response.pas',
+  DelphiAIDev.AI.Mistral in '..\Src\AI\DelphiAIDev.AI.Mistral.pas';
 
 end.
