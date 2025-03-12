@@ -15,28 +15,6 @@ Receive suggestions for creating and improving code directly in the IDE and take
 [![Course](https://img.shields.io/badge/Course-Delphi-F00?logo=delphi)](https://go.hotmart.com/U81331747Y?dp=1)
 [![E-mail](https://img.shields.io/badge/E--mail-Send-yellowgreen?logo=maildotru&logoColor=yellowgreen)](mailto:contato@code4delphi.com.br)
 
-<p align="left">
-  <a href="https://t.me/Code4Delphi" target="_blank">
-    <img src="https://img.shields.io/badge/Telegram-Join%20Channel-blue?logo=telegram">
-  </a> 
-  &nbsp;
-  <a href="https://www.youtube.com/@code4delphi" target="_blank">
-    <img src="https://img.shields.io/badge/YouTube-Join%20Channel-red?logo=youtube&logoColor=red">
-  </a>
-  &nbsp;
-  <a href="https://www.linkedin.com/in/cesar-cardoso-dev" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-Follow-blue?logo=LinkedIn&logoColor=blue">
-  </a>  
-  &nbsp;
-  <a href="https://go.hotmart.com/U81331747Y?dp=1" target="_blank">
-    <img src="https://img.shields.io/badge/Course-Open%20Tools%20API-F00?logo=delphi">
-  </a>   
-  &nbsp;
-  <a href="mailto:contato@code4delphi.com.br" target="_blank">
-    <img src="https://img.shields.io/badge/E--mail-Send-yellowgreen?logo=maildotru&logoColor=yellowgreen">
-  </a>
-</p> 
-
 ## 🚀 INSTALLATION
 
 1 - Download Delphi AI Developer. You can download the .zip file or clone the project on your PC.
