@@ -699,7 +699,8 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
                 'gpt-3.5-turbo-16k'
                 'gpt-4'
                 'gpt-4o-2024-05-13'
-                'gpt-4o-2024-08-06')
+                'gpt-4o-2024-08-06'
+                'gpt-4-turbo')
             end
           end
         end
