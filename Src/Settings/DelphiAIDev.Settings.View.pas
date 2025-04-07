@@ -119,6 +119,18 @@ type
     mmCodeCompletionDefaultPrompt: TMemo;
     Label19: TLabel;
     mmDefaultPrompt: TMemo;
+    gBoxMistral: TGroupBox;
+    pnMistralBack: TPanel;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
+    lbLinkMistral01: TLabel;
+    btnApiKeyMistralView: TSpeedButton;
+    lbLinkMistral02: TLabel;
+    lbLinkMistral03: TLabel;
+    edtBaseUrlMistral: TEdit;
+    edtApiKeyMistral: TEdit;
+    cBoxModelMistral: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
@@ -138,6 +150,7 @@ type
     procedure btnCodeCompletionClick(Sender: TObject);
     procedure btnOpenDataFolderClick(Sender: TObject);
     procedure ckCodeCompletionSuggestionColorUseClick(Sender: TObject);
+    procedure btnApiKeyMistralViewClick(Sender: TObject);
   private
     FSettings: TDelphiAIDevSettings;
     procedure SaveSettings;
@@ -229,6 +242,9 @@ begin
   lbLinkGroq01.Font.Color := LColor;
   lbLinkGroq02.Font.Color := LColor;
   lbLinkGroq03.Font.Color := LColor;
+  lbLinkMistral01.Font.Color := LColor;
+  lbLinkMistral02.Font.Color := LColor;
+  lbLinkMistral03.Font.Color := LColor;
   lbRestoreDefaults.Font.Color := LColor;
   lbLinkOllama01.Font.Color := LColor;
   lbLinkOllama02.Font.Color := LColor;
@@ -248,6 +264,11 @@ end;
 procedure TDelphiAIDevSettingsView.btnApiKeyGroqViewClick(Sender: TObject);
 begin
   TUtils.TogglePasswordChar(edtApiKeyGroq);
+end;
+
+procedure TDelphiAIDevSettingsView.btnApiKeyMistralViewClick(Sender: TObject);
+begin
+  TUtils.TogglePasswordChar(edtApiKeyMistral);
 end;
 
 procedure TDelphiAIDevSettingsView.btnCloseClick(Sender: TObject);
@@ -279,11 +300,13 @@ var
   LApiKeyGemini: string;
   LApiKeyOpenAI: string;
   LApiKeyGroq: string;
+  LApiKeyMistral: string;
   LApiKeyOllama: string;
 begin
   LApiKeyGemini := FSettings.ApiKeyGemini;
   LApiKeyOpenAI := FSettings.ApiKeyOpenAI;
   LApiKeyGroq := FSettings.ApiKeyGroq;
+  LApiKeyMistral := FSettings.ApiKeyMistral;
   LApiKeyOllama := FSettings.ApiKeyOllama;
 
   FSettings.LoadDefaults;
@@ -291,6 +314,7 @@ begin
   FSettings.ApiKeyGemini := LApiKeyGemini;
   FSettings.ApiKeyOpenAI := LApiKeyOpenAI;
   FSettings.ApiKeyGroq := LApiKeyGroq;
+  FSettings.ApiKeyMistral := LApiKeyMistral;
   FSettings.ApiKeyOllama := LApiKeyOllama;
 
   Self.LoadSettings;
@@ -375,6 +399,12 @@ begin
     cBoxModelGroq.Text := FSettings.ModelGroq;
   edtApiKeyGroq.Text := FSettings.ApiKeyGroq;
 
+  edtBaseUrlMistral.Text := FSettings.BaseUrlMistral;
+  cBoxModelMistral.ItemIndex := cBoxModelMistral.Items.IndexOf(FSettings.ModelMistral);
+  if cBoxModelMistral.ItemIndex < 0 then
+    cBoxModelMistral.Text := FSettings.ModelMistral;
+  edtApiKeyMistral.Text := FSettings.ApiKeyMistral;
+
   edtBaseUrlOllama.Text := FSettings.BaseUrlOllama;
   cBoxModelOllama.ItemIndex := cBoxModelOllama.Items.IndexOf(FSettings.ModelOllama);
   if cBoxModelOllama.ItemIndex < 0 then
@@ -409,6 +439,10 @@ begin
   FSettings.BaseUrlGroq := edtBaseUrlGroq.Text;
   FSettings.ModelGroq := cBoxModelGroq.Text;
   FSettings.ApiKeyGroq := edtApiKeyGroq.Text;
+
+  FSettings.BaseUrlMistral := edtBaseUrlMistral.Text;
+  FSettings.ModelMistral := cBoxModelMistral.Text;
+  FSettings.ApiKeyMistral := edtApiKeyMistral.Text;
 
   FSettings.BaseUrlOllama := edtBaseUrlOllama.Text;
   FSettings.ModelOllama := cBoxModelOllama.Text;

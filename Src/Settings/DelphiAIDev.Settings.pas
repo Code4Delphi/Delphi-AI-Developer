@@ -35,6 +35,9 @@ type
     FIELD_BaseUrlGroq = 'BaseUrlGroq';
     FIELD_ModelGroq = 'ModelGroq';
     FIELD_ApiKeyGroq = 'ApiKeyGroq';
+    FIELD_BaseUrlMistral = 'BaseUrlMistral';
+    FIELD_ModelMistral = 'ModelMistral';
+    FIELD_ApiKeyMistral = 'ApiKeyMistral';
     FIELD_BaseUrlOllama = 'BaseUrlOllama';
     FIELD_ModelOllama = 'ModelOllama';
     FIELD_ApiKeyOllama = 'ApiKeyOllama';
@@ -63,6 +66,10 @@ type
     FBaseUrlGroq: string;
     FModelGroq: string;
     FApiKeyGroq: string;
+
+    FBaseUrlMistral: string;
+    FModelMistral: string;
+    FApiKeyMistral: string;
 
     FBaseUrlOllama: string;
     FModelOllama: string;
@@ -103,6 +110,10 @@ type
     property BaseUrlGroq: string read FBaseUrlGroq write FBaseUrlGroq;
     property ModelGroq: string read FModelGroq write FModelGroq;
     property ApiKeyGroq: string read FApiKeyGroq write FApiKeyGroq;
+
+    property BaseUrlMistral: string read FBaseUrlMistral write FBaseUrlMistral;
+    property ModelMistral: string read FModelMistral write FModelMistral;
+    property ApiKeyMistral: string read FApiKeyMistral write FApiKeyMistral;
 
     property BaseUrlOllama: string read FBaseUrlOllama write FBaseUrlOllama;
     property ModelOllama: string read FModelOllama write FModelOllama;
@@ -154,6 +165,10 @@ begin
   FModelGroq := TConsts.MODEL_GROQ_DEFAULT;
   FApiKeyGroq := '';
 
+  FBaseUrlMistral := TConsts.BASE_URL_Mistral;
+  FModelMistral := TConsts.MODEL_Mistral_DEFAULT;
+  FApiKeyMistral := '';
+
   FBaseUrlOllama := TConsts.BASE_URL_OLLAMA;
   FModelOllama := TConsts.MODEL_OLLAMA_DEFAULT;
   FApiKeyOllama := '';
@@ -195,6 +210,10 @@ begin
     LReg.WriteString(FIELD_BaseUrlGroq, FBaseUrlGroq);
     LReg.WriteString(FIELD_ModelGroq, FModelGroq);
     LReg.WriteString(FIELD_ApiKeyGroq, FApiKeyGroq);
+
+    LReg.WriteString(FIELD_BaseUrlMistral, FBaseUrlMistral);
+    LReg.WriteString(FIELD_ModelMistral, FModelMistral);
+    LReg.WriteString(FIELD_ApiKeyMistral, FApiKeyMistral);
 
     LReg.WriteString(FIELD_BaseUrlOllama, FBaseUrlOllama);
     LReg.WriteString(FIELD_ModelOllama, FModelOllama);
@@ -285,6 +304,16 @@ begin
       if LReg.ValueExists(FIELD_ApiKeyGroq) then
         fApiKeyGroq := LReg.ReadString(FIELD_ApiKeyGroq);
 
+      //MISTRAL
+      if LReg.ValueExists(FIELD_BaseUrlMistral) then
+        fBaseUrlMistral := LReg.ReadString(FIELD_BaseUrlMistral);
+
+      if LReg.ValueExists(FIELD_ModelMistral) then
+        fModelMistral := LReg.ReadString(FIELD_ModelMistral);
+
+      if LReg.ValueExists(FIELD_ApiKeyMistral) then
+        fApiKeyMistral := LReg.ReadString(FIELD_ApiKeyMistral);
+
       //OLLAMA
       if LReg.ValueExists(FIELD_BaseUrlOllama) then
         fBaseUrlOllama := LReg.ReadString(FIELD_BaseUrlOllama);
@@ -358,6 +387,17 @@ begin
 
       if FApiKeyGroq.Trim.IsEmpty then
         ShowMsgInternal(['API Key', 'Groq']);
+    end;
+    TC4DAiAvailable.Mistral:
+    begin
+      if FBaseUrlMistral.Trim.IsEmpty then
+        ShowMsgInternal(['Base URL', 'Mistral']);
+
+      if FModelMistral.Trim.IsEmpty then
+        ShowMsgInternal(['Model', 'Mistral']);
+
+      if FApiKeyMistral.Trim.IsEmpty then
+        ShowMsgInternal(['API Key', 'Mistral']);
     end;
     TC4DAiAvailable.Ollama:
     begin

@@ -11,7 +11,7 @@ type
   TC4DWizardMenuContextList = procedure(const MenuContextList: IInterfaceList) of object;
 
   {$SCOPEDENUMS ON}
-  TC4DAiAvailable = (Gemini, OpenAI, Groq, Ollama);
+  TC4DAiAvailable = (Gemini, OpenAI, Groq, Mistral, Ollama);
   TC4DLanguage = (en, ptBR, es);
   TC4DExtensionsFiles = (None, PAS, DFM, FMX, DPR, DPK, DPROJ, GROUPPROJ, ZIP, BMP, INI, ALL);
   TC4DExtensionsOfFiles = set of TC4DExtensionsFiles;

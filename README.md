@@ -63,10 +63,10 @@ Access the menu “AI Developer” > “Settings” > Tab “Preferences”
 
 <br/>
 
-## ⚪ CONFIGURING IAS ONLINE
+## ⚪ CONFIGURING AI ONLINE
 You can choose between 3 APIs, Gemini (Google), ChatGPT (OpenAI) and Groq. Gemini and Groq APIs are free. 
 
-Access the menu “AI Developer” > “Settings” > Tab “IAs on-line”
+Access the menu “AI Developer” > “Settings” > Tab “AI on-line”
 ![image](https://github.com/user-attachments/assets/2c3a45a2-94c8-4449-8c71-58246f6ca67f)
 
 1. Inform the desired model.
@@ -151,7 +151,7 @@ Note: If the current unit has any code selected, only the selected code snippet 
 
 <br/>
 
-## 🟤 IAS OFF-LINE
+## 🟤 AI OFF-LINE
 
 To use AI offline, follow these steps:
 1. Install Ollama, which can be found at the following link: [https://ollama.com/download](https://ollama.com/download)
@@ -159,20 +159,25 @@ To use AI offline, follow these steps:
 ![image](https://github.com/user-attachments/assets/1c259158-8118-421e-84ab-f6931b1438c0)
 3. Open command prompt or terminal and run the command “ollama run <name_model>” and wait for the installation to finish
 ![image](https://github.com/user-attachments/assets/b5c12854-5ce4-4fe7-aa49-b0396f0d4040)
-4. **To configure**, access the menu “AI Developer” > “Settings” > Tab “IAs off-Line“
+4. **To configure**, access the menu “AI Developer” > “Settings” > Tab “AI off-Line“
 ![image](https://github.com/user-attachments/assets/f821ab05-743a-480f-a72b-f7ca3809ae6b)
 
 
 <br/>
 
 ## ▶️ DEMO VIDEO
-We have also created a video with details on how to download, install and use the plugin. The video is in Portuguese (ptBR), but we are providing subtitles and possibly a video in English.
-* [https://www.youtube.com/watch?v=2NAlUFK2FGs](https://www.youtube.com/watch?v=2NAlUFK2FGs)
+For more details about the plugin, watch our talk, voted one of the best of Embarcadero Conference 2024. The video is in Portuguese (pt-BR), but we are providing subtitles and possibly an English version.
+* [https://www.youtube.com/live/7UcfPyqR2TY?si=bLw27HQP4diF7TCB&t=2822](https://www.youtube.com/live/7UcfPyqR2TY?si=bLw27HQP4diF7TCB&t=2822)
 
 <br/>
 
 ## 💬 CONTRIBUTIONS / IDEAS / BUG FIXES
 Any suggestions or help are welcome. Send us a pull request or open an [issue](/../../issues/).
+
+<br/>
+
+## 📄 LGPD Compliance
+[Access information about LGPD](https://github.com/Code4Delphi/Delphi-AI-Developer/blob/master/LGPD.md) 
 
 <br/>
 
