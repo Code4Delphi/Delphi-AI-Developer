@@ -12,7 +12,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
-  OldCreateOrder = False
   Position = poScreenCenter
   ShowHint = True
   OnActivate = FormActivate
@@ -39,8 +38,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     Padding.Top = 15
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 950
-    ExplicitHeight = 644
     object Splitter1: TSplitter
       Left = 18
       Top = 153
@@ -92,8 +89,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       ScrollBars = ssVertical
       ShowHint = True
       TabOrder = 1
-      ExplicitWidth = 932
-      ExplicitHeight = 268
     end
     object pnBackQuestion: TPanel
       Left = 18
@@ -109,7 +104,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       Padding.Top = 5
       ParentBackground = False
       TabOrder = 0
-      ExplicitWidth = 932
       object Label2: TLabel
         Left = 0
         Top = 5
@@ -143,7 +137,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         OnChange = mmQuestionChange
         OnKeyDown = mmQuestionKeyDown
         OnKeyUp = mmQuestionKeyUp
-        ExplicitWidth = 932
       end
     end
     object pnBackButtonsSearch: TPanel
@@ -161,7 +154,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       Padding.Bottom = 2
       ParentBackground = False
       TabOrder = 2
-      ExplicitWidth = 932
       object lbCurrentAI: TLabel
         Left = 0
         Top = 3
@@ -193,7 +185,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Caption = 'Send'
         TabOrder = 0
         OnClick = btnSendClick
-        ExplicitLeft = 858
       end
       object pnBackConfigurableButtons: TPanel
         Left = 395
@@ -203,7 +194,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitLeft = 389
         object btnUseCurrentUnitCode: TButton
           AlignWithMargins = True
           Left = 261
@@ -270,8 +260,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 3
-      ExplicitTop = 484
-      ExplicitWidth = 932
       object DBGrid1: TDBGrid
         Left = 0
         Top = 0
@@ -304,7 +292,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Padding.Bottom = 3
         ParentBackground = False
         TabOrder = 1
-        ExplicitWidth = 932
         object lbCount: TLabel
           Left = 899
           Top = 3
@@ -341,8 +328,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       Padding.Bottom = 2
       ParentBackground = False
       TabOrder = 4
-      ExplicitTop = 454
-      ExplicitWidth = 932
       object Label1: TLabel
         Left = 337
         Top = 0
@@ -385,7 +370,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
         Images = ImageList1
         TabOrder = 0
         OnClick = btnExecuteSQLClick
-        ExplicitLeft = 819
       end
       object cBoxDatabases: TComboBox
         AlignWithMargins = True
@@ -463,8 +447,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       item
         Width = 50
       end>
-    ExplicitLeft = 950
-    ExplicitHeight = 644
   end
   object pnCommands: TPanel
     Left = 947
@@ -479,7 +461,6 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 3
-    ExplicitLeft = 941
     DesignSize = (
       26
       115)
@@ -1005,12 +986,12 @@ object DelphiAIDevDBChatView: TDelphiAIDevDBChatView
       OnClick = Gemini1Click
     end
     object Mistral1: TMenuItem
-      Tag = 2
+      Tag = 3
       Caption = 'Mistral'
       OnClick = Gemini1Click
     end
     object Ollama1: TMenuItem
-      Tag = 3
+      Tag = 4
       Caption = 'Ollama (offline)'
       OnClick = Gemini1Click
     end

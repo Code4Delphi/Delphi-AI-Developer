@@ -42,7 +42,7 @@ type
     class function ActiveThemeForCode: TColor;
     class function ActiveThemeIsDark: Boolean;
     class function GetIOTAFormEditor(const AIOTAModule: IOTAModule): IOTAFormEditor;
-    {$IF CompilerVersion >= 32.0} //Tokyo
+    {$IF CompilerVersion > 32.0} //Tokyo
     class function GetIOTAIDEThemingServices: IOTAIDEThemingServices;
     class function GetIOTAIDEThemingServices250: IOTAIDEThemingServices250;
     {$ENDIF}
@@ -512,7 +512,7 @@ begin
 end;
 
 class procedure TUtilsOTA.IDEThemingAll(AFormClass: TCustomFormClass; AForm: TForm);
-{$IF CompilerVersion >= 32.0} //Tokyo
+{$IF CompilerVersion > 32.0} //Tokyo
 var
   i: Integer;
   LIOTAIDEThemingServices250: IOTAIDEThemingServices250;
@@ -521,7 +521,7 @@ begin
   AForm.Constraints.MinHeight := AForm.Height;
   AForm.Constraints.MinWidth := AForm.Width;
 
-  {$IF CompilerVersion >= 32.0}
+  {$IF CompilerVersion > 32.0}
   LIOTAIDEThemingServices250 := Self.GetIOTAIDEThemingServices250;
   LIOTAIDEThemingServices250.RegisterFormClass(AFormClass);
   LIOTAIDEThemingServices250.ApplyTheme(AForm);
@@ -555,7 +555,7 @@ class function TUtilsOTA.ActiveThemeIsDark: Boolean;
 const
   THEME_DARK = 'dark';
 begin
-  {$IF CompilerVersion >= 32.0} //Tokyo
+  {$IF CompilerVersion > 32.0} //Tokyo
     Result := Self.GetIOTAIDEThemingServices.ActiveTheme.ToLower.Equals(THEME_DARK);
   {$ELSE}
     Result := False;
@@ -584,7 +584,7 @@ begin
   end;
 end;
 
-{$IF CompilerVersion >= 32.0} //Tokyo
+{$IF CompilerVersion > 32.0} //Tokyo
 class function TUtilsOTA.GetIOTAIDEThemingServices: IOTAIDEThemingServices;
 begin
   if not Supports(BorlandIDEServices, IOTAIDEThemingServices, Result) then

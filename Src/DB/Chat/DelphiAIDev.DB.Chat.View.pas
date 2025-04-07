@@ -612,6 +612,7 @@ begin
   Gemini1.Checked := False;
   ChatGPT1.Checked := False;
   Groq1.Checked := False;
+  Mistral1.Checked := False;
   Ollama1.Checked := False;
   case FSettings.AIDefault of
     TC4DAiAvailable.Gemini:
