@@ -156,7 +156,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           Margins.Right = 0
           Margins.Bottom = 1
           Align = alLeft
-          Caption = 'IAs on-line'
+          Caption = 'AI on-line'
           TabOrder = 1
           OnClick = btnIAsOnlineClick
         end
@@ -171,7 +171,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           Margins.Right = 0
           Margins.Bottom = 1
           Align = alLeft
-          Caption = 'IAs off-Line'
+          Caption = 'AI off-Line'
           TabOrder = 2
           OnClick = btnIAsOfflineClick
         end
@@ -207,14 +207,10 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
     Top = 33
     Width = 667
     Height = 521
-    ActivePage = TabSheet4
+    ActivePage = TabSheet1
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'Preferences'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object pnPreferencesBack: TPanel
         Left = 0
         Top = 0
@@ -326,12 +322,8 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
       end
     end
     object TabSheet2: TTabSheet
-      Caption = 'IAs on-line'
+      Caption = 'AI on-line'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object pnIAsOnLineBack: TPanel
         Left = 0
         Top = 0
@@ -872,12 +864,8 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
       end
     end
     object TabSheet3: TTabSheet
-      Caption = 'IAs off-Line'
+      Caption = 'AI off-Line'
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object pnIAsOffLineBack: TPanel
         Left = 0
         Top = 0

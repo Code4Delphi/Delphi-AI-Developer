@@ -270,7 +270,7 @@ end;
 
 procedure TDelphiAIDevSettingsView.lbLinkGpt01Click(Sender: TObject);
 begin
-  //**Several
+  //**SEVERAL
   TUtils.OpenLink(TLabel(Sender).Hint.Trim);
 end;
 
