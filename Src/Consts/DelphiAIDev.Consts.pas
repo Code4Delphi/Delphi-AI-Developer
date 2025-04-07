@@ -5,7 +5,7 @@ interface
 type
   TConsts = class
   public const
-    SEMANTIC_VERSION = '2.3.1';
+    SEMANTIC_VERSION = '2.4.0';
     SEMANTIC_VERSION_LB = 'Version: ' + SEMANTIC_VERSION;
     WIN_CONTROL_FOCU_NIL = nil;
     DELPHI_AI_DEVELOPER_DPROJ = 'DelphiAIDeveloper.dproj';
@@ -38,6 +38,9 @@ type
     BASE_URL_GROQ = 'https://api.groq.com/openai/v1/chat/completions';
     MODEL_GROQ_DEFAULT = 'llama3-70b-8192'; //'llama3-8b-8192';;
 
+    BASE_URL_Mistral = 'https://api.mistral.ai/v1/chat/completions';
+    MODEL_Mistral_DEFAULT = 'mistral-small-latest';
+
     BASE_URL_OLLAMA = 'http://localhost:11434/api/chat';
     MODEL_OLLAMA_DEFAULT = ''; //'tinyllama' 'mistral';
 
@@ -55,7 +58,7 @@ type
 
     //ABOUT AND SPLASH
     ABOUT_TITLE = 'Delphi AI Developer';
-    ABOUT_COPY_RIGHT = 'Copyright 2024 Code4Delphi Team.';
+    ABOUT_COPY_RIGHT = 'Copyright 2025 Code4Delphi Team.';
     ABOUT_DESCRIPTION = 'Plugin designed to be used in the Delphi IDE.';
     PLUGIN_LICENSE = 'MIT license';
     IS_UNREGISTERED = False;

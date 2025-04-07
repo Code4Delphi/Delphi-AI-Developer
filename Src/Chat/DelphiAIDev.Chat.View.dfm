@@ -12,7 +12,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
-  OldCreateOrder = False
   Position = poScreenCenter
   ShowHint = True
   OnActivate = FormActivate
@@ -22,7 +21,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
   DesignSize = (
     975
     661)
-  PixelsPerInch = 96
   TextHeight = 13
   object pnBack: TPanel
     Left = 0
@@ -80,7 +78,6 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       ScrollBars = ssVertical
       ShowHint = True
       TabOrder = 1
-      Zoom = 100
     end
     object pnBackQuestion: TPanel
       Left = 18
@@ -138,7 +135,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Left = 0
         Top = 3
         Width = 56
-        Height = 13
+        Height = 22
         Cursor = crHandPoint
         Hint = 'AI being used'
         Margins.Left = 0
@@ -149,6 +146,7 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
         Caption = 'lbCurrentAI'
         PopupMenu = pMenuCurrentAI
         OnClick = lbCurrentAIClick
+        ExplicitHeight = 13
       end
       object btnSend: TButton
         AlignWithMargins = True
@@ -817,8 +815,13 @@ object DelphiAIDevChatView: TDelphiAIDevChatView
       Caption = 'Groq'
       OnClick = Gemini1Click
     end
-    object Ollama1: TMenuItem
+    object Mistral1: TMenuItem
       Tag = 3
+      Caption = 'Mistral'
+      OnClick = Gemini1Click
+    end
+    object Ollama1: TMenuItem
+      Tag = 4
       Caption = 'Ollama (offline)'
       OnClick = Gemini1Click
     end
