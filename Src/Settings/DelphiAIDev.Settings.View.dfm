@@ -25,8 +25,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 664
-    ExplicitHeight = 659
     object pnBottom: TPanel
       Left = 0
       Top = 641
@@ -44,8 +42,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
       Padding.Bottom = 2
       ParentBackground = False
       TabOrder = 0
-      ExplicitTop = 624
-      ExplicitWidth = 664
       object lbRestoreDefaults: TLabel
         AlignWithMargins = True
         Left = 16
@@ -84,7 +80,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Caption = 'Confirm'
         TabOrder = 0
         OnClick = btnConfirmClick
-        ExplicitLeft = 436
       end
       object btnClose: TButton
         AlignWithMargins = True
@@ -100,7 +95,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Caption = 'Close'
         TabOrder = 1
         OnClick = btnCloseClick
-        ExplicitLeft = 549
       end
     end
     object pnMyControl: TPanel
@@ -111,8 +105,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitWidth = 664
-      ExplicitHeight = 624
       object pnMyControlButtons: TPanel
         Left = 0
         Top = 0
@@ -122,7 +114,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         BevelEdges = [beBottom]
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitWidth = 664
         object Bevel5: TBevel
           AlignWithMargins = True
           Left = 0
@@ -206,8 +197,6 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitWidth = 664
-        ExplicitHeight = 594
       end
     end
   end
@@ -216,7 +205,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
     Top = 33
     Width = 667
     Height = 521
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'Preferences'
@@ -224,7 +213,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 0
         Top = 0
         Width = 659
-        Height = 564
+        Height = 493
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
@@ -233,7 +222,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           Left = 0
           Top = 0
           Width = 659
-          Height = 564
+          Height = 493
           Align = alClient
           Caption = ' Preferences '
           ParentBackground = False
@@ -298,7 +287,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           end
           object gboxData: TGroupBox
             Left = 2
-            Top = 504
+            Top = 433
             Width = 655
             Height = 58
             Align = alBottom
@@ -337,7 +326,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 0
         Top = 0
         Width = 659
-        Height = 564
+        Height = 493
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
@@ -345,7 +334,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         object Bevel1: TBevel
           AlignWithMargins = True
           Left = 0
-          Top = 560
+          Top = 489
           Width = 659
           Height = 1
           Margins.Left = 0
@@ -700,7 +689,8 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
                 'gpt-3.5-turbo-16k'
                 'gpt-4'
                 'gpt-4o-2024-05-13'
-                'gpt-4o-2024-08-06')
+                'gpt-4o-2024-08-06'
+                'gpt-4-turbo')
             end
           end
         end
@@ -1043,7 +1033,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 0
         Top = 0
         Width = 659
-        Height = 564
+        Height = 493
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
@@ -1221,7 +1211,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 0
         Top = 0
         Width = 659
-        Height = 564
+        Height = 493
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
@@ -1230,7 +1220,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           Left = 0
           Top = 0
           Width = 659
-          Height = 564
+          Height = 493
           Align = alClient
           Caption = ' Code Completion (BETA) '
           ParentBackground = False
@@ -1240,7 +1230,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Left = 5
             Top = 18
             Width = 649
-            Height = 541
+            Height = 470
             Align = alClient
             BevelOuter = bvNone
             ParentBackground = False
