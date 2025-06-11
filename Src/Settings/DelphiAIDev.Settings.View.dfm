@@ -204,7 +204,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
     Left = 0
     Top = 33
     Width = 667
-    Height = 521
+    Height = 552
     ActivePage = TabSheet2
     TabOrder = 1
     object TabSheet1: TTabSheet
@@ -213,7 +213,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 0
         Top = 0
         Width = 659
-        Height = 493
+        Height = 524
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
@@ -222,7 +222,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           Left = 0
           Top = 0
           Width = 659
-          Height = 493
+          Height = 524
           Align = alClient
           Caption = ' Preferences '
           ParentBackground = False
@@ -287,7 +287,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           end
           object gboxData: TGroupBox
             Left = 2
-            Top = 433
+            Top = 464
             Width = 655
             Height = 58
             Align = alBottom
@@ -326,29 +326,15 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 0
         Top = 0
         Width = 659
-        Height = 493
+        Height = 524
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
         TabOrder = 0
-        object Bevel1: TBevel
+        object BevelGroq: TBevel
           AlignWithMargins = True
           Left = 0
-          Top = 489
-          Width = 659
-          Height = 1
-          Margins.Left = 0
-          Margins.Top = 0
-          Margins.Right = 0
-          Align = alBottom
-          Shape = bsTopLine
-          ExplicitTop = 158
-          ExplicitWidth = 441
-        end
-        object Bevel2: TBevel
-          AlignWithMargins = True
-          Left = 0
-          Top = 505
+          Top = 381
           Width = 659
           Height = 1
           Margins.Left = 0
@@ -359,7 +345,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           ExplicitTop = 475
           ExplicitWidth = 632
         end
-        object Bevel3: TBevel
+        object BevelChatGPT: TBevel
           AlignWithMargins = True
           Left = 0
           Top = 253
@@ -373,7 +359,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           ExplicitTop = 347
           ExplicitWidth = 632
         end
-        object Bevel4: TBevel
+        object BevelGemini: TBevel
           AlignWithMargins = True
           Left = 0
           Top = 124
@@ -385,6 +371,20 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           Align = alTop
           Shape = bsTopLine
           ExplicitTop = 218
+          ExplicitWidth = 632
+        end
+        object BevelMistral: TBevel
+          AlignWithMargins = True
+          Left = 0
+          Top = 509
+          Width = 659
+          Height = 1
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Align = alTop
+          Shape = bsTopLine
+          ExplicitTop = 475
           ExplicitWidth = 632
         end
         object gBoxGemini: TGroupBox
@@ -464,7 +464,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               OnClick = lbLinkGpt01Click
             end
             object btnApiKeyGeminiView: TSpeedButton
-              Left = 582
+              Left = 606
               Top = 59
               Width = 23
               Height = 22
@@ -530,7 +530,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object edtApiKeyGemini: TEdit
               Left = 16
               Top = 60
-              Width = 563
+              Width = 585
               Height = 21
               PasswordChar = '*'
               TabOrder = 2
@@ -538,7 +538,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object cBoxModelGemini: TComboBox
               Left = 267
               Top = 20
-              Width = 333
+              Width = 362
               Height = 21
               TabOrder = 1
               Items.Strings = (
@@ -607,7 +607,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               OnClick = lbLinkGpt01Click
             end
             object btnApiKeyOpenAIView: TSpeedButton
-              Left = 582
+              Left = 606
               Top = 59
               Width = 23
               Height = 22
@@ -673,7 +673,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object edtApiKeyOpenAI: TEdit
               Left = 16
               Top = 60
-              Width = 563
+              Width = 585
               Height = 21
               PasswordChar = '*'
               TabOrder = 2
@@ -681,7 +681,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object cBoxModelOpenAI: TComboBox
               Left = 374
               Top = 21
-              Width = 226
+              Width = 255
               Height = 21
               TabOrder = 1
               Items.Strings = (
@@ -753,7 +753,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               OnClick = lbLinkGpt01Click
             end
             object btnApiKeyGroqView: TSpeedButton
-              Left = 582
+              Left = 606
               Top = 59
               Width = 23
               Height = 22
@@ -837,7 +837,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object edtApiKeyGroq: TEdit
               Left = 16
               Top = 60
-              Width = 563
+              Width = 585
               Height = 21
               PasswordChar = '*'
               TabOrder = 2
@@ -845,7 +845,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object cBoxModelGroq: TComboBox
               Left = 374
               Top = 21
-              Width = 226
+              Width = 255
               Height = 21
               TabOrder = 1
               Items.Strings = (
@@ -862,7 +862,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         end
         object gBoxMistral: TGroupBox
           Left = 0
-          Top = 381
+          Top = 385
           Width = 659
           Height = 124
           Align = alTop
@@ -919,7 +919,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               OnClick = lbLinkGpt01Click
             end
             object btnApiKeyMistralView: TSpeedButton
-              Left = 582
+              Left = 606
               Top = 59
               Width = 23
               Height = 22
@@ -1003,7 +1003,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object edtApiKeyMistral: TEdit
               Left = 16
               Top = 60
-              Width = 563
+              Width = 585
               Height = 21
               PasswordChar = '*'
               TabOrder = 2
@@ -1011,7 +1011,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object cBoxModelMistral: TComboBox
               Left = 374
               Top = 21
-              Width = 226
+              Width = 255
               Height = 21
               TabOrder = 1
               Items.Strings = (
@@ -1033,7 +1033,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 0
         Top = 0
         Width = 659
-        Height = 493
+        Height = 524
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
@@ -1211,7 +1211,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
         Left = 0
         Top = 0
         Width = 659
-        Height = 493
+        Height = 524
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
@@ -1220,7 +1220,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           Left = 0
           Top = 0
           Width = 659
-          Height = 493
+          Height = 524
           Align = alClient
           Caption = ' Code Completion (BETA) '
           ParentBackground = False
@@ -1230,7 +1230,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Left = 5
             Top = 18
             Width = 649
-            Height = 470
+            Height = 501
             Align = alClient
             BevelOuter = bvNone
             ParentBackground = False

@@ -5,7 +5,7 @@ interface
 type
   TConsts = class
   public const
-    SEMANTIC_VERSION = '2.4.0';
+    SEMANTIC_VERSION = '2.5.0';
     SEMANTIC_VERSION_LB = 'Version: ' + SEMANTIC_VERSION;
     WIN_CONTROL_FOCU_NIL = nil;
     DELPHI_AI_DEVELOPER_DPROJ = 'DelphiAIDeveloper.dproj';
