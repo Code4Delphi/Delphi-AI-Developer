@@ -245,7 +245,7 @@ begin
       {$ENDIF}
       Result := TUtilsOTA.GetINTAServices.AddMasked(LBitmap, LMaskColor); //, AResourceName
     except
-      on E: Exception do
+//      on E: Exception do
 //        LogFile
 //          .AddLog('Erro em TUtilsOTA.AddImgIDEResourceName')
 //          .AddLog('  AResourceName: ' + AResourceName)

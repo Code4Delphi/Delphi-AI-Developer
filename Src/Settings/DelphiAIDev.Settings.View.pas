@@ -60,10 +60,9 @@ type
     TabSheet4: TTabSheet;
     pnCodeCompletionBack: TPanel;
     pnIAsOnLineBack: TPanel;
-    Bevel1: TBevel;
-    Bevel2: TBevel;
-    Bevel3: TBevel;
-    Bevel4: TBevel;
+    BevelGroq: TBevel;
+    BevelChatGPT: TBevel;
+    BevelGemini: TBevel;
     gBoxGemini: TGroupBox;
     pnGeminiBack: TPanel;
     Label5: TLabel;
@@ -131,6 +130,7 @@ type
     edtBaseUrlMistral: TEdit;
     edtApiKeyMistral: TEdit;
     cBoxModelMistral: TComboBox;
+    BevelMistral: TBevel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCloseClick(Sender: TObject);
