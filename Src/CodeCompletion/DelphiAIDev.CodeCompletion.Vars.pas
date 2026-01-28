@@ -17,6 +17,7 @@ type
     FRow: Integer;
     FColumn: Integer;
     FContents: TStrings;
+    FFullUnitInterface: string;
     constructor Create;
   public
     class function GetInstance: TDelphiAIDevCodeCompletionVars;
@@ -29,6 +30,7 @@ type
     property Row: Integer read FRow write FRow;
     property Column: Integer read FColumn write FColumn;
     property Contents: TStrings read FContents write FContents;
+    property FullUnitInterface: string read FFullUnitInterface write FFullUnitInterface;
   end;
 
 implementation
@@ -65,6 +67,7 @@ begin
   FRow := 0;
   FColumn := 0;
   FContents.Clear;
+  FFullUnitInterface := '';
 end;
 
 initialization

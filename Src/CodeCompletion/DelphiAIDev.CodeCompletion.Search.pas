@@ -41,6 +41,9 @@ type
 
 implementation
 
+uses
+  DelphiAIDev.Utils.Context;
+
 class function TDelphiAIDevCodeCompletionSearch.New: IDelphiAIDevCodeCompletionSearch;
 begin
   Result := Self.Create;
@@ -83,7 +86,11 @@ end;
 
 procedure TDelphiAIDevCodeCompletionSearch.ProcessQuestions(const AContext: IOTAKeyContext);
 begin
+  FVars.FullUnitInterface := TUtilsContext.GetUnitInterfaceCode;
+
   FQuestions.Clear;
+  if not FVars.FullUnitInterface.Trim.IsEmpty then
+    FQuestions.Add('Unit Interface Context:' + sLineBreak + FVars.FullUnitInterface);
   FQuestions.Add(FSettings.LanguageQuestions.GetLanguageDefinition);
   FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeCompletionSuggestion);
   FQuestions.Add(FSettings.LanguageQuestions.GetMsgCodeOnly);
