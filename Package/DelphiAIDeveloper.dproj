@@ -234,6 +234,8 @@
         <DCCReference Include="..\Src\CodeCompletion\DelphiAIDev.CodeCompletion.KeyTab.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Response.pas"/>
         <DCCReference Include="..\Src\AI\DelphiAIDev.AI.Mistral.pas"/>
+        <DCCReference Include="..\Src\Utils\DelphiAIDev.Utils.Context.pas"/>
+        <DCCReference Include="..\Src\Test\DelphiAIDev.Test.ContextDemo.pas"/>
         <RcItem Include="Img\c4d_Logo.bmp">
             <ResourceType>BITMAP</ResourceType>
             <ResourceId>c4d_Logo</ResourceId>
