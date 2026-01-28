@@ -1,4 +1,4 @@
-unit DelphiAIDev.Test.ContextDemo;
+﻿unit DelphiAIDev.Test.ContextDemo;
 
 interface
 
@@ -24,7 +24,8 @@ type
     property Discount: Currency read FDiscount write FDiscount;
     property Total: Currency read FTotal write SetTotal;
 
-    procedure CalculateFinalPrice;
+// Descomente a linha abaixo antes do teste, parao Delphi não reclamar..
+//    procedure CalculateFinalPrice;
   end;
 
 implementation
