@@ -1,5 +1,5 @@
-# Delphi AI Developer (Copilot)
-Inspired by GitHub Copilot, Delphi AI Developer is a plugin that adds Artificial intelligence (AI) interaction capabilities to the Delphi IDE, using both the OpenAI API, Gemini API and Groq API, as well as offering offline AI support.
+# Delphi AI Developer
+Inspired by GitHub Copilot, Delphi AI Developer is a plugin that adds Artificial intelligence (AI) interaction capabilities to the Delphi IDE, using both the OpenAI API, Gemini API, Mistral API and Groq API, as well as offering offline AI support.
 
 With Delphi AI Developer, you will have assistance in generating and refactoring code, facilitating and accelerating development.
 
@@ -14,28 +14,6 @@ Receive suggestions for creating and improving code directly in the IDE and take
 [![Blog](https://img.shields.io/badge/Blog-Code4Delphi-F00?logo=delphi)](https://code4delphi.com.br/blog/)
 [![Course](https://img.shields.io/badge/Course-Delphi-F00?logo=delphi)](https://go.hotmart.com/U81331747Y?dp=1)
 [![E-mail](https://img.shields.io/badge/E--mail-Send-yellowgreen?logo=maildotru&logoColor=yellowgreen)](mailto:contato@code4delphi.com.br)
-
-<p align="left">
-  <a href="https://t.me/Code4Delphi" target="_blank">
-    <img src="https://img.shields.io/badge/Telegram-Join%20Channel-blue?logo=telegram">
-  </a> 
-  &nbsp;
-  <a href="https://www.youtube.com/@code4delphi" target="_blank">
-    <img src="https://img.shields.io/badge/YouTube-Join%20Channel-red?logo=youtube&logoColor=red">
-  </a>
-  &nbsp;
-  <a href="https://www.linkedin.com/in/cesar-cardoso-dev" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-Follow-blue?logo=LinkedIn&logoColor=blue">
-  </a>  
-  &nbsp;
-  <a href="https://go.hotmart.com/U81331747Y?dp=1" target="_blank">
-    <img src="https://img.shields.io/badge/Course-Open%20Tools%20API-F00?logo=delphi">
-  </a>   
-  &nbsp;
-  <a href="mailto:contato@code4delphi.com.br" target="_blank">
-    <img src="https://img.shields.io/badge/E--mail-Send-yellowgreen?logo=maildotru&logoColor=yellowgreen">
-  </a>
-</p> 
 
 ## 🚀 INSTALLATION
 
