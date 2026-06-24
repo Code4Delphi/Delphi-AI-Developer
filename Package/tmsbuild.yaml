@@ -1,0 +1,31 @@
+# =====================================================================================================
+# TMS Smart Setup configuration file for product Delphi AI Developer
+# See https://doc.tmssoftware.com/smartsetup/guide/creating-bundles.html#creating-a-tmsbuildyaml-file
+# =====================================================================================================
+# yaml-language-server: $schema=https://raw.githubusercontent.com/tmssoftware/smartsetup/refs/heads/main/tms/example-config/tmsbuild.schema.json
+
+minimum required tmsbuild version: 3.3
+
+# General information about the product.
+application:
+  id: DelphiAIDeveloper
+  name: Delphi AI Developer
+  url: https://github.com/Code4Delphi/Delphi-AI-Developer.git
+
+# Frameworks are just a group of supported IDEs and platforms. You can define as much as you want with any name you desire, and then combine them to specify what platforms and IDEs the packages support.
+supported frameworks:
+  vcl:
+    ide since: delphi12
+    platforms:
+      - win32intel
+      - win64xintel
+    c++ builder support: true
+
+# List of packages in the library. Each package must have a unique name, and must be listed only once.
+packages:
+  - DelphiAIDeveloper: [runtime,vcl]
+
+# The settings in the this section are only needed if the packages don't follow smartsetup conventions.
+package options:
+  package folders:
+    delphi12: Package

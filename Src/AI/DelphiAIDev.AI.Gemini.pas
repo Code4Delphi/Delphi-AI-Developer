@@ -51,6 +51,8 @@ begin
   Result := FResponse;
 
   LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + '?key=' + FSettings.ApiKeyGemini;
+  //LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + ':generateContent?key=' + FSettings.ApiKeyGemini;
+
   LResponse := TRequest.New
     .BaseURL(LApiUrl)
     .Accept(TConsts.APPLICATION_JSON)
