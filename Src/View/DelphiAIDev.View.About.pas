@@ -104,7 +104,7 @@ end;
 
 procedure TDelphiAIDevViewAbout.lbDonateToCode4DelphiClick(Sender: TObject);
 begin
-  TUtils.OpenLink('https://pag.ae/7ZhEY1xKr');
+  TUtils.OpenLink('https://code4delphi.com.br/blog/apoie-com-um-cafe/');
 end;
 
 procedure TDelphiAIDevViewAbout.lbSiteCode4DelphiMouseLeave(Sender: TObject);

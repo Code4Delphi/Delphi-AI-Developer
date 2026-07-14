@@ -200,8 +200,9 @@ end;
 class function TUtils.AdjustQuestionToJson(const AValue: string): string;
 begin
   Result := AValue
-    .Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase])
-    .Replace('"', '\"', [rfReplaceAll, rfIgnoreCase]);
+	 .Replace('\', '\\', [rfReplaceAll])
+	 .Replace(sLineBreak, '\n', [rfReplaceAll, rfIgnoreCase])
+	 .Replace('"', '\"', [rfReplaceAll, rfIgnoreCase]);
 
   Result := Result.Replace('\\"', '\"', [rfReplaceAll, rfIgnoreCase]);
 end;

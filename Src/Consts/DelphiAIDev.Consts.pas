@@ -5,7 +5,7 @@ interface
 type
   TConsts = class
   public const
-    SEMANTIC_VERSION = '2.5.0';
+    SEMANTIC_VERSION = '2.5.1';
     SEMANTIC_VERSION_LB = 'Version: ' + SEMANTIC_VERSION;
     WIN_CONTROL_FOCU_NIL = nil;
     DELPHI_AI_DEVELOPER_DPROJ = 'DelphiAIDeveloper.dproj';
@@ -58,7 +58,7 @@ type
 
     //ABOUT AND SPLASH
     ABOUT_TITLE = 'Delphi AI Developer';
-    ABOUT_COPY_RIGHT = 'Copyright 2025 Code4Delphi Team.';
+    ABOUT_COPY_RIGHT = 'Copyright 2026 Code4Delphi Team.';
     ABOUT_DESCRIPTION = 'Plugin designed to be used in the Delphi IDE.';
     PLUGIN_LICENSE = 'MIT license';
     IS_UNREGISTERED = False;

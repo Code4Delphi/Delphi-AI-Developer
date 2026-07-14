@@ -3,7 +3,6 @@ package DelphiAIDeveloper;
 
 {$R *.res}
 {$R *.dres}
-{$LIBSUFFIX AUTO}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -29,6 +28,7 @@ package DelphiAIDeveloper;
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'Delphi AI Developer'}
+{$LIBSUFFIX '290'}
 {$IMPLICITBUILD ON}
 
 requires

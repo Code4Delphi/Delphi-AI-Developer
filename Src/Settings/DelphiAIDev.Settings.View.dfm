@@ -421,11 +421,11 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               Caption = 'API key'
             end
             object Label7: TLabel
-              Left = 267
+              Left = 326
               Top = 5
-              Width = 28
+              Width = 297
               Height = 13
-              Caption = 'Model'
+              Caption = 'Model (You can write the template manually in the field below)'
             end
             object lbLinkGemini01: TLabel
               Left = 16
@@ -523,7 +523,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object edtBaseUrlGemini: TEdit
               Left = 16
               Top = 20
-              Width = 249
+              Width = 307
               Height = 21
               TabOrder = 0
             end
@@ -536,9 +536,9 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               TabOrder = 2
             end
             object cBoxModelGemini: TComboBox
-              Left = 267
+              Left = 326
               Top = 20
-              Width = 362
+              Width = 303
               Height = 21
               TabOrder = 1
               Items.Strings = (
@@ -582,11 +582,11 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               Caption = 'API key'
             end
             object Label2: TLabel
-              Left = 374
+              Left = 326
               Top = 5
-              Width = 28
+              Width = 297
               Height = 13
-              Caption = 'Model'
+              Caption = 'Model (You can write the template manually in the field below)'
             end
             object lbLinkGpt01: TLabel
               Left = 16
@@ -666,7 +666,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object edtBaseUrlOpenAI: TEdit
               Left = 16
               Top = 21
-              Width = 356
+              Width = 307
               Height = 21
               TabOrder = 0
             end
@@ -679,9 +679,9 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               TabOrder = 2
             end
             object cBoxModelOpenAI: TComboBox
-              Left = 374
+              Left = 326
               Top = 21
-              Width = 255
+              Width = 303
               Height = 21
               TabOrder = 1
               Items.Strings = (
@@ -728,11 +728,11 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               Caption = 'API key'
             end
             object Label10: TLabel
-              Left = 374
+              Left = 326
               Top = 5
-              Width = 28
+              Width = 297
               Height = 13
-              Caption = 'Model'
+              Caption = 'Model (You can write the template manually in the field below)'
             end
             object lbLinkGroq01: TLabel
               Left = 16
@@ -830,7 +830,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object edtBaseUrlGroq: TEdit
               Left = 16
               Top = 21
-              Width = 356
+              Width = 307
               Height = 21
               TabOrder = 0
             end
@@ -843,9 +843,9 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               TabOrder = 2
             end
             object cBoxModelGroq: TComboBox
-              Left = 374
+              Left = 326
               Top = 21
-              Width = 255
+              Width = 303
               Height = 21
               TabOrder = 1
               Items.Strings = (
@@ -894,11 +894,11 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               Caption = 'API key'
             end
             object Label22: TLabel
-              Left = 374
+              Left = 326
               Top = 5
-              Width = 28
+              Width = 297
               Height = 13
-              Caption = 'Model'
+              Caption = 'Model (You can write the template manually in the field below)'
             end
             object lbLinkMistral01: TLabel
               Left = 16
@@ -996,7 +996,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object edtBaseUrlMistral: TEdit
               Left = 16
               Top = 21
-              Width = 356
+              Width = 307
               Height = 21
               TabOrder = 0
             end
@@ -1009,9 +1009,9 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               TabOrder = 2
             end
             object cBoxModelMistral: TComboBox
-              Left = 374
+              Left = 326
               Top = 21
-              Width = 255
+              Width = 303
               Height = 21
               TabOrder = 1
               Items.Strings = (
@@ -1042,7 +1042,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
           Left = 0
           Top = 0
           Width = 659
-          Height = 152
+          Height = 199
           Align = alTop
           Caption = ' Ollama (offline) '
           ParentBackground = False
@@ -1052,11 +1052,12 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             Left = 5
             Top = 18
             Width = 649
-            Height = 129
+            Height = 176
             Align = alClient
             BevelOuter = bvNone
             ParentBackground = False
             TabOrder = 0
+            ExplicitHeight = 175
             object Label12: TLabel
               Left = 16
               Top = 5
@@ -1066,21 +1067,21 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             end
             object Label13: TLabel
               Left = 16
-              Top = 44
+              Top = 103
               Width = 29
               Height = 13
               Caption = 'Token'
             end
             object Label14: TLabel
-              Left = 374
-              Top = 5
-              Width = 28
+              Left = 16
+              Top = 56
+              Width = 297
               Height = 13
-              Caption = 'Model'
+              Caption = 'Model (You can write the template manually in the field below)'
             end
             object btnApiKeyOllamaView: TSpeedButton
-              Left = 582
-              Top = 59
+              Left = 608
+              Top = 118
               Width = 23
               Height = 22
               Cursor = crHandPoint
@@ -1119,7 +1120,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             end
             object lbLinkOllama02: TLabel
               Left = 128
-              Top = 84
+              Top = 143
               Width = 72
               Height = 13
               Cursor = crHandPoint
@@ -1137,7 +1138,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             end
             object lbLinkOllama03: TLabel
               Left = 232
-              Top = 84
+              Top = 143
               Width = 68
               Height = 13
               Cursor = crHandPoint
@@ -1155,7 +1156,7 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             end
             object lbLinkOllama01: TLabel
               Left = 16
-              Top = 84
+              Top = 143
               Width = 82
               Height = 13
               Cursor = crHandPoint
@@ -1174,22 +1175,22 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
             object edtBaseUrlOllama: TEdit
               Left = 16
               Top = 21
-              Width = 356
+              Width = 614
               Height = 21
               TabOrder = 0
             end
             object edtApiKeyOllama: TEdit
               Left = 16
-              Top = 60
-              Width = 563
+              Top = 119
+              Width = 588
               Height = 21
               PasswordChar = '*'
               TabOrder = 2
             end
             object cBoxModelOllama: TComboBox
-              Left = 374
-              Top = 21
-              Width = 226
+              Left = 16
+              Top = 72
+              Width = 614
               Height = 21
               TabOrder = 1
               Items.Strings = (

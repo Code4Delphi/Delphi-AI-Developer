@@ -317,6 +317,7 @@
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\DelphiAIDeveloper290.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <Operation>0</Operation>
+                        <RemoteName>DelphiAIDeveloper.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
