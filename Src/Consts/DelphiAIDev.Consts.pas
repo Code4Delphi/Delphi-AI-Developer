@@ -32,7 +32,7 @@ type
     //SETTINGS
     KEY_SETTINGS_IN_WINDOWS_REGISTRY = '\SOFTWARE\DelphiAIDeveloper';
     BASE_URL_GEMINI_DEFAULT = 'https://generativelanguage.googleapis.com/';
-    MODEL_GEMINI_DEFAULT = 'v1/models/gemini-1.5-flash:generateContent';
+    MODEL_GEMINI_DEFAULT = 'v1beta/models/gemini-3.5-flash:generateContent';
     BASE_URL_OPEN_AI = 'https://api.openai.com/v1/chat/completions/';
     MODEL_OPEN_AI_DEFAULT = 'gpt-4o-2024-08-06';
     BASE_URL_GROQ = 'https://api.groq.com/openai/v1/chat/completions';

@@ -542,9 +542,9 @@ object DelphiAIDevSettingsView: TDelphiAIDevSettingsView
               Height = 21
               TabOrder = 1
               Items.Strings = (
-                'v1/models/gemini-1.5-flash:generateContent'
-                'v1beta/models/gemini-pro:generateContent'
-                'v1beta/models/gemini-1.5-flash:generateContent')
+                'v1beta/models/gemini-3.5-flash:generateContent'
+                'v1beta/models/gemini-3.1-flash-lite:generateContent'
+                'v1beta/models/gemini-2.5-flash:generateContent')
             end
           end
         end
