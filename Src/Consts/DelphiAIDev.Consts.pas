@@ -5,7 +5,7 @@ interface
 type
   TConsts = class
   public const
-    SEMANTIC_VERSION = '2.5.0';
+    SEMANTIC_VERSION = '2.5.1';
     SEMANTIC_VERSION_LB = 'Version: ' + SEMANTIC_VERSION;
     WIN_CONTROL_FOCU_NIL = nil;
     DELPHI_AI_DEVELOPER_DPROJ = 'DelphiAIDeveloper.dproj';
@@ -32,7 +32,7 @@ type
     //SETTINGS
     KEY_SETTINGS_IN_WINDOWS_REGISTRY = '\SOFTWARE\DelphiAIDeveloper';
     BASE_URL_GEMINI_DEFAULT = 'https://generativelanguage.googleapis.com/';
-    MODEL_GEMINI_DEFAULT = 'v1/models/gemini-1.5-flash:generateContent';
+    MODEL_GEMINI_DEFAULT = 'v1beta/models/gemini-3.5-flash:generateContent';
     BASE_URL_OPEN_AI = 'https://api.openai.com/v1/chat/completions/';
     MODEL_OPEN_AI_DEFAULT = 'gpt-4o-2024-08-06';
     BASE_URL_GROQ = 'https://api.groq.com/openai/v1/chat/completions';
@@ -58,7 +58,7 @@ type
 
     //ABOUT AND SPLASH
     ABOUT_TITLE = 'Delphi AI Developer';
-    ABOUT_COPY_RIGHT = 'Copyright 2025 Code4Delphi Team.';
+    ABOUT_COPY_RIGHT = 'Copyright 2026 Code4Delphi Team.';
     ABOUT_DESCRIPTION = 'Plugin designed to be used in the Delphi IDE.';
     PLUGIN_LICENSE = 'MIT license';
     IS_UNREGISTERED = False;

@@ -76,8 +76,7 @@ type
     FApiKeyOllama: string;
 
     constructor Create;
-    procedure ValidateFillingSelectedAIInternal(
-      const AShowMsg: TShowMsg; const AAiUse: TC4DAiAvailable);
+    procedure ValidateFillingSelectedAIInternal(const AShowMsg: TShowMsg; const AAiUse: TC4DAiAvailable);
   public
     class function GetInstance: TDelphiAIDevSettings;
     procedure LoadDefaults;

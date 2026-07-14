@@ -18,6 +18,7 @@ type
   private
     FSettings: TDelphiAIDevSettings;
     FResponse: IDelphiAIDevAIResponse;
+    function GetApiUrl: string;
   protected
     function GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
   public
@@ -35,9 +36,38 @@ begin
   FResponse := AResponse;
 end;
 
+function TDelphiAIDevAIGemini.GetApiUrl: string;
+  begin
+    var LBaseUrl := FSettings.BaseUrlGemini.Trim;
+    if not LBaseUrl.EndsWith('/') then
+      LBaseUrl := LBaseUrl + '/';
+
+    var LModel := FSettings.ModelGemini.Trim;
+    var LModelLower := LModel.ToLower;
+    if LModelLower.StartsWith('http://') or LModelLower.StartsWith('https://') then
+      Exit(LModel);
+
+    if LModelLower.StartsWith('v1/') or LModelLower.StartsWith('v1beta/') then
+      Exit(LBaseUrl + LModel);
+
+    if LModelLower.StartsWith('models/') then
+      Exit(LBaseUrl + 'v1beta/' + LModel);
+
+    if not LModelLower.EndsWith(':generatecontent') then
+      LModel := LModel + ':generateContent';
+
+    var LBaseUrlLower := LBaseUrl.ToLower;
+    if LBaseUrlLower.EndsWith('/v1/models/') or LBaseUrlLower.EndsWith('/v1beta/models/') then
+      Exit(LBaseUrl + LModel);
+
+    if LBaseUrlLower.EndsWith('/v1/') or LBaseUrlLower.EndsWith('/v1beta/') then
+      Exit(LBaseUrl + 'models/' + LModel);
+
+    Result := LBaseUrl + 'v1beta/models/' + LModel;
+  end;
+
 function TDelphiAIDevAIGemini.GetResponse(const AQuestion: string): IDelphiAIDevAIResponse;
 var
-  LApiUrl: string;
   LResponse: IResponse;
   LJsonValueAll: TJSONVALUE;
   LJsonArrayCandidates: TJsonArray;
@@ -50,12 +80,11 @@ var
 begin
   Result := FResponse;
 
-  LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + '?key=' + FSettings.ApiKeyGemini;
-  //LApiUrl := FSettings.BaseUrlGemini + FSettings.ModelGemini + ':generateContent?key=' + FSettings.ApiKeyGemini;
-
   LResponse := TRequest.New
-    .BaseURL(LApiUrl)
+    .BaseURL(Self.GetApiUrl)
+    .ContentType(TConsts.APPLICATION_JSON)
     .Accept(TConsts.APPLICATION_JSON)
+    .AddHeader('x-goog-api-key', FSettings.ApiKeyGemini)
     .AddBody(Format(API_JSON_BODY_BASE, [AQuestion]))
     .Post;
 
